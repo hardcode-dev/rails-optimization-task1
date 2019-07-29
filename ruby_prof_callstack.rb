@@ -2,7 +2,7 @@
 # ruby 12-ruby-prof-callstack.rb
 # open ruby_prof_reports/callstack.txt
 require 'ruby-prof'
-require_relative 'task-1'
+require_relative 'work_method'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
 

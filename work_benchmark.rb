@@ -1,6 +1,6 @@
 require 'benchmark/ips'
 
-require_relative 'task-1'
+require_relative 'work_method'
 
 # GC.disable
 #

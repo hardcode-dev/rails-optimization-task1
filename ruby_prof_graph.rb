@@ -2,7 +2,7 @@
 # ruby 11-ruby-prof-graph.rb
 # open ruby_prof_reports/graph.html
 require 'ruby-prof'
-require_relative 'task-1'
+require_relative 'work_method'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
 

@@ -1,0 +1,2338 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <style media="all" type="text/css">
+    table {
+      border-collapse: collapse;
+      border: 1px solid #CCC;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 9pt;
+      line-height: normal;
+      width: 100%;
+    }
+
+    th {
+      text-align: center;
+      border-top: 1px solid #FB7A31;
+      border-bottom: 1px solid #FB7A31;
+      background: #FFC;
+      padding: 0.3em;
+      border-left: 1px solid silver;
+    }
+
+    tr.break td {
+      border: 0;
+      border-top: 1px solid #FB7A31;
+      padding: 0;
+      margin: 0;
+    }
+
+    tr.method td {
+      font-weight: bold;
+    }
+
+    td {
+      padding: 0.3em;
+    }
+
+    td:first-child {
+      width: 190px;
+      }
+
+    td {
+      border-left: 1px solid #CCC;
+      text-align: center;
+    }
+
+    .method_name {
+      text-align: left;
+    }
+
+    tfoot td {
+      text-align: left;
+    }
+  </style>
+  </head>
+  <body>
+    <h1>Profile Report: wall_time</h1>
+    <!-- Threads Table -->
+    <table>
+      <tr>
+        <th>Thread ID</th>
+        <th>Fiber ID</th>
+        <th>Total Time</th>
+      </tr>
+
+      <tr>
+        <td>70342647472220</td>
+        <td><a href="#70342668989760">70342668989760</a></td>
+        <td>67.3617160320282</td>
+      </tr>
+
+    </table>
+    <!-- Methods Tables -->
+
+      <h2><a name="70342668989760">Thread 70342647472220, Fiber: 70342668989760</a></h2>
+      <table>
+        <thead>
+          <tr>
+            <th>%Total</th>
+            <th>%Self</th>
+            <th>Total</th>
+            <th>Self</th>
+            <th>Wait</th>
+            <th>Child</th>
+            <th>Calls</th>
+            <th class="method_name">Name</th>
+            <th>Line</th>
+          </tr>
+        </thead>
+        <tbody>
+
+               <!-- Parents -->
+
+               <tr class="method">
+                 <td>100.00%</td>
+                 <td>0.00%</td>
+                 <td>67.36</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>67.36</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="[global]_[no method]_70342668989760">
+                      [global]#[no method]
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=111"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:111">111</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>67.36</td>
+                   <td>0.16</td>
+                   <td>0.00</td>
+                   <td>67.20</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=111"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:111">111</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>67.36</td>
+                   <td>0.16</td>
+                   <td>0.00</td>
+                   <td>67.20</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#[global]_[no method]_70342668989760">[global]#[no method]</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=111"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:111">111</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>100.00%</td>
+                 <td>0.24%</td>
+                 <td>67.36</td>
+                 <td>0.16</td>
+                 <td>0.00</td>
+                 <td>67.20</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Object_work_70342668989760">
+                      Object#work
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=53"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:53">53</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>27.89</td>
+                   <td>11.10</td>
+                   <td>0.00</td>
+                   <td>16.79</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#String_each_line_70342668989760">String#each_line</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=57"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:57">57</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>25.51</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>25.51</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_collect_stats_from_users_70342668989760">Object#collect_stats_from_users</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=95"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:95">95</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>13.68</td>
+                   <td>3.18</td>
+                   <td>0.00</td>
+                   <td>10.50</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=107"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:107">107</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.09</td>
+                   <td>0.09</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#_Class__IO__read_70342668989760">&lt;Class::IO&gt;#read</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=57"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:57">57</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.04</td>
+                   <td>0.04</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#_Class__IO__write_70342668989760">&lt;Class::IO&gt;#write</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=107"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:107">107</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Enumerable_sort_70342668989760">Enumerable#sort</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=89"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:89">89</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500001</td>
+                   <td class="method_name"><a href="#Array_join_70342668989760">Array#join</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=89"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:89">89</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Enumerable_count_70342668989760">Enumerable#count</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=87"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:87">87</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500002</td>
+                   <td class="method_name"><a href="#Class_new_70342668989760">Class#new</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=54"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:54">54</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500001</td>
+                   <td class="method_name"><a href="#Array_count_70342668989760">Array#count</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=86"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:86">86</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>27.89</td>
+                   <td>11.10</td>
+                   <td>0.00</td>
+                   <td>16.79</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=57"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:57">57</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>41.40%</td>
+                 <td>16.48%</td>
+                 <td>27.89</td>
+                 <td>11.10</td>
+                 <td>0.00</td>
+                 <td>16.79</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="String_each_line_70342668989760">
+                      String#each_line
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>7.90</td>
+                   <td>7.90</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>3250940/3250940</td>
+                   <td class="method_name"><a href="#String_split_70342668989760">String#split</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>4.50</td>
+                   <td>3.24</td>
+                   <td>0.00</td>
+                   <td>1.25</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#Object_parse_session_70342668989760">Object#parse_session</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.50</td>
+                   <td>1.50</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#Set_add_70342668989760">Set#add</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.11</td>
+                   <td>0.87</td>
+                   <td>0.00</td>
+                   <td>0.25</td>
+                   <td>500000/500002</td>
+                   <td class="method_name"><a href="#Class_new_70342668989760">Class#new</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.06</td>
+                   <td>1.06</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#User_add_session_70342668989760">User#add_session</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.72</td>
+                   <td>0.72</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Object_parse_user_70342668989760">Object#parse_user</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>25.51</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>25.51</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=95"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:95">95</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>37.86%</td>
+                 <td>0.00%</td>
+                 <td>25.51</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>25.51</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Object_collect_stats_from_users_70342668989760">
+                      Object#collect_stats_from_users
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=46"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:46">46</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>25.51</td>
+                   <td>3.43</td>
+                   <td>0.00</td>
+                   <td>22.07</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=46"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:46">46</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>25.51</td>
+                   <td>3.43</td>
+                   <td>0.00</td>
+                   <td>22.07</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_collect_stats_from_users_70342668989760">Object#collect_stats_from_users</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=46"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:46">46</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>37.86%</td>
+                 <td>5.10%</td>
+                 <td>25.51</td>
+                 <td>3.43</td>
+                 <td>0.00</td>
+                 <td>22.07</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Array_each_70342668989760">
+                      Array#each
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>15.07</td>
+                   <td>5.49</td>
+                   <td>0.00</td>
+                   <td>9.58</td>
+                   <td>2000000/2000000</td>
+                   <td class="method_name"><a href="#Array_map_70342668989760">Array#map</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>3.25</td>
+                   <td>2.28</td>
+                   <td>0.00</td>
+                   <td>0.97</td>
+                   <td>1000000/1000000</td>
+                   <td class="method_name"><a href="#Array_sort_70342668989760">Array#sort</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.36</td>
+                   <td>1.36</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_any__70342668989760">Array#any?</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.66</td>
+                   <td>0.66</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1000000/1000000</td>
+                   <td class="method_name"><a href="#Integer_to_s_70342668989760">Integer#to_s</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.65</td>
+                   <td>0.65</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500001</td>
+                   <td class="method_name"><a href="#Array_join_70342668989760">Array#join</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.46</td>
+                   <td>0.46</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_all__70342668989760">Array#all?</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.30</td>
+                   <td>0.30</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_reverse_70342668989760">Array#reverse</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.12</td>
+                   <td>0.12</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_sum_70342668989760">Array#sum</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.11</td>
+                   <td>0.11</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_max_70342668989760">Array#max</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.10</td>
+                   <td>0.10</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500001</td>
+                   <td class="method_name"><a href="#Array_count_70342668989760">Array#count</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>15.07</td>
+                   <td>5.49</td>
+                   <td>0.00</td>
+                   <td>9.58</td>
+                   <td>2000000/2000000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>22.38%</td>
+                 <td>8.16%</td>
+                 <td>15.07</td>
+                 <td>5.49</td>
+                 <td>0.00</td>
+                 <td>9.58</td>
+                 <td>2000000</td>
+                 <td class="method_name">
+                   <a name="Array_map_70342668989760">
+                      Array#map
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>8.61</td>
+                   <td>8.07</td>
+                   <td>0.00</td>
+                   <td>0.54</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#_Class__Date__strptime_70342668989760">&lt;Class::Date&gt;#strptime</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.98</td>
+                   <td>0.98</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>5501880/5501880</td>
+                   <td class="method_name"><a href="#String_to_i_70342668989760">String#to_i</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>13.68</td>
+                   <td>3.18</td>
+                   <td>0.00</td>
+                   <td>10.50</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=107"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:107">107</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>20.31%</td>
+                 <td>4.72%</td>
+                 <td>13.68</td>
+                 <td>3.18</td>
+                 <td>0.00</td>
+                 <td>10.50</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">
+                      JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>6.30</td>
+                   <td>3.17</td>
+                   <td>0.00</td>
+                   <td>3.14</td>
+                   <td>2709158/2709158</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Object_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Object#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>2.37</td>
+                   <td>2.37</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>5417121/8126279</td>
+                   <td class="method_name"><a href="#String_encode_70342668989760">String#encode</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.30</td>
+                   <td>1.30</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>3447260/3447260</td>
+                   <td class="method_name"><a href="#Symbol_to_s_70342668989760">Symbol#to_s</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.42</td>
+                   <td>0.42</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>492467/492467</td>
+                   <td class="method_name"><a href="#Hash_keys_70342668989760">Hash#keys</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.11</td>
+                   <td>0.11</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>492465/492465</td>
+                   <td class="method_name"><a href="#String_to_s_70342668989760">String#to_s</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Kernel_dup_70342668989760">Kernel#dup</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>8.61</td>
+                   <td>8.07</td>
+                   <td>0.00</td>
+                   <td>0.54</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#Array_map_70342668989760">Array#map</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>12.77%</td>
+                 <td>11.97%</td>
+                 <td>8.61</td>
+                 <td>8.07</td>
+                 <td>0.00</td>
+                 <td>0.54</td>
+                 <td>2750940</td>
+                 <td class="method_name">
+                   <a name="_Class__Date__strptime_70342668989760">
+                      &lt;Class::Date&gt;#strptime
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.54</td>
+                   <td>0.54</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#Integer_div_70342668989760">Integer#div</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>7.90</td>
+                   <td>7.90</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>3250940/3250940</td>
+                   <td class="method_name"><a href="#String_each_line_70342668989760">String#each_line</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>11.72%</td>
+                 <td>11.72%</td>
+                 <td>7.90</td>
+                 <td>7.90</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>3250940</td>
+                 <td class="method_name">
+                   <a name="String_split_70342668989760">
+                      String#split
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>6.30</td>
+                   <td>3.17</td>
+                   <td>0.00</td>
+                   <td>3.14</td>
+                   <td>2709158/2709158</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>9.36%</td>
+                 <td>4.70%</td>
+                 <td>6.30</td>
+                 <td>3.17</td>
+                 <td>0.00</td>
+                 <td>3.14</td>
+                 <td>2709158</td>
+                 <td class="method_name">
+                   <a name="JSON__Ext__Generator__GeneratorMethods__Object_to_json_70342668989760">
+                      JSON::Ext::Generator::GeneratorMethods::Object#to_json
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.98</td>
+                   <td>1.98</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2709158/2709158</td>
+                   <td class="method_name"><a href="#Date_to_s_70342668989760">Date#to_s</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.16</td>
+                   <td>1.16</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2709158/8126279</td>
+                   <td class="method_name"><a href="#String_encode_70342668989760">String#encode</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>4.50</td>
+                   <td>3.24</td>
+                   <td>0.00</td>
+                   <td>1.25</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#String_each_line_70342668989760">String#each_line</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>6.68%</td>
+                 <td>4.81%</td>
+                 <td>4.50</td>
+                 <td>3.24</td>
+                 <td>0.00</td>
+                 <td>1.25</td>
+                 <td>2750940</td>
+                 <td class="method_name">
+                   <a name="Object_parse_session_70342668989760">
+                      Object#parse_session
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=37"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:37">37</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.25</td>
+                   <td>1.25</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#String_upcase_70342668989760">String#upcase</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=37"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:37">37</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.16</td>
+                   <td>1.16</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2709158/8126279</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Object_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Object#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>2.37</td>
+                   <td>2.37</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>5417121/8126279</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>5.24%</td>
+                 <td>5.24%</td>
+                 <td>3.53</td>
+                 <td>3.53</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>8126279</td>
+                 <td class="method_name">
+                   <a name="String_encode_70342668989760">
+                      String#encode
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>3.25</td>
+                   <td>2.28</td>
+                   <td>0.00</td>
+                   <td>0.97</td>
+                   <td>1000000/1000000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>4.82%</td>
+                 <td>3.38%</td>
+                 <td>3.25</td>
+                 <td>2.28</td>
+                 <td>0.00</td>
+                 <td>0.97</td>
+                 <td>1000000</td>
+                 <td class="method_name">
+                   <a name="Array_sort_70342668989760">
+                      Array#sort
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.97</td>
+                   <td>0.97</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>5568523/5568523</td>
+                   <td class="method_name"><a href="#Date_____70342668989760">Date#&lt;=&gt;</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.98</td>
+                   <td>1.98</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2709158/2709158</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Object_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Object#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>2.93%</td>
+                 <td>2.93%</td>
+                 <td>1.98</td>
+                 <td>1.98</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>2709158</td>
+                 <td class="method_name">
+                   <a name="Date_to_s_70342668989760">
+                      Date#to_s
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.50</td>
+                   <td>1.50</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#String_each_line_70342668989760">String#each_line</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>2.23%</td>
+                 <td>2.23%</td>
+                 <td>1.50</td>
+                 <td>1.50</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>2750940</td>
+                 <td class="method_name">
+                   <a name="Set_add_70342668989760">
+                      Set#add
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=349"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:349">349</a></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.36</td>
+                   <td>1.36</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>2.02%</td>
+                 <td>2.02%</td>
+                 <td>1.36</td>
+                 <td>1.36</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500000</td>
+                 <td class="method_name">
+                   <a name="Array_any__70342668989760">
+                      Array#any?
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.30</td>
+                   <td>1.30</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>3447260/3447260</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.92%</td>
+                 <td>1.92%</td>
+                 <td>1.30</td>
+                 <td>1.30</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>3447260</td>
+                 <td class="method_name">
+                   <a name="Symbol_to_s_70342668989760">
+                      Symbol#to_s
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.25</td>
+                   <td>1.25</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#Object_parse_session_70342668989760">Object#parse_session</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=37"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:37">37</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.86%</td>
+                 <td>1.86%</td>
+                 <td>1.25</td>
+                 <td>1.25</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>2750940</td>
+                 <td class="method_name">
+                   <a name="String_upcase_70342668989760">
+                      String#upcase
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500002</td>
+                   <td class="method_name"><a href="#Set_initialize_70342668989760">Set#initialize</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=94"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:94">94</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500002</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=54"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:54">54</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.11</td>
+                   <td>0.87</td>
+                   <td>0.00</td>
+                   <td>0.25</td>
+                   <td>500000/500002</td>
+                   <td class="method_name"><a href="#String_each_line_70342668989760">String#each_line</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.65%</td>
+                 <td>1.29%</td>
+                 <td>1.11</td>
+                 <td>0.87</td>
+                 <td>0.00</td>
+                 <td>0.25</td>
+                 <td>500002</td>
+                 <td class="method_name">
+                   <a name="Class_new_70342668989760">
+                     *Class#new
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.25</td>
+                   <td>0.25</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#User_initialize_70342668989760">User#initialize</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Set_initialize_70342668989760">Set#initialize</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Hash_initialize_70342668989760">Hash#initialize</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>1.06</td>
+                   <td>1.06</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#String_each_line_70342668989760">String#each_line</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.57%</td>
+                 <td>1.57%</td>
+                 <td>1.06</td>
+                 <td>1.06</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>2750940</td>
+                 <td class="method_name">
+                   <a name="User_add_session_70342668989760">
+                      User#add_session
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=21"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:21">21</a></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.98</td>
+                   <td>0.98</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>5501880/5501880</td>
+                   <td class="method_name"><a href="#Array_map_70342668989760">Array#map</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.45%</td>
+                 <td>1.45%</td>
+                 <td>0.98</td>
+                 <td>0.98</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>5501880</td>
+                 <td class="method_name">
+                   <a name="String_to_i_70342668989760">
+                      String#to_i
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.97</td>
+                   <td>0.97</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>5568523/5568523</td>
+                   <td class="method_name"><a href="#Array_sort_70342668989760">Array#sort</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.44%</td>
+                 <td>1.44%</td>
+                 <td>0.97</td>
+                 <td>0.97</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>5568523</td>
+                 <td class="method_name">
+                   <a name="Date_____70342668989760">
+                      Date#&lt;=&gt;
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.72</td>
+                   <td>0.72</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#String_each_line_70342668989760">String#each_line</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.07%</td>
+                 <td>1.07%</td>
+                 <td>0.72</td>
+                 <td>0.72</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500000</td>
+                 <td class="method_name">
+                   <a name="Object_parse_user_70342668989760">
+                      Object#parse_user
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=27"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:27">27</a></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.66</td>
+                   <td>0.66</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1000000/1000000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.97%</td>
+                 <td>0.97%</td>
+                 <td>0.66</td>
+                 <td>0.66</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1000000</td>
+                 <td class="method_name">
+                   <a name="Integer_to_s_70342668989760">
+                      Integer#to_s
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500001</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=89"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:89">89</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.65</td>
+                   <td>0.65</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500001</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.96%</td>
+                 <td>0.96%</td>
+                 <td>0.65</td>
+                 <td>0.65</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500001</td>
+                 <td class="method_name">
+                   <a name="Array_join_70342668989760">
+                      Array#join
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.54</td>
+                   <td>0.54</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2750940/2750940</td>
+                   <td class="method_name"><a href="#_Class__Date__strptime_70342668989760">&lt;Class::Date&gt;#strptime</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.80%</td>
+                 <td>0.80%</td>
+                 <td>0.54</td>
+                 <td>0.54</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>2750940</td>
+                 <td class="method_name">
+                   <a name="Integer_div_70342668989760">
+                      Integer#div
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.46</td>
+                   <td>0.46</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.69%</td>
+                 <td>0.69%</td>
+                 <td>0.46</td>
+                 <td>0.46</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500000</td>
+                 <td class="method_name">
+                   <a name="Array_all__70342668989760">
+                      Array#all?
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.42</td>
+                   <td>0.42</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>492467/492467</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.63%</td>
+                 <td>0.63%</td>
+                 <td>0.42</td>
+                 <td>0.42</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>492467</td>
+                 <td class="method_name">
+                   <a name="Hash_keys_70342668989760">
+                      Hash#keys
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.30</td>
+                   <td>0.30</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.44%</td>
+                 <td>0.44%</td>
+                 <td>0.30</td>
+                 <td>0.30</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500000</td>
+                 <td class="method_name">
+                   <a name="Array_reverse_70342668989760">
+                      Array#reverse
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.25</td>
+                   <td>0.25</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Class_new_70342668989760">Class#new</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.37%</td>
+                 <td>0.37%</td>
+                 <td>0.25</td>
+                 <td>0.25</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500000</td>
+                 <td class="method_name">
+                   <a name="User_initialize_70342668989760">
+                      User#initialize
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=16"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:16">16</a></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.12</td>
+                   <td>0.12</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.18%</td>
+                 <td>0.18%</td>
+                 <td>0.12</td>
+                 <td>0.12</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500000</td>
+                 <td class="method_name">
+                   <a name="Array_sum_70342668989760">
+                      Array#sum
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.11</td>
+                   <td>0.11</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500000</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.17%</td>
+                 <td>0.17%</td>
+                 <td>0.11</td>
+                 <td>0.11</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500000</td>
+                 <td class="method_name">
+                   <a name="Array_max_70342668989760">
+                      Array#max
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.11</td>
+                   <td>0.11</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>492465/492465</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.16%</td>
+                 <td>0.16%</td>
+                 <td>0.11</td>
+                 <td>0.11</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>492465</td>
+                 <td class="method_name">
+                   <a name="String_to_s_70342668989760">
+                      String#to_s
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500001</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=86"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:86">86</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.10</td>
+                   <td>0.10</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>500000/500001</td>
+                   <td class="method_name"><a href="#Array_each_70342668989760">Array#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.14%</td>
+                 <td>0.14%</td>
+                 <td>0.10</td>
+                 <td>0.10</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>500001</td>
+                 <td class="method_name">
+                   <a name="Array_count_70342668989760">
+                      Array#count
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.09</td>
+                   <td>0.09</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=57"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:57">57</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.13%</td>
+                 <td>0.13%</td>
+                 <td>0.09</td>
+                 <td>0.09</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="_Class__IO__read_70342668989760">
+                      &lt;Class::IO&gt;#read
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.04</td>
+                   <td>0.04</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=107"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:107">107</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.06%</td>
+                 <td>0.06%</td>
+                 <td>0.04</td>
+                 <td>0.04</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="_Class__IO__write_70342668989760">
+                      &lt;Class::IO&gt;#write
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=89"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:89">89</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Enumerable_sort_70342668989760">
+                      Enumerable#sort
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/2</td>
+                   <td class="method_name"><a href="#Set_each_70342668989760">Set#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/2</td>
+                   <td class="method_name"><a href="#Enumerable_count_70342668989760">Enumerable#count</a></td>
+                   <td></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/2</td>
+                   <td class="method_name"><a href="#Enumerable_sort_70342668989760">Enumerable#sort</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>2</td>
+                 <td class="method_name">
+                   <a name="Set_each_70342668989760">
+                      Set#each
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=337"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:337">337</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2/2</td>
+                   <td class="method_name"><a href="#Hash_each_key_70342668989760">Hash#each_key</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=338"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:338">338</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>2/2</td>
+                   <td class="method_name"><a href="#Set_each_70342668989760">Set#each</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=338"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:338">338</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>2</td>
+                 <td class="method_name">
+                   <a name="Hash_each_key_70342668989760">
+                      Hash#each_key
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_work_70342668989760">Object#work</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb&line=87"title="/Users/vovamozgin/Documents/work/rails-optimization-2-task1/task-1.rb:87">87</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Enumerable_count_70342668989760">
+                      Enumerable#count
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/2</td>
+                   <td class="method_name"><a href="#Set_each_70342668989760">Set#each</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70342668989760">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Kernel_dup_70342668989760">
+                      Kernel#dup
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Kernel_initialize_dup_70342668989760">Kernel#initialize_dup</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Kernel_dup_70342668989760">Kernel#dup</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Kernel_initialize_dup_70342668989760">
+                      Kernel#initialize_dup
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#JSON__Ext__Generator__State_initialize_copy_70342668989760">JSON::Ext::Generator::State#initialize_copy</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Class_new_70342668989760">Class#new</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Set_initialize_70342668989760">
+                      Set#initialize
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=94"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:94">94</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/500002</td>
+                   <td class="method_name"><a href="#Class_new_70342668989760">Class#new</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=94"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:94">94</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#NilClass_nil__70342668989760">NilClass#nil?</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=96"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:96">96</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Kernel_initialize_dup_70342668989760">Kernel#initialize_dup</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="JSON__Ext__Generator__State_initialize_copy_70342668989760">
+                      JSON::Ext::Generator::State#initialize_copy
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Class_new_70342668989760">Class#new</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Hash_initialize_70342668989760">
+                      Hash#initialize
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Set_initialize_70342668989760">Set#initialize</a></td>
+                   <td><a href="txmt://open?url=file:///Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb&line=96"title="/Users/vovamozgin/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0/set.rb:96">96</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.00%</td>
+                 <td>0.00%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="NilClass_nil__70342668989760">
+                      NilClass#nil?
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="9">* indicates recursively called methods</td>
+          </tr>
+        </tfoot>
+      </table>
+
+  </body>
+</html>

@@ -5,6 +5,8 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 
+FIXNUM_MAX = (2**(0.size * 8 - 2) - 1)
+
 class User
   attr_reader :attributes, :sessions
 
@@ -43,13 +45,19 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
-  file_lines = File.read('data.txt').split("\n")
+def group_sessions_by_user_id(sessions)
+  sessions.group_by { |session| session['user_id'] }
+end
+
+# Number of lines in file: 3250940
+
+def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
+  file_lines = File.read(filename).split("\n")
 
   users = []
   sessions = []
 
-  file_lines.each do |line|
+  file_lines.first(number_lines).each do |line|
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
@@ -96,9 +104,11 @@ def work
   # Статистика по пользователям
   users_objects = []
 
+  sessions_grouped_by_user_id = group_sessions_by_user_id(sessions)
+
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = sessions_grouped_by_user_id[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

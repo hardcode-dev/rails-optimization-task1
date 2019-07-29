@@ -36,7 +36,7 @@ end
 
 def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
@@ -133,8 +133,8 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
     user_sessions_browsers = user.sessions.map {|s| s['browser'].upcase}
     {
       'sessionsCount' => user.sessions.count,                                                                 # Собираем количество сессий по пользователям
-      'totalTime' => (user_sessions_times.sum.to_s + ' min.'),                 # Собираем количество времени по пользователям
-      'longestSession' => (user_sessions_times.max.to_s + ' min.'),            # Выбираем самую длинную сессию пользователя
+      'totalTime' => "#{user_sessions_times.sum} min.",                 # Собираем количество времени по пользователям
+      'longestSession' => "#{user_sessions_times.max} min.",            # Выбираем самую длинную сессию пользователя
       'browsers' => user_sessions_browsers.sort.join(', '),                  # Браузеры пользователя через запятую
       'usedIE' => user_sessions_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },           # Хоть раз использовал IE?
       'alwaysUsedChrome' => user_sessions_browsers.all? { |b| b =~ /CHROME/ },            # Всегда использовал только Chrome?

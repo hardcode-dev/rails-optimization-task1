@@ -70,10 +70,8 @@ end
 def collect_users_objects(users, sessions)
   sessions_grouped_by_user_id = group_sessions_by(sessions, 'user_id')
 
-  users.each_with_object([]) do |user, array|
-    user_sessions = sessions_grouped_by_user_id[user['id']]
-    user_object = User.new(attributes: user, sessions: user_sessions)
-    array.push user_object
+  users.map do |user|
+    User.new(attributes: user, sessions: sessions_grouped_by_user_id[user['id']])
   end
 end
 

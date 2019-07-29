@@ -7,9 +7,19 @@ class User
   attr_reader :attributes, :sessions
 
   @@instances ||= 0
+  @@users ||= []
 
   def self.count
     @@instances
+  end
+
+  def self.users
+    @@users
+  end
+
+  def self.create(attributes: {}, sessions: {})
+
+    @@users << User.new(attributes: attributes, sessions: sessions)
   end
 
   def initialize(attributes:, sessions:)
@@ -47,10 +57,6 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def create_user(attributes)
-  User.new(attributes: attributes, sessions: {})
-end
-
 def work(file, disable_gc: false)
   GC.disable if disable_gc
 
@@ -63,7 +69,7 @@ def work(file, disable_gc: false)
 
   File.foreach(file) do |line|
     cols = line.split(',')
-    create_user(parse_user(cols)) if cols[0] == 'user'
+    User.create(attributes: parse_user(cols)) if cols[0] == 'user'
 
     @sessions << parse_session(line) if cols[0] == 'session'
 

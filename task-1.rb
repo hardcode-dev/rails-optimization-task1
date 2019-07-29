@@ -1,16 +1,21 @@
 # Deoptimized version of homework task
 
 require 'json'
-require 'pry'
 require 'date'
-require 'minitest/autorun'
 
 class User
   attr_reader :attributes, :sessions
 
+  @@instances ||= 0
+
+  def self.count
+    @@instances
+  end
+
   def initialize(attributes:, sessions:)
     @attributes = attributes
     @sessions = sessions
+    @@instances += 1
   end
 end
 

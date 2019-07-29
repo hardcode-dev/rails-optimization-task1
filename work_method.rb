@@ -42,8 +42,8 @@ def collect_stats_from_users(report, users_objects)
   end
 end
 
-def group_sessions_by_user_id(sessions)
-  sessions.group_by { |session| session['user_id'] }
+def group_sessions_by(sessions, attr)
+  sessions.group_by { |session| session[attr] }
 end
 
 def parse_lines(lines)
@@ -66,7 +66,7 @@ end
 def collect_users_objects(users, sessions)
   users_objects = []
 
-  sessions_grouped_by_user_id = group_sessions_by_user_id(sessions)
+  sessions_grouped_by_user_id = group_sessions_by(sessions, 'user_id')
 
   users.each do |user|
     attributes = user
@@ -76,6 +76,16 @@ def collect_users_objects(users, sessions)
   end
 
   users_objects
+end
+
+def unique_browsers(sessions)
+  group_sessions_by(sessions, 'browser').keys
+  # uniqueBrowsers = []
+  # sessions.each do |session|
+  #   browser = session['browser']
+  #   uniqueBrowsers << browser unless uniqueBrowsers.any? { |b| b == browser }
+  # end
+  # uniqueBrowsers
 end
 
 # Number of lines in file: 3250940
@@ -105,11 +115,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  uniqueBrowsers = unique_browsers(sessions)
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 

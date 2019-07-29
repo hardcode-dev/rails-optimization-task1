@@ -105,14 +105,14 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   report = {}
 
-  report['totalUsers'] = users.count
+  report['totalUsers'] = users.length
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = unique_browsers(sessions)
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = uniqueBrowsers.length
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions.length
 
   report['allBrowsers'] = uniqueBrowsers.map!(&:upcase).sort!.join(',')
 
@@ -126,7 +126,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
     user_sessions_times = user_sessions.map { |s| s['time'].to_i }
     user_sessions_browsers = user_sessions.map { |s| s['browser'].upcase }
     {
-      'sessionsCount' => user_sessions.count, # Собираем количество сессий по пользователям
+      'sessionsCount' => user_sessions.length, # Собираем количество сессий по пользователям
       'totalTime' => "#{user_sessions_times.sum} min.",                 # Собираем количество времени по пользователям
       'longestSession' => "#{user_sessions_times.max} min.",            # Выбираем самую длинную сессию пользователя
       'browsers' => user_sessions_browsers.sort.join(', '), # Браузеры пользователя через запятую

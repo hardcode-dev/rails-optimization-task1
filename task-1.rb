@@ -4,7 +4,7 @@ require 'json'
 require 'date'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_accessor :attributes, :sessions
 
   @@instances ||= 0
   @@users ||= []
@@ -13,30 +13,47 @@ class User
     @@instances
   end
 
-  def self.users
+  def self.all
     @@users
   end
 
-  def self.create(attributes: {}, sessions: {})
-    @@users << User.new(attributes: attributes, sessions: sessions)
+  def update
+    yield self
   end
 
-  def initialize(attributes:, sessions:)
+  def self.find(id)
+    @@users.detect { |user| user.attributes[:id] == id }
+  end
+
+  def initialize(attributes:, sessions: { sessionsCount: 0,
+                                          totalTime: 0,
+                                          longestSession: 0,
+                                          browsers: [],
+                                          dates: [] } )
     @attributes = attributes
     @sessions = sessions
     @@instances += 1
+    @@users << self
+  end
+
+  def used_ie?
+    sessions[:browsers].any? { |browser| browser =~ /Internet Explorer/ }
+  end
+
+  def always_used_chrome?
+    sessions[:browsers].all? { |browser| browser =~ /Chrome/ }
   end
 end
 
 def parse_user(fields)
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    id: fields[1],
+    first_name: fields[2],
+    last_name: fields[3]
   }
 end
 
+# TODO Не нужная информация. Быстрей сразу агрегировать данные.
 def parse_session(fields)
   {
     'user_id' => fields[1],
@@ -55,21 +72,30 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file, disable_gc: false)
+def work(file = 'data.txt', disable_gc: false)
   GC.disable if disable_gc
 
   @file_result = File.new('result.json', 'w')
   @report = { totalUsers: 0, uniqueBrowsersCount: 0, totalSessions: 0, allBrowsers: 0}
-  @users = []
   @sessions = []
   @users_objects = []
   @uniqueBrowsers = []
 
   File.foreach(file) do |line|
     cols = line.split(',')
-    User.create(attributes: parse_user(cols)) if cols[0] == 'user'
 
-    @sessions << parse_session(line) if cols[0] == 'session'
+    if cols.first.eql? 'user'
+      User.new(attributes: parse_user(cols))
+    elsif cols.first.eql? 'session'
+      User.find(cols[1]).update do |user|
+        user.sessions[:sessionsCount] += 1
+        user.sessions[:browsers] << cols[3]
+        user.sessions[:dates] << cols[5].chomp
+        user.sessions[:totalTime] += cols[4].to_i
+        user.sessions[:longestSession] = cols[4].to_i if user.sessions[:longestSession] < cols[4].to_i
+      end
+    end
+
 
   # Отчёт в json
   #   - Сколько всего юзеров +

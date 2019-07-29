@@ -80,12 +80,6 @@ end
 
 def unique_browsers(sessions)
   group_sessions_by(sessions, 'browser').keys
-  # uniqueBrowsers = []
-  # sessions.each do |session|
-  #   browser = session['browser']
-  #   uniqueBrowsers << browser unless uniqueBrowsers.any? { |b| b == browser }
-  # end
-  # uniqueBrowsers
 end
 
 # Number of lines in file: 3250940
@@ -142,7 +136,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
       'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),                  # Браузеры пользователя через запятую
       'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },           # Хоть раз использовал IE?
       'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },            # Всегда использовал только Chrome?
-      'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }  # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user.sessions.map{|s| s['date'].chomp}.sort.reverse # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 

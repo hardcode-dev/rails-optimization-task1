@@ -18,7 +18,6 @@ class User
   end
 
   def self.create(attributes: {}, sessions: {})
-
     @@users << User.new(attributes: attributes, sessions: sessions)
   end
 
@@ -38,9 +37,8 @@ def parse_user(fields)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],

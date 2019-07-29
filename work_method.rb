@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Deoptimized version of homework task
 
 require 'json'
@@ -38,7 +40,7 @@ def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
+    report['usersStats'][user_key].merge!(yield(user))
   end
 end
 
@@ -64,18 +66,13 @@ def read_file(filename, number_lines)
 end
 
 def collect_users_objects(users, sessions)
-  users_objects = []
-
   sessions_grouped_by_user_id = group_sessions_by(sessions, 'user_id')
 
-  users.each do |user|
-    attributes = user
+  users.each_with_object([]) do |user, array|
     user_sessions = sessions_grouped_by_user_id[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects << user_object
+    user_object = User.new(attributes: user, sessions: user_sessions)
+    array.push user_object
   end
-
-  users_objects
 end
 
 def unique_browsers(sessions)
@@ -115,13 +112,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.lazy.map(&:upcase).sort.join(',')
 
   # Статистика по пользователям
   users_objects = collect_users_objects(users, sessions)
@@ -129,16 +120,16 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    user_sessions_times = user.sessions.map {|s| s['time'].to_i}
-    user_sessions_browsers = user.sessions.map {|s| s['browser'].upcase}
+    user_sessions_times = user.sessions.map { |s| s['time'].to_i }
+    user_sessions_browsers = user.sessions.map { |s| s['browser'].upcase }
     {
-      'sessionsCount' => user.sessions.count,                                                                 # Собираем количество сессий по пользователям
+      'sessionsCount' => user.sessions.count, # Собираем количество сессий по пользователям
       'totalTime' => "#{user_sessions_times.sum} min.",                 # Собираем количество времени по пользователям
       'longestSession' => "#{user_sessions_times.max} min.",            # Выбираем самую длинную сессию пользователя
-      'browsers' => user_sessions_browsers.sort.join(', '),                  # Браузеры пользователя через запятую
+      'browsers' => user_sessions_browsers.sort.join(', '), # Браузеры пользователя через запятую
       'usedIE' => user_sessions_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },           # Хоть раз использовал IE?
       'alwaysUsedChrome' => user_sessions_browsers.all? { |b| b =~ /CHROME/ },            # Всегда использовал только Chrome?
-      'dates' => user.sessions.map{|s| s['date']}.sort.reverse # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 

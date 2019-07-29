@@ -1,0 +1,5 @@
+.idea/
+data_large.txt
+result.json
+benchmarks/flat.txt
+data_large.txt.gz

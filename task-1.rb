@@ -49,19 +49,30 @@ def group_sessions_by_user_id(sessions)
   sessions.group_by { |session| session['user_id'] }
 end
 
-# Number of lines in file: 3250940
-
-def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
-  file_lines = File.read(filename).split("\n")
-
+def parse_lines(lines)
   users = []
   sessions = []
 
-  file_lines.first(number_lines).each do |line|
+  lines.each do |line|
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
   end
+
+  [users, sessions]
+end
+
+def read_file(filename, number_lines)
+  IO.foreach(filename).lazy.take(number_lines).to_a
+  # File.read(filename).split("\n").first(number_lines)
+end
+
+# Number of lines in file: 3250940
+
+def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
+  file_lines = read_file(filename, number_lines)
+
+  users, sessions = parse_lines(file_lines)
 
   # Отчёт в json
   #   - Сколько всего юзеров +

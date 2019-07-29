@@ -4,5 +4,5 @@ require_relative '../work_method'
 RSpec.describe "Performance testing" do
   include RSpec::Benchmark::Matchers
 
-  it { expect { work('data_large.txt', 16000) }.to perform_under(500).ms }
+  it { expect { work('data_large.txt', 16000) }.to perform_under(430).ms } # Goal => 147 and linear
 end

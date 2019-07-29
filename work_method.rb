@@ -5,6 +5,8 @@
 require 'json'
 require 'pry'
 require 'date'
+# gem install oj
+require 'oj'
 
 FIXNUM_MAX = (2**(0.size * 8 - 2) - 1)
 
@@ -103,7 +105,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report['totalUsers'] = users.count
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = unique_browsers(sessions)
@@ -112,7 +114,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] = uniqueBrowsers.lazy.map(&:upcase).sort.join(',')
+  report['allBrowsers'] = uniqueBrowsers.map!(&:upcase).sort!.join(',')
 
   # Статистика по пользователям
   users_objects = collect_users_objects(users, sessions)
@@ -120,18 +122,19 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    user_sessions_times = user.sessions.map { |s| s['time'].to_i }
-    user_sessions_browsers = user.sessions.map { |s| s['browser'].upcase }
+    user_sessions = user.sessions
+    user_sessions_times = user_sessions.map { |s| s['time'].to_i }
+    user_sessions_browsers = user_sessions.map { |s| s['browser'].upcase }
     {
-      'sessionsCount' => user.sessions.count, # Собираем количество сессий по пользователям
+      'sessionsCount' => user_sessions.count, # Собираем количество сессий по пользователям
       'totalTime' => "#{user_sessions_times.sum} min.",                 # Собираем количество времени по пользователям
       'longestSession' => "#{user_sessions_times.max} min.",            # Выбираем самую длинную сессию пользователя
       'browsers' => user_sessions_browsers.sort.join(', '), # Браузеры пользователя через запятую
       'usedIE' => user_sessions_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },           # Хоть раз использовал IE?
       'alwaysUsedChrome' => user_sessions_browsers.all? { |b| b =~ /CHROME/ },            # Всегда использовал только Chrome?
-      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user_sessions.map! { |s| s['date'] }.sort!.reverse! # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report)}\n")
 end

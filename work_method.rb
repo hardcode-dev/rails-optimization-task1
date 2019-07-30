@@ -33,9 +33,9 @@ def parse_session(fields)
   {
     user_id: fields[1],
     session_id: fields[2],
-    browser: fields[3],
-    time: fields[4],
-    date: fields[5].chomp
+    browser: fields[3].upcase!,
+    time: fields[4].to_i,
+    date: fields[5].chomp!
   }
 end
 
@@ -113,7 +113,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   report['totalSessions'] = sessions.length
 
-  report['allBrowsers'] = uniqueBrowsers.map!(&:upcase).sort!.join(',')
+  report['allBrowsers'] = uniqueBrowsers.sort!.join(',')
 
   # Статистика по пользователям
   users_objects = collect_users_objects(users, sessions)
@@ -122,8 +122,8 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   collect_stats_from_users(report, users_objects) do |user|
     user_sessions = user.sessions
-    user_sessions_times = user_sessions.map { |s| s[:time].to_i }
-    user_sessions_browsers = user_sessions.map { |s| s[:browser].upcase }
+    user_sessions_times = user_sessions.map { |s| s[:time] }
+    user_sessions_browsers = user_sessions.map { |s| s[:browser] }
     {
       'sessionsCount' => user_sessions.length, # Собираем количество сессий по пользователям
       'totalTime' => "#{user_sessions_times.sum} min.",                 # Собираем количество времени по пользователям

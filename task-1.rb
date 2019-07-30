@@ -6,22 +6,18 @@ require 'date'
 class User
   attr_accessor :attributes, :sessions
 
-  @@users ||= []
+  @@instances ||= 0
 
   def self.count
-    @@users.size
-  end
-
-  def self.all
-    @@users
+    @@instances
   end
 
   def update
     yield self
   end
 
-  def self.find(id)
-    @@users.detect { |user| user.attributes[:id] == id }
+  def self.instance
+    @@user
   end
 
   def initialize(attributes:, sessions: { sessionsCount: 0,
@@ -31,7 +27,8 @@ class User
                                           dates: [] } )
     @attributes = attributes
     @sessions = sessions
-    @@users << self
+    @@user = self
+    @@instances += 1
   end
 
   def used_ie?
@@ -85,7 +82,7 @@ def work(file = 'data.txt', disable_gc: false)
     if cols.first.eql? 'user'
       User.new(attributes: parse_user(cols))
     elsif cols.first.eql? 'session'
-      User.find(cols[1]).update do |user|
+      User.instance.update do |user|
         user.sessions[:sessionsCount] += 1
         user.sessions[:browsers] << cols[3]
         user.sessions[:dates] << cols[5].chomp

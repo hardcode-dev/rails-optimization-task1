@@ -30,24 +30,8 @@ describe 'user' do
     end
   end
 
-  describe '.all' do
-    it 'should return Array' do
-      expect(User.all).to be_is_a(Array)
-    end
-
-    it 'in array should exist subject' do
-      expect(User.all.first.attributes[:id]).to eq 0
-    end
-  end
-
-  describe '.find' do
-    it 'return object' do
-      expect(User.find(1)).to eq User.all[1]
-    end
-  end
-
   describe '#update' do
-    let(:user) { User.all.first }
+    let(:user) { User.instance }
 
     let(:update) do
       user.update do |user|
@@ -66,13 +50,13 @@ describe 'user' do
     end
 
     it 'should return false' do
-      expect(User.all.first.used_ie?).to be_falsey
+      expect(User.instance.used_ie?).to be_falsey
     end
   end
 
   describe '#always_used_chrome?' do
     it 'should return true' do
-      expect(User.all.first.always_used_chrome?).to be_truthy
+      expect(User.instance.always_used_chrome?).to be_truthy
     end
 
     it 'should return false' do

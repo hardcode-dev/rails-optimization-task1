@@ -21,26 +21,27 @@ end
 
 def parse_user(fields)
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4]
+    id: fields[1],
+    first_name:  fields[2],
+    last_name: fields[3],
+    full_name: "#{fields[2]} #{fields[3]}",
+    age: fields[4]
   }
 end
 
 def parse_session(fields)
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5].chomp
+    user_id: fields[1],
+    session_id: fields[2],
+    browser: fields[3],
+    time: fields[4],
+    date: fields[5].chomp
   }
 end
 
 def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
+    user_key = user.attributes[:full_name]
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key].merge!(yield(user))
   end
@@ -68,15 +69,15 @@ def read_file(filename, number_lines)
 end
 
 def collect_users_objects(users, sessions)
-  sessions_grouped_by_user_id = group_sessions_by(sessions, 'user_id')
+  sessions_grouped_by_user_id = group_sessions_by(sessions, :user_id)
 
   users.map do |user|
-    User.new(attributes: user, sessions: sessions_grouped_by_user_id[user['id']])
+    User.new(attributes: user, sessions: sessions_grouped_by_user_id[user[:id]])
   end
 end
 
 def unique_browsers(sessions)
-  group_sessions_by(sessions, 'browser').keys
+  group_sessions_by(sessions, :browser).keys
 end
 
 # Number of lines in file: 3250940
@@ -121,8 +122,8 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   collect_stats_from_users(report, users_objects) do |user|
     user_sessions = user.sessions
-    user_sessions_times = user_sessions.map { |s| s['time'].to_i }
-    user_sessions_browsers = user_sessions.map { |s| s['browser'].upcase }
+    user_sessions_times = user_sessions.map { |s| s[:time].to_i }
+    user_sessions_browsers = user_sessions.map { |s| s[:browser].upcase }
     {
       'sessionsCount' => user_sessions.length, # Собираем количество сессий по пользователям
       'totalTime' => "#{user_sessions_times.sum} min.",                 # Собираем количество времени по пользователям
@@ -130,7 +131,7 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
       'browsers' => user_sessions_browsers.sort.join(', '), # Браузеры пользователя через запятую
       'usedIE' => user_sessions_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },           # Хоть раз использовал IE?
       'alwaysUsedChrome' => user_sessions_browsers.all? { |b| b =~ /CHROME/ },            # Всегда использовал только Chrome?
-      'dates' => user_sessions.map! { |s| s['date'] }.sort!.reverse! # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user_sessions.map! { |s| s[:date] }.sort!.reverse! # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 

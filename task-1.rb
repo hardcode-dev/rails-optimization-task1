@@ -3,21 +3,16 @@
 require 'json'
 require 'date'
 
+# Создание Юзера запускать тредами
 class User
   attr_accessor :attributes, :sessions
-
-  @@instances ||= 0
-
-  def self.count
-    @@instances
-  end
 
   def update
     yield self
   end
 
   def self.instance
-    @@user
+    @@user ||= nil
   end
 
   def initialize(attributes:, sessions: { sessionsCount: 0,
@@ -28,7 +23,6 @@ class User
     @attributes = attributes
     @sessions = sessions
     @@user = self
-    @@instances += 1
   end
 
   def used_ie?
@@ -67,19 +61,24 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
+# запуск синхроно либо Mutex
+def make_report
+
+end
+
 def work(file = 'data.txt', disable_gc: false)
   GC.disable if disable_gc
 
   @file_result = File.new('result.json', 'w')
   @report = { totalUsers: 0, uniqueBrowsersCount: 0, totalSessions: 0, allBrowsers: 0}
-  @sessions = []
-  @users_objects = []
   @uniqueBrowsers = []
 
   File.foreach(file) do |line|
     cols = line.split(',')
 
     if cols.first.eql? 'user'
+      make_report if User.instance
+
       User.new(attributes: parse_user(cols))
     elsif cols.first.eql? 'session'
       User.instance.update do |user|
@@ -115,14 +114,6 @@ def work(file = 'data.txt', disable_gc: false)
     #   browser = session['browser']
     #   @uniqueBrowsers << browser if @uniqueBrowsers.all? { |b| b != browser }
     # end
-
-    @report[:allBrowsers] =
-      @sessions
-        .map { |s| s['browser'] }
-        .map { |b| b.upcase }
-        .sort
-        .uniq
-        .join(',')
 
     # Статистика по пользователям
 
@@ -160,10 +151,6 @@ def work(file = 'data.txt', disable_gc: false)
       { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
     end
 
-    # Всегда использовал только Chrome?
-    collect_stats_from_users(@report, @users_objects) do |user|
-      { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
-    end
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
     collect_stats_from_users(@report, @users_objects) do |user|
@@ -173,8 +160,10 @@ def work(file = 'data.txt', disable_gc: false)
 
 
   @report[:totalUsers] = User.count
+
   @report[:uniqueBrowsersCount] += @uniqueBrowsers.count
   @report[:totalSessions] += @sessions.count
+
   @file_result.write("#{@report.to_json}\n")
   @file_result.close
 end

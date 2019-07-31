@@ -1,6 +1,7 @@
 # Deoptimized version of homework task
 
 require 'json'
+require 'set'
 
 # Создание Юзера запускать тредами
 class User
@@ -39,23 +40,27 @@ def make_report(report)
                                   sessionsCount:    User.instance.sessions[:sessionsCount],
                                   totalTime:        "#{User.instance.sessions[:totalTime]} min.",
                                   longestSession:   "#{User.instance.sessions[:longestSession]} min.",
-                                  browsers:         User.instance.sessions[:browsers],
+                                  browsers:         User.instance.sessions[:browsers].map(&:upcase).sort.join(', '),
                                   usedIE:           User.instance.used_ie?,
                                   alwaysUsedChrome: User.instance.always_used_chrome?,
-                                  dates:            User.instance.sessions[:dates]
+                                  dates:            User.instance.sessions[:dates].sort.reverse
                               }})
 
   report[:totalUsers] += 1
-  # report[:uniqueBrowsersCount] = browser.count
+  report[:allBrowsers].merge User.instance.sessions[:browsers]
   report[:totalSessions] += User.instance.sessions[:sessionsCount]
-  # report[:allBrowsers] = browser.join(' ')
+  report[:uniqueBrowsersCount] = report[:allBrowsers].size
+end
+
+def browser_decoration(report)
+  report[:allBrowsers] = report[:allBrowsers].map(&:upcase).sort.join(',')
 end
 
 def work(file = 'data.txt', disable_gc: false)
   GC.disable if disable_gc
 
   @file_result = File.new('result.json', 'w')
-  @report = { totalUsers: 0, uniqueBrowsersCount: 0, totalSessions: 0, allBrowsers: 0, usersStats: {} }
+  @report = { totalUsers: 0, uniqueBrowsersCount: 0, totalSessions: 0, allBrowsers: Set.new, usersStats: {} }
 
   File.foreach(file) do |line|
     cols = line.split(',')
@@ -76,6 +81,8 @@ def work(file = 'data.txt', disable_gc: false)
   end
 
   make_report(@report)
+  browser_decoration(@report)
+
   @file_result.write("#{@report.to_json}\n")
   @file_result.close
 end

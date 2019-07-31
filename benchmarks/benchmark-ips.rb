@@ -18,6 +18,11 @@ end
 #     2.995k (± 1.5%) i/s -     15.300k in   5.128179s
 #                   with 95.0% confidence
 #
-#iter -2
-# 3.601k (± 9.6%) i/s -     16.146k in   5.105377s
-#           with 95.0% confidence
+#
+# iter-2 Test: GREEN GC: false
+# 2.503k (± 1.3%) i/s -     12.496k in   5.007660s
+#                    with 95.0% confidence
+#
+# iter-3 Test: GREEN GC: true
+#    2.111k (± 3.4%) i/s -     10.441k in   5.035906s
+#                    with 95.0% confidence

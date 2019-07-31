@@ -2,6 +2,7 @@
 
 require 'json'
 require 'set'
+require 'csv'
 
 # Создание Юзера запускать тредами
 class User
@@ -56,17 +57,12 @@ def browser_decoration(report)
   report[:allBrowsers] = report[:allBrowsers].map(&:upcase).sort.join(',')
 end
 
-def work(file = 'data.txt', disable_gc: false)
-  GC.disable if disable_gc
-
-  @file_result = File.new('result.json', 'w')
-  @report = { totalUsers: 0, uniqueBrowsersCount: 0, totalSessions: 0, allBrowsers: Set.new, usersStats: {} }
-
+def make_user(file, report)
   File.foreach(file) do |line|
     cols = line.split(',')
 
     if cols.first.eql? 'user'
-      make_report(@report) if User.instance
+      make_report(report) if User.instance
 
       User.new("#{cols[2]} #{cols[3]}")
     elsif cols.first.eql? 'session'
@@ -79,8 +75,16 @@ def work(file = 'data.txt', disable_gc: false)
       end
     end
   end
+  make_report(report)
+end
 
-  make_report(@report)
+def work(file = 'data.txt', disable_gc: false)
+  GC.disable if disable_gc
+
+  @file_result = File.new('result.json', 'w')
+  @report = { totalUsers: 0, uniqueBrowsersCount: 0, totalSessions: 0, allBrowsers: Set.new, usersStats: {} }
+
+  make_user(file, @report)
   browser_decoration(@report)
 
   @file_result.write("#{@report.to_json}\n")

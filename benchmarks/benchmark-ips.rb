@@ -10,7 +10,7 @@ Benchmark.ips do |x|
       confidence: 95,
       )
 
-  x.report("slow string concatenation") do
+  x.report("parse file data and aggregation reports") do
     work('../data.txt', disable_gc: false)
   end
 end

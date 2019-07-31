@@ -1,13 +1,20 @@
 require 'benchmark/ips'
-require 'smarter_csv'
 
 Benchmark.ips do |x|
-  x.report("SmarterCSV") do
-    SmarterCSV.process('../data.txt')
+
+  a = (0..100_000).to_a
+  b = (0..100_000).to_a
+
+  x.report("reject") do
+    a.reject!(&:succ)
   end
 
-  x.report('File') do
-    File.read('../data.txt')
+  x.report('while') do
+    b.each do |x|
+      x.succ
+      b.delete(x)
+    end
+
   end
 
   x.compare!

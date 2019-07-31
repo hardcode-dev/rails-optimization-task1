@@ -57,8 +57,14 @@ def browser_decoration(report)
   report[:allBrowsers] = report[:allBrowsers].map(&:upcase).sort.join(',')
 end
 
-def make_user(file, report)
+def parse_file(file, bank)
   File.foreach(file) do |line|
+    bank << line
+  end
+end
+
+def make_user(bank, report)
+  bank.reject! do |line|
     cols = line.split(',')
 
     if cols.first.eql? 'user'
@@ -81,10 +87,14 @@ end
 def work(file = 'data.txt', disable_gc: false)
   GC.disable if disable_gc
 
+  bank = []
+
+  parse_file(file, bank)
+
   @file_result = File.new('result.json', 'w')
   @report = { totalUsers: 0, uniqueBrowsersCount: 0, totalSessions: 0, allBrowsers: Set.new, usersStats: {} }
 
-  make_user(file, @report)
+  make_user(bank, @report)
   browser_decoration(@report)
 
   @file_result.write("#{@report.to_json}\n")

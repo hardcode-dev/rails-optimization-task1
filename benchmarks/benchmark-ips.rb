@@ -10,9 +10,15 @@ Benchmark.ips do |x|
       confidence: 95,
       )
 
-  x.report("parse file data and aggregation reports") do
+  x.report("GC turn on") do
     work('../data.txt', disable_gc: false)
   end
+
+  x.report("GC turn off") do
+    work('../data.txt', disable_gc: true)
+  end
+
+  x.compare!
 end
 # iter -1
 #     2.995k (± 1.5%) i/s -     15.300k in   5.128179s

@@ -1,11 +1,6 @@
-require_relative 'user'
-
-require 'json'
-require 'pry'
-require 'date'
-
 class Task
-  def initialize(result_file_path: nil, data_file_path: nil)
+  def initialize(result_file_path: nil, data_file_path: nil, dasable_gc: true)
+    GC.disable if dasable_gc
     @result_file_path = result_file_path || 'data/result.json'
     @data_file_path = data_file_path || 'data/data_large.txt'
   end

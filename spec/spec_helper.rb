@@ -1,10 +1,12 @@
-$LOAD_PATH << File.expand_path('lib', __dir__)
+require_relative '../config/environment'
 
-Dir[Dir.pwd + '/lib/**/*.rb'].each do |file|
-  require file
+RSpec::Benchmark.configure do |config|
+  config.disable_gc = true
 end
 
 RSpec.configure do |config|
+  config.include RSpec::Benchmark::Matchers
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

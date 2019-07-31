@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe 'user' do
   subject! do
-    User.new(attributes: {
-               id:         User.count,
-               first_name: 'Bruce',
-               last_name:  'Dickinson' },
+    User.new('Bruce Dickinson',
              sessions: {
                sessionsCount: 1,
                totalTime: 15,
@@ -15,19 +12,7 @@ describe 'user' do
   end
 
   let(:user_ie) do
-    User.new(attributes: {},
-             sessions: {
-                 browsers: ['Internet Explorer'] })
-  end
-
-  describe '.count' do
-    it 'should return count of users' do
-      expect(User.count).to eq 1
-    end
-
-    it 'change count for user' do
-      expect{ User.new(attributes:{}, sessions: {} ) }.to change { User.count }.by 1
-    end
+    User.new('Bruce Dickinson', sessions: { browsers: ['Internet Explorer']} )
   end
 
   describe '#update' do

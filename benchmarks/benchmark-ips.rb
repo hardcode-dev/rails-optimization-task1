@@ -18,4 +18,6 @@ end
 #     2.995k (± 1.5%) i/s -     15.300k in   5.128179s
 #                   with 95.0% confidence
 #
-#
+#iter -2
+# 3.601k (± 9.6%) i/s -     16.146k in   5.105377s
+#           with 95.0% confidence

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'parser' do
   before do
-    User.class_variable_set('@@users', [])
+    User.class_variable_set('@@user', nil)
   end
 
   let(:expected_result) { '{

@@ -1,0 +1,440 @@
+Benchmark GC off:
+rails-optimization-2-task1 git:(master) ✗ ruby work_benchmark.rb
+Warming up --------------------------------------
+           1x = 1000     1.000  i/100ms
+           2x = 2000     1.000  i/100ms
+           4x = 4000     1.000  i/100ms
+           8x = 8000     1.000  i/100ms
+         16x = 16000     1.000  i/100ms
+Calculating -------------------------------------
+           1x = 1000      1.427  (± 6.4%) i/s -      8.000  in   5.634910s
+           2x = 2000      1.397  (± 4.1%) i/s -      7.000  in   5.022657s
+           4x = 4000      0.973  (± 2.6%) i/s -      5.000  in   5.143797s
+           8x = 8000      0.407  (± 5.4%) i/s -      3.000  in   7.378228s
+         16x = 16000      0.090  (± 0.0%) i/s -      1.000  in  11.170587s
+                   with 99.0% confidence
+
+Comparison:
+           1x = 1000:        1.4 i/s
+           2x = 2000:        1.4 i/s - same-ish: difference falls within error
+           4x = 4000:        1.0 i/s - 1.47x  (± 0.10) slower
+           8x = 8000:        0.4 i/s - 3.50x  (± 0.32) slower
+         16x = 16000:        0.1 i/s - 15.93x  (± 1.03) slower
+                   with 99.0% confidence
+
+
+Ruby-prof-flat Run on 16000 lines:
+GC on:
+%self      total      self      wait     child     calls  name
+ 81.77     11.888    11.888     0.000     0.000     2436   Array#select
+  8.70      1.265     1.265     0.000     0.000    32001   String#split
+  4.48     13.318     0.651     0.000    12.667       10   Array#each
+  1.85      0.270     0.269     0.000     0.001    16000   Array#all?
+
+GC off:
+%self      total      self      wait     child     calls  name
+ 89.05     15.248    15.248     0.000     0.000     2436   Array#select
+  4.13      0.707     0.707     0.000     0.000    32001   String#split
+  2.68     16.349     0.460     0.000    15.889       10   Array#each
+  1.60      0.275     0.274     0.000     0.001    16000   Array#all?
+------------------------------------------------------------------------------------------------------------------------
+
+Первая точка роста: sessions.select
+
+1) def group_sessions_by_user_id(sessions)
+     sessions.group_by { |session| session['user_id'] }
+   end
+
+========================================================================================================================
+rails-optimization-2-task1 git:(master) ✗ ruby work_benchmark.rb
+Warming up --------------------------------------
+           1x = 1000     1.000  i/100ms
+           2x = 2000     1.000  i/100ms
+           4x = 4000     1.000  i/100ms
+           8x = 8000     1.000  i/100ms
+         16x = 16000     1.000  i/100ms
+Calculating -------------------------------------
+           1x = 1000      1.456  (± 6.0%) i/s -      8.000  in   5.521301s
+           2x = 2000      1.477  (± 4.5%) i/s -      8.000  in   5.429340s
+           4x = 4000      1.377  (± 4.6%) i/s -      7.000  in   5.093784s
+           8x = 8000      1.175  (± 7.3%) i/s -      6.000  in   5.147510s
+         16x = 16000      0.815  (±15.0%) i/s -      5.000  in   6.259049s
+                   with 99.0% confidence
+
+Comparison:
+           2x = 2000:        1.5 i/s
+           1x = 1000:        1.5 i/s - same-ish: difference falls within error
+           4x = 4000:        1.4 i/s - same-ish: difference falls within error
+           8x = 8000:        1.2 i/s - 1.26x  (± 0.12) slower
+         16x = 16000:        0.8 i/s - 1.81x  (± 0.31) slower
+                   with 99.0% confidence
+
+GC on
+Measure Mode: wall_time
+Thread ID: 47453495695700
+Fiber ID: 47453501243680
+Total: 2.413400
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 56.05      1.353     1.353     0.000     0.000    32001   String#split
+ 15.14      1.128     0.365     0.000     0.762       11   Array#each
+ 11.83      0.287     0.286     0.000     0.001    16000   Array#all?
+  3.16      0.233     0.076     0.000     0.156    26798   Array#map
+
+Необходимо немного разбить код, не понятно какой split отжирает время. Вынес чтение файла в отдельный метод, стало
+понятно что split строчек файла сьедает время, по отчету RubyProf::CallStackPrinter
+
+Вторая точка роста: File.read.split
+
+1) def read_file(filename, number_lines)
+     IO.foreach(filename).lazy.take(number_lines).to_a
+     # File.read(filename).split("\n").first(number_lines)
+   end
+========================================================================================================================
+rails-optimization-2-task1 git:(master) ✗ ruby work_benchmark.rb
+Warming up --------------------------------------
+           1x = 1000     3.000  i/100ms
+           2x = 2000     1.000  i/100ms
+           4x = 4000     1.000  i/100ms
+           8x = 8000     1.000  i/100ms
+         16x = 16000     1.000  i/100ms
+Calculating -------------------------------------
+           1x = 1000     41.508  (± 1.2%) i/s -    210.000  in   5.069035s
+           2x = 2000     20.287  (± 1.7%) i/s -    101.000  in   5.047020s
+           4x = 4000      9.618  (± 2.8%) i/s -     48.000  in   5.064647s
+           8x = 8000      4.044  (± 7.1%) i/s -     21.000  in   5.287361s
+         16x = 16000      1.687  (±16.0%) i/s -      9.000  in   5.590711s
+                   with 99.0% confidence
+
+Comparison:
+           1x = 1000:       41.5 i/s
+           2x = 2000:       20.3 i/s - 2.05x  (± 0.04) slower
+           4x = 4000:        9.6 i/s - 4.31x  (± 0.14) slower
+           8x = 8000:        4.0 i/s - 10.26x  (± 0.75) slower
+         16x = 16000:        1.7 i/s - 24.65x  (± 4.22) slower
+                   with 99.0% confidence
+
+Процесс обработки ускорился, но и ускорилось падение скорости при увеличении данных, что за х?
+
+Measure Mode: wall_time
+Thread ID: 47216043833700
+Fiber ID: 47216049686220
+Total: 1.199449
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 37.77      1.127     0.453     0.000     0.674       11   Array#each
+ 23.63      0.284     0.283     0.000     0.001    16000   Array#all?
+  6.97      0.285     0.084     0.000     0.201    26798   Array#map
+  5.61      0.176     0.067     0.000     0.109    13564   <Class::Date>#parse
+
+3 точка: parse_lines from file
+session.split(',')
+Сплитили одну и ту же строку несколько раз.
+Создавали не нужные обьекты: users, sessions
+
+parse_lines 35% -> 6%
+
+========================================================================================================================
+rails-optimization-2-task1 git:(master) ✗ ruby work_benchmark.rb
+Warming up --------------------------------------
+           1x = 1000     4.000  i/100ms
+           2x = 2000     2.000  i/100ms
+           4x = 4000     1.000  i/100ms
+           8x = 8000     1.000  i/100ms
+         16x = 16000     1.000  i/100ms
+Calculating -------------------------------------
+           1x = 1000     44.480  (± 1.6%) i/s -    224.000  in   5.047035s
+           2x = 2000     22.586  (± 1.3%) i/s -    114.000  in   5.058688s
+           4x = 4000     11.069  (± 1.3%) i/s -     56.000  in   5.070020s
+           8x = 8000      5.410  (± 1.2%) i/s -     28.000  in   5.180531s
+         16x = 16000      2.664  (± 1.7%) i/s -     14.000  in   5.261451s
+                   with 99.0% confidence
+
+Comparison:
+           1x = 1000:       44.5 i/s
+           2x = 2000:       22.6 i/s - 1.97x  (± 0.04) slower
+           4x = 4000:       11.1 i/s - 4.02x  (± 0.08) slower
+           8x = 8000:        5.4 i/s - 8.22x  (± 0.16) slower
+         16x = 16000:        2.7 i/s - 16.70x  (± 0.40) slower
+                   with 99.0% confidence
+
+Measure Mode: wall_time
+Thread ID: 47080607922540
+Fiber ID: 47080613487200
+Total: 0.823847
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 34.83      0.288     0.287     0.000     0.001    16000   Array#all?
+ 13.96      0.753     0.115     0.000     0.638       11   Array#each
+  9.78      0.281     0.081     0.000     0.201    26798   Array#map
+  8.30      0.176     0.068     0.000     0.108    13564   <Class::Date>#parse
+  5.93      0.049     0.049     0.000     0.000    13564   String#gsub!
+
+4 точка  46.32% (46.32%) Object#collect_stats_from_users
+Добавил rspec_performance, на данном этапе:
+it { expect { work('data_large.txt', 16000) }.to perform_under(500).ms }
+переделал способ подсчета статистики по пользователям, теперб один проход по всем пользователям вместо 7 47.16 -> 42.90
+
+Warming up --------------------------------------
+           1x = 1000     4.000  i/100ms
+           2x = 2000     2.000  i/100ms
+           4x = 4000     1.000  i/100ms
+           8x = 8000     1.000  i/100ms
+         16x = 16000     1.000  i/100ms
+Calculating -------------------------------------
+           1x = 1000     48.001  (± 1.4%) i/s -    240.000  in   5.008485s
+           2x = 2000     24.587  (± 1.0%) i/s -    124.000  in   5.051191s
+           4x = 4000     12.253  (± 1.1%) i/s -     62.000  in   5.069413s
+           8x = 8000      6.061  (± 1.1%) i/s -     31.000  in   5.119474s
+         16x = 16000      3.009  (± 0.9%) i/s -     16.000  in   5.318202s
+                   with 99.0% confidence
+
+Comparison:
+           1x = 1000:       48.0 i/s
+           2x = 2000:       24.6 i/s - 1.95x  (± 0.04) slower
+           4x = 4000:       12.3 i/s - 3.92x  (± 0.07) slower
+           8x = 8000:        6.1 i/s - 7.92x  (± 0.14) slower
+         16x = 16000:        3.0 i/s - 15.95x  (± 0.27) slower
+                   with 99.0% confidence
+
+Measure Mode: wall_time
+Thread ID: 47408021354840
+Fiber ID: 47408027248180
+Total: 0.722216
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 37.75      0.274     0.273     0.000     0.001    16000   Array#all?
+  9.69      0.262     0.070     0.000     0.192    26798   Array#map
+  9.14      0.167     0.066     0.000     0.101    13564   <Class::Date>#parse
+  8.17      0.654     0.059     0.000     0.595        5   Array#each
+
+5 точка array#all? in Object#unique_browsers
+изменил подсчет уникальных браузеров
+
+Warming up --------------------------------------
+           1x = 1000     5.000  i/100ms
+           2x = 2000     3.000  i/100ms
+           4x = 4000     1.000  i/100ms
+           8x = 8000     1.000  i/100ms
+         16x = 16000     1.000  i/100ms
+Calculating -------------------------------------
+           1x = 1000     57.375  (± 5.2%) i/s -    280.000  in   5.000451s
+           2x = 2000     28.222  (± 2.7%) i/s -    141.000  in   5.021027s
+           4x = 4000     14.899  (± 2.3%) i/s -     75.000  in   5.066172s
+           8x = 8000      7.956  (± 2.3%) i/s -     40.000  in   5.049459s
+         16x = 16000      4.082  (± 1.3%) i/s -     21.000  in   5.148772s
+                   with 99.0% confidence
+
+Comparison:
+           1x = 1000:       57.4 i/s
+           2x = 2000:       28.2 i/s - 2.03x  (± 0.12) slower
+           4x = 4000:       14.9 i/s - 3.85x  (± 0.22) slower
+           8x = 8000:        8.0 i/s - 7.21x  (± 0.42) slower
+         16x = 16000:        4.1 i/s - 14.06x  (± 0.77) slower
+                   with 99.0% confidence
+
+Measure Mode: wall_time
+Thread ID: 47140481169740
+Fiber ID: 47140487087200
+Total: 0.459263
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 15.44      0.265     0.071     0.000     0.194    26798   Array#map
+ 14.25      0.168     0.065     0.000     0.103    13564   <Class::Date>#parse
+ 13.12      0.391     0.060     0.000     0.330        5   Array#each
+  9.90      0.045     0.045     0.000     0.000    13564   String#gsub!
+  5.79      0.027     0.027     0.000     0.000    27128   Regexp#match
+
+6 точка <Class::Date>#parse -> Date.strptime -> без преобразования в обьект даты
+
+Measure Mode: wall_time
+Thread ID: 47075933919600
+Fiber ID: 47075939807620
+Total: 0.240813
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 22.56      0.071     0.054     0.000     0.017    21926   Array#map
+ 22.45      0.175     0.054     0.000     0.121        5   Array#each
+  7.82      0.019     0.019     0.000     0.000    16000   String#split
+  6.71      0.033     0.016     0.000     0.016        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+  4.98      0.012     0.012     0.000     0.000    40366   String#encode
+  4.63      0.011     0.011     0.000     0.000    13564   Object#parse_session
+
+7 точка map (to_i, upcase)
+изменил вызов метода collect_stats_from_users, по спеке бенчмарка должен уложиться в 30 секунд, но на деле около 77
+секунд обрабатывает файл. Переделал бенчмарк тест на обработку большего количества данных, падает на проверке ассимптотики,
+двигаемся дальше
+
+Measure Mode: wall_time
+Thread ID: 47400220105060
+Fiber ID: 47400225999360
+Total: 0.217576
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 25.08      0.147     0.055     0.000     0.092        5   Array#each
+ 13.49      0.039     0.029     0.000     0.010     7310   Array#map
+  8.94      0.019     0.019     0.000     0.000    16000   String#split
+  8.38      0.036     0.018     0.000     0.018        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+  6.18      0.018     0.013     0.000     0.004    13564   Object#parse_session
+  6.16      0.013     0.013     0.000     0.000    40366   String#encode
+  4.85      0.011     0.011     0.000     0.000     4873   Array#sort
+
+8 точка изменил сумму строк на интерполяцию
+
+Measure Mode: wall_time
+Thread ID: 47154662906220
+Fiber ID: 47154668677240
+Total: 0.210233
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 24.79      0.142     0.052     0.000     0.090        5   Array#each
+ 13.64      0.038     0.029     0.000     0.010     7310   Array#map
+  9.22      0.019     0.019     0.000     0.000    16000   String#split
+  8.16      0.034     0.017     0.000     0.017        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+  6.38      0.017     0.013     0.000     0.004    13564   Object#parse_session
+  5.88      0.012     0.012     0.000     0.000    40366   String#encode
+
+9 remove temporary variables. Total time: 64.118793s
+
+Measure Mode: wall_time
+Thread ID: 47192970344800
+Fiber ID: 47192976249680
+Total: 0.187309
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 24.95      0.137     0.047     0.000     0.090        6   Array#each
+ 10.13      0.019     0.019     0.000     0.000    16000   String#split
+  9.94      0.025     0.019     0.000     0.007     7308   Array#map
+  9.02      0.034     0.017     0.000     0.017        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+  6.95      0.017     0.013     0.000     0.004    13564   Object#parse_session
+  6.61      0.012     0.012     0.000     0.000    40366   String#encode
+  5.44      0.015     0.010     0.000     0.005        2   <Class::IO>#foreach
+
+10 use Oj instead to_json. Total: 57.764909s
+
+Measure Mode: wall_time
+Thread ID: 47291840551260
+Fiber ID: 47291845386780
+Total: 0.160138
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 29.69      0.140     0.048     0.000     0.092        6   Array#each
+ 11.97      0.019     0.019     0.000     0.000    16000   String#split
+ 11.78      0.026     0.019     0.000     0.007     7308   Array#map
+  8.27      0.017     0.013     0.000     0.004    13564   Object#parse_session
+  5.61      0.014     0.009     0.000     0.005        2   <Class::IO>#foreach
+  3.79      0.006     0.006     0.000     0.000     4872   Array#sort
+  3.32      0.005     0.005     0.000     0.000     2436   Array#any?
+  3.20      0.005     0.005     0.000     0.000        1   <Module::Oj>#dump
+
+10 rubocop --require rubocop-performance work_method.rb | grep Performance:
+work_method.rb:117:60: C: Performance/ChainArrayAllocation: Use unchained map! and sort! (followed by return array if required) instead of chaining map...sort.
+work_method.rb:134:53: C: Performance/ChainArrayAllocation: Use unchained map! and sort! (followed by return array if required) instead of chaining map...sort.
+work_method.rb:134:58: C: Performance/ChainArrayAllocation: Use unchained sort! and reverse! (followed by return array if required) instead of chaining sort...reverse.
+
+Measure Mode: wall_time
+Thread ID: 47011720329580
+Fiber ID: 47011725158020
+Total: 0.156246
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 30.78      0.137     0.048     0.000     0.089        5   Array#each
+ 11.76      0.018     0.018     0.000     0.000    16000   String#split
+  8.81      0.020     0.014     0.000     0.007     4872   Array#map
+  8.35      0.017     0.013     0.000     0.004    13564   Object#parse_session
+  5.39      0.013     0.008     0.000     0.005        2   <Class::IO>#foreach
+  3.35      0.005     0.005     0.000     0.000     2436   Array#any?
+  3.21      0.005     0.005     0.000     0.000        1   <Module::Oj>#dump
+
+Warming up --------------------------------------
+           1x = 1000    17.000  i/100ms
+           2x = 2000    10.000  i/100ms
+           4x = 4000     5.000  i/100ms
+           8x = 8000     2.000  i/100ms
+         16x = 16000     1.000  i/100ms
+Calculating -------------------------------------
+           1x = 1000    185.433  (± 2.5%) i/s -    935.000  in   5.071168s
+           2x = 2000    100.773  (± 1.5%) i/s -    510.000  in   5.075734s
+           4x = 4000     49.815  (± 2.6%) i/s -    250.000  in   5.052325s
+           8x = 8000     24.985  (± 1.5%) i/s -    126.000  in   5.060018s
+         16x = 16000     12.379  (± 1.6%) i/s -     62.000  in   5.030049s
+                   with 99.0% confidence
+
+Comparison:
+           1x = 1000:      185.4 i/s
+           2x = 2000:      100.8 i/s - 1.84x  (± 0.06) slower
+           4x = 4000:       49.8 i/s - 3.72x  (± 0.14) slower
+           8x = 8000:       25.0 i/s - 7.43x  (± 0.23) slower
+         16x = 16000:       12.4 i/s - 14.99x  (± 0.45) slower
+                   with 99.0% confidence
+
+11 count -> length 54.798209s
+
+12 чтение и парсинг данных из файла занимают 31 секунду не знаю как заимпрувить
+
+13 Enumerable#each + push change to Enumerable#map
+
+Ruby-prof flat теперь запускаю на всех данных 36 секунд
+
+Measure Mode: wall_time
+Thread ID: 46926030731620
+Fiber ID: 46926035921000
+Total: 35.800073
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 28.01     29.779    10.028     0.000    19.751        4   Array#each
+ 13.81      4.946     4.946     0.000     0.000  3250940   String#split
+ 10.64      6.119     3.808     0.000     2.311  1000001   Array#map
+  8.76      4.125     3.135     0.000     0.990  2750940   Object#parse_session
+  5.84      3.166     2.090     0.000     1.076        2   <Class::IO>#foreach
+  3.20      1.145     1.145     0.000     0.000   500000   Array#any?
+  3.00      1.076     1.076     0.000     0.000  3250940   Enumerator::Yielder#<<
+  2.90      1.039     1.039     0.000     0.000        1   <Module::Oj>#dump
+
+14 заменил строковые ключи на символы
+
+Measure Mode: wall_time
+Thread ID: 47299522091340
+Fiber ID: 47299527291960
+Total: 34.309936
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 27.19     28.265     9.329     0.000    18.936        4   Array#each
+ 14.04      4.819     4.819     0.000     0.000  3250940   String#split
+ 10.40      5.822     3.568     0.000     2.254  1000001   Array#map
+  7.68      3.620     2.635     0.000     0.985  2750940   Object#parse_session
+  5.87      3.008     2.015     0.000     0.993        2   <Class::IO>#foreach
+  3.26      1.119     1.119     0.000     0.000   500000   Array#any?
+  2.94      1.008     1.008     0.000     0.000        1   <Module::Oj>#dump
+
+15 move upcase and to_i into parsing
+
+Measure Mode: wall_time
+Thread ID: 47179993692540
+Fiber ID: 47179998909180
+Total: 33.865344
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 28.18     28.308     9.544     0.000    18.764        4   Array#each
+ 14.86      5.033     5.033     0.000     0.000  3250940   String#split
+ 10.26      5.620     3.474     0.000     2.146  2750940   Object#parse_session
+  7.80      3.468     2.640     0.000     0.828  1000001   Array#map
+  5.54      2.880     1.878     0.000     1.002        2   <Class::IO>#foreach
+  3.28      1.109     1.109     0.000     0.000   500000   Array#any?
+  2.96      1.002     1.002     0.000     0.000  3250940   Enumerator::Yielder#<<
+  2.85      0.966     0.966     0.000     0.000        1   <Module::Oj>#dump
+  2.47      0.837     0.837     0.000     0.000  2750940   String#to_i

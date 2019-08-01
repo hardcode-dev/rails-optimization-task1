@@ -1,9 +1,5 @@
 require_relative '../config/environment'
 
-RSpec::Benchmark.configure do |config|
-  config.disable_gc = true
-end
-
 RSpec.configure do |config|
   config.include RSpec::Benchmark::Matchers
 

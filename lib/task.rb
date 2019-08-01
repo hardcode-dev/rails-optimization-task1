@@ -26,12 +26,10 @@ class Task
     }
   end
 
-  def collect_stats_from_users(report, users_objects, &block)
-    users_objects.each do |user|
-      user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-      report['usersStats'][user_key] ||= {}
-      report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
-    end
+  def collect_stats_from_user(report, user, &block)
+    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
 
   def work
@@ -70,7 +68,6 @@ class Task
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
     report['totalSessions'] = sessions.count
 
-    report['usersStats'] = {}
     report['allBrowsers'] =
       sessions
         .map { |s| s['browser'] }
@@ -80,18 +77,14 @@ class Task
         .join(',')
 
     # Статистика по пользователям
-    users_objects = []
+    report['usersStats'] = {}
 
     grouped_by_user_id_sessions = sessions.group_by { |session| session['user_id'] }
-
     users.each do |user|
       user_sessions = grouped_by_user_id_sessions[user['id']]
       user_object = User.new(attributes: user, sessions: user_sessions)
-      users_objects = users_objects + [user_object]
+      prepare_stats(report, user_object)
     end
-
-
-    prepare_stats(report, users_objects)
 
     File.write(result_file_path, "#{report.to_json}\n")
   end
@@ -106,14 +99,14 @@ class Task
     store.keys
   end
 
-  def prepare_stats(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
+  def prepare_stats(report, users_object)
+    collect_stats_from_user(report, users_object) do |user|
       user_times, user_browsers, user_dates = [], [], []
 
       user.sessions.each do |session|
         user_times = user_times + [session['time'].to_i]
         user_browsers = user_browsers  + [session['browser'].upcase]
-        user_dates = user_dates + [Date.parse(session['date'])]
+        user_dates = user_dates + [Date.strptime(session['date'], '%F')]
       end
 
       {

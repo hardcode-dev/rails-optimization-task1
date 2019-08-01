@@ -26,8 +26,8 @@ describe Task do
         let(:service_work_time) { Benchmark.realtime{ task.work } }
 
         it 'executes faster than 4 seconds' do
-          # expect { task.work }.to perform_under(1.5).sec.warmup(2).times.sample(10).times
-          expect { task.work }.to perform_under(1.5)
+          # expect { task.work }.to perform_under(1.2).sec.warmup(2).times.sample(10).times
+          expect { task.work }.to perform_under(1.3)
           expect(service_work_time).to be > 1
         end
       end
@@ -35,7 +35,7 @@ describe Task do
       context "when 1k rows" do
         it "executes at least 2_700 times in second" do
           allow(File).to receive(:write).and_return(true)
-          expect { task.work }.to perform_at_least(2_700).within(1).warmup(0.2).ips
+          expect { task.work }.to perform_at_least(3_500).within(1).warmup(0.2).ips
         end
       end
     end
@@ -55,3 +55,7 @@ end
 # После второго исправления
 # 10_000 ~ 0.315
 # 20_000 ~ 1.29
+
+# После третьего исправления
+# 10_000 ~ 0.272
+# 20_000 ~ 1.11

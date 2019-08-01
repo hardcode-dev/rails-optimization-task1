@@ -66,14 +66,8 @@ class Task
     report[:totalUsers] = users.count
 
     # Подсчёт количества уникальных браузеров
-    uniqueBrowsers = []
-    sessions.each do |session|
-      browser = session['browser']
-      uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-    end
-
+    uniqueBrowsers = get_unique_browsers(sessions)
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
     report['totalSessions'] = sessions.count
 
     report['allBrowsers'] =
@@ -96,7 +90,6 @@ class Task
     end
 
     report['usersStats'] = {}
-
 
     collect_stats_from_users(report, users_objects) do |user|
       {
@@ -123,4 +116,10 @@ class Task
   private
 
   attr_reader :result_file_path, :data_file_path
+
+  def get_unique_browsers(sessions)
+    store = {}
+    sessions.each { |session| store[session['browser']] = 1 }
+    store.keys
+  end
 end

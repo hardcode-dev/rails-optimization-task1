@@ -22,17 +22,13 @@ end
 def parse_user(fields)
   {
     id: fields[1],
-    first_name:  fields[2],
-    last_name: fields[3],
     full_name: "#{fields[2]} #{fields[3]}",
-    age: fields[4]
   }
 end
 
 def parse_session(fields)
   {
     user_id: fields[1],
-    session_id: fields[2],
     browser: fields[3].upcase!,
     time: fields[4].to_i,
     date: fields[5].chomp!
@@ -87,38 +83,18 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
 
   users, sessions = parse_lines(file_lines)
 
-  # Отчёт в json
-  #   - Сколько всего юзеров +
-  #   - Сколько всего уникальных браузеров +
-  #   - Сколько всего сессий +
-  #   - Перечислить уникальные браузеры в алфавитном порядке через запятую и капсом +
-  #
-  #   - По каждому пользователю
-  #     - сколько всего сессий +
-  #     - сколько всего времени +
-  #     - самая длинная сессия +
-  #     - браузеры через запятую +
-  #     - Хоть раз использовал IE? +
-  #     - Всегда использовал только Хром? +
-  #     - даты сессий в порядке убывания через запятую +
+  unique_browsers = unique_browsers(sessions)
 
-  report = {}
-
-  report['totalUsers'] = users.length
-
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = unique_browsers(sessions)
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.length
-
-  report['totalSessions'] = sessions.length
-
-  report['allBrowsers'] = uniqueBrowsers.sort!.join(',')
+  report = {
+    'totalUsers' => users.length,
+    'uniqueBrowsersCount' => unique_browsers.length,
+    'totalSessions' => sessions.length,
+    'allBrowsers' => unique_browsers.sort!.join(','),
+    'usersStats' => {}
+  }
 
   # Статистика по пользователям
   users_objects = collect_users_objects(users, sessions)
-
-  report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
     user_sessions = user.sessions

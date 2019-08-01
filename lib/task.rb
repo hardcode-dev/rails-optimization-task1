@@ -20,7 +20,7 @@ class Task
     parsed_result = {
       'user_id' => fields[1],
       'session_id' => fields[2],
-      'browser' => fields[3],
+      'browser' => fields[3].upcase,
       'time' => fields[4],
       'date' => fields[5],
     }
@@ -34,15 +34,7 @@ class Task
 
   def work
     file_lines = File.read(data_file_path).split("\n")
-
-    users = []
-    sessions = []
-
-    file_lines.each do |line|
-      cols = line.split(',')
-      users = users + [parse_user(line)] if cols[0] == 'user'
-      sessions = sessions + [parse_session(line)] if cols[0] == 'session'
-    end
+    users, sessions = parse_file(file_lines)
 
     # Отчёт в json
     #   - Сколько всего юзеров +
@@ -71,7 +63,6 @@ class Task
     report['allBrowsers'] =
       sessions
         .map { |s| s['browser'] }
-        .map { |b| b.upcase }
         .sort
         .uniq
         .join(',')
@@ -93,6 +84,17 @@ class Task
 
   attr_reader :result_file_path, :data_file_path
 
+  def parse_file(file_lines)
+    users, sessions = [], []
+    file_lines.each do |line|
+      cols = line.split(',')
+      users = users + [parse_user(line)] if cols[0] == 'user'
+      sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    end
+
+    [users, sessions]
+  end
+
   def get_unique_browsers(sessions)
     store = {}
     sessions.each { |session| store[session['browser']] = 1 }
@@ -105,8 +107,8 @@ class Task
 
       user.sessions.each do |session|
         user_times = user_times + [session['time'].to_i]
-        user_browsers = user_browsers  + [session['browser'].upcase]
-        user_dates = user_dates + [Date.strptime(session['date'], '%F')]
+        user_browsers = user_browsers  + [session['browser']]
+        user_dates = user_dates + [session['date']]
       end
 
       {
@@ -123,7 +125,7 @@ class Task
         # Всегда использовал только Chrome?
         'alwaysUsedChrome' => user_browsers.all? { |b| b =~ /CHROME/ },
         # Даты сессий через запятую в обратном порядке в формате iso8601
-        'dates' => user_dates.sort.reverse.map { |d| d.iso8601 }
+        'dates' => user_dates.sort.reverse
       }
     end
   end

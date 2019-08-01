@@ -6,10 +6,9 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
+require 'minitest/benchmark'
 require 'ruby-prof'
-require 'oj'
-
-DATE_FORMAT = '%Y-%m-%d'
+require 'multi_json'
 
 class User
   attr_reader :attributes, :sessions
@@ -40,29 +39,23 @@ def parse_session(fields)
     session_id: fields[2],
     browser: fields[3].upcase,
     time: fields[4],
-    date: fields[5]
+    date: fields[5],
   }
 end
 
-def collect_stats_from_users(report, users)
-  users.each do |user|
-    user_key = user.attributes[:full_name]
-    report[:usersStats][user_key] = yield user
-  end
-end
-
-def work
+def work(file = "data_large.txt", disable_gc = false)
+  GC.disable if disable_gc
   users = []
   uniqueBrowsers = Set.new
   sessions_count = 0
 
-  File.read('data_large.txt').each_line do |line|
+  File.open(file, 'r').each do |line|
+    line.chomp!
     cols = line.split(',')
     if cols[0] == 'user'
       users << User.new(attributes: parse_user(cols), sessions: [])
+      next
     end
-    next unless cols[0] == 'session'
-
     session = parse_session(cols)
     users[-1].add_session(session)
     uniqueBrowsers.add(session[:browser])
@@ -93,24 +86,23 @@ def work
   # Статистика по пользователям
   report[:usersStats] = {}
 
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users) do |user|
-    {
+  users.each do |user|
+    user_key = user.attributes[:full_name]
+    report[:usersStats][user_key] = {
       sessionsCount: user.sessions.count,
-      totalTime: user.sessions.map { |s| s[:time].to_i }.sum.to_s + ' min.',
-      longestSession: user.sessions.map { |s| s[:time].to_i }.max.to_s + ' min.',
+      totalTime: user.sessions.sum { |s| s[:time].to_i }.to_s.concat(" min."),
+      longestSession: user.sessions.max_by { |s| s[:time].to_i }[:time] + ' min.',
       browsers: user.sessions.map { |s| s[:browser] }.sort.join(', '),
-      usedIE: user.sessions.any? { |s| s[:browser] =~ /INTERNET EXPLORER/ },
-      alwaysUsedChrome: user.sessions.all? { |s| s[:browser] =~ /CHROME/ },
-      dates: user.sessions.map { |s| Date.strptime(s[:date], DATE_FORMAT) }.sort.reverse
+      usedIE: user.sessions.any? { |s| s[:browser][0] == "I" },
+      alwaysUsedChrome: user.sessions.all? { |s| s[:browser][0] == "C" },
+      dates: user.sessions.map{|s| s[:date]}.sort.reverse
     }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{MultiJson.dump(report)}\n")
 end
 
 result = RubyProf.profile do
-  work
 end
 
 printer = RubyProf::MultiPrinter.new(result)

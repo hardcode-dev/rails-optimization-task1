@@ -32,6 +32,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
+    ruby-prof (1.0.0)
+    stackprof (0.2.12)
 
 PLATFORMS
   ruby
@@ -40,6 +42,8 @@ DEPENDENCIES
   pry-byebug
   rspec
   rspec-benchmark
+  ruby-prof
+  stackprof
 
 RUBY VERSION
    ruby 2.6.3p62

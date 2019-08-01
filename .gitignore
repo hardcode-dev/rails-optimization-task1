@@ -1,3 +1,5 @@
 .ruby-version
 .rvm-gemset
 data/data_large.txt
+profilers/ruby_prof_reports
+profilers/stackprof_reports

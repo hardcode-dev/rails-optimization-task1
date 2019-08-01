@@ -34,21 +34,6 @@ class Task
     file_lines = File.read(data_file_path).split("\n")
     users, sessions = parse_file(file_lines)
 
-    # Отчёт в json
-    #   - Сколько всего юзеров +
-    #   - Сколько всего уникальных браузеров +
-    #   - Сколько всего сессий +
-    #   - Перечислить уникальные браузеры в алфавитном порядке через запятую и капсом +
-    #
-    #   - По каждому пользователю
-    #     - сколько всего сессий +
-    #     - сколько всего времени +
-    #     - самая длинная сессия +
-    #     - браузеры через запятую +
-    #     - Хоть раз использовал IE? +
-    #     - Всегда использовал только Хром? +
-    #     - даты сессий в порядке убывания через запятую +
-
     report = {}
 
     report[:totalUsers] = users.count
@@ -58,12 +43,7 @@ class Task
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
     report['totalSessions'] = sessions.count
 
-    report['allBrowsers'] =
-      sessions
-        .map { |s| s['browser'] }
-        .sort
-        .uniq
-        .join(',')
+    report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
     # Статистика по пользователям
     report['usersStats'] = {}

@@ -27,7 +27,7 @@ describe Task do
 
         it 'executes faster than 1 seconds' do
           # expect { task.work }.to perform_under(0.1).sec.warmup(2).times.sample(10).times
-          expect { task.work }.to perform_under(0.9)
+          expect { task.work }.to perform_under(0.8)
           # expect(service_work_time).to be > 0.5
         end
       end
@@ -83,3 +83,7 @@ end
 # После девятого исправления
 # 10_000 ~ 0.198
 # 20_000 ~ 0.731
+
+# После десятого исправления
+# 10_000 ~ 0.187
+# 20_000 ~ 0.716

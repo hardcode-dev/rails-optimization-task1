@@ -22,10 +22,10 @@ describe Task do
 
     describe "performnce test" do
       context "when 20k rows" do
-        let(:data_file_path) { 'spec/fixtures/data_20k.txt' }
+        let(:data_file_path) { 'spec/fixtures/data_10k.txt' }
         let(:service_work_time) { Benchmark.realtime{ task.work } }
 
-        it 'executes faster than 4 seconds' do
+        it 'executes faster than 1 seconds' do
           # expect { task.work }.to perform_under(0.1).sec.warmup(2).times.sample(10).times
           expect { task.work }.to perform_under(0.9)
           # expect(service_work_time).to be > 0.5
@@ -79,3 +79,7 @@ end
 # После восьмого исправления
 # 10_000 ~ 0.201
 # 20_000 ~ 0.750
+
+# После девятого исправления
+# 10_000 ~ 0.198
+# 20_000 ~ 0.731

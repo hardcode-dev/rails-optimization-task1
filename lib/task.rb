@@ -26,10 +26,10 @@ class Task
     }
   end
 
-  def collect_stats_from_user(report, user, &block)
+  def collect_stats_from_user(report, user)
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 
   def work
@@ -99,8 +99,8 @@ class Task
     store.keys
   end
 
-  def prepare_stats(report, users_object)
-    collect_stats_from_user(report, users_object) do |user|
+  def prepare_stats(report, user_object)
+    collect_stats_from_user(report, user_object) do |user|
       user_times, user_browsers, user_dates = [], [], []
 
       user.sessions.each do |session|

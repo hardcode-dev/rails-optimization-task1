@@ -105,8 +105,8 @@ def work(filename = 'data.txt', number_lines = FIXNUM_MAX)
       'totalTime' => "#{user_sessions_times.sum} min.",                 # Собираем количество времени по пользователям
       'longestSession' => "#{user_sessions_times.max} min.",            # Выбираем самую длинную сессию пользователя
       'browsers' => user_sessions_browsers.sort.join(', '), # Браузеры пользователя через запятую
-      'usedIE' => user_sessions_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },           # Хоть раз использовал IE?
-      'alwaysUsedChrome' => user_sessions_browsers.all? { |b| b =~ /CHROME/ },            # Всегда использовал только Chrome?
+      'usedIE' => user_sessions_browsers.any? { |b| b.include?('INTERNET EXPLORER') },           # Хоть раз использовал IE?
+      'alwaysUsedChrome' => user_sessions_browsers.all? { |b| b.include?('CHROME') },            # Всегда использовал только Chrome?
       'dates' => user_sessions.map! { |s| s[:date] }.sort!.reverse! # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end

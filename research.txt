@@ -438,3 +438,22 @@ Sort by: self_time
   2.96      1.002     1.002     0.000     0.000  3250940   Enumerator::Yielder#<<
   2.85      0.966     0.966     0.000     0.000        1   <Module::Oj>#dump
   2.47      0.837     0.837     0.000     0.000  2750940   String#to_i
+
+
+16 remove unneeded fields
+
+Measure Mode: wall_time
+Thread ID: 47285125708140
+Fiber ID: 47285130925000
+Total: 33.275084
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 28.19     27.668     9.380     0.000    18.289        4   Array#each
+ 14.80      4.926     4.926     0.000     0.000  3250940   String#split
+  9.68      5.279     3.222     0.000     2.057  2750940   Object#parse_session
+  8.04      3.498     2.676     0.000     0.822  1000001   Array#map
+  5.59      2.845     1.860     0.000     0.986        2   <Class::IO>#foreach
+  3.33      1.109     1.109     0.000     0.000   500000   Array#any?
+  3.06      1.020     1.020     0.000     0.000        1   <Module::Oj>#dump
+  2.96      0.986     0.986     0.000     0.000  3250940   Enumerator::Yielder#<<

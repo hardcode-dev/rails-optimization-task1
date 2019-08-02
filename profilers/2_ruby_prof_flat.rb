@@ -5,7 +5,7 @@ require_relative '../config/environment'
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
-  Task.new(data_file_path: './spec/fixtures/data_10k.txt').work
+  Task.new(data_file_path: './spec/fixtures/data_20k.txt').work
 end
 
 printer = RubyProf::FlatPrinter.new(result)

@@ -36,7 +36,7 @@ class Task
     report = {}
 
     report[:totalUsers] = users.count
-    progress_bar = progress_bar ||= ProgressBar.create(total: users.count, format: '%a, %J, %E %B')
+    # progress_bar = ProgressBar.create(total: users.count, format: '%a, %J, %E %B')
 
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = get_unique_browsers(sessions)
@@ -54,7 +54,7 @@ class Task
       user_object = User.new(attributes: user, sessions: user_sessions)
       prepare_stats(report, user_object)
 
-      progress_bar.increment
+      # progress_bar.increment
     end
 
     File.write(result_file_path, "#{report.to_json}\n")
@@ -69,9 +69,13 @@ class Task
 
     File.foreach(data_file_path) do |line|
       cols = line.split(',')
-      users = users + [parse_user(cols)] if cols[0] == 'user'
-      sessions = sessions + [parse_session(cols)] if cols[0] == 'session'
+      user = parse_user(cols) if cols[0] == 'user'
+      session = parse_session(cols) if cols[0] == 'session'
+
+      users += [user] if cols[0] == 'user'
+      sessions += [session] if cols[0] == 'session'
     end
+
 
     [users, sessions]
   end

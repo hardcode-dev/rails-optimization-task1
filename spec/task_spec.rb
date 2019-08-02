@@ -27,8 +27,9 @@ describe Task do
         let(:service_work_time) { Benchmark.realtime{ task.work } }
 
         it 'executes faster than 0.8 seconds' do
-          expect { task.work }.to perform_under(0.85).sec.warmup(2).times.sample(10).times
-          # expect { task.work }.to perform_under(0.8)
+          # expect { task.work }.to perform_under(0.85).sec.warmup(2).times.sample(10).times
+          # expect { task.work }.to perform_under(0.5)
+          expect(service_work_time).to be  < 0.85
         end
       end
 

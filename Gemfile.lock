@@ -13,6 +13,7 @@ GEM
       colorize (~> 0.7)
       ruby_parser (>= 3.13.0)
     jaro_winkler (1.5.3)
+    memory_profiler (0.9.14)
     method_source (0.9.2)
     parallel (1.17.0)
     parser (2.6.3.0)
@@ -64,6 +65,7 @@ PLATFORMS
 
 DEPENDENCIES
   fasterer
+  memory_profiler
   pry-byebug
   rspec
   rspec-benchmark

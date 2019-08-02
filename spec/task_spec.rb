@@ -21,18 +21,21 @@ describe Task do
     end
 
     describe "performnce test" do
+      before do
+        allow(ProgressBar).to receive(:create).and_return(double(increment: true))
+      end
       context "when 20k rows" do
         let(:data_file_path) { 'spec/fixtures/data_20k.txt' }
 
         it 'executes faster than 0.2 seconds' do
-          expect { task.work }.to perform_under(0.2).sec.warmup(2).times.sample(10).times
+          expect { task.work }.to perform_under(0.1).sec.warmup(2).times.sample(10).times
         end
       end
 
       context "when 18 rows" do
         it "executes at least 5_300 times in second" do
           allow(File).to receive(:write).and_return(true)
-          expect { task.work }.to perform_at_least(5_300).within(1).warmup(0.2).ips
+          expect { task.work }.to perform_at_least(6_000).within(1).warmup(0.2).ips
         end
       end
     end
@@ -86,5 +89,9 @@ end
 # 20_000 ~ 0.716
 
 # После одинацатого исправления
-# 10_000 ~ 0.75
+# 10_000 ~ 0.075
 # 20_000 ~ 0.136
+
+# После двенадцатого исправления
+# 10_000 ~ 0.034
+# 20_000 ~ 0.064

@@ -15,6 +15,7 @@ GEM
     jaro_winkler (1.5.3)
     memory_profiler (0.9.14)
     method_source (0.9.2)
+    oj (3.8.1)
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
@@ -66,6 +67,7 @@ PLATFORMS
 DEPENDENCIES
   fasterer
   memory_profiler
+  oj
   pry-byebug
   rspec
   rspec-benchmark

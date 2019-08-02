@@ -8,7 +8,8 @@
 
 require_relative '../config/environment'
 
-Task.new(dasable_gc: false).work
+p Benchmark.measure { Task.new(dasable_gc: false).work }
+
 
 result_file_path = 'data/result.json'
 File.delete(result_file_path) if File.exist?(result_file_path)

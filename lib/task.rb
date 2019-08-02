@@ -31,30 +31,39 @@ class Task
   end
 
   def work
-    users, sessions = parse_file
+    user_objects = []
+    sessions = []
+    uniqueBrowsers = Set.new
+
+    File.foreach(data_file_path) do |line|
+      cols = line.split(',')
+      if cols[0] == 'user'
+        @user = User.new(attributes: parse_user(cols), sessions: [])
+        user_objects << @user
+      end
+
+      if cols[0] == 'session'
+        session = parse_session(cols)
+        uniqueBrowsers << session['browser']
+        sessions << session
+        @user.sessions << session
+      end
+    end
 
     report = {}
 
-    report[:totalUsers] = users.count
-    # progress_bar = ProgressBar.create(total: users.count, format: '%a, %J, %E %B')
+    report[:totalUsers] = user_objects.count
+    progress_bar = ProgressBar.create(total: user_objects.count, format: '%a, %J, %E %B')
 
     # Подсчёт количества уникальных браузеров
-    uniqueBrowsers = get_unique_browsers(sessions)
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
     report['totalSessions'] = sessions.count
-
     report['allBrowsers'] = uniqueBrowsers.sort.join(',')
-
-    # Статистика по пользователям
     report['usersStats'] = {}
 
-    grouped_by_user_id_sessions = sessions.group_by { |session| session['user_id'] }
-    users.each do |user|
-      user_sessions = grouped_by_user_id_sessions[user['id']]
-      user_object = User.new(attributes: user, sessions: user_sessions)
+    user_objects.each do |user_object|
       prepare_stats(report, user_object)
-
-      # progress_bar.increment
+      progress_bar.increment
     end
 
     File.write(result_file_path, "#{report.to_json}\n")
@@ -63,28 +72,6 @@ class Task
   private
 
   attr_reader :result_file_path, :data_file_path
-
-  def parse_file
-    users, sessions = [], []
-
-    File.foreach(data_file_path) do |line|
-      cols = line.split(',')
-      user = parse_user(cols) if cols[0] == 'user'
-      session = parse_session(cols) if cols[0] == 'session'
-
-      users += [user] if cols[0] == 'user'
-      sessions += [session] if cols[0] == 'session'
-    end
-
-
-    [users, sessions]
-  end
-
-  def get_unique_browsers(sessions)
-    store = {}
-    sessions.each { |session| store[session['browser']] = 1 }
-    store.keys
-  end
 
   def prepare_stats(report, user_object)
     collect_stats_from_user(report, user_object) do |user|

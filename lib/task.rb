@@ -6,7 +6,7 @@ class Task
   end
 
   def parse_user(fields)
-    parsed_result = {
+    {
       'id' => fields[1],
       'first_name' => fields[2],
       'last_name' => fields[3],
@@ -15,7 +15,7 @@ class Task
   end
 
   def parse_session(fields)
-    parsed_result = {
+    {
       'user_id' => fields[1],
       'session_id' => fields[2],
       'browser' => fields[3].upcase,
@@ -36,6 +36,7 @@ class Task
     report = {}
 
     report[:totalUsers] = users.count
+    progress_bar = progress_bar ||= ProgressBar.create(total: users.count, format: '%a, %J, %E %B')
 
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = get_unique_browsers(sessions)
@@ -52,6 +53,8 @@ class Task
       user_sessions = grouped_by_user_id_sessions[user['id']]
       user_object = User.new(attributes: user, sessions: user_sessions)
       prepare_stats(report, user_object)
+
+      progress_bar.increment
     end
 
     File.write(result_file_path, "#{report.to_json}\n")
@@ -84,9 +87,9 @@ class Task
       user_times, user_browsers, user_dates = [], [], []
 
       user.sessions.each do |session|
-        user_times = user_times + [session['time'].to_i]
-        user_browsers = user_browsers  + [session['browser']]
-        user_dates = user_dates + [session['date']]
+        user_times += [session['time'].to_i]
+        user_browsers += [session['browser']]
+        user_dates += [Date.strptime(session['date'], '%F').iso8601]
       end
 
       {
@@ -103,7 +106,7 @@ class Task
         # Всегда использовал только Chrome?
         'alwaysUsedChrome' => user_browsers.all? { |b| b.match? /CHROME/ },
         # Даты сессий через запятую в обратном порядке в формате iso8601
-        'dates' => user_dates.sort { |a, b| b <=> a }
+        'dates' => user_dates.sort.reverse
       }
     end
   end

@@ -22,8 +22,8 @@ class ParserBench < Minitest::Benchmark
     end
   end
 
-  def bench_work_asymp
-    assert_performance_exponential(0.8) do |n|
+  def bench_work_linear
+    assert_performance_linear(0.8) do |n|
       Parser.new(file_path: "test/test_data_x#{n}.txt").work
     end
   end
@@ -32,6 +32,6 @@ class ParserBench < Minitest::Benchmark
     time = Benchmark.realtime {
       Parser.new(file_path: 'test/100000.txt').work
     }
-    assert_operator 2, :>, time.real
+    assert_operator 0.6, :>, time.real
   end
 end

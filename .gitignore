@@ -1,3 +1,5 @@
 .idea
-test_data.txt
 result.json
+
+profiling
+!profiling/*.rb

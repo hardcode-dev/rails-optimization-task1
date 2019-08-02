@@ -22,20 +22,18 @@ describe Task do
 
     describe "performnce test" do
       context "when 20k rows" do
-        let(:data_file_path) { 'spec/fixtures/data_10k.txt' }
+        let(:data_file_path) { 'spec/fixtures/data_20k.txt' }
         let(:service_work_time) { Benchmark.realtime{ task.work } }
 
-        it 'executes faster than 1 seconds' do
-          # expect { task.work }.to perform_under(0.1).sec.warmup(2).times.sample(10).times
-          expect { task.work }.to perform_under(0.8)
-          # expect(service_work_time).to be > 0.5
+        it 'executes faster than 0.8 seconds' do
+          expect { task.work }.to perform_under(0.8).sec.warmup(2).times.sample(10).times
         end
       end
 
-      context "when 1k rows" do
-        it "executes at least 2_700 times in second" do
+      context "when 18 rows" do
+        it "executes at least 5_300 times in second" do
           allow(File).to receive(:write).and_return(true)
-          expect { task.work }.to perform_at_least(3_500).within(1).warmup(0.2).ips
+          expect { task.work }.to perform_at_least(5_300).within(1).warmup(0.2).ips
         end
       end
     end

@@ -25,14 +25,13 @@ class Task
   end
 
   def collect_stats_from_user(report, user)
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 
   def work
-    file_lines = File.read(data_file_path).split("\n")
-    users, sessions = parse_file(file_lines)
+    users, sessions = parse_file
 
     report = {}
 
@@ -62,9 +61,10 @@ class Task
 
   attr_reader :result_file_path, :data_file_path
 
-  def parse_file(file_lines)
+  def parse_file
     users, sessions = [], []
-    file_lines.each do |line|
+
+    File.foreach(data_file_path) do |line|
       cols = line.split(',')
       users = users + [parse_user(cols)] if cols[0] == 'user'
       sessions = sessions + [parse_session(cols)] if cols[0] == 'session'
@@ -93,17 +93,17 @@ class Task
         # Собираем количество сессий по пользователям
         'sessionsCount' => user.sessions.count,
         # Собираем количество времени по пользователям
-        'totalTime' => user_times.sum.to_s + ' min.',
+        'totalTime' =>  "#{user_times.sum} min.",
         # Выбираем самую длинную сессию пользователя
-        'longestSession' => user_times.max.to_s + ' min.',
+        'longestSession' =>  "#{user_times.max} min.",
         # Браузеры пользователя через запятую
         'browsers' => user_browsers.sort.join(', '),
         # Хоть раз использовал IE?
-        'usedIE' => user_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
+        'usedIE' => user_browsers.any? { |b| b.match? /INTERNET EXPLORER/ },
         # Всегда использовал только Chrome?
-        'alwaysUsedChrome' => user_browsers.all? { |b| b =~ /CHROME/ },
+        'alwaysUsedChrome' => user_browsers.all? { |b| b.match? /CHROME/ },
         # Даты сессий через запятую в обратном порядке в формате iso8601
-        'dates' => user_dates.sort.reverse
+        'dates' => user_dates.sort { |a, b| b <=> a }
       }
     end
   end

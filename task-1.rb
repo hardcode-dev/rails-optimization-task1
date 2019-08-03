@@ -1,4 +1,4 @@
-require 'json'
+require 'multi_json'
 require 'set'
 
 def work(file = 'data.txt')
@@ -8,14 +8,14 @@ def work(file = 'data.txt')
 
   File.foreach(file) do |line|
     cols = line.split(',')
-    @user = user?(cols) ? "#{cols[2]} #{cols[3]}" : @user
+    is_user = cols.first.eql? 'user'
+    @user = is_user ? "#{cols[2]} #{cols[3]}" : @user
 
-    make_report(cols, @user)
+    make_report(cols, @user, is_user)
   end
 
   prepare_report
-
-  filer.write"#{@report.to_json}\n"
+  filer.write"#{MultiJson.dump(@report)}\n"
   filer.close
 end
 
@@ -25,16 +25,12 @@ def browser_decoration(browsers)
   browsers.map(&:upcase).sort.join(',')
 end
 
-def user?(cols)
-  cols.first.eql? 'user'
-end
-
 def browser(name)
   name.upcase
 end
 
-def make_report(cols, user)
-  if user?(cols)
+def make_report(cols, user, is_user = false)
+  if is_user
     @report[:usersStats][user] = {sessionsCount:    0,
                                  totalTime:        [0, 'min.'],
                                  longestSession:   [0, 'min.'],

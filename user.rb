@@ -1,12 +1,10 @@
 class User
-  attr_reader :attributes, :sessions
+  attr_reader :attributes, :sessions, :full_name, :id
 
   def initialize(attributes:)
     @attributes = attributes
     @sessions   = attributes.delete(:sessions)
-  end
-
-  def id
-    attributes[:id]
+    @full_name  = "#{attributes[:first_name]} #{attributes[:last_name]}"
+    @id         = attributes[:id]
   end
 end

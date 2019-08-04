@@ -14,27 +14,24 @@ class Work
     @disable_gc = disable_gc
     @start = start
     @finish = finish
+
+    @sessions      = []
+    @users_objects = []
   end
 
   def perform
     GC.disable if @disable_gc
 
-    file_lines = parse_lines
-
-    sessions = []
-    users_objects = []
-
-    file_lines.each do |line|
+    parse_lines.each do |line|
       fields = line.split(',')
       object = fields[0]
 
-      users_objects << create_user(fields) if object == 'user'
-
-      if object == 'session'
-        session = parse_session(fields)
+      if object == 'user'
+        @users_objects << create_user(fields)
+      elsif object == 'session'
+        session = create_session(fields)
         @user.sessions << session if session[:user_id] == @user.id
-
-        sessions << session
+        @sessions << session
       end
     end
 
@@ -54,63 +51,54 @@ class Work
     #     - даты сессий в порядке убывания через запятую +
 
     report = {}
-
-    report[:totalUsers] = users_objects.count
+    report[:totalUsers] = @users_objects.count
 
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = Set.new
-    sessions.each do |session|
+    @sessions.each do |session|
       browser = session[:browser]
       uniqueBrowsers << browser unless uniqueBrowsers.include?(browser)
     end
 
     report[:uniqueBrowsersCount] = uniqueBrowsers.count
-
-    report[:totalSessions] = sessions.count
-
-    report[:allBrowsers] =
-      sessions
-        .map { |s| s[:browser] }
-        .map { |b| b.upcase }
-        .sort
-        .uniq
-        .join(',')
+    report[:totalSessions] = @sessions.count
+    report[:allBrowsers] = @sessions.map { |s| s[:browser].upcase }.sort.uniq.join(',')
 
     # Статистика по пользователям
     report[:usersStats] = {}
 
     # Собираем количество сессий по пользователям
-    collect_stats_from_users(report, users_objects) do |user|
+    collect_stats_from_users(report, @users_objects) do |user|
       { sessionsCount: user.sessions.count }
     end
 
     # Собираем количество времени по пользователям
-    collect_stats_from_users(report, users_objects) do |user|
+    collect_stats_from_users(report, @users_objects) do |user|
       { totalTime: user.sessions.map {|s| s[:time]}.map {|t| t.to_i}.sum.to_s + ' min.' }
     end
 
     # Выбираем самую длинную сессию пользователя
-    collect_stats_from_users(report, users_objects) do |user|
+    collect_stats_from_users(report, @users_objects) do |user|
       { longestSession: user.sessions.map {|s| s[:time]}.map {|t| t.to_i}.max.to_s + ' min.' }
     end
 
     # Браузеры пользователя через запятую
-    collect_stats_from_users(report, users_objects) do |user|
+    collect_stats_from_users(report, @users_objects) do |user|
       { browsers: user.sessions.map {|s| s[:browser]}.map {|b| b.upcase}.sort.join(', ') }
     end
 
     # Хоть раз использовал IE?
-    collect_stats_from_users(report, users_objects) do |user|
+    collect_stats_from_users(report, @users_objects) do |user|
       { usedIE: user.sessions.map{|s| s[:browser]}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
     end
 
     # Всегда использовал только Chrome?
-    collect_stats_from_users(report, users_objects) do |user|
+    collect_stats_from_users(report, @users_objects) do |user|
       { alwaysUsedChrome: user.sessions.map{|s| s[:browser]}.all? { |b| b.upcase =~ /CHROME/ } }
     end
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
-    collect_stats_from_users(report, users_objects) do |user|
+    collect_stats_from_users(report, @users_objects) do |user|
       { dates: user.sessions.map{|s| s[:date]}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
     end
 
@@ -133,7 +121,7 @@ class Work
     })
   end
 
-  def parse_session(fields)
+  def create_session(fields)
     {
       user_id: fields[1],
       session_id: fields[2],
@@ -145,9 +133,10 @@ class Work
 
   def collect_stats_from_users(report, users_objects)
     users_objects.each do |user|
-      user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
-      report[:usersStats][user_key] ||= {}
-      report[:usersStats][user_key] = report[:usersStats][user_key].merge(yield(user))
+      user_key    = user.full_name
+      users_stats = report[:usersStats][user_key] || {}
+
+      report[:usersStats][user_key] = users_stats.merge(yield(user))
     end
   end
 end

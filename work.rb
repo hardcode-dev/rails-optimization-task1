@@ -9,18 +9,14 @@ require 'ruby-prof'
 require_relative 'user'
 
 class Work
-  def initialize(file: 'data.txt', disable_gc: true)
-    @file = file
-    @disable_gc = disable_gc
-
+  def initialize(file: 'data.txt')
+    @file          = file
     @sessions      = []
     @users_objects = []
     @report        = {}
   end
 
   def perform
-    GC.disable if @disable_gc
-
     parse_lines.each do |line|
       fields = line.split(',')
       object = fields[0]

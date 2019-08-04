@@ -1,4 +1,4 @@
-require_relative 'work'
+require_relative '../work'
 require 'minitest/autorun'
 
 class TestMe < Minitest::Test

@@ -30,14 +30,14 @@ class Work
       end
     end
 
-    @report[:totalUsers] = @users_objects.count
-
     uniqueBrowsers = Set.new
+
     @sessions.each do |session|
       browser = session[:browser]
       uniqueBrowsers << browser unless uniqueBrowsers.include?(browser)
     end
 
+    @report[:totalUsers]          = @users_objects.count
     @report[:uniqueBrowsersCount] = uniqueBrowsers.count
     @report[:totalSessions]       = @sessions.count
     @report[:allBrowsers]         = @sessions.map { |s| s[:browser].upcase }.sort.uniq.join(',')
@@ -47,9 +47,9 @@ class Work
       user_key    = user.full_name
       users_stats = @report[:usersStats][user_key] || {}
 
-      browsers           = user.sessions.map {|s| s[:browser].upcase }
+      browsers           = user.sessions.map { |s| s[:browser].upcase }
       browsers_string    = browsers.sort.join(', ')
-      user_sessions_time = user.sessions.map {|s| s[:time].to_i }
+      user_sessions_time = user.sessions.map { |s| s[:time].to_i }
 
       @report[:usersStats][user_key] = users_stats.merge({
         sessionsCount: user.sessions.count,

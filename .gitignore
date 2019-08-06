@@ -1,2 +1,4 @@
 result.json
 spec/fixtures/data_large.txt
+profilers/stackprof/
+profilers/ruby_prof/

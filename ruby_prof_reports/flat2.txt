@@ -1,0 +1,67 @@
+Measure Mode: wall_time
+Thread ID: 70156772638780
+Fiber ID: 70156764770920
+Total: 0.732917
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 16.71      0.228     0.122     0.000     0.106    59174   Array#map                      
+ 13.49      0.099     0.099     0.000     0.000   128003   String#split                   
+ 12.23      0.239     0.090     0.000     0.149        2   Object#data_init               /Users/marat/study/rails-optimization-2-task1/task-1.rb:58
+ 10.84      0.350     0.079     0.000     0.270        2   Array#each                     
+  6.96      0.051     0.051     0.000     0.000   108278   Object#parse_session           /Users/marat/study/rails-optimization-2-task1/task-1.rb:17
+  6.49      0.053     0.048     0.000     0.005    54139   <Class::Date>#strptime         
+  6.01      0.081     0.044     0.000     0.037        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  3.72      0.027     0.027     0.000     0.000   162597   String#encode                  
+  3.38      0.037     0.025     0.000     0.012    19725   Array#sort                     
+  3.01      0.022     0.022     0.000     0.000   149217   String#upcase                  
+  2.55      0.019     0.019     0.000     0.000    54139   Date#iso8601                   
+  2.50      0.022     0.018     0.000     0.004     9862   Array#any?                     
+  1.65      0.012     0.012     0.000     0.000   109578   Date#<=>                       
+  1.28      0.009     0.009     0.000     0.000    19724   Object#parse_user              /Users/marat/study/rails-optimization-2-task1/task-1.rb:8
+  1.05      0.008     0.008     0.000     0.000    54139   String#to_i                    
+  0.96      0.011     0.007     0.000     0.004     9862   Class#new                      
+  0.92      0.007     0.007     0.000     0.000     9863   Array#join                     
+  0.89      0.009     0.007     0.000     0.002     9862   Array#all?                     
+  0.84      0.006     0.006     0.000     0.000    78884   String#to_s                    
+  0.71      0.005     0.005     0.000     0.000    54139   Integer#div                    
+  0.67      0.005     0.005     0.000     0.000    44277   Kernel#nil?                    
+  0.51      0.004     0.004     0.000     0.000     9862   User#initialize                /Users/marat/study/rails-optimization-2-task1/user.rb:4
+  0.45      0.003     0.003     0.000     0.000     9862   Hash#keys                      
+  0.43      0.003     0.003     0.000     0.000    19724   Integer#to_s                   
+  0.43      0.003     0.003     0.000     0.000        1   Array#uniq                     
+  0.24      0.002     0.002     0.000     0.000     9862   Array#reverse                  
+  0.21      0.002     0.002     0.000     0.000     9862   Array#max                      
+  0.20      0.001     0.001     0.000     0.000     9865   Array#count                    
+  0.18      0.001     0.001     0.000     0.000     9862   Array#sum                      
+  0.17      0.001     0.001     0.000     0.000     9862   NilClass#nil?                  
+  0.14      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
+  0.13      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
+  0.04      0.733     0.000     0.000     0.733        1   Object#work                    /Users/marat/study/rails-optimization-2-task1/task-1.rb:75
+  0.00      0.733     0.000     0.000     0.733        1   [global]#                      profilers/ruby-prof-flat.rb:7
+  0.00      0.045     0.000     0.000     0.045        1   Object#sessions_hash           /Users/marat/study/rails-optimization-2-task1/task-1.rb:46
+  0.00      0.305     0.000     0.000     0.305        1   Object#collect_stats_from_users /Users/marat/study/rails-optimization-2-task1/task-1.rb:27
+  0.00      0.029     0.000     0.000     0.029        1   Object#session_browsers        /Users/marat/study/rails-optimization-2-task1/task-1.rb:71
+  0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#dup                     
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize_copy 
+  0.00      0.000     0.000     0.000     0.000        1   Symbol#to_s                    
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#initialize_dup          
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

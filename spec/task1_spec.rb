@@ -17,7 +17,7 @@ describe 'Task1' do
   end
 
   it 'mets performance' do
-    expect { work(data_file_path_10k) }.to perform_under(240).ms
+    expect { work(data_file_path_10k) }.to perform_under(180).ms
   end
 end
 

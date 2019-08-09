@@ -106,10 +106,13 @@ def work(file_path)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users) do |user|
-    user_browsers = user.sessions.map {|s| s['browser']}
-    { 'sessionsCount' => user.sessions.count,
-      'totalTime' => "#{user.sessions.map {|s| s['time']}.sum } min.", 
-      'longestSession' => "#{ user.sessions.map {|s| s['time']}.max } min.",
+    user_browsers = user.sessions.map { |s| s['browser'] }
+    user_session_times = user.sessions.map { |s| s['time'] }
+
+    { 
+      'sessionsCount' => user.sessions.count,
+      'totalTime' => "#{ user_session_times.sum } min.", 
+      'longestSession' => "#{ user_session_times.max } min.",
       'browsers' => user_browsers.sort.join(', '),
       'usedIE' => user_browsers.any? { |b| b.start_with?('INTERNET EXPLORER') },
       'alwaysUsedChrome' => user_browsers.all? { |b| b.start_with?('CHROME') },  

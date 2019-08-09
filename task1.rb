@@ -15,7 +15,7 @@ class User
 end
 
 def parse_user(user)
-  fields = user.split(',')
+  fields = user
   parsed_result = {
     'id' => fields[1],
     'first_name' => fields[2],
@@ -25,7 +25,7 @@ def parse_user(user)
 end
 
 def parse_session(session)
-  fields = session.split(',')
+  fields = session
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
@@ -53,8 +53,8 @@ def work(file_path)
 
   file_lines.each do |line|
     cols = line.split(',')
-    user = parse_user(line) if cols[0] == 'user'
-    session = parse_session(line) if cols[0] == 'session'
+    user = parse_user(cols) if cols[0] == 'user'
+    session = parse_session(cols) if cols[0] == 'session'
     if user
       user_index = users.bsearch_index { |u| u.attributes['id'] == user['id']}
       if user_index

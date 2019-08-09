@@ -9,8 +9,8 @@ Benchmark.ips do |x|
   x.warmup = 2
 
   x.report('100 lines') { work('spec/fixtures/100_lines.txt') }
-  x.report('1k lines') { work('spec/fixtures/1000_lines.txt') }
-  x.report('10k lines') { work('spec/fixtures/10000_lines.txt') }
+  x.report('1k lines') { work('spec/fixtures/1_000_lines.txt') }
+  x.report('10k lines') { work('spec/fixtures/10_000_lines.txt') }
 
   x.compare!
 end

@@ -29,8 +29,8 @@ def parse_session(session)
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
+    'browser' => fields[3].upcase,
+    'time' => fields[4].to_i,
     'date' => fields[5],
   }
 end
@@ -100,7 +100,6 @@ def work(file_path)
 
   report['allBrowsers'] =
     uniqueBrowsers
-      .map { |b| b.upcase }
       .sort
       .join(',')
 
@@ -108,11 +107,11 @@ def work(file_path)
 
   collect_stats_from_users(report, users) do |user|
     { 'sessionsCount' => user.sessions.count,
-      'totalTime' => "#{user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum } min.", 
-      'longestSession' => "#{ user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max } min.",
-      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
-      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },  
+      'totalTime' => "#{user.sessions.map {|s| s['time']}.sum } min.", 
+      'longestSession' => "#{ user.sessions.map {|s| s['time']}.max } min.",
+      'browsers' => user.sessions.map {|s| s['browser']}.sort.join(', '),
+      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b =~ /CHROME/ },  
       'dates' => user.sessions.map{ |s| s['date'] }.sort.reverse  
     }
   end

@@ -3,9 +3,10 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'set'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_accessor :attributes, :sessions
 
   def initialize(attributes:, sessions:)
     @attributes = attributes
@@ -47,11 +48,31 @@ def work(file_path)
 
   users = []
   sessions = []
+  uniqueBrowsers = Set.new([])
+  sessions_count = 0
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    user = parse_user(line) if cols[0] == 'user'
+    session = parse_session(line) if cols[0] == 'session'
+    if user
+      user_index = users.bsearch_index { |u| u.attributes['id'] == user['id']}
+      if user_index
+        users[user_index].attributes.merge!(user)
+      else
+        users << User.new(attributes: user, sessions: [])
+      end
+    else
+      user_index = users.bsearch_index { |u| u.attributes['id'] == session['user_id']}
+      unless user_index
+        attributes = { 'id': session['user_id'] }
+        users << User.new(attributes: attributes, sessions: [])
+        user_index = -1
+      end
+      users[user_index].sessions << session
+      uniqueBrowsers.add(session['browser'])
+      sessions_count += 1
+    end
   end
 
   # Отчёт в json
@@ -73,69 +94,50 @@ def work(file_path)
 
   report[:totalUsers] = users.count
 
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions_count
 
   report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
+    uniqueBrowsers
       .map { |b| b.upcase }
       .sort
-      .uniq
       .join(',')
-
-  # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
 
   report['usersStats'] = {}
 
   # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users) do |user|
     { 'sessionsCount' => user.sessions.count }
   end
 
   # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users) do |user|
     { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
   end
 
   # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users) do |user|
     { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
   end
 
   # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users) do |user|
     { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
   end
 
   # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users) do |user|
     { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
   end
 
   # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users) do |user|
     { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
   end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users) do |user|
     { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
   end
 

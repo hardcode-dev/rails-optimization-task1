@@ -12,19 +12,17 @@ class Refactored
     @unique_browsers = Set.new
   end
 
-  def parse_user(user)
-    fields = user.split(',')
-    parsed_result = {
-        'id' => fields[1],
-        'first_name' => fields[2],
-        'last_name' => fields[3],
-        'age' => fields[4],
+  def parse_user(fields)
+    {
+      'id' => fields[1],
+      'first_name' => fields[2],
+      'last_name' => fields[3],
+      'age' => fields[4]
     }
   end
 
-  def parse_session(result, session)
+  def parse_session(result, fields)
     @total_sessions_count += 1
-    fields = session.split(',')
     user_id = fields[1]
     browser = fields[3]
     @unique_browsers.add(browser)
@@ -47,7 +45,6 @@ class Refactored
     users_objects.each do |user|
       user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
       report['usersStats'][user_key] ||= {}
-
     end
   end
 
@@ -59,8 +56,8 @@ class Refactored
 
     file_lines.each do |line|
       cols = line.split(',')
-      users = users + [parse_user(line)] if cols[0] == 'user'
-      sessions = parse_session(sessions, line) if cols[0] == 'session'
+      users = users + [parse_user(cols)] if cols[0] == 'user'
+      sessions = parse_session(sessions, cols) if cols[0] == 'session'
     end
 
     # Отчёт в json

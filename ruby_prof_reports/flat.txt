@@ -1,57 +1,56 @@
 Measure Mode: wall_time
-Thread ID: 70266021675040
-Fiber ID: 70266017492160
-Total: 0.343897
+Thread ID: 70359311376400
+Fiber ID: 70359307881820
+Total: 0.369092
 Sort by: self_time
 
  %self      total      self      wait     child     calls  name                           location
- 18.41      0.311     0.063     0.000     0.248        3   Array#each                     
- 13.97      0.146     0.048     0.000     0.098    22000   Array#map                      
- 11.11      0.083     0.038     0.000     0.045    11047   <Class::Date>#parse            
-  9.52      0.033     0.033     0.000     0.000    26095   String#split                   
-  9.13      0.052     0.031     0.000     0.020    11047   Refactored#parse_session       /Users/alex/active/rails-optimization/rails-optimization-2-task1/02-task-1-refactored.rb:25
-  5.69      0.020     0.020     0.000     0.000    22094   Regexp#match                   
-  4.39      0.028     0.015     0.000     0.013        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
-  2.91      0.010     0.010     0.000     0.000    33053   String#encode                  
-  2.80      0.010     0.010     0.000     0.000    11047   String#gsub!                   
-  2.48      0.009     0.009     0.000     0.000    11047   MatchData#begin                
-  2.16      0.012     0.007     0.000     0.004     4001   Array#sort                     
-  2.03      0.007     0.007     0.000     0.000    11047   Date#iso8601                   
-  1.83      0.008     0.006     0.000     0.002     2000   Array#any?                     
-  1.81      0.006     0.006     0.000     0.000    11047   Set#add                        /Users/alex/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0/set.rb:348
-  1.51      0.005     0.005     0.000     0.000    19686   String#upcase                  
-  1.30      0.004     0.004     0.000     0.000    22094   String#to_i                    
-  1.21      0.004     0.004     0.000     0.000    22483   Date#<=>                       
-  1.07      0.004     0.004     0.000     0.000    11047   String#[]=                     
-  0.71      0.004     0.002     0.000     0.001     2003  *Class#new                      
-  0.69      0.002     0.002     0.000     0.000     2001   Array#join                     
-  0.65      0.003     0.002     0.000     0.001     2000   Array#all?                     
-  0.62      0.004     0.002     0.000     0.002     2000   Refactored#parse_user          /Users/alex/active/rails-optimization/rails-optimization-2-task1/02-task-1-refactored.rb:15
-  0.59      0.002     0.002     0.000     0.000    11047   Integer#div                    
-  0.58      0.002     0.002     0.000     0.000    16004   String#to_s                    
-  0.50      0.002     0.002     0.000     0.000    11047   MatchData#end                  
+ 14.42      0.173     0.053     0.000     0.120    22000   Array#map                      
+ 13.67      0.332     0.050     0.000     0.282        2   Array#each                     
+ 13.17      0.103     0.049     0.000     0.055    11047   <Class::Date>#parse            
+  9.32      0.034     0.034     0.000     0.000    26095   String#split                   
+  8.94      0.054     0.033     0.000     0.021    11047   Refactored#parse_session       /Users/alex/active/rails-optimization/rails-optimization-2-task1/02-task-1-refactored.rb:25
+  6.43      0.024     0.024     0.000     0.000    22094   Regexp#match                   
+  4.78      0.032     0.018     0.000     0.014        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  3.10      0.011     0.011     0.000     0.000    11047   String#gsub!                   
+  2.92      0.011     0.011     0.000     0.000    33053   String#encode                  
+  2.83      0.010     0.010     0.000     0.000    11047   MatchData#begin                
+  2.66      0.015     0.010     0.000     0.005     4001   Array#sort                     
+  2.15      0.008     0.008     0.000     0.000    11047   Date#iso8601                   
+  2.08      0.010     0.008     0.000     0.002     2000   Array#any?                     
+  1.70      0.006     0.006     0.000     0.000    11047   Set#add                        /Users/alex/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0/set.rb:348
+  1.64      0.006     0.006     0.000     0.000    19686   String#upcase                  
+  1.35      0.005     0.005     0.000     0.000    22094   String#to_i                    
+  1.32      0.005     0.005     0.000     0.000    22483   Date#<=>                       
+  1.18      0.004     0.004     0.000     0.000    11047   String#[]=                     
+  0.80      0.003     0.003     0.000     0.000     2001   Array#join                     
+  0.74      0.004     0.003     0.000     0.001     2000   Array#all?                     
+  0.71      0.003     0.003     0.000     0.000    11047   Integer#div                    
+  0.62      0.002     0.002     0.000     0.000    16004   String#to_s                    
+  0.61      0.002     0.002     0.000     0.000    11047   MatchData#end                  
+  0.61      0.004     0.002     0.000     0.002     2000   Refactored#parse_user          /Users/alex/active/rails-optimization/rails-optimization-2-task1/02-task-1-refactored.rb:15
   0.40      0.001     0.001     0.000     0.000     9047   Kernel#nil?                    
-  0.30      0.001     0.001     0.000     0.000     2000   User#initialize                /Users/alex/active/rails-optimization/rails-optimization-2-task1/01-task-1.rb:10
-  0.30      0.001     0.001     0.000     0.000     4000   Integer#to_s                   
+  0.34      0.001     0.001     0.000     0.000     4000   Integer#to_s                   
+  0.22      0.001     0.001     0.000     0.000     2002   Hash#keys                      
+  0.21      0.001     0.001     0.000     0.000     2000   Array#reverse                  
   0.21      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
-  0.20      0.001     0.001     0.000     0.000     2002   Hash#keys                      
-  0.17      0.001     0.001     0.000     0.000     2000   Array#reverse                  
-  0.15      0.001     0.001     0.000     0.000     2001   Array#count                    
-  0.14      0.000     0.000     0.000     0.000     2000   Array#max                      
-  0.14      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
-  0.14      0.000     0.000     0.000     0.000     2000   Array#sum                      
+  0.20      0.001     0.001     0.000     0.000     2000   Array#max                      
+  0.18      0.001     0.001     0.000     0.000     2000   Array#sum                      
+  0.16      0.001     0.001     0.000     0.000     2001   Array#count                    
+  0.14      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
   0.08      0.000     0.000     0.000     0.000     2001   NilClass#nil?                  
-  0.04      0.344     0.000     0.000     0.344        1   Refactored#work                /Users/alex/active/rails-optimization/rails-optimization-2-task1/02-task-1-refactored.rb:54
+  0.04      0.369     0.000     0.000     0.369        1   Refactored#work                /Users/alex/active/rails-optimization/rails-optimization-2-task1/02-task-1-refactored.rb:54
   0.03      0.000     0.000     0.000     0.000        2   Hash#each_key                  
-  0.01      0.344     0.000     0.000     0.344        1   [global]#                      07-ruby-prof-reports.rb:9
+  0.01      0.369     0.000     0.000     0.369        1   [global]#                      07-ruby-prof-reports.rb:9
   0.00      0.000     0.000     0.000     0.000        2   Set#each                       /Users/alex/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0/set.rb:336
   0.00      0.000     0.000     0.000     0.000        1   Enumerable#count               
+  0.00      0.000     0.000     0.000     0.000        3  *Class#new                      
   0.00      0.000     0.000     0.000     0.000        1   Set#initialize                 /Users/alex/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0/set.rb:93
   0.00      0.000     0.000     0.000     0.000        1   Kernel#initialize_dup          
   0.00      0.000     0.000     0.000     0.000        1   Refactored#initialize          /Users/alex/active/rails-optimization/rails-optimization-2-task1/02-task-1-refactored.rb:10
   0.00      0.000     0.000     0.000     0.000        1   Kernel#dup                     
-  0.00      0.000     0.000     0.000     0.000        1   Hash#initialize                
   0.00      0.000     0.000     0.000     0.000        1   Enumerable#map                 
+  0.00      0.000     0.000     0.000     0.000        1   Hash#initialize                
   0.00      0.000     0.000     0.000     0.000        1   Symbol#to_s                    
   0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize_copy 
 

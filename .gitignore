@@ -1,0 +1,5 @@
+# ignore rubymine stuff
+.idea
+# ignore results and input
+result.json
+data_large.txt

@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/benchmark'
-require './task-1.rb'
-require './task-1-refactored.rb'
+require './01-task-1.rb'
+require './02-task-1-refactored.rb'
 
 GC.disable
 

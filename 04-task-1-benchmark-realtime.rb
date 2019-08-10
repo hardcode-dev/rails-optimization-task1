@@ -1,5 +1,5 @@
 require 'benchmark'
-require './task-1.rb'
+require './01-task-1.rb'
 
 GC.disable
 

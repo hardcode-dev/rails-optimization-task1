@@ -17,6 +17,3 @@ printer.print(File.open("ruby_prof_reports/graph.html", "w+"))
 
 printer = RubyProf::CallStackPrinter.new(result)
 printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
-
-printer = RubyProf::CallTreePrinter.new(result)
-printer.print(path: "ruby_prof_reports", profile: 'callgrind')

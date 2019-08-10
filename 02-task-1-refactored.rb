@@ -92,22 +92,30 @@ class Refactored
     users.each do |user|
       user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
       user_sessions = sessions[user['id']]
+      user_time = []
+      user_browsers = []
+      user_dates = []
+      user_sessions.each do |one_session|
+        user_time.append(one_session['time'].to_i)
+        user_browsers.append(one_session['browser'].upcase)
+        user_dates.append(one_session['date'])
+      end
 
       report['usersStats'][user_key] ||= {}
       # Собираем количество сессий
       report['usersStats'][user_key]['sessionsCount'] = user_sessions.count
       # Собираем количество времени
-      report['usersStats'][user_key]['totalTime'] = user_sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.'
+      report['usersStats'][user_key]['totalTime'] = user_time.sum.to_s + ' min.'
       # Выбираем самую длинную сессию пользователя
-      report['usersStats'][user_key]['longestSession'] = user_sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.'
+      report['usersStats'][user_key]['longestSession'] = user_time.max.to_s + ' min.'
       # Браузеры пользователя через запятую
-      report['usersStats'][user_key]['browsers'] = user_sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ')
+      report['usersStats'][user_key]['browsers'] = user_browsers.sort.join(', ')
       # Хоть раз использовал IE?
-      report['usersStats'][user_key]['usedIE'] = user_sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ }
+      report['usersStats'][user_key]['usedIE'] = user_browsers.any? { |b| b =~ /INTERNET EXPLORER/ }
       # Всегда использовал только Chrome?
-      report['usersStats'][user_key]['alwaysUsedChrome'] = user_sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ }
+      report['usersStats'][user_key]['alwaysUsedChrome'] = user_browsers.all? { |b| b =~ /CHROME/ }
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      report['usersStats'][user_key]['dates'] = user_sessions.map{|s| s['date']}.sort.reverse
+      report['usersStats'][user_key]['dates'] = user_dates.sort.reverse
     end
 
     File.write('result.json', "#{report.to_json}\n")

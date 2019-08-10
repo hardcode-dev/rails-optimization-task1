@@ -4,6 +4,7 @@ require './task-1.rb'
 GC.disable
 
 time = Benchmark.realtime do
+  File.write('result.json', '')
   work('data_bench.txt')
 end
 

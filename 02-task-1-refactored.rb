@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'set'
+require 'ruby-progressbar'
 
 class Refactored
 
@@ -54,10 +55,18 @@ class Refactored
     users = []
     sessions = {}
 
+    count = file_lines.count
+    progressbar = ProgressBar.create(
+        total: count,
+        format: '%a, %J, %E %B'
+    )
+
     file_lines.each do |line|
       cols = line.split(',')
       users = users + [parse_user(cols)] if cols[0] == 'user'
       sessions = parse_session(sessions, cols) if cols[0] == 'session'
+
+      progressbar.increment
     end
 
     # Отчёт в json
@@ -89,6 +98,13 @@ class Refactored
     # Статистика по пользователям
     report['usersStats'] = {}
 
+    puts "processing users"
+    count = users.count
+    progressbar2 = ProgressBar.create(
+        total: count,
+        format: '%a, %J, %E %B'
+    )
+
     users.each do |user|
       user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
       user_sessions = sessions[user['id']]
@@ -116,6 +132,8 @@ class Refactored
       report['usersStats'][user_key]['alwaysUsedChrome'] = user_browsers.all? { |b| b =~ /CHROME/ }
       # Даты сессий через запятую в обратном порядке в формате iso8601
       report['usersStats'][user_key]['dates'] = user_dates.sort.reverse
+
+      progressbar2.increment
     end
 
     File.write('result.json', "#{report.to_json}\n")

@@ -14,6 +14,7 @@ GEM
       method_source (~> 0.9.0)
     rbzip2 (0.2.0)
     ruby-prof (1.0.0)
+    ruby-progressbar (1.10.1)
 
 PLATFORMS
   ruby
@@ -24,6 +25,7 @@ DEPENDENCIES
   minitest
   pry
   ruby-prof
+  ruby-progressbar
 
 BUNDLED WITH
    1.17.2

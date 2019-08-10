@@ -5,6 +5,7 @@ require 'pry'
 require 'date'
 require 'set'
 require 'ruby-progressbar'
+require 'oj'
 
 class Refactored
 
@@ -22,24 +23,13 @@ class Refactored
     }
   end
 
-  def parse_session(result, fields)
-    @total_sessions_count += 1
-    user_id = fields[1]
-    browser = fields[3]
-    @unique_browsers.add(browser)
-
-    session = {
-         'session_id' => fields[2],
-         'browser' => browser,
-         'time' => fields[4],
-         'date' => fields[5],
+  def parse_session(fields)
+    {
+     'session_id' => fields[2],
+     'browser' => fields[3],
+     'time' => fields[4],
+     'date' => fields[5],
     }
-    result[user_id] = if result[user_id].nil?
-                        [session]
-                      else
-                        result[user_id] + [session]
-                      end
-    result
   end
 
   def collect_stats_from_users(report, users_objects, &block)
@@ -53,20 +43,24 @@ class Refactored
     file_lines = File.read(file_name).split("\n")
 
     users = []
-    sessions = {}
 
-    count = file_lines.count
-    progressbar = ProgressBar.create(
-        total: count,
-        format: '%a, %J, %E %B'
-    )
+    puts ">>> processing file lines... "
+    # count = file_lines.count
+    # progressbar = ProgressBar.create(
+    #     total: count,
+    #     format: '%a, %J, %E %B'
+    # )
 
     file_lines.each do |line|
       cols = line.split(',')
-      users = users + [parse_user(cols)] if cols[0] == 'user'
-      sessions = parse_session(sessions, cols) if cols[0] == 'session'
-
-      progressbar.increment
+      if cols[0] == 'user'
+        users << User.new(attributes: parse_user(cols), sessions: [])
+      else
+        @total_sessions_count += 1
+        @unique_browsers.add(cols[3])
+        users.last.sessions << parse_session(cols)
+      end
+      # progressbar.increment
     end
 
     # Отчёт в json
@@ -98,16 +92,16 @@ class Refactored
     # Статистика по пользователям
     report['usersStats'] = {}
 
-    puts "processing users"
-    count = users.count
-    progressbar2 = ProgressBar.create(
-        total: count,
-        format: '%a, %J, %E %B'
-    )
+    # puts ">>> processing users... "
+    # count = users.count
+    # progressbar2 = ProgressBar.create(
+    #     total: count,
+    #     format: '%a, %J, %E %B'
+    # )
 
     users.each do |user|
-      user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
-      user_sessions = sessions[user['id']]
+      user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+      user_sessions = user.sessions
       user_time = []
       user_browsers = []
       user_dates = []
@@ -133,9 +127,9 @@ class Refactored
       # Даты сессий через запятую в обратном порядке в формате iso8601
       report['usersStats'][user_key]['dates'] = user_dates.sort.reverse
 
-      progressbar2.increment
+      # progressbar2.increment
     end
 
-    File.write('result.json', "#{report.to_json}\n")
+    File.write('result.json', "#{Oj.to_json(report)}\n")
   end
 end

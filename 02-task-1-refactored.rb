@@ -5,6 +5,12 @@ require 'pry'
 require 'date'
 
 class Refactored
+
+  def initialize
+    @total_sessions_count = 0
+    @unique_browsers = []
+  end
+
   def parse_user(user)
     fields = user.split(',')
     parsed_result = {
@@ -15,15 +21,23 @@ class Refactored
     }
   end
 
-  def parse_session(session)
+  def parse_session(result, session)
+    @total_sessions_count += 1
     fields = session.split(',')
-    parsed_result = {
-        'user_id' => fields[1],
-        'session_id' => fields[2],
-        'browser' => fields[3],
-        'time' => fields[4],
-        'date' => fields[5],
+    user_id = fields[1]
+
+    session = {
+         'session_id' => fields[2],
+         'browser' => fields[3],
+         'time' => fields[4],
+         'date' => fields[5],
     }
+    result[user_id] = if result[user_id].nil?
+                        [session]
+                      else
+                        result[user_id] + [session]
+                      end
+    result
   end
 
   def collect_stats_from_users(report, users_objects, &block)
@@ -38,12 +52,12 @@ class Refactored
     file_lines = File.read(file_name).split("\n")
 
     users = []
-    sessions = []
+    sessions = {}
 
     file_lines.each do |line|
       cols = line.split(',')
       users = users + [parse_user(line)] if cols[0] == 'user'
-      sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+      sessions = parse_session(sessions, line) if cols[0] == 'session'
     end
 
     # Отчёт в json
@@ -67,21 +81,20 @@ class Refactored
 
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = []
-    sessions.each do |session|
-      browser = session['browser']
-      uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    sessions.each do |_user_id, sessions|
+       sessions.each do |session|
+         browser = session['browser']
+         uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+      end
     end
 
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-    report['totalSessions'] = sessions.count
+    report['totalSessions'] = @total_sessions_count
 
     report['allBrowsers'] =
-        sessions
-            .map { |s| s['browser'] }
+        uniqueBrowsers
             .map { |b| b.upcase }
             .sort
-            .uniq
             .join(',')
 
     # Статистика по пользователям
@@ -89,7 +102,7 @@ class Refactored
 
     users.each do |user|
       attributes = user
-      user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+      user_sessions = sessions[user['id']]
       user_object = User.new(attributes: attributes, sessions: user_sessions)
       users_objects = users_objects + [user_object]
     end
@@ -134,4 +147,3 @@ class Refactored
     File.write('result.json', "#{report.to_json}\n")
   end
 end
-

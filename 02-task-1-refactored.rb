@@ -3,12 +3,13 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'set'
 
 class Refactored
 
   def initialize
     @total_sessions_count = 0
-    @unique_browsers = []
+    @unique_browsers = Set.new
   end
 
   def parse_user(user)
@@ -25,10 +26,12 @@ class Refactored
     @total_sessions_count += 1
     fields = session.split(',')
     user_id = fields[1]
+    browser = fields[3]
+    @unique_browsers.add(browser)
 
     session = {
          'session_id' => fields[2],
-         'browser' => fields[3],
+         'browser' => browser,
          'time' => fields[4],
          'date' => fields[5],
     }
@@ -80,19 +83,18 @@ class Refactored
     report[:totalUsers] = users.count
 
     # Подсчёт количества уникальных браузеров
-    uniqueBrowsers = []
-    sessions.each do |_user_id, sessions|
-       sessions.each do |session|
-         browser = session['browser']
-         uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-      end
-    end
+    # uniqueBrowsers = []
+    # sessions.each do |session|
+    #   browser = session['browser']
+    #   uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    # end
 
-    report['uniqueBrowsersCount'] = uniqueBrowsers.count
+    report['uniqueBrowsersCount'] = @unique_browsers.count
+
     report['totalSessions'] = @total_sessions_count
 
     report['allBrowsers'] =
-        uniqueBrowsers
+        @unique_browsers
             .map { |b| b.upcase }
             .sort
             .join(',')

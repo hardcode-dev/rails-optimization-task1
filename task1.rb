@@ -1,9 +1,9 @@
 # Deoptimized version of homework task
 
-require 'json'
 require 'pry'
 require 'date'
 require 'set'
+require 'oj'
 
 class User
   attr_accessor :attributes, :sessions
@@ -92,7 +92,7 @@ def work(file_path)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report['totalUsers'] = users.count
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
@@ -120,5 +120,5 @@ def work(file_path)
     }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report)}\n")
 end

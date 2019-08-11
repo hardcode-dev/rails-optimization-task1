@@ -32,35 +32,35 @@ class Refactored
     }
   end
 
-  def collect_stats_from_users(report, users_objects, &block)
-    users_objects.each do |user|
-      user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-      report['usersStats'][user_key] ||= {}
-    end
-  end
-
-  def work(file_name)
+  def work(file_name, progress_bar = false)
     file_lines = File.read(file_name).split("\n")
 
     users = []
 
-    puts ">>> processing file lines... "
-    # count = file_lines.count
-    # progressbar = ProgressBar.create(
-    #     total: count,
-    #     format: '%a, %J, %E %B'
-    # )
 
-    file_lines.each do |line|
+    count = file_lines.count
+
+    if progress_bar
+      puts ">>> processing file lines... "
+      progressbar = ProgressBar.create(
+          total: count,
+          format: '%a, %J, %E %B'
+      )
+    end
+
+    i = 0
+    while i < count
+      line = file_lines[i]
       cols = line.split(',')
-      if cols[0] == 'user'
-        users << User.new(attributes: parse_user(cols), sessions: [])
-      else
+      if cols[0] == 'session'
         @total_sessions_count += 1
         @unique_browsers.add(cols[3])
         users.last.sessions << parse_session(cols)
+      else
+        users << User.new(attributes: parse_user(cols), sessions: [])
       end
-      # progressbar.increment
+      i += 1
+      progressbar.increment if progress_bar
     end
 
     # Отчёт в json
@@ -92,14 +92,20 @@ class Refactored
     # Статистика по пользователям
     report['usersStats'] = {}
 
-    # puts ">>> processing users... "
-    # count = users.count
-    # progressbar2 = ProgressBar.create(
-    #     total: count,
-    #     format: '%a, %J, %E %B'
-    # )
+    count = users.count
 
-    users.each do |user|
+    if progress_bar
+      puts ">>> processing users... "
+      progressbar2 = ProgressBar.create(
+          total: count,
+          format: '%a, %J, %E %B'
+      )
+    end
+
+    i = 0
+    while i < count
+      user = users[i]
+
       user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
       user_sessions = user.sessions
       user_time = []
@@ -127,7 +133,8 @@ class Refactored
       # Даты сессий через запятую в обратном порядке в формате iso8601
       report['usersStats'][user_key]['dates'] = user_dates.sort.reverse
 
-      # progressbar2.increment
+      i += 1
+      progressbar2.increment if progress_bar
     end
 
     File.write('result.json', "#{Oj.to_json(report)}\n")

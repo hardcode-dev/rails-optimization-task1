@@ -36,6 +36,7 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
     ruby-prof (1.0.0)
+    ruby-progressbar (1.10.1)
     stackprof (0.2.12)
 
 PLATFORMS
@@ -49,6 +50,7 @@ DEPENDENCIES
   rspec
   rspec-benchmark
   ruby-prof
+  ruby-progressbar
   stackprof
 
 BUNDLED WITH

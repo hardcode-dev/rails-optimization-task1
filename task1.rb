@@ -4,6 +4,7 @@ require 'pry'
 require 'date'
 require 'set'
 require 'oj'
+require 'ruby-progressbar'
 
 class User
   attr_accessor :attributes, :sessions
@@ -43,8 +44,10 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file_path)
+def work(file_path, progressbar = false)
+
   file_lines = File.read(file_path).split("\n")
+  progressbar = ProgressBar.create(total: file_lines.size) if progressbar
 
   users = []
   sessions = []
@@ -52,6 +55,8 @@ def work(file_path)
   sessions_count = 0
 
   file_lines.each do |line|
+    progressbar.increment if progressbar
+    
     cols = line.split(',')
     user = parse_user(cols) if cols[0] == 'user'
     session = parse_session(cols) if cols[0] == 'session'

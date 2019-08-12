@@ -5,6 +5,9 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 require 'benchmark'
+require 'ruby-prof'
+
+RubyProf.measure_mode = RubyProf::WALL_TIME
 
 class User
   attr_reader :attributes, :sessions
@@ -181,7 +184,11 @@ end
 if ARGV.any?
   puts "process #{ARGV.first} ..."
   time = Benchmark.realtime do
-    work(ARGV.first)
+    result = RubyProf.profile do
+      work(ARGV.first)
+    end
+    printer = RubyProf::FlatPrinter.new(result)
+    printer.print(File.open('ruby_prof_reports/flat.txt', 'w+'))
   end
   puts "... processed #{ARGV.first} in #{time} sec"
 else

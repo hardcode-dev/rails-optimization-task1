@@ -9,6 +9,8 @@ require 'ruby-prof'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
+# GC.disable
+
 class User
   attr_reader :attributes, :sessions
 
@@ -195,8 +197,8 @@ if ARGV.any?
     result = RubyProf.profile do
       work(ARGV.first)
     end
-    printer = RubyProf::FlatPrinter.new(result)
-    printer.print(File.open('ruby_prof_reports/flat.txt', 'w+'))
+    printer = RubyProf::GraphHtmlPrinter.new(result)
+    printer.print(File.open('ruby_prof_reports/graph.html', 'w+'))
   end
   puts "... processed #{ARGV.first} in #{time} sec"
 else

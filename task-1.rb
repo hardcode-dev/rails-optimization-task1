@@ -22,20 +22,20 @@ end
 
 def parse_user(fields)
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+      'id' => fields[1],
+      'first_name' => fields[2],
+      'last_name' => fields[3],
+      'age' => fields[4],
   }
 end
 
 def parse_session(fields)
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+      'user_id' => fields[1],
+      'session_id' => fields[2],
+      'browser' => fields[3],
+      'time' => fields[4],
+      'date' => fields[5],
   }
 end
 
@@ -59,12 +59,11 @@ def parse_file(file)
   File.foreach(file) do |line|
     cols = process_line(line)
     if cols[0] == 'user'
-      user = parse_user(line)
-      users = users + [user]
+      users << parse_user(cols)
     end
     if cols[0] == 'session'
-      session = parse_session(line)
-      sessions = sessions + [session]
+      session = parse_session(cols)
+      sessions << session
       (user_sessions_hash[session['user_id']] ||= []) << session
     end
   end
@@ -107,12 +106,12 @@ def work(file = 'data.txt')
   report['totalSessions'] = sessions.count
 
   report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+      sessions
+          .map { |s| s['browser'] }
+          .map { |b| b.upcase }
+          .sort
+          .uniq
+          .join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -170,7 +169,7 @@ class TestMe < Minitest::Test
   def setup
     File.write('result.json', '')
     File.write('data.txt',
-'user,0,Leida,Cira,0
+               'user,0,Leida,Cira,0
 session,0,0,Safari 29,87,2016-10-23
 session,0,1,Firefox 12,118,2017-02-27
 session,0,2,Internet Explorer 28,31,2017-03-28

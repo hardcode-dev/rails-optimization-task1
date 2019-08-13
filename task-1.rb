@@ -52,11 +52,19 @@ def work(file = 'data.txt')
 
   users = []
   sessions = []
+  user_sessions_hash = {}
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    if cols[0] == 'user'
+      user = parse_user(line)
+      users = users + [user]
+    end
+    if cols[0] == 'session'
+      session = parse_session(line)
+      sessions = sessions + [session]
+      (user_sessions_hash[session['user_id']] ||= []) << session
+    end
   end
 
   # Отчёт в json
@@ -102,7 +110,7 @@ def work(file = 'data.txt')
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = user_sessions_hash[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

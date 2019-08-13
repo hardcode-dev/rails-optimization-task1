@@ -49,15 +49,17 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file = 'data.txt')
-  file_lines = File.read(file).split("\n")
+def process_line(line)
+  line.split(',')
+end
 
+def parse_file(file)
   users = []
   sessions = []
   user_sessions_hash = {}
 
-  file_lines.each do |line|
-    cols = line.split(',')
+  File.foreach(file) do |line|
+    cols = process_line(line)
     if cols[0] == 'user'
       user = parse_user(line)
       users = users + [user]
@@ -68,6 +70,27 @@ def work(file = 'data.txt')
       (user_sessions_hash[session['user_id']] ||= []) << session
     end
   end
+
+  # file_lines = File.read(file).split("\n")
+  # file_lines.each do |line|
+  #   cols = line.split(',')
+  #   if cols[0] == 'user'
+  #     user = parse_user(line)
+  #     users = users + [user]
+  #   end
+  #   if cols[0] == 'session'
+  #     session = parse_session(line)
+  #     sessions = sessions + [session]
+  #     (user_sessions_hash[session['user_id']] ||= []) << session
+  #   end
+  # end
+
+  [users, sessions, user_sessions_hash]
+end
+
+def work(file = 'data.txt')
+
+  users, sessions, user_sessions_hash = parse_file(file)
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -197,8 +220,8 @@ if ARGV.any?
     result = RubyProf.profile do
       work(ARGV.first)
     end
-    printer = RubyProf::GraphHtmlPrinter.new(result)
-    printer.print(File.open('ruby_prof_reports/graph.html', 'w+'))
+    printer = RubyProf::CallStackPrinter.new(result)
+    printer.print(File.open('ruby_prof_reports/call_stack.html', 'w+'))
   end
   puts "... processed #{ARGV.first} in #{time} sec"
 else

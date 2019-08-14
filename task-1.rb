@@ -55,6 +55,7 @@ def parse_file(file)
   users = []
   sessions = []
   user_sessions_hash = {}
+  uniqueBrowsers = {}
 
   File.foreach(file) do |line|
     cols = process_line(line)
@@ -65,15 +66,16 @@ def parse_file(file)
       session = parse_session(cols)
       sessions << session
       (user_sessions_hash[session['user_id']] ||= []) << session
+      uniqueBrowsers[session['browser'].to_sym] = true
     end
   end
 
-  [users, sessions, user_sessions_hash]
+  [users, sessions, user_sessions_hash, uniqueBrowsers]
 end
 
 def work(file = 'data.txt')
 
-  users, sessions, user_sessions_hash = parse_file(file)
+  users, sessions, user_sessions_hash, uniqueBrowsers = parse_file(file)
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -95,12 +97,6 @@ def work(file = 'data.txt')
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
   report['totalSessions'] = sessions.count

@@ -73,6 +73,17 @@ def parse_file(file)
   [users, sessions, user_sessions_hash, uniqueBrowsers]
 end
 
+def create_users_objects(users, user_sessions_hash)
+  users_objects = []
+  users.each do |user|
+    attributes = user
+    user_sessions = user_sessions_hash[user['id']]
+    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    users_objects << user_object
+  end
+  users_objects
+end
+
 def work(file = 'data.txt')
 
   users, sessions, user_sessions_hash, uniqueBrowsers = parse_file(file)
@@ -101,23 +112,10 @@ def work(file = 'data.txt')
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-      sessions
-          .map { |s| s['browser'] }
-          .map { |b| b.upcase }
-          .sort
-          .uniq
-          .join(',')
+  report['allBrowsers'] = sessions.map { |s| s['browser'].upcase }.sort.uniq.join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = user_sessions_hash[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
+  users_objects = create_users_objects(users, user_sessions_hash)
 
   report['usersStats'] = {}
 
@@ -128,17 +126,17 @@ def work(file = 'data.txt')
 
   # Собираем количество времени по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
+    { 'totalTime' => user.sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.' }
   end
 
   # Выбираем самую длинную сессию пользователя
   collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
+    { 'longestSession' => user.sessions.map {|s| s['time'].to_i}.max.to_s + ' min.' }
   end
 
   # Браузеры пользователя через запятую
   collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
+    { 'browsers' => user.sessions.map {|s| s['browser'].upcase}.sort.join(', ') }
   end
 
   # Хоть раз использовал IE?
@@ -154,7 +152,7 @@ def work(file = 'data.txt')
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
     {
-        'dates' => user.sessions.map!{|s| s['date'].chomp!}.sort!.reverse!
+        'dates' => user.sessions.map{|s| s['date'].chomp!}.sort!.reverse!
     }
   end
 

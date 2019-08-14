@@ -34,13 +34,11 @@ def parse_session(fields)
       'user_id' => fields[1],
       'session_id' => fields[2],
       'browser' => fields[3],
+      'browser_upcase' => fields[3].upcase,
       'time' => fields[4],
-      'date' => fields[5],
+      'time_to_i' => fields[4].to_i,
+      'date' => fields[5].chomp!,
   }
-end
-
-def process_line(line)
-  line.split(',')
 end
 
 def parse_file(file)
@@ -50,7 +48,7 @@ def parse_file(file)
   uniqueBrowsers = {}
 
   File.foreach(file) do |line|
-    cols = process_line(line)
+    cols = line.split(',')
     if cols[0] == 'user'
       users << parse_user(cols)
     end
@@ -87,30 +85,30 @@ def collect_stats_from_users(users_objects)
     )
     # Собираем количество времени по пользователям
     report[user_key].merge!(
-        { 'totalTime' => user.sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.' }
+        { 'totalTime' => user.sessions.map {|s| s['time_to_i']}.sum.to_s + ' min.' }
     )
     # Выбираем самую длинную сессию пользователя
     report[user_key].merge!(
-        { 'longestSession' => user.sessions.map {|s| s['time'].to_i}.max.to_s + ' min.' }
+        { 'longestSession' => user.sessions.map {|s| s['time_to_i']}.max.to_s + ' min.' }
     )
     # Браузеры пользователя через запятую
     report[user_key].merge!(
-        { 'browsers' => user.sessions.map {|s| s['browser'].upcase}.sort.join(', ') }
+        { 'browsers' => user.sessions.map {|s| s['browser_upcase']}.sort.join(', ') }
     )
 
     # Хоть раз использовал IE?
     report[user_key].merge!(
-        { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
+        { 'usedIE' => user.sessions.map{|s| s['browser_upcase']}.any? { |b| b =~ /INTERNET EXPLORER/ } }
     )
 
     # Всегда использовал только Chrome?
     report[user_key].merge!(
-        { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+        { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser_upcase']}.all? { |b| b =~ /CHROME/ } }
     )
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
     report[user_key].merge!(
-        { 'dates' => user.sessions.map{|s| s['date'].chomp!}.sort!.reverse! }
+        { 'dates' => user.sessions.map{|s| s['date']}.sort!.reverse! }
     )
   end
   report

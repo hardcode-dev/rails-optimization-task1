@@ -1,0 +1,5 @@
+.idea/
+reports/
+data/
+Gemfile.lock
+result.json

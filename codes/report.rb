@@ -2,7 +2,7 @@ require 'fileutils'
 require "open4"
 require_relative "task-1"
 
-STEP = '4.0'
+STEP = '4.1'
 
 class Report
   attr_reader :type, :step, :folder

@@ -225,7 +225,7 @@ TOTAL    (pct)     SAMPLES    (pct)     FRAME
 
 ```
 
-Проверям по `flat`
+Проверяем по `flat`
 
 ```
  %self      total      self      wait     child     calls  name                           location
@@ -253,6 +253,72 @@ TOTAL    (pct)     SAMPLES    (pct)     FRAME
 В метрику уложились.
 
 Коммит: `optimize 5`. 
+
+### Ваша находка №6
+
+Используем файл 100_000.txt
+
+До оптимизации `1.046  (±12.5%) i/s -      6.000  in   5.871401s`
+
+Используем `stackprof`
+```
+TOTAL     (pct)     SAMPLES    (pct)     FRAME
+   891 (100.0%)         534  (59.9%)     Object#work
+   503  (56.5%)         240  (26.9%)     Object#collect_stats_from_users
+    60   (6.7%)          60   (6.7%)     Object#parse_session
+    27   (3.0%)          27   (3.0%)     Object#sessions_group_by_user
+```
+
+Смотрим метод `stackprof#work`
+```
+  222   (24.9%) /   111  (12.5%)  |    55  |   lines = file_lines.map { |line| line.split(',') }
+   87    (9.8%)                   |    56  |   lines.each do |fields|
+   25    (2.8%) /    16   (1.8%)  |    57  |     users << parse_user(fields) if fields[0] == 'user'
+   60    (6.7%)                   |    58  |     sessions << parse_session(fields) if fields[0] == 'session'
+    2    (0.2%) /     2   (0.2%)  |    59  |   end
+```
+
+Проверяем по `flat`
+
+```
+ %self      total      self      wait     child     calls  name                           location
+ 30.36      1.007     0.456     0.000     0.551       10   Array#each                     
+ 18.93      0.437     0.284     0.000     0.153   123451   Array#map                      
+  9.58      0.144     0.144     0.000     0.000   100001   String#split                   
+  7.32      0.200     0.110     0.000     0.090        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  5.38      0.081     0.081     0.000     0.000   108017   Hash#merge                     
+```
+
+Проверяем по `graph`. Смотрим метод `Array#each`
+```
+                0.22	0.09	0.00	0.13	2/10	        Object#work	                    56
+ 	 	        0.84	0.37	0.00	0.46	7/10	        Object#collect_stats_from_users	36
+68.58%	31.40%	1.10	0.50	0.00	0.59	10	            Array#each	
+                0.26	0.23	0.00	0.03	123448/123451	Array#map	                    109
+                0.10	0.08	0.00	0.02	84569/84569	    Object#parse_session	        58
+                0.09	0.09	0.00	0.00	108017/108017	Hash#merge	                    104
+```
+
+Не понятно, пробуем вынести генерацию статистики в отдельный метод `statistics`
+
+По `stackprof`
+```
+ TOTAL    (pct)     SAMPLES    (pct)     FRAME
+   472  (55.9%)         267  (31.6%)     Object#statistics
+   844 (100.0%)         250  (29.6%)     Object#work
+   472  (55.9%)         205  (24.3%)     Object#collect_stats_from_users
+    44   (5.2%)          44   (5.2%)     Object#parse_session
+```
+
+Оптимизируем метод `statistics`
+
+Прогон теста.
+
+После оптимизации: `1.557  (±12.2%) i/s -      8.000  in   5.300908s` (быстрее на 49%). 
+
+В метрику уложились.
+
+Коммит: `optimize 6`. 
 
 
 

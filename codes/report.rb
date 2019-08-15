@@ -1,7 +1,8 @@
 require 'fileutils'
+require "open4"
 require_relative "task-1"
 
-STEP = '2'
+STEP = '3.2'
 
 class Report
   attr_reader :type, :step, :folder
@@ -22,7 +23,7 @@ class Report
 
   def run
     work(data, disable_gc: true)
-    puts command if type != :test
+    command_run
   end
 
   def save(body)
@@ -40,6 +41,27 @@ class Report
                "open"
              end
     "#{action} #{full_name}"
+  end
+
+  def test?
+    type == :test
+  end
+
+  def command_run
+    return if test?
+
+    command_line = case type
+                   when :test
+                   when :stackprof
+                          (<<-SHELL
+                osascript -e 'tell app "Terminal" to do script "cd #{Dir.pwd}; #{command}; echo #{command} --method "'
+                SHELL
+                ).strip
+                   else
+                     command
+                   end
+    #`#{command_line}`
+    system(command_line)
   end
 
   def extension
@@ -76,12 +98,12 @@ class Report
     when :test
       "test"
     else
-      #"100_000"
+      "100_000"
       #"800_000"
       #"1_600_000"
       #"large"
       #"small"
-      "medium"
+      #"medium"
     end
   end
 end

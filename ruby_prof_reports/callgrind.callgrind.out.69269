@@ -1,0 +1,306 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 81464
+
+fl=
+fn=String::to_s
+0 99817
+
+fl=
+fn=String::encode
+0 589191
+
+fl=
+fn=Symbol::to_s
+0 2
+
+fl=
+fn=Hash::keys
+0 140169
+
+fl=
+fn=JSON/Ext/Generator/State::initialize_copy
+0 1
+
+fl=
+fn=Kernel::initialize_dup
+0 2
+cfl=
+cfn=JSON/Ext/Generator/State::initialize_copy
+calls=1 0
+0 1
+
+fl=
+fn=Kernel::dup
+0 3
+cfl=
+cfn=Kernel::initialize_dup
+calls=1 0
+0 3
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 1436654
+cfl=
+cfn=Kernel::dup
+calls=1 0
+0 7
+cfl=
+cfn=Hash::keys
+calls=114851 0
+0 140169
+cfl=
+cfn=Symbol::to_s
+calls=1 0
+0 2
+cfl=
+cfn=String::encode
+calls=1895870 0
+0 589191
+cfl=
+cfn=String::to_s
+calls=918796 0
+0 99817
+
+fl=
+fn=Array::reverse!
+0 19339
+
+fl=
+fn=Array::sort!
+0 135944
+
+fl=
+fn=Array::max
+0 27958
+
+fl=
+fn=Integer::to_s
+0 85624
+
+fl=
+fn=Array::sum
+0 32940
+
+fl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+fn=User::initialize
+17 60773
+
+fl=
+fn=Class::new
+0 167091
+cfl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+cfn=User::initialize
+calls=115272 0
+0 60773
+
+fl=
+fn=Array::each
+0 3747974
+cfl=
+cfn=Class::new
+calls=115272 71
+71 227864
+cfl=
+cfn=Array::each
+calls=115272 84
+84 2430235
+cfl=
+cfn=Array::sum
+calls=115272 100
+100 32940
+cfl=
+cfn=Integer::to_s
+calls=230544 100
+100 85624
+cfl=
+cfn=Array::max
+calls=115272 102
+102 27958
+cfl=
+cfn=Array::sort
+calls=115272 104
+104 169897
+cfl=
+cfn=Array::join
+calls=115272 104
+104 155978
+cfl=
+cfn=Array::sort!
+calls=115272 106
+106 135944
+cfl=
+cfn=Array::reverse!
+calls=115272 106
+106 19339
+
+fl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+fn=Object::collect_stats_from_users
+66 4
+cfl=
+cfn=Array::each
+calls=1 69
+69 4603517
+
+fl=
+fn=Array::join
+0 156003
+
+fl=
+fn=Array::sort
+0 169966
+
+fl=
+fn=Array::uniq
+0 171385
+
+fl=
+fn=Array::map
+0 169610
+
+fl=
+fn=Hash::each
+0 11
+
+fl=
+fn=Enumerable::count
+0 6
+cfl=
+cfn=Hash::each
+calls=1 0
+0 11
+
+fl=
+fn=Array::count
+0 3
+
+fl=
+fn=String::to_sym
+0 203311
+
+fl=
+fn=String::chomp!
+0 133435
+
+fl=
+fn=String::to_i
+0 166166
+
+fl=
+fn=String::upcase
+0 324297
+
+fl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+fn=Object::parse_session
+32 884630
+cfl=
+cfn=String::upcase
+calls=634728 34
+34 324297
+cfl=
+cfn=String::to_i
+calls=634728 34
+34 166166
+cfl=
+cfn=String::chomp!
+calls=634728 34
+34 133435
+
+fl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+fn=Object::parse_user
+23 86266
+
+fl=
+fn=String::split
+0 1685462
+
+fl=
+fn=IO::foreach^
+0 2964150
+cfl=
+cfn=String::split
+calls=750000 51
+51 1685462
+cfl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+cfn=Object::parse_user
+calls=115272 53
+53 86266
+cfl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+cfn=Object::parse_session
+calls=634728 56
+56 1508528
+cfl=
+cfn=String::to_sym
+calls=634728 59
+59 203311
+
+fl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+fn=Object::parse_file
+44 7
+cfl=
+cfn=IO::foreach^
+calls=1 50
+50 6447718
+
+fl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+fn=Object::work
+111 590045
+cfl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+cfn=Object::parse_file
+calls=1 113
+113 6447725
+cfl=
+cfn=Array::count
+calls=2 132
+132 3
+cfl=
+cfn=Enumerable::count
+calls=1 135
+135 17
+cfl=
+cfn=Array::map
+calls=1 139
+139 169610
+cfl=
+cfn=Array::uniq
+calls=1 139
+139 171385
+cfl=
+cfn=Array::sort
+calls=1 139
+139 69
+cfl=
+cfn=Array::join
+calls=1 139
+139 26
+cfl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 146
+146 4603521
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 151
+151 2265841
+cfl=
+cfn=IO::write^
+calls=1 151
+151 81464
+
+fl=
+fn=Array::first
+0 3
+
+fl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+fn=[global]::
+190 31
+cfl=
+cfn=Array::first
+calls=1 190
+190 3
+cfl=/Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb
+cfn=Object::work
+calls=1 190
+190 14329705
+

@@ -79,37 +79,38 @@ def collect_stats_from_users(users_objects)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
     report[user_key] ||= {}
-    # Собираем количество сессий по пользователям
-    report[user_key].merge!(
-        { 'sessionsCount' => user.sessions.count }
-    )
+
+    report[user_key]['sessionsCount'] = 0
+    report[user_key]['totalTime'] = []
+    report[user_key]['longestSession'] = []
+    report[user_key]['browsers'] = []
+    report[user_key]['usedIE'] = false
+    report[user_key]['alwaysUsedChrome'] = true
+    report[user_key]['dates'] = []
+
+    user.sessions.each do |session|
+      # Собираем количество сессий по пользователям
+      report[user_key]['sessionsCount'] += 1
+      report[user_key]['totalTime'] << session['time_to_i']
+      report[user_key]['longestSession'] << session['time_to_i']
+      report[user_key]['browsers'] << session['browser_upcase']
+      unless report[user_key]['usedIE']
+        report[user_key]['usedIE'] = (session['browser_upcase'] =~ /INTERNET EXPLORER/) ? true : false
+      end
+      if report[user_key]['alwaysUsedChrome']
+        report[user_key]['alwaysUsedChrome'] = (session['browser_upcase'] =~ /CHROME/) ? true : false
+      end
+      report[user_key]['dates'] << session['date']
+    end
+
     # Собираем количество времени по пользователям
-    report[user_key].merge!(
-        { 'totalTime' => user.sessions.map {|s| s['time_to_i']}.sum.to_s + ' min.' }
-    )
+    report[user_key]['totalTime'] = report[user_key]['totalTime'].sum.to_s + ' min.'
     # Выбираем самую длинную сессию пользователя
-    report[user_key].merge!(
-        { 'longestSession' => user.sessions.map {|s| s['time_to_i']}.max.to_s + ' min.' }
-    )
+    report[user_key]['longestSession'] = report[user_key]['longestSession'].max.to_s + ' min.'
     # Браузеры пользователя через запятую
-    report[user_key].merge!(
-        { 'browsers' => user.sessions.map {|s| s['browser_upcase']}.sort.join(', ') }
-    )
-
-    # Хоть раз использовал IE?
-    report[user_key].merge!(
-        { 'usedIE' => user.sessions.map{|s| s['browser_upcase']}.any? { |b| b =~ /INTERNET EXPLORER/ } }
-    )
-
-    # Всегда использовал только Chrome?
-    report[user_key].merge!(
-        { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser_upcase']}.all? { |b| b =~ /CHROME/ } }
-    )
-
+    report[user_key]['browsers'] = report[user_key]['browsers'].sort.join(', ')
     # Даты сессий через запятую в обратном порядке в формате iso8601
-    report[user_key].merge!(
-        { 'dates' => user.sessions.map{|s| s['date']}.sort!.reverse! }
-    )
+    report[user_key]['dates'] = report[user_key]['dates'].sort!.reverse!
   end
   report
 end
@@ -193,8 +194,8 @@ if ARGV.any?
     result = RubyProf.profile do
       work(ARGV.first)
     end
-    printer = RubyProf::CallStackPrinter.new(result)
-    printer.print(File.open('ruby_prof_reports/call_stack.html', 'w+'))
+    printer4 = RubyProf::CallTreePrinter.new(result)
+    printer4.print(:path => "ruby_prof_reports", :profile => 'callgrind')
   end
   puts "... processed #{ARGV.first} in #{time} sec"
 else

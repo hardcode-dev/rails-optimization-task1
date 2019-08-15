@@ -8,5 +8,3 @@ time = Benchmark.realtime do
 end
 
 puts report.save("Finish in #{time.round(3)} sec.")
-
-report.open

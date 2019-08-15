@@ -61,7 +61,42 @@
 Коммит: `optimize 1`.
 
 ### Ваша находка №2
-О вашей находке №2
+Для наглядности используем файл medium.txt (32_000 строк)
+Текущее время выполнения: 3.327 sec.
+
+Используем `flat`
+```
+%self      total      self      wait     child     calls  name                           location
+ 71.59      3.922     2.885     0.000     1.037       12   Array#each                     
+ 11.13      0.450     0.449     0.000     0.001    32543   Array#all?                     
+  3.51      0.372     0.141     0.000     0.231    54861   Array#map                 
+```
+
+Смотрим где используется `Array#each` с помощью `graph`
+```
+ 	 	0.58	0.13	0.00	0.45	7/12	    Object#collect_stats_from_users	38
+ 	 	3.13	2.53	0.00	0.60	3/12	    Object#work	                    57
+96.98%	69.50%	3.73	2.68	0.00	1.06	12	Array#each	
+ 	 	0.46	0.46	0.00	0.00	32543/32543	Array#all?	                    86
+ 	 	0.37	0.12	0.00	0.24	54857/54861	Array#map	                    120
+ 	 	0.07	0.04	0.00	0.03	27556/27556	Object#parse_session	        60
+```
+Видим, что `Array#each` используется внутри метода `work` и вызывает `parse_session` 
+
+Локализуем место через `stackprof`
+```
+ 2561   (75.4%)                   |    57  |   file_lines.each do |line|
+                                  |    58  |     cols = line.split(',')
+   79    (2.3%) /    52   (1.5%)  |    59  |     users = users + [parse_user(line)] if cols[0] == 'user'
+  137    (4.0%) /    79   (2.3%)  |    60  |     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+ 2345   (69.1%) /  2345  (69.1%)  |    61  |   end
+```
+
+Оптимизация, прогон теста.
+
+После оптимизации: 0.64 sec. (x5)
+
+Коммит: `optimize 2`. 
 
 ### Ваша находка №X
 О вашей находке №X

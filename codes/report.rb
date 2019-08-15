@@ -1,7 +1,7 @@
 require 'fileutils'
 require_relative "task-1"
 
-STEP = '1'
+STEP = '2'
 
 class Report
   attr_reader :type, :step, :folder
@@ -80,7 +80,8 @@ class Report
       #"800_000"
       #"1_600_000"
       #"large"
-      "small"
+      #"small"
+      "medium"
     end
   end
 end

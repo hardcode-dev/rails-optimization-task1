@@ -47,6 +47,7 @@ def parse_file(file)
   report['uniqueBrowsersCount'] = {}
   report['totalSessions'] = 0
   report['allBrowsers'] = {}
+  report['usersStats'] = {}
 
   users = []
   user_sessions_hash = {}
@@ -57,6 +58,10 @@ def parse_file(file)
       users << parse_user(cols)
       report[:totalUsers] += 1
     end
+  end
+
+  File.foreach(file) do |line|
+    cols = line.split(',')
     if cols[0] == 'session'
       session = parse_session(cols)
 
@@ -71,59 +76,60 @@ def parse_file(file)
   report['uniqueBrowsersCount'] = report['uniqueBrowsersCount'].count
   report['allBrowsers'] = report['allBrowsers'].keys.sort.join(',')
 
-  [users, user_sessions_hash, report]
-end
 
-def collect_stats_from_users(users, user_sessions_hash)
-  user_report = {}
 
   users.each do |user|
     user_sessions = user_sessions_hash[user[:id]]
     user = User.new(attributes: user, sessions: user_sessions)
-
     user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
-    user_report[user_key] ||= {}
-
-    user_report[user_key]['sessionsCount'] = 0
-    user_report[user_key]['totalTime'] = []
-    user_report[user_key]['longestSession'] = []
-    user_report[user_key]['browsers'] = []
-    user_report[user_key]['usedIE'] = false
-    user_report[user_key]['alwaysUsedChrome'] = true
-    user_report[user_key]['dates'] = []
-
-    user.sessions.each do |session|
-      # Собираем количество сессий по пользователям
-      user_report[user_key]['sessionsCount'] += 1
-      user_report[user_key]['totalTime'] << session[:time_to_i]
-      user_report[user_key]['longestSession'] << session[:time_to_i]
-      user_report[user_key]['browsers'] << session[:browser_upcase]
-      unless user_report[user_key]['usedIE']
-        user_report[user_key]['usedIE'] = (session[:browser_upcase] =~ /INTERNET EXPLORER/) ? true : false
-      end
-      if user_report[user_key]['alwaysUsedChrome']
-        user_report[user_key]['alwaysUsedChrome'] = (session[:browser_upcase] =~ /CHROME/) ? true : false
-      end
-      user_report[user_key]['dates'] << session[:date]
-    end
-
-    # Собираем количество времени по пользователям
-    user_report[user_key]['totalTime'] = user_report[user_key]['totalTime'].sum.to_s + ' min.'
-    # Выбираем самую длинную сессию пользователя
-    user_report[user_key]['longestSession'] = user_report[user_key]['longestSession'].max.to_s + ' min.'
-    # Браузеры пользователя через запятую
-    user_report[user_key]['browsers'] = user_report[user_key]['browsers'].sort.join(', ')
-    # Даты сессий через запятую в обратном порядке в формате iso8601
-    user_report[user_key]['dates'] = user_report[user_key]['dates'].sort!.reverse!
+    report['usersStats'][user_key] = collect_stats_from_user(user)
   end
+
+
+  report
+end
+
+def collect_stats_from_user(user)
+  user_report = {}
+
+  user_report['sessionsCount'] = 0
+  user_report['totalTime'] = []
+  user_report['longestSession'] = []
+  user_report['browsers'] = []
+  user_report['usedIE'] = false
+  user_report['alwaysUsedChrome'] = true
+  user_report['dates'] = []
+
+  user.sessions.each do |session|
+    # Собираем количество сессий по пользователям
+    user_report['sessionsCount'] += 1
+    user_report['totalTime'] << session[:time_to_i]
+    user_report['longestSession'] << session[:time_to_i]
+    user_report['browsers'] << session[:browser_upcase]
+    unless user_report['usedIE']
+      user_report['usedIE'] = (session[:browser_upcase] =~ /INTERNET EXPLORER/) ? true : false
+    end
+    if user_report['alwaysUsedChrome']
+      user_report['alwaysUsedChrome'] = (session[:browser_upcase] =~ /CHROME/) ? true : false
+    end
+    user_report['dates'] << session[:date]
+  end
+
+  # Собираем количество времени по пользователям
+  user_report['totalTime'] = user_report['totalTime'].sum.to_s + ' min.'
+  # Выбираем самую длинную сессию пользователя
+  user_report['longestSession'] = user_report['longestSession'].max.to_s + ' min.'
+  # Браузеры пользователя через запятую
+  user_report['browsers'] = user_report['browsers'].sort.join(', ')
+  # Даты сессий через запятую в обратном порядке в формате iso8601
+  user_report['dates'] = user_report['dates'].sort!.reverse!
+
   user_report
 end
 
 def work(file = 'data.txt')
 
-  users, user_sessions_hash, report = parse_file(file)
-
-  report['usersStats'] = collect_stats_from_users(users, user_sessions_hash)
+  report = parse_file(file)
 
   result_file_name = file == 'data.txt' ? 'result.json' : "#{file}.json"
 

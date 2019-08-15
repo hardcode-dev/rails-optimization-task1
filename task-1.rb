@@ -22,22 +22,22 @@ end
 
 def parse_user(fields)
   {
-      'id' => fields[1],
-      'first_name' => fields[2],
-      'last_name' => fields[3],
-      'age' => fields[4],
+      id: fields[1],
+      first_name: fields[2],
+      last_name: fields[3],
+      age: fields[4],
   }
 end
 
 def parse_session(fields)
   {
-      'user_id' => fields[1],
-      'session_id' => fields[2],
-      'browser' => fields[3],
-      'browser_upcase' => fields[3].upcase,
-      'time' => fields[4],
-      'time_to_i' => fields[4].to_i,
-      'date' => fields[5].chomp!,
+      user_id: fields[1],
+      session_id: fields[2],
+      browser: fields[3],
+      browser_upcase: fields[3].upcase,
+      time: fields[4],
+      time_to_i: fields[4].to_i,
+      date: fields[5].chomp!
   }
 end
 
@@ -55,29 +55,22 @@ def parse_file(file)
     if cols[0] == 'session'
       session = parse_session(cols)
       sessions << session
-      (user_sessions_hash[session['user_id']] ||= []) << session
-      uniqueBrowsers[session['browser'].to_sym] = true
+      (user_sessions_hash[session[:user_id]] ||= []) << session
+      uniqueBrowsers[session[:browser].to_sym] = true
     end
   end
 
   [users, sessions, user_sessions_hash, uniqueBrowsers]
 end
 
-def create_users_objects(users, user_sessions_hash)
-  users_objects = []
-  users.each do |user|
-    attributes = user
-    user_sessions = user_sessions_hash[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects << user_object
-  end
-  users_objects
-end
-
-def collect_stats_from_users(users_objects)
+def collect_stats_from_users(users, user_sessions_hash)
   report = {}
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+
+  users.each do |user|
+    user_sessions = user_sessions_hash[user[:id]]
+    user = User.new(attributes: user, sessions: user_sessions)
+
+    user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
     report[user_key] ||= {}
 
     report[user_key]['sessionsCount'] = 0
@@ -91,16 +84,16 @@ def collect_stats_from_users(users_objects)
     user.sessions.each do |session|
       # Собираем количество сессий по пользователям
       report[user_key]['sessionsCount'] += 1
-      report[user_key]['totalTime'] << session['time_to_i']
-      report[user_key]['longestSession'] << session['time_to_i']
-      report[user_key]['browsers'] << session['browser_upcase']
+      report[user_key]['totalTime'] << session[:time_to_i]
+      report[user_key]['longestSession'] << session[:time_to_i]
+      report[user_key]['browsers'] << session[:browser_upcase]
       unless report[user_key]['usedIE']
-        report[user_key]['usedIE'] = (session['browser_upcase'] =~ /INTERNET EXPLORER/) ? true : false
+        report[user_key]['usedIE'] = (session[:browser_upcase] =~ /INTERNET EXPLORER/) ? true : false
       end
       if report[user_key]['alwaysUsedChrome']
-        report[user_key]['alwaysUsedChrome'] = (session['browser_upcase'] =~ /CHROME/) ? true : false
+        report[user_key]['alwaysUsedChrome'] = (session[:browser_upcase] =~ /CHROME/) ? true : false
       end
-      report[user_key]['dates'] << session['date']
+      report[user_key]['dates'] << session[:date]
     end
 
     # Собираем количество времени по пользователям
@@ -143,12 +136,14 @@ def work(file = 'data.txt')
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] = sessions.map { |s| s['browser'].upcase }.sort.uniq.join(',')
+  report['allBrowsers'] = sessions.map { |s| s[:browser].upcase }.sort.uniq.join(',')
 
   # Статистика по пользователям
-  users_objects = create_users_objects(users, user_sessions_hash)
+  # users_objects = create_users_objects(users, user_sessions_hash)
+  #
+  # report['usersStats'] = collect_stats_from_users(users_objects)
 
-  report['usersStats'] = collect_stats_from_users(users_objects)
+  report['usersStats'] = collect_stats_from_users(users, user_sessions_hash)
 
 
   result_file_name = file == 'data.txt' ? 'result.json' : "#{file}.json"
@@ -194,6 +189,9 @@ if ARGV.any?
     result = RubyProf.profile do
       work(ARGV.first)
     end
+    printer = RubyProf::CallStackPrinter.new(result)
+    printer.print(File.open('ruby_prof_reports/call_stack.html', 'w+'))
+
     printer4 = RubyProf::CallTreePrinter.new(result)
     printer4.print(:path => "ruby_prof_reports", :profile => 'callgrind')
   end

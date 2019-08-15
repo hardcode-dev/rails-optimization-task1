@@ -505,8 +505,8 @@
 </script>
 </head><body><div style="display: inline-block;">
 <div id="titlebar">
-Call tree for application <b>task-1.rb data_large.txt</b><br/>
-Generated on 2019-08-16 00:41:37 +0300 with options {}<br/>
+Call tree for application <b>task-1.rb data25mb.txt</b><br/>
+Generated on 2019-08-16 00:54:23 +0300 with options {}<br/>
 </div>
 <div id="commands">
 <span style="font-size: 11pt; font-weight: bold;">Threshold:</span>
@@ -529,54 +529,42 @@ Generated on 2019-08-16 00:41:37 +0300 with options {}<br/>
 &#8226; Use n and p to navigate between threads.<br>
 &#8226; Click on background to move focus to a subtree.<br>
 </div>
-<div class="thread">Thread: 70357683994640, Fiber: 70357692544160 (100.00% ~ 76.63664970500031)</div><ul name="thread"><li class="color9" style="display:block"><a href="#" class="toggle minus" ></a><span> 100.00% (100.00%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#190">[global]#</a> [1 calls, 1 total]</span>
+<div class="thread">Thread: 70344631312340, Fiber: 70344639945020 (100.00% ~ 14.358205462001933)</div><ul name="thread"><li class="color9" style="display:block"><a href="#" class="toggle minus" ></a><span> 100.00% (100.00%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#190">[global]#</a> [1 calls, 1 total]</span>
 <ul><li class="color9" style="display:block"><a href="#" class="toggle minus" ></a><span> 100.00% (100.00%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#111">Object#work</a> [1 calls, 1 total]</span>
-<ul><li class="color4" style="display:block"><a href="#" class="toggle minus" ></a><span> 47.12% (47.12%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#44">Object#parse_file</a> [1 calls, 1 total]</span>
-<ul><li class="color4" style="display:block"><a href="#" class="toggle minus" ></a><span> 47.12% (100.00%) &lt;Class::IO&gt;#foreach [1 calls, 1 total]</span>
-<ul><li class="color1" style="display:block"><a href="#" class="toggle empty" ></a><span> 14.36% (30.47%) String#split [3250940 calls, 3250940 total]</span>
-</li><li class="color1" style="display:block"><a href="#" class="toggle minus" ></a><span> 11.54% (24.49%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#32">Object#parse_session</a> [2750940 calls, 2750940 total]</span>
-<ul><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 2.16% (18.69%) String#upcase [2750940 calls, 5501880 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.94% (8.13%) String#to_i [2750940 calls, 2750940 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.73% (6.36%) String#chomp! [2750940 calls, 2750940 total]</span>
-</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.19% (2.52%) String#to_sym [2750940 calls, 2750940 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.58% (1.22%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#23">Object#parse_user</a> [500000 calls, 500000 total]</span>
-</li></ul></li></ul></li><li class="color3" style="display:block"><a href="#" class="toggle minus" ></a><span> 37.48% (37.48%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#66">Object#collect_stats_from_users</a> [1 calls, 1 total]</span>
-<ul><li class="color3" style="display:block"><a href="#" class="toggle minus" ></a><span> 37.48% (100.00%) Array#each [1 calls, 500001 total]</span>
-<ul><li class="color1" style="display:block"><a href="#" class="toggle minus" ></a><span> 13.95% (37.23%) Array#each [500000 calls, 500001 total]</span>
-<ul><li class="color1" style="display:block"><a href="#" class="toggle minus" ></a><span> 13.95% (100.00%) Array#each [500000 calls, 500001 total]</span>
-<li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 2.45% (17.57%) Class#new [500000 calls, 500000 total]</span>
-<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.37% (15.03%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#17">User#initialize</a> [500000 calls, 500000 total]</span>
-</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.50% (10.77%) Array#sort [500000 calls, 500001 total]</span>
-</li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.12% (8.06%) Array#join [500000 calls, 500001 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 1.00% (7.16%) Array#sort! [500000 calls, 500000 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.75% (5.38%) Integer#to_s [1000000 calls, 1000000 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.18% (1.31%) Array#sum [500000 calls, 500000 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.18% (1.30%) Array#max [500000 calls, 500000 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.11% (0.79%) Array#reverse! [500000 calls, 500000 total]</span>
-</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 2.45% (6.54%) Class#new [500000 calls, 500000 total]</span>
-<li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.50% (4.01%) Array#sort [500000 calls, 500001 total]</span>
-<li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.12% (3.00%) Array#join [500000 calls, 500001 total]</span>
-<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 1.00% (2.67%) Array#sort! [500000 calls, 500000 total]</span>
-<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.75% (2.00%) Integer#to_s [1000000 calls, 1000000 total]</span>
-<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.18% (0.49%) Array#sum [500000 calls, 500000 total]</span>
-<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.18% (0.48%) Array#max [500000 calls, 500000 total]</span>
-<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.11% (0.29%) Array#reverse! [500000 calls, 500000 total]</span>
-</ul></li></ul></li><li class="color05" style="display:block"><a href="#" class="toggle plus" ></a><span> 9.31% (9.31%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
-<ul style="display:none"><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 3.40% (36.55%) String#encode [8126279 calls, 8126279 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.63% (6.80%) String#to_s [3939724 calls, 3939724 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.35% (3.81%) Hash#keys [492467 calls, 492467 total]</span>
+<ul><li class="color4" style="display:block"><a href="#" class="toggle minus" ></a><span> 44.93% (44.93%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#44">Object#parse_file</a> [1 calls, 1 total]</span>
+<ul><li class="color4" style="display:block"><a href="#" class="toggle minus" ></a><span> 44.93% (100.00%) &lt;Class::IO&gt;#foreach [1 calls, 1 total]</span>
+<ul><li class="color05" style="display:block"><a href="#" class="toggle empty" ></a><span> 10.92% (24.30%) String#split [750000 calls, 750000 total]</span>
+</li><li class="color05" style="display:block"><a href="#" class="toggle plus" ></a><span> 9.79% (21.78%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#32">Object#parse_session</a> [634728 calls, 634728 total]</span>
+<ul style="display:none"><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.51% (15.46%) String#upcase [634728 calls, 634728 total]</span>
+</li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.17% (12.00%) String#to_i [634728 calls, 634728 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.91% (9.28%) String#chomp! [634728 calls, 634728 total]</span>
+</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.43% (3.19%) String#to_sym [634728 calls, 634728 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.65% (1.46%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#23">Object#parse_user</a> [115272 calls, 115272 total]</span>
+</li></ul></li></ul></li><li class="color3" style="display:block"><a href="#" class="toggle minus" ></a><span> 32.22% (32.22%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#66">Object#collect_stats_from_users</a> [1 calls, 1 total]</span>
+<ul><li class="color3" style="display:block"><a href="#" class="toggle minus" ></a><span> 32.22% (100.00%) Array#each [1 calls, 115273 total]</span>
+<ul><li class="color1" style="display:block"><a href="#" class="toggle minus" ></a><span> 15.73% (48.84%) Array#each [115272 calls, 115273 total]</span>
+<ul><li class="color1" style="display:block"><a href="#" class="toggle minus" ></a><span> 15.73% (100.00%) Array#each [115272 calls, 115273 total]</span>
+<li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 2.72% (17.29%) Class#new [115272 calls, 115272 total]</span>
+<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.42% (15.41%) <a href="file:///Users/ineedjet/Projects/rails-optimization-2-task1/task-1.rb#17">User#initialize</a> [115272 calls, 115272 total]</span>
+</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.24% (7.87%) Array#sort [115272 calls, 115273 total]</span>
+</li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.09% (6.92%) Array#join [115272 calls, 115273 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.97% (6.14%) Array#sort! [115272 calls, 115272 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.59% (3.75%) Integer#to_s [230544 calls, 230544 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.23% (1.46%) Array#sum [115272 calls, 115272 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.20% (1.30%) Array#max [115272 calls, 115272 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.13% (0.82%) Array#reverse! [115272 calls, 115272 total]</span>
+</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 2.72% (8.45%) Class#new [115272 calls, 115272 total]</span>
+<li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.24% (3.84%) Array#sort [115272 calls, 115273 total]</span>
+<li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.09% (3.38%) Array#join [115272 calls, 115273 total]</span>
+<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.97% (3.00%) Array#sort! [115272 calls, 115272 total]</span>
+<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.59% (1.83%) Integer#to_s [230544 calls, 230544 total]</span>
+<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.23% (0.72%) Array#sum [115272 calls, 115272 total]</span>
+<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.20% (0.64%) Array#max [115272 calls, 115272 total]</span>
+<li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.13% (0.40%) Array#reverse! [115272 calls, 115272 total]</span>
+</ul></li></ul></li><li class="color1" style="display:block"><a href="#" class="toggle minus" ></a><span> 15.89% (15.89%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
+<ul><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 4.18% (26.34%) String#encode [1895870 calls, 1895870 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.98% (6.16%) Hash#keys [114851 calls, 114851 total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.72% (4.53%) String#to_s [918796 calls, 918796 total]</span>
 </li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (0.00%) Kernel#dup [1 calls, 1 total]</span>
-<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (53.97%) Kernel#initialize_dup [1 calls, 1 total]</span>
-<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (55.99%) JSON::Ext::Generator::State#initialize_copy [1 calls, 1 total]</span>
-</li></ul></li></ul></li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (0.00%) Symbol#to_s [1 calls, 1 total]</span>
-</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 2.62% (2.62%) Array#map [1 calls, 1 total]</span>
-<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.93% (35.55%) String#upcase [2750940 calls, 5501880 total]</span>
-</li></ul></li><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 2.16% (2.16%) Array#sort [1 calls, 500001 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.58% (0.58%) Array#uniq [1 calls, 1 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.40% (0.40%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (0.00%) Array#join [1 calls, 500001 total]</span>
-</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (0.00%) Enumerable#count [1 calls, 1 total]</span>
-<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (72.93%) Hash#each [1 calls, 1 total]</span>
-</li></ul></li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (0.00%) Array#count [2 calls, 2 total]</span>
-</li></ul></li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (0.00%) Array#first [1 calls, 1 total]</span>
-</li></ul></li></ul><div id="sentinel"></div></div></body></html>
+<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (36.28%) Kernel#initialize_dup [1 calls, 1 total]</span>
+<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.00% (50.71%) JSON::Ext::Generator::State#initialize_copy [1 calls, 1 total]</span>

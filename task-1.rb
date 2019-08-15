@@ -136,7 +136,7 @@ def work(file = 'data.txt')
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] = sessions.map { |s| s[:browser].upcase }.sort.uniq.join(',')
+  report['allBrowsers'] = sessions.map { |s| s[:browser_upcase] }.uniq.sort.join(',')
 
   # Статистика по пользователям
   # users_objects = create_users_objects(users, user_sessions_hash)

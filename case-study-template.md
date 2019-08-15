@@ -201,6 +201,60 @@ TOTAL    (pct)     SAMPLES    (pct)     FRAME
 Коммит: `optimize 4`. 
 
 
+### Ваша находка №5
+
+Используем файл 100_000.txt
+
+До оптимизации `0.609  (±32.3%) i/s -      3.000  in   5.303870s`
+
+Используем `stackprof`
+```
+ TOTAL    (pct)     SAMPLES    (pct)     FRAME
+  1622 (100.0%)        1211  (74.7%)     Object#work
+   501  (30.9%)         244  (15.0%)     Object#collect_stats_from_users
+
+```
+
+Смотрим метод `work`
+```
+  767   (47.3%)                   |    96  |   users.each do |user|
+                                  |    97  |     attributes = user
+   65    (4.0%)                   |    98  |     user_object = User.new(attributes: attributes, sessions: user_sessions[user['id']])
+                                  |    99  |     users_objects = users_objects + [user_object]
+  702   (43.3%) /   702  (43.3%)  |   100  |   end
+
+```
+
+Проверям по `flat`
+
+```
+ %self      total      self      wait     child     calls  name                           location
+ 51.05      1.756     1.155     0.000     0.601       10   Array#each                     
+ 12.91      0.432     0.292     0.000     0.140   123451   Array#map                      
+  5.87      0.133     0.133     0.000     0.000   100001   String#split                   
+  5.78      0.233     0.131     0.000     0.102        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+
+```
+
+Проверяем по `graph`. Смотрим метод `Array#each`
+```
+                0.91	0.77	0.00	0.13	2/10	        Object#work	56
+78.76%	52.02%	1.78	1.18	0.00	0.60	10	            Array#each	
+                0.25	0.22	0.00	0.03	123448/123451	Array#map	111
+                0.10	0.10	0.00	0.00	108017/108017	Hash#merge	106
+```
+
+Не понятно, пробуем оптимизировать блок с 96..100 строки.
+
+Оптимизация, прогон теста.
+
+После оптимизации: `1.046  (±12.5%) i/s -      6.000  in   5.871401s` (быстрее на 72%). 
+
+В метрику уложились.
+
+Коммит: `optimize 5`. 
+
+
 
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.

@@ -94,9 +94,7 @@ def work(filename = 'data.txt', disable_gc: true)
 
   user_sessions = sessions_group_by_user(sessions)
   users.each do |user|
-    attributes = user
-    user_object = User.new(attributes: attributes, sessions: user_sessions[user['id']])
-    users_objects = users_objects + [user_object]
+    users_objects << User.new(attributes: user, sessions: user_sessions[user['id']])
   end
 
   report['usersStats'] = {}

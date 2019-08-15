@@ -42,6 +42,10 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
+def sessions_group_by_user(sessions)
+  sessions.group_by { |session| session['user_id'] }
+end
+
 def work(filename = 'data.txt', disable_gc: true)
   GC.disable if disable_gc
 
@@ -97,10 +101,10 @@ def work(filename = 'data.txt', disable_gc: true)
   # Статистика по пользователям
   users_objects = []
 
+  user_sessions = sessions_group_by_user(sessions)
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    user_object = User.new(attributes: attributes, sessions: user_sessions[user['id']])
     users_objects = users_objects + [user_object]
   end
 

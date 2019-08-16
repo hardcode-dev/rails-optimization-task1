@@ -11,3 +11,5 @@ end
 
 printer_graph = RubyProf::GraphHtmlPrinter.new(result)
 printer_graph.print(report.file)
+
+report.open

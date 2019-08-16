@@ -11,3 +11,5 @@ end
 
 printer = RubyProf::CallStackPrinter.new(result)
 printer.print(report.file)
+
+report.open

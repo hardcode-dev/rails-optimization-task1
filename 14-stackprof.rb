@@ -12,3 +12,5 @@ report = Report.new(:stackprof)
 StackProf.run(mode: :wall, out: report.full_name, interval: 1000) do
   report.run
 end
+
+report.open

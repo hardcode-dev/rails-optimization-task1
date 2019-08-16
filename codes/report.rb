@@ -2,7 +2,7 @@ require 'fileutils'
 require "open4"
 require_relative "task-1"
 
-STEP = '3.2'
+STEP = '4.0'
 
 class Report
   attr_reader :type, :step, :folder
@@ -23,12 +23,15 @@ class Report
 
   def run
     work(data, disable_gc: true)
-    command_run
   end
 
   def save(body)
     file.write(body)
     body
+  end
+
+  def open
+    command_run
   end
 
   private
@@ -62,6 +65,7 @@ class Report
                    end
     #`#{command_line}`
     system(command_line)
+    puts command_line
   end
 
   def extension

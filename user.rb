@@ -11,30 +11,30 @@ class User
   end
 
   def full_name
-    "#{attributes['first_name']} #{attributes['last_name']}"
+    "#{attributes[:first_name]} #{attributes[:last_name]}"
   end
 
   def stats
     {
-      'sessionsCount' => sessions.count,
-      'totalTime' => "#{total_time} min.",
-      'longestSession' => "#{longest_session['time']} min.",
-      'browsers' => browsers_list,
-      'usedIE' => used_ie?,
-      'alwaysUsedChrome' => always_used_chrome?,
-      'dates' => dates
+      sessionsCount: sessions.count,
+      totalTime: "#{total_time} min.",
+      longestSession:  "#{longest_session[:time]} min.",
+      browsers: browsers_list,
+      usedIE: used_ie?,
+      alwaysUsedChrome: always_used_chrome?,
+      dates: dates
     }
   end
 
   def total_time
     sessions.reduce(0) do |acc, session|
-      acc += session['time'].to_i
+      acc += session[:time].to_i
       acc
     end
   end
 
   def longest_session
-    sessions.max { |s1, s2| s1['time'].to_i <=> s2['time'].to_i }
+    sessions.max { |s1, s2| s1[:time].to_i <=> s2[:time].to_i }
   end
 
   def browsers_list
@@ -56,10 +56,10 @@ class User
   private
 
   def browsers
-    @browsers ||= sessions.map {|s| s['browser'].upcase }
+    @browsers ||= sessions.map {|s| s[:browser].upcase }
   end
 
   def dates_list
-    sessions.map { |ses| ses['date'].strip }
+    sessions.map { |ses| ses[:date].strip }
   end
 end

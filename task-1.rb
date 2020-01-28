@@ -9,23 +9,21 @@ require './user'
 require './users_stats_collector'
 
 def parse_user(user)
-  fields = user.split(',')
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    id: user[1],
+    first_name: user[2],
+    last_name: user[3],
+    age: user[4]
   }
 end
 
 def parse_session(session)
-  fields = session.split(',')
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+    user_id: session[1],
+    session_id: session[2],
+    browser: session[3],
+    time: session[4],
+    date: session[5]
   }
 end
 
@@ -37,15 +35,15 @@ def work(file_path, disable_gc: false)
   users = []
   sessions = []
 
-  File.readlines(file_path).each do |line|
+  IO.foreach(file_path) do |line|
     cols = line.split(',')
     case cols[0] 
     when 'user'
-      user_attributes = parse_user(line)
+      user_attributes = parse_user(cols)
       cur_user = User.new(attributes: user_attributes)
       users << cur_user
     when 'session'
-      session = parse_session(line)
+      session = parse_session(cols)
       cur_user.push_session(session)
       sessions << session
     end
@@ -71,30 +69,26 @@ def work(file_path, disable_gc: false)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+
+  unique_browsers = sessions.reduce([]) do |browsers, session|
+    browser = session[:browser].upcase
+    browsers << browser unless browsers.include? browser
+    browsers
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+
+  report['uniqueBrowsersCount'] = unique_browsers.count
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = unique_browsers.sort.join(',')
 
   report['usersStats'] = UsersStatsCollector.call(users)
 
   File.write('result.json', "#{report.to_json}\n")
   puts 'Finish work'
 end
-#
+
 class TestMe < Minitest::Test
   def setup
     File.write('result.json', '')

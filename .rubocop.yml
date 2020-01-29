@@ -1,0 +1,11 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
+  - standard/cop/semantic_blocks
+
+inherit_mode:
+  merge:
+    - Exclude
+
+inherit_gem:
+  standard: config/base.yml

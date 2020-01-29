@@ -1,31 +1,14 @@
 # Deoptimized version of homework task
 
-require 'json'
-require 'pry'
-require 'date'
+require 'oj'
 require 'minitest/autorun'
 
 require './user'
-require './users_stats_collector'
+require './session'
+require './sessions_list'
+require './report_builder'
 
-def parse_user(user)
-  {
-    id: user[1],
-    first_name: user[2],
-    last_name: user[3],
-    age: user[4]
-  }
-end
-
-def parse_session(session)
-  {
-    user_id: session[1],
-    session_id: session[2],
-    browser: session[3],
-    time: session[4],
-    date: session[5]
-  }
-end
+Oj.mimic_JSON
 
 def work(file_path, disable_gc: false)
   puts 'Start work'
@@ -33,19 +16,17 @@ def work(file_path, disable_gc: false)
 
   cur_user = nil
   users = []
-  sessions = []
+  sessions_list = SessionsList.new
 
   IO.foreach(file_path) do |line|
     cols = line.split(',')
-    case cols[0] 
-    when 'user'
-      user_attributes = parse_user(cols)
-      cur_user = User.new(attributes: user_attributes)
+    if cols[0] == 'user'
+      cur_user = User.new(cols)
       users << cur_user
-    when 'session'
-      session = parse_session(cols)
-      cur_user.push_session(session)
-      sessions << session
+    else
+      session = Session.new(cols)
+      cur_user.sessions_list << session
+      sessions_list << session
     end
   end
 
@@ -64,26 +45,7 @@ def work(file_path, disable_gc: false)
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
-  report[:totalUsers] = users.count
-
-  # Подсчёт количества уникальных браузеров
-
-  unique_browsers = sessions.reduce([]) do |browsers, session|
-    browser = session[:browser].upcase
-    browsers << browser unless browsers.include? browser
-    browsers
-  end
-
-
-  report['uniqueBrowsersCount'] = unique_browsers.count
-
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] = unique_browsers.sort.join(',')
-
-  report['usersStats'] = UsersStatsCollector.call(users)
+  report = ReportBuilder.call(users, sessions_list)
 
   File.write('result.json', "#{report.to_json}\n")
   puts 'Finish work'

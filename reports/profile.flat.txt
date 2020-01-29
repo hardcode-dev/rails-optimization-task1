@@ -1,0 +1,82 @@
+Measure Mode: wall_time
+Thread ID: 70127437668360
+Fiber ID: 70127438286640
+Total: 39.986960
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 25.99     19.191    10.394     0.000     8.798  2750940   Report#process_session         /Users/nikitabatrak/ruby_perfomance_course/rails-optimization-task1/task-1.rb:93
+ 15.35     33.907     6.139     0.000    27.768        1   String#each_line               
+ 12.92      5.167     5.167     0.000     0.000  3250940   String#split                   
+  8.53      3.410     3.410     0.000     0.000   500000   Report#process_user            /Users/nikitabatrak/ruby_perfomance_course/rails-optimization-task1/task-1.rb:64
+  5.96      4.016     2.382     0.000     1.633  2750940   SortedSet#add                  /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:741
+  5.50      4.569     2.201     0.000     2.368        1   Hash#each                      
+  4.21      1.684     1.684     0.000     0.000  5501880   String#upcase                  
+  3.46      1.385     1.385     0.000     0.000   984930   Array#sort                     
+  3.16      1.264     1.264     0.000     0.000  5501880   String#match?                  
+  3.11      1.244     1.244     0.000     0.000  2750940   String#delete!                 
+  3.05      1.221     1.221     0.000     0.000  2750940   Set#add                        /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:348
+  3.02      1.209     1.209     0.000     0.000        1   <Module::Oj>#dump              
+  1.48      0.590     0.590     0.000     0.000  2750940   String#to_i                    
+  1.47      0.588     0.588     0.000     0.000   492466   Array#join                     
+  1.03      0.413     0.413     0.000     0.000  2750941   Kernel#respond_to?             
+  0.64      0.254     0.254     0.000     0.000   984930   Integer#to_s                   
+  0.35      0.141     0.141     0.000     0.000   492465   Array#reverse                  
+  0.34     39.987     0.137     0.000    39.850        1   Report#work                    /Users/nikitabatrak/ruby_perfomance_course/rails-optimization-task1/task-1.rb:34
+  0.23      0.094     0.094     0.000     0.000        1   IO#read                        
+  0.18      0.070     0.070     0.000     0.000        1   <Class::IO>#write              
+  0.00      0.001     0.001     0.000     0.000        1   Kernel#require                 
+  0.00      0.000     0.000     0.000     0.000        1   Module#module_eval             
+  0.00      0.000     0.000     0.000     0.000        1   Array#sort!                    
+  0.00     39.987     0.000     0.000    39.987        1   [global]#                      profilers/ruby_prof_multi.rb:11
+  0.00      0.000     0.000     0.000     0.000        1   File#initialize                
+  0.00      0.000     0.000     0.000     0.000        2   Array#each                     
+  0.00      0.001     0.000     0.000     0.001        3  *Class#new                      
+  0.00      0.001     0.000     0.000     0.001        1   Report#setup_defaults          /Users/nikitabatrak/ruby_perfomance_course/rails-optimization-task1/task-1.rb:56
+  0.00      0.001     0.000     0.000     0.001        1   Thread::Mutex#synchronize      
+  0.00      0.000     0.000     0.000     0.000        1   Module#alias_method            
+  0.00      0.000     0.000     0.000     0.000        1   Report#prepare_browsers_information /Users/nikitabatrak/ruby_perfomance_course/rails-optimization-task1/task-1.rb:129
+  0.00      0.001     0.000     0.000     0.001        1   <Class::SortedSet>#[]          /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:698
+  0.00      0.001     0.000     0.000     0.001        2  *SortedSet#initialize           /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:805
+  0.00      0.000     0.000     0.000     0.000       14   Module#method_added            
+  0.00      0.000     0.000     0.000     0.000        1   Set#initialize                 /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:93
+  0.00      0.000     0.000     0.000     0.000        1   SortedSet#each                 /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:775
+  0.00      0.000     0.000     0.000     0.000        2   SortedSet#to_a                 /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:781
+  0.00      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+  0.00      0.000     0.000     0.000     0.000        1   Enumerable#count               
+  0.00      0.000     0.000     0.000     0.000        1   Hash#keys                      
+  0.00      0.000     0.000     0.000     0.000        1   Set#merge                      /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:432
+  0.00      0.000     0.000     0.000     0.000        1   <Class::IO>#open               
+  0.00      0.000     0.000     0.000     0.000        1   Set#do_with_enum               /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:122
+  0.00      0.001     0.000     0.000     0.001        1   <Class::SortedSet>#setup       /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:702
+  0.00      0.000     0.000     0.000     0.000        1   Module#remove_method           
+  0.00      4.569     0.000     0.000     4.569        1   Report#prepare_users_information /Users/nikitabatrak/ruby_perfomance_course/rails-optimization-task1/task-1.rb:135
+  0.00      0.000     0.000     0.000     0.000        1   SortedSet#merge                /Users/nikitabatrak/.rbenv/versions/2.6.5/lib/ruby/2.6.0/set.rb:770
+  0.00      0.000     0.000     0.000     0.000        1   Exception#initialize           
+  0.00      0.000     0.000     0.000     0.000        1   Exception#exception            
+  0.00      0.000     0.000     0.000     0.000        1   Enumerable#each_entry          
+  0.00      0.000     0.000     0.000     0.000        1   Report#initialize              /Users/nikitabatrak/ruby_perfomance_course/rails-optimization-task1/task-1.rb:9
+  0.00      0.000     0.000     0.000     0.000        1   Module#===                     
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#instance_of?            
+  0.00      0.000     0.000     0.000     0.000        1   Hash#initialize                
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#nil?                    
+  0.00      0.000     0.000     0.000     0.000        1   Module#method_removed          
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#class                   
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

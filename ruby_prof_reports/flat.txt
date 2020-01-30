@@ -1,0 +1,52 @@
+Measure Mode: wall_time
+Thread ID: 70236539983820
+Fiber ID: 70236553271200
+Total: 1.220672
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 76.83      1.186     0.938     0.000     0.248    16959  *Array#each                     
+ 13.49      0.165     0.165     0.000     0.000    40001   String#split                   
+  4.06      0.108     0.050     0.000     0.059    16954   Object#parse_session           /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:26
+  2.17      0.320     0.026     0.000     0.294    16954   Enumerable#all?                
+  1.14      0.018     0.014     0.000     0.004        2   Array#map                      
+  0.73      0.018     0.009     0.000     0.009     3046   Object#parse_user              /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:16
+  0.34      0.004     0.004     0.000     0.000    16954   String#upcase                  
+  0.33      0.006     0.004     0.000     0.001     3046   Class#new                      
+  0.26      0.003     0.003     0.000     0.000        1   Array#sort                     
+  0.22      0.004     0.003     0.000     0.001     3045   Hash#merge                     
+  0.12      0.001     0.001     0.000     0.000     3046   User#initialize                /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:10
+  0.09      0.001     0.001     0.000     0.000        1   Array#uniq                     
+  0.07      0.001     0.001     0.000     0.000     3045   Kernel#initialize_dup          
+  0.05      0.001     0.001     0.000     0.000     3048   Array#count                    
+  0.04      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
+  0.04      0.000     0.000     0.000     0.000     3045   Hash#initialize_copy           
+  0.00      1.221     0.000     0.000     1.221        1   Object#work                    /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:45
+  0.00      0.000     0.000     0.000     0.000        1   Array#join                     
+  0.00      1.221     0.000     0.000     1.221        1   [global]#                      script.rb:7
+  0.00      0.000     0.000     0.000     0.000        1   BasicObject#method_missing     
+  0.00      0.000     0.000     0.000     0.000        1   Exception#initialize           
+  0.00      0.011     0.000     0.000     0.011        1   Enumerable#group_by            
+  0.00      0.000     0.000     0.000     0.000        1   NoMethodError#initialize       
+  0.00      0.017     0.000     0.000     0.017        1   Object#collect_stats_from_users /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:37
+  0.00      0.000     0.000     0.000     0.000        1   NameError#initialize           
+  0.00      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+  0.00      0.000     0.000     0.000     0.000        1   Exception#exception            
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

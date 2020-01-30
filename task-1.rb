@@ -96,9 +96,12 @@ def work
   # Статистика по пользователям
   users_objects = []
 
+  hashed_sessions = sessions.group_by{ |session| session['user_id'] }
+
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = hashed_sessions[user['id']]
+
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end
@@ -174,3 +177,18 @@ session,2,3,Chrome 20,84,2016-11-25
     assert_equal expected_result, File.read('result.json')
   end
 end
+
+puts Process.pid
+# require 'ruby-prof'
+#
+#
+# result = RubyProf.profile do
+#   work
+# end
+#
+# printer = RubyProf::CallTreePrinter.new(result)
+#
+# printer.print
+
+
+

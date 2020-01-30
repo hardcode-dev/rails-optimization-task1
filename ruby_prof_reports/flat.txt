@@ -1,37 +1,54 @@
 Measure Mode: wall_time
-Thread ID: 70236539983820
-Fiber ID: 70236553271200
-Total: 1.220672
+Thread ID: 70217933789100
+Fiber ID: 70217951402740
+Total: 0.618500
 Sort by: self_time
 
  %self      total      self      wait     child     calls  name                           location
- 76.83      1.186     0.938     0.000     0.248    16959  *Array#each                     
- 13.49      0.165     0.165     0.000     0.000    40001   String#split                   
-  4.06      0.108     0.050     0.000     0.059    16954   Object#parse_session           /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:26
-  2.17      0.320     0.026     0.000     0.294    16954   Enumerable#all?                
-  1.14      0.018     0.014     0.000     0.004        2   Array#map                      
-  0.73      0.018     0.009     0.000     0.009     3046   Object#parse_user              /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:16
-  0.34      0.004     0.004     0.000     0.000    16954   String#upcase                  
-  0.33      0.006     0.004     0.000     0.001     3046   Class#new                      
-  0.26      0.003     0.003     0.000     0.000        1   Array#sort                     
-  0.22      0.004     0.003     0.000     0.001     3045   Hash#merge                     
-  0.12      0.001     0.001     0.000     0.000     3046   User#initialize                /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:10
+ 53.95      0.580     0.334     0.000     0.246    11547  *Array#each                     
+  7.40      0.111     0.046     0.000     0.065     8464   <Class::Date>#parse            
+  5.99      0.037     0.037     0.000     0.000     8464   String#gsub!                   
+  4.96      0.031     0.031     0.000     0.000    10000   String#split                   
+  4.24      0.150     0.026     0.000     0.124     6145   Array#map                      
+  2.71      0.017     0.017     0.000     0.000    16928   Regexp#match                   
+  2.43      0.015     0.015     0.000     0.000     8464   Object#parse_session           /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:25
+  1.99      0.012     0.012     0.000     0.000    10752   Hash#initialize_copy           
+  1.96      0.012     0.012     0.000     0.000    25366   String#encode                  
+  1.81      0.026     0.011     0.000     0.015        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  1.37      0.012     0.008     0.000     0.003     3073   Array#sort                     
+  1.15      0.023     0.007     0.000     0.016    10752   Hash#merge                     
+  1.15      0.007     0.007     0.000     0.000     8464   Date#iso8601                   
+  0.99      0.006     0.006     0.000     0.000     8464   MatchData#begin                
+  0.97      0.006     0.006     0.000     0.000    23399   String#upcase                  
+  0.76      0.006     0.005     0.000     0.001     1536   Array#any?                     
+  0.70      0.146     0.004     0.000     0.142    10000   Enumerable#all?                
+  0.54      0.003     0.003     0.000     0.000    16928   String#to_i                    
+  0.54      0.016     0.003     0.000     0.012    10753   Kernel#initialize_dup          
+  0.52      0.003     0.003     0.000     0.000    17169   Date#<=>                       
+  0.50      0.003     0.003     0.000     0.000        1   <Class::IO>#readlines          
+  0.48      0.003     0.003     0.000     0.000     1537   Array#join                     
+  0.43      0.003     0.003     0.000     0.000     1536   Object#parse_user              /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:16
+  0.40      0.002     0.002     0.000     0.000     8464   String#[]=                     
+  0.31      0.002     0.002     0.000     0.000    12292   String#to_s                    
+  0.27      0.002     0.002     0.000     0.000     8464   Integer#div                    
+  0.23      0.002     0.001     0.000     0.001     1536   Class#new                      
+  0.21      0.001     0.001     0.000     0.000     8464   MatchData#end                  
+  0.18      0.001     0.001     0.000     0.000     3072   Integer#to_s                   
+  0.18      0.001     0.001     0.000     0.000     1536   Array#reverse                  
+  0.15      0.008     0.001     0.000     0.007     1536   Enumerable#inject              
+  0.14      0.001     0.001     0.000     0.000     1538   Hash#keys                      
+  0.10      0.001     0.001     0.000     0.000     1536   User#initialize                /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:10
+  0.09      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
   0.09      0.001     0.001     0.000     0.000        1   Array#uniq                     
-  0.07      0.001     0.001     0.000     0.000     3045   Kernel#initialize_dup          
-  0.05      0.001     0.001     0.000     0.000     3048   Array#count                    
-  0.04      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
-  0.04      0.000     0.000     0.000     0.000     3045   Hash#initialize_copy           
-  0.00      1.221     0.000     0.000     1.221        1   Object#work                    /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:45
-  0.00      0.000     0.000     0.000     0.000        1   Array#join                     
-  0.00      1.221     0.000     0.000     1.221        1   [global]#                      script.rb:7
-  0.00      0.000     0.000     0.000     0.000        1   BasicObject#method_missing     
-  0.00      0.000     0.000     0.000     0.000        1   Exception#initialize           
-  0.00      0.011     0.000     0.000     0.011        1   Enumerable#group_by            
-  0.00      0.000     0.000     0.000     0.000        1   NoMethodError#initialize       
-  0.00      0.017     0.000     0.000     0.017        1   Object#collect_stats_from_users /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:37
-  0.00      0.000     0.000     0.000     0.000        1   NameError#initialize           
-  0.00      0.000     0.000     0.000     0.000        1   Exception#backtrace            
-  0.00      0.000     0.000     0.000     0.000        1   Exception#exception            
+  0.05      0.000     0.000     0.000     0.000     1539   Array#count                    
+  0.05      0.000     0.000     0.000     0.000     1536   Array#max                      
+  0.02      0.618     0.000     0.000     0.618        1   Object#work                    /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:43
+  0.00      0.618     0.000     0.000     0.618        1   [global]#                      script.rb:7
+  0.00      0.240     0.000     0.000     0.240        7   Object#collect_stats_from_users /web/_thinknetica/optimisation/rails-optimization-task1/task-1.rb:35
+  0.00      0.004     0.000     0.000     0.004        1   Enumerable#group_by            
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#dup                     
+  0.00      0.000     0.000     0.000     0.000        1   Symbol#to_s                    
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize_copy 
 
 * recursively called methods
 

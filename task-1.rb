@@ -1,6 +1,8 @@
 # Deoptimized version of homework task
 
-require 'json'
+# require 'json'
+require 'oj'
+Oj.mimic_JSON
 require 'pry'
 require 'date'
 require 'minitest/autorun'
@@ -18,8 +20,7 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
+def parse_user(fields)
   {
     'id' => fields[1],
     'first_name' => fields[2],
@@ -28,8 +29,7 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
+def parse_session(fields)
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
@@ -56,12 +56,13 @@ def work(file)
   user = nil
 
   file_lines.each do |line|
-    if line[0..3] == 'user'
-      user = User.new(parse_user(line))
+    fields = line.split(',')
+    if fields[0] == 'user'
+      user = User.new(parse_user(fields))
       users << user
       next
     end
-    parse = parse_session(line)
+    parse = parse_session(fields)
     user.add_session(parse)
     sessions << parse
   end

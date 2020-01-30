@@ -51,8 +51,8 @@ def work
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users << parse_user(line) if cols[0] == 'user'
+    sessions << parse_session(line) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -73,15 +73,7 @@ def work
   report = {}
 
   report[:totalUsers] = users.count
-
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = sessions.uniq{|session| session['browser']}.count
 
   report['totalSessions'] = sessions.count
 
@@ -100,7 +92,7 @@ def work
 
   users.each do |user|
     attributes = user
-    user_sessions = hashed_sessions[user['id']]
+    user_sessions = hashed_sessions[user['id']] || []
 
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
@@ -177,8 +169,8 @@ session,2,3,Chrome 20,84,2016-11-25
     assert_equal expected_result, File.read('result.json')
   end
 end
-
-puts Process.pid
+#
+# puts Process.pid
 # require 'ruby-prof'
 #
 #
@@ -186,9 +178,17 @@ puts Process.pid
 #   work
 # end
 #
-# printer = RubyProf::CallTreePrinter.new(result)
 #
-# printer.print
+#
+# # print a graph profile to text
+# printer = RubyProf::GraphHtmlPrinter.new(result)
+# printer.print(File.open('1.html', 'w'), {})
+# #
+# # printer = RubyProf::CallTreePrinter.new(result)
+# #
+# # printer.print
 
+
+work
 
 

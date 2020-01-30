@@ -18,6 +18,10 @@ class User
   def add_session(session)
     @sessions << session
   end
+
+  def full_name
+    @full_name ||= "#{@attributes['first_name']} #{@attributes['last_name']}"
+  end
 end
 
 def parse_user(fields)
@@ -41,9 +45,8 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = user.attributes['first_name'].to_s + ' ' + user.attributes['last_name'].to_s
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key].merge!(block.call(user))
+    report['usersStats'][user.full_name] ||= {}
+    report['usersStats'][user.full_name].merge!(block.call(user))
   end
 end
 
@@ -107,12 +110,12 @@ def work(file)
 
   # Собираем количество времени по пользователям
   collect_stats_from_users(report, users) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.sum.to_s + ' min.' }
+    { 'totalTime' => "#{user.sessions.reduce(0) { |sum, session| sum += session['time']; sum }} min." }
   end
 
   # Выбираем самую длинную сессию пользователя
   collect_stats_from_users(report, users) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.max.to_s + ' min.' }
+    { 'longestSession' => "#{user.sessions.reduce(0) { |max, session| max = session['time'] if session['time'] > max; max }} min." }
   end
 
   # Браузеры пользователя через запятую

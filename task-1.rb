@@ -46,8 +46,10 @@ def work(filename: 'data.txt', disable_gc: true)
 
   File.readlines(filename).each do |line|
     cols = line.split(',')
-    users = users + [parse_user(cols)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(cols)] if cols[0] == 'session'
+    case cols[0]
+      when 'user' then users.unshift(parse_user(cols))
+      when 'session' then sessions.unshift(parse_session(cols))
+    end
   end
 
   # Отчёт в json
@@ -73,7 +75,7 @@ def work(filename: 'data.txt', disable_gc: true)
   uniqueBrowsers = []
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    uniqueBrowsers.unshift(browser) if uniqueBrowsers.all? { |b| b != browser }
   end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
@@ -92,10 +94,8 @@ def work(filename: 'data.txt', disable_gc: true)
 
   grouped_sessions = sessions.group_by { |session| session['user_id'] }
 
-  users.each do |user|
-    attributes = user
-    user_object = User.new(attributes: attributes, sessions: grouped_sessions[user['id']])
-    users_objects = users_objects + [user_object]
+  users.each do |attributes|
+    users_objects.unshift(User.new(attributes: attributes, sessions: grouped_sessions[attributes['id']]))
   end
 
   report['usersStats'] = {}

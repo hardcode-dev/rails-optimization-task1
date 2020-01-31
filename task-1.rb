@@ -122,7 +122,7 @@ def work
         'browsers' => browsers,  # Браузеры пользователя через запятую
         'usedIE' => used_ie, # Хоть раз использовал IE?
         'alwaysUsedChrome' => only_chrome,  # Всегда использовал только Chrome?
-        'dates' => user.sessions.map { |s| Date.strptime(s[:date], '%Y-%m-%d') }.sort.reverse.map(&:iso8601)  # Даты сессий через запятую в обратном порядке в формате iso8601
+        'dates' => user.sessions.map { |s| s[:date] }.sort.reverse  # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 
@@ -167,22 +167,28 @@ end
 #   end
 # end
 #
-# require 'ruby-prof'
+
 #
-#
-# result = RubyProf.profile do
-#   work
-# end
-#
+# def profile
+#   require 'ruby-prof'
+#   GC.disable
+#   result = RubyProf.profile do
+#     work
+#   end
 #
 #
 # # print a graph profile to text
-# printer = RubyProf::GraphHtmlPrinter.new(result)
-# printer.print(File.open('1.html', 'w'), {})
+#   printer = RubyProf::GraphHtmlPrinter.new(result)
+#   printer.print(File.open('1.html', 'w'), {})
 #
-# printer = RubyProf::CallTreePrinter.new(result)
+#   printer = RubyProf::CallTreePrinter.new(result)
 #
-# printer.print
+#   printer.print
+# end
 #
 #
- work
+# if true
+#   profile
+# else
+   work
+# end

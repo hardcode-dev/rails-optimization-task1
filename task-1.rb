@@ -103,39 +103,17 @@ def work(file)
 
   report['usersStats'] = {}
 
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users) do |user|
-    { 'sessionsCount' => user.sessions.count }
-  end
-
-  # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users) do |user|
-    { 'totalTime' => "#{user.sessions.reduce(0) { |sum, session| sum += session['time']; sum }} min." }
-  end
-
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users) do |user|
-    { 'longestSession' => "#{user.sessions.reduce(0) { |max, session| max = session['time'] if session['time'] > max; max }} min." }
-  end
-
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.sort.join(', ') }
-  end
-
-  # Хоть раз использовал IE?
-  collect_stats_from_users(report, users) do |user|
-    { 'usedIE' => user.sessions.any? { |b| b['browser'] =~ /INTERNET EXPLORER/ } }
-  end
-
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users) do |user|
-    { 'alwaysUsedChrome' => user.sessions.all? { |b| b['browser'] =~ /CHROME/ } }
-  end
-
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
+  users.each do |user|
+    report['usersStats'][user.full_name] ||= {}
+    report['usersStats'][user.full_name] = {
+      'sessionsCount' => user.sessions.count,
+      'totalTime' => "#{user.sessions.reduce(0) { |sum, session| sum += session['time']; sum }} min.",
+      'longestSession' => "#{user.sessions.reduce(0) { |max, session| max = session['time'] if session['time'] > max; max }} min.",
+      'browsers' => user.sessions.map {|s| s['browser']}.sort.join(', '),
+      'usedIE' => user.sessions.any? { |b| b['browser'] =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => user.sessions.all? { |b| b['browser'] =~ /CHROME/ },
+      'dates' => user.sessions.map{|s| s['date']}.sort.reverse
+    }
   end
 
   File.write('result.json', "#{report.to_json}\n")

@@ -38,17 +38,15 @@ def parse_session(session)
   }
 end
 
-def collect_stats_from_users(report, users_objects, &block)
+def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
     user_key = user.attributes['first_name'].to_s + ' ' + user.attributes['last_name'].to_s
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 end
 
 def work(file_name)
-  GC.disable
-
   file_lines = File.read(file_name).split("\n")
 
   users = []

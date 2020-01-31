@@ -1,0 +1,195 @@
+Measure Mode: wall_time
+Thread ID: 70333306716220
+Fiber ID: 70333307598460
+Total: 143.918788
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 91.30    131.397   131.397     0.000     0.000     7701   Array#select                   
+  3.59    143.770     5.173     0.000   138.597    17020  *Array#each                     
+  0.61      1.196     0.871     0.000     0.324   100000   ProgressBar::Progress#increment /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:37
+  0.56      0.803     0.801     0.000     0.002    50000   Array#all?                     
+  0.20      5.190     0.286     0.000     4.904   100003   ProgressBar::Output#with_refresh /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/output.rb:42
+  0.20      0.282     0.282     0.000     0.000   100001   String#split                   
+  0.14      3.125     0.195     0.000     2.930   100003   ProgressBar::Throttle#choke    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/throttle.rb:15
+  0.13      0.550     0.188     0.000     0.362    84647   Array#map                      
+  0.13      3.565     0.183     0.000     3.382   100003   ProgressBar::Output#refresh    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/output.rb:47
+  0.13      0.261     0.183     0.000     0.078   208502   ProgressBar::Base#finished?    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/base.rb:80
+  0.13      0.182     0.182     0.000     0.000    84815   String#gsub!                   
+  0.12      0.324     0.175     0.000     0.149   100006   ProgressBar::Progress#progress= /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:61
+  0.11      0.224     0.164     0.000     0.059   125500   <Class::Time>#now              
+  0.11      0.157     0.157     0.000     0.000     8508   IO#write                       
+  0.10      0.294     0.145     0.000     0.149    42305   <Class::Date>#parse            
+  0.10      0.440     0.145     0.000     0.295   125500   ProgressBar::Time#now          /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/time.rb:15
+  0.09      0.644     0.137     0.000     0.507   116998   ProgressBar::Timer#elapsed_seconds /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:53
+  0.09      5.427     0.128     0.000     5.298   100000   ProgressBar::Base#increment    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/base.rb:92
+  0.09      0.291     0.123     0.000     0.169   108505   ProgressBar::Base#stopped?     /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/base.rb:74
+  0.08      1.041     0.121     0.000     0.920    34008   ProgressBar::Format::Molecule#lookup_value /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/molecule.rb:49
+  0.08      0.118     0.118     0.000     0.000    25503   String#%                       
+  0.08      5.299     0.109     0.000     5.190   100003   ProgressBar::Base#update_progress /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/base.rb:176
+  0.06      0.086     0.086     0.000     0.000     8502   ProgressBar::Calculators::Length#unix? /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:95
+  0.06      0.083     0.083     0.000     0.000   217004   ProgressBar::Progress#finished? /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:33
+  0.05      0.104     0.076     0.000     0.028   100006   <Class::ProgressBar::Calculators::RunningAverage>#calculate /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/running_average.rb:4
+  0.05      0.072     0.072     0.000     0.000   125500   ProgressBar::Time#unmocked_time_method /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/time.rb:19
+  0.05      0.087     0.071     0.000     0.016     7752  *Class#new                      
+  0.05      1.532     0.069     0.000     1.463     8502   <Class::ProgressBar::Format::Formatter>#process /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/formatter.rb:4
+  0.05      0.102     0.069     0.000     0.034   116998   Time#-                         
+  0.04      0.064     0.064     0.000     0.000    84610   Regexp#match                   
+  0.04      0.063     0.063     0.000     0.000   125506   ProgressBar::Timer#stopped?    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:35
+  0.04      0.059     0.059     0.000     0.000   125500   Time#initialize                
+  0.04      0.059     0.059     0.000     0.000     8505   IO#tty?                        
+  0.04      0.187     0.058     0.000     0.129    42305   Object#parse_session           /Users/k.bludov/work/teach/rails-optimization-task1/task-1.rb:30
+  0.04      0.070     0.052     0.000     0.018     8503   Kernel#dup                     
+  0.04      0.051     0.051     0.000     0.000   108511   ProgressBar::Timer#started?    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:31
+  0.03      0.088     0.050     0.000     0.038        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  0.03      0.045     0.045     0.000     0.000   100006   ProgressBar::Progress#absolute /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:114
+  0.03      0.045     0.045     0.000     0.000     8502   IO#winsize                     
+  0.03      0.163     0.043     0.000     0.120     8499   ProgressBar::Components::Time#estimated_seconds_remaining /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:91
+  0.03      0.042     0.042     0.000     0.000    34008   ProgressBar::Format::Molecule#full_key /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/molecule.rb:45
+  0.03      0.184     0.041     0.000     0.143     8505   ProgressBar::Components::Time#elapsed /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:79
+  0.03      0.040     0.040     0.000     0.000   116403   String#upcase                  
+  0.03      1.894     0.039     0.000     1.855     8502   ProgressBar::Output#print_and_flush /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/output.rb:63
+  0.03      0.038     0.038     0.000     0.000   211804   String#to_s                    
+  0.03      0.164     0.038     0.000     0.125     8502   ProgressBar::Components::Bar#to_s /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/bar.rb:25
+  0.03      0.119     0.037     0.000     0.081     8502   ProgressBar::Progress#percentage_completed_with_precision /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:107
+  0.02      1.589     0.034     0.000     1.555     8502   ProgressBar::Base#to_s         /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/base.rb:120
+  0.02      0.034     0.034     0.000     0.000   116998   Integer#fdiv                   
+  0.02      0.162     0.032     0.000     0.130     8502   ProgressBar::Calculators::Length#dynamic_width /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:57
+  0.02      0.279     0.032     0.000     0.248     8502   ProgressBar::Calculators::Length#terminal_width /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:43
+  0.02      0.228     0.031     0.000     0.197     8499   ProgressBar::Components::Time#estimated /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:65
+  0.02      0.046     0.031     0.000     0.015    15391   Array#sort                     
+  0.02      0.029     0.029     0.000     0.000   126956   String#encode                  
+  0.02      0.028     0.028     0.000     0.000   100012   Integer#*                      
+  0.02      0.027     0.027     0.000     0.000    42305   MatchData#begin                
+  0.02      0.042     0.027     0.000     0.015    17001   ProgressBar::Timer#divide_seconds /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:61
+  0.02      0.027     0.027     0.000     0.000   100024   Hash#fetch                     
+  0.02      1.616     0.026     0.000     1.589     8502   ProgressBar::Outputs::Tty#bar_update_string /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/outputs/tty.rb:15
+  0.02      0.190     0.026     0.000     0.164     8502   ProgressBar::Components::Bar#complete_bar /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/bar.rb:57
+  0.02      0.324     0.026     0.000     0.298     8502   ProgressBar::Calculators::Length#length_changed? /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:18
+  0.02      0.105     0.026     0.000     0.079     8502   ProgressBar::Timer#restart     /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:48
+  0.02      0.047     0.026     0.000     0.021    34032   ProgressBar::Format::Molecule#bar_molecule? /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/molecule.rb:37
+  0.02      0.024     0.024     0.000     0.000    42537   Array#include?                 
+  0.02      0.208     0.024     0.000     0.184     8505   ProgressBar::Components::Time#elapsed_with_label /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:26
+  0.02      0.024     0.024     0.000     0.000    53871   Hash#merge                     
+  0.02      0.034     0.024     0.000     0.011    17004   ProgressBar::Progress#percentage_completed /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:83
+  0.02      0.063     0.023     0.000     0.040    17004   ProgressBar::Components::Bar#completed_length /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/bar.rb:91
+  0.02      0.157     0.023     0.000     0.135     8502   ProgressBar::Components::Percentage#justified_percentage_with_precision /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/percentage.rb:24
+  0.02      0.305     0.022     0.000     0.283     8502   ProgressBar::Components::Time#estimated_with_friendly_oob /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:44
+  0.02      0.022     0.022     0.000     0.000     8502   String#gsub                    
+  0.01      0.063     0.021     0.000     0.042     8505   ProgressBar::Timer#start       /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:12
+  0.01      0.029     0.020     0.000     0.008    17001   ProgressBar::Progress#unknown? /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:99
+  0.01      0.020     0.020     0.000     0.000    42305   Date#iso8601                   
+  0.01      0.020     0.020     0.000     0.000    17007   String#*                       
+  0.01      0.269     0.019     0.000     0.250     8502   ProgressBar::Components::Time#estimated_with_elapsed_fallback /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:87
+  0.01      0.298     0.019     0.000     0.279     8502   ProgressBar::Calculators::Length#calculate_length /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:25
+  0.01      0.052     0.018     0.000     0.034     8502   ProgressBar::Outputs::Tty#eol  /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/outputs/tty.rb:27
+  0.01      0.246     0.017     0.000     0.228     8499   ProgressBar::Components::Time#estimated_with_label /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:22
+  0.01      0.017     0.017     0.000     0.000    59508   Kernel#nil?                    
+  0.01      0.068     0.017     0.000     0.052     8502   ProgressBar::Components::Bar#standard_complete_string /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/bar.rb:43
+  0.01      0.041     0.016     0.000     0.025     8502   ProgressBar::Format::String#displayable_length /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/string.rb:7
+  0.01      0.020     0.016     0.000     0.004     7695   Array#any?                     
+  0.01      0.016     0.016     0.000     0.000     8502   ProgressBar::Timer#reset       /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:39
+  0.01      0.015     0.015     0.000     0.000     7695   User#initialize                /Users/k.bludov/work/teach/rails-optimization-task1/task-1.rb:14
+  0.01      0.015     0.015     0.000     0.000    85900   Date#<=>                       
+  0.01      0.059     0.015     0.000     0.045     8502   ProgressBar::Calculators::Length#dynamic_width_via_output_stream_object /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:73
+  0.01      0.015     0.015     0.000     0.000    34002   Integer#divmod                 
+  0.01      0.015     0.015     0.000     0.000    84610   String#to_i                    
+  0.01      0.045     0.014     0.000     0.031     8502   ProgressBar::Components::Bar#incomplete_string /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/bar.rb:47
+  0.01      0.014     0.014     0.000     0.000     8502   ProgressBar::Format::String#non_bar_molecules /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/string.rb:15
+  0.01      0.023     0.014     0.000     0.009     8502   ProgressBar::Output#length     /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/output.rb:38
+  0.01      0.171     0.013     0.000     0.157     8508   IO#print                       
+  0.01      0.013     0.013     0.000     0.000    25500   Integer#/                      
+  0.01      0.012     0.012     0.000     0.000     8502   String#rjust                   
+  0.01      0.012     0.012     0.000     0.000    42305   String#[]=                     
+  0.01      0.021     0.012     0.000     0.009     8499   ProgressBar::Progress#none?    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:95
+  0.01      0.070     0.011     0.000     0.058     8505   ProgressBar::Timer#elapsed_whole_seconds /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:57
+  0.01      0.011     0.011     0.000     0.000     8526   Kernel#respond_to?             
+  0.01      0.011     0.011     0.000     0.000     8496   Float#round                    
+  0.01      0.014     0.011     0.000     0.003     8505   ProgressBar::Components::Time#out_of_bounds_time_format= /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:54
+  0.01      0.011     0.011     0.000     0.000     8502   String#+                       
+  0.01      0.023     0.011     0.000     0.013     7695   Object#parse_user              /Users/k.bludov/work/teach/rails-optimization-task1/task-1.rb:20
+  0.01      0.009     0.009     0.000     0.000     8502   String#initialize_copy         
+  0.01      0.009     0.009     0.000     0.000     8502   ProgressBar::Format::String#bar_molecule_placeholder_length /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/string.rb:11
+  0.01      0.009     0.009     0.000     0.000     8505   ProgressBar::Calculators::Length#length /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:14
+  0.01      0.018     0.008     0.000     0.009     8503   Kernel#initialize_dup          
+  0.01      0.008     0.008     0.000     0.000    17007   Float#floor                    
+  0.01      0.008     0.008     0.000     0.000    42305   Integer#div                    
+  0.01      0.007     0.007     0.000     0.000     8505   ProgressBar::Format::String#bar_molecules /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/string.rb:19
+  0.00      0.007     0.007     0.000     0.000     7696   Array#join                     
+  0.00      0.006     0.006     0.000     0.000    42305   MatchData#end                  
+  0.00      0.006     0.006     0.000     0.000    17004   Integer#to_i                   
+  0.00      0.006     0.006     0.000     0.000     8502   IO#flush                       
+  0.00      0.006     0.006     0.000     0.000    17004   Integer#floor                  
+  0.00      0.005     0.005     0.000     0.000     8496   Float#-                        
+  0.00      0.004     0.004     0.000     0.000     8496   Numeric#zero?                  
+  0.00      0.004     0.004     0.000     0.000     8502   Integer#to_f                   
+  0.00      0.004     0.004     0.000     0.000     8499   Float#zero?                    
+  0.00      0.004     0.004     0.000     0.000     8502   Float#*                        
+  0.00      0.004     0.004     0.000     0.000    15390   Integer#to_s                   
+  0.00      0.004     0.004     0.000     0.000     8502   String#length                  
+  0.00      0.003     0.003     0.000     0.000        1   <Class::IO>#write              
+  0.00      0.003     0.003     0.000     0.000        1   Array#uniq                     
+  0.00      0.003     0.003     0.000     0.000        1   <Class::IO>#read               
+  0.00      0.002     0.002     0.000     0.000     7695   Array#reverse                  
+  0.00      0.002     0.002     0.000     0.000     7695   Array#max                      
+  0.00      0.002     0.002     0.000     0.000     7697   Hash#keys                      
+  0.00      0.001     0.001     0.000     0.000     7695   Array#sum                      
+  0.00      0.001     0.001     0.000     0.000     7701   Array#count                    
+  0.00    143.919     0.000     0.000   143.918        1   Object#work                    /Users/k.bludov/work/teach/rails-optimization-task1/task-1.rb:49
+  0.00      0.001     0.000     0.000     0.001        3   ProgressBar::Base#initialize   /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/base.rb:16
+  0.00    143.919     0.000     0.000   143.919        1   [global]#                      test_ruby_prof_flat.rb:7
+  0.00      0.000     0.000     0.000     0.000        3   String#scan                    
+  0.00      0.000     0.000     0.000     0.000       12   ProgressBar::Format::Molecule#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/molecule.rb:32
+  0.00      0.001     0.000     0.000     0.001        3   Object#progress_bar            /Users/k.bludov/work/teach/rails-optimization-task1/task-1.rb:158
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Timer#stop        /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:17
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Output#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/output.rb:7
+  0.00      0.000     0.000     0.000     0.000        6   ProgressBar::Timer#initialize  /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/timer.rb:8
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Progress#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:16
+  0.00      0.817     0.000     0.000     0.817        7   Object#collect_stats_from_users /Users/k.bludov/work/teach/rails-optimization-task1/task-1.rb:41
+  0.00      0.000     0.000     0.000     0.000       12   String#to_sym                  
+  0.00      0.000     0.000     0.000     0.000       12   ProgressBar::Format::Molecule#non_bar_molecule? /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/molecule.rb:41
+  0.00      0.000     0.000     0.000     0.000        6   ProgressBar::Progress#start    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:23
+  0.00      0.000     0.000     0.000     0.000        6   ProgressBar::Format::String#molecules /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/format/string.rb:23
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Components::Rate#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/rate.rb:10
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Components::Bar#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/bar.rb:17
+  0.00      0.000     0.000     0.000     0.000        3   <Class::ProgressBar::Output>#detect /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/output.rb:17
+  0.00      0.000     0.000     0.000     0.000        3   <Object::Object>#[]            
+  0.00      0.001     0.000     0.000     0.001        3   <Class::ProgressBar>#create    /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar.rb:19
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Throttle#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/throttle.rb:8
+  0.00      0.000     0.000     0.000     0.000        3   String#initialize              
+  0.00      0.001     0.000     0.000     0.001        3   ProgressBar::Base#start        /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/base.rb:39
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Calculators::Length#length_override= /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:33
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Components::Time#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/time.rb:16
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Calculators::Length#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/calculators/length.rb:8
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Progress#total=   /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/progress.rb:74
+  0.00      0.000     0.000     0.000     0.000        6   Enumerable#find                
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Outputs::Tty#clear /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/outputs/tty.rb:10
+  0.00      0.000     0.000     0.000     0.000        6   ProgressBar::Time#initialize   /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/time.rb:11
+  0.00      0.000     0.000     0.000     0.000       12   String#[]                      
+  0.00      0.000     0.000     0.000     0.000        3   Kernel#lambda                  
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Components::Percentage#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/percentage.rb:6
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Output#clear_string /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/output.rb:34
+  0.00      0.000     0.000     0.000     0.000        3   Kernel#is_a?                   
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Components::Title#initialize /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/components/title.rb:8
+  0.00      0.000     0.000     0.000     0.000        3   ProgressBar::Outputs::Tty#resolve_format /Users/k.bludov/.rvm/gems/ruby-2.6.3/gems/ruby-progressbar-1.10.1/lib/ruby-progressbar/outputs/tty.rb:23
+  0.00      0.000     0.000     0.000     0.000        1   Symbol#to_s                    
+  0.00      0.000     0.000     0.000     0.000        3   NilClass#nil?                  
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize_copy 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

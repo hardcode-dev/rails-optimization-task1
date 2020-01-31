@@ -6,7 +6,7 @@ RubyProf.measure_mode = RubyProf::WALL_TIME
 result = RubyProf.profile do
   work("data50000.txt")
 end
-printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open("flat.txt", "w+"))
+printer = RubyProf::GraphHtmlPrinter.new(result)
+printer.print(File.open("ruby-prof/graph.html", "w+"))
 
 

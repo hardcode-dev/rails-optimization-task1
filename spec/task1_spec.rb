@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe do
+RSpec.describe Task1 do
   describe 'correct work' do
     let!(:file_path) { './data.txt' }
     let!(:expected_result) do
@@ -12,7 +12,7 @@ RSpec.describe do
     before { File.write('../result.json', '') }
 
     it 'should execute' do
-      work(file_path, disable_gc: true)
+      Task1.new(file_path).generate_report
       result = File.read('result.json')
       expect(result).to eq expected_result
     end
@@ -23,7 +23,7 @@ RSpec.describe do
 
     it 'should execute' do
       expect {
-        work(file_path, disable_gc: true)
+        Task1.new(file_path).generate_report
       }.to perform_under(0.5).sec
     end
   end

@@ -27,7 +27,7 @@ class User
   end
 
   def formated_dates
-    dates.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+    dates.sort.reverse
   end
 end
 
@@ -42,7 +42,7 @@ def parse_session(fields)
   {
     'browser' => fields[3],
     'time' => fields[4].to_i,
-    'date' => fields[5]
+    'date' => fields[5].delete!("\n")
   }
 end
 
@@ -60,8 +60,6 @@ def default_settings
   @report[:uniqueBrowsersCount] = 0
   @report[:totalSessions] = 0
   @report[:allBrowsers] = []
-
-
 
   @report[:usersStats] = {}
   @temp_user = nil

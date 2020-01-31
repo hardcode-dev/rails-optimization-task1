@@ -35,62 +35,56 @@ def parse_session(session, users)
   session
 end
 
-def collect_stats_from_users(report, users)
-  users.each do |_id, user|
-    user_key = user.name
-    report['usersStats'][user_key] ||= {}
-    hash_report = report['usersStats'][user_key]
-    hash_report['sessionsCount'] = user.sessions.count
-    hash_report['totalTime'] = user.report.total_time.to_s + ' min.'
-    hash_report['longestSession'] = user.report.longest_session.to_s + ' min.'
-    hash_report['browsers'] = user.report.browsers.sort.join(', ')
-    hash_report['usedIE'] =  user.report.usedIE
-    hash_report['alwaysUsedChrome'] =  user.report.always_used_chrome
-    hash_report['dates'] = user.report.dates.sort.reverse
-  end
+def collect_stats_from_users(report, user)
+  user_key = user.name
+  report['usersStats'][user_key] ||= {}
+  hash_report = report['usersStats'][user_key]
+  hash_report['sessionsCount'] = user.sessions.count
+  hash_report['totalTime'] = user.report.total_time.to_s + ' min.'
+  hash_report['longestSession'] = user.report.longest_session.to_s + ' min.'
+  hash_report['browsers'] = user.report.browsers.sort.join(', ')
+  hash_report['usedIE'] =  user.report.usedIE
+  hash_report['alwaysUsedChrome'] =  user.report.always_used_chrome
+  hash_report['dates'] = user.report.dates.sort.reverse
 end
 
 def work(file)
   start = Time.now
-
   file_lines = File.read(file).split("\n")
 
   users = {}
   global_report = GlobalReport.new
+  result_report = {}
+  report = {}
+  report['usersStats'] = {}
+  user = nil
 
-  # progressbar = ProgressBar.create(
-  #   total: 3250940,
-  #   format: '%a %J, %E %B'
-  # )
   File.readlines(file).each do |line|
     cols = line.split(',')
 
     if cols[0] == 'user'
+      collect_stats_from_users(report, user) if user
       user = parse_user(line)
       users[user.id] = user
     else
       session = parse_session(line, users)
       global_report.process(session)
     end
-
-    # progressbar.increment
   end
 
-  report = {}
+  collect_stats_from_users(report, user)
 
-  report['totalUsers'] = users.count
+  result_report['totalUsers'] = users.count
 
-  report['uniqueBrowsersCount'] = global_report.unique_browsers.count
+  result_report['uniqueBrowsersCount'] = global_report.unique_browsers.count
 
-  report['totalSessions'] = global_report.total_sessions
+  result_report['totalSessions'] = global_report.total_sessions
 
-  report['allBrowsers'] = global_report.unique_browsers.sort.join(',')
+  result_report['allBrowsers'] = global_report.unique_browsers.sort.join(',')
 
-  report['usersStats'] = {}
+  result_report['usersStats'] = report['usersStats']
 
-  collect_stats_from_users(report, users)
-
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{result_report.to_json}\n")
   finish = Time.now
 
   diff = finish - start

@@ -87,7 +87,6 @@ def sessions_action(cols)
   @temp_user.browsers << session['browser']
 
   @report[:allBrowsers] << session['browser'].upcase
-  @report[:allBrowsers].sort!.uniq!
 
   @report[:totalSessions] += 1
 end
@@ -125,6 +124,7 @@ def work(file_name)
     end
   end
 
+  @report[:allBrowsers].sort!.uniq!
   @report[:uniqueBrowsersCount] = @report[:allBrowsers].count
 
   @report[:allBrowsers] = @report[:allBrowsers].join(',')

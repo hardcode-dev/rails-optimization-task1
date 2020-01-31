@@ -36,7 +36,7 @@ describe "BenchmarkSpec" do
     expect { work("data1500000.txt") }.to perform_under(30).sec.warmup(1).times.sample(1).times
   end
 
-  # it do
-  #   expect { work("data_large.txt") }.to perform_under(30).sec.warmup(1).times.sample(1).times
-  # end
+  it do
+    expect { work("data_large.txt") }.to perform_under(30).sec.warmup(1).times.sample(1).times
+  end
 end

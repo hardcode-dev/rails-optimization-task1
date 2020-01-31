@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Deoptimized version of homework task
-
+require "set"
 require 'json'
 # require 'pry'
 require 'date'
@@ -39,19 +39,10 @@ def parse_session(session)
   }
 end
 
-def prepare_data(user)
-  yield(user)
-end
 
-def get_user_hash(stats, user_key)
-  stats[user_key] ||= {}
-end
-
-def fill_report_from_user(user, stats, &block)
+def fill_report_from_user(user, stats)
   user_key = user.attributes[:name]
-
-  data = prepare_data(user, &block)
-  get_user_hash(stats, user_key).merge!(data)
+  stats[user_key] = yield(user)
 end
 
 def collect_stats_from_users(stats, users_objects, &block)
@@ -94,16 +85,13 @@ def work
   report = {}
 
   report[:totalUsers] = users.count
-  report['uniqueBrowsersCount'] = sessions.uniq { |session| session['browser'] }.count
+
+  unique_browsers = SortedSet.new(sessions.map { |s| s[:browser] })
+  report['uniqueBrowsersCount'] = unique_browsers.count
+  report['allBrowsers'] = unique_browsers.to_a.join(',')
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-    .map { |s| s[:browser] }
-    .sort
-    .uniq
-    .join(',')
 
   # Статистика по пользователям
 
@@ -118,40 +106,26 @@ def work
 
   stats = {}
 
-  # Собираем количество сессий по пользователям
+
   collect_stats_from_users(stats, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
+
+    browsers = user.sessions.map { |s| s[:browser] }.sort.join(', ')
+    only_chrome = user.sessions.all? { |b| b[:browser] =~ /CHROME/ }
+    used_ie = only_chrome ? false : browsers =~ /INTERNET EXPLORER/
+
+
+
+    {
+        'sessionsCount' => user.sessions.count,  # Собираем количество сессий по пользователям
+        'totalTime' => user.sessions.sum { |s| s[:time] }.to_s + ' min.', # Собираем количество времени по пользователям
+        'longestSession' => user.sessions.max_by { |s| s[:time] }[:time].to_s + ' min.', # Выбираем самую длинную сессию пользователя
+        'browsers' => browsers,  # Браузеры пользователя через запятую
+        'usedIE' => used_ie, # Хоть раз использовал IE?
+        'alwaysUsedChrome' => only_chrome,  # Всегда использовал только Chrome?
+        'dates' => user.sessions.map { |s| Date.strptime(s[:date], '%Y-%m-%d') }.sort.reverse.map(&:iso8601)  # Даты сессий через запятую в обратном порядке в формате iso8601
+    }
   end
 
-  # Собираем количество времени по пользователям
-  collect_stats_from_users(stats, users_objects) do |user|
-    { 'totalTime' => user.sessions.sum { |s| s[:time] }.to_s + ' min.' }
-  end
-
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(stats, users_objects) do |user|
-    { 'longestSession' => user.sessions.max_by { |s| s[:time] }[:time].to_s + ' min.' }
-  end
-
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(stats, users_objects) do |user|
-    { 'browsers' => user.sessions.map { |s| s[:browser] }.sort.join(', ') }
-  end
-
-  # Хоть раз использовал IE?
-  collect_stats_from_users(stats, users_objects) do |user|
-    { 'usedIE' => user.sessions.any? { |b| b[:browser] =~ /INTERNET EXPLORER/ } }
-  end
-
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(stats, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.all? { |b| b[:browser] =~ /CHROME/ } }
-  end
-
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(stats, users_objects) do |user|
-    { 'dates' => user.sessions.map { |s| Date.strptime(s[:date], '%Y-%m-%d') }.sort.reverse.map(&:iso8601) }
-  end
 
   report['usersStats'] = stats
 

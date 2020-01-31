@@ -163,6 +163,31 @@ real	1m21.784s
 
 ### Ваша находка №7
 
+По-прежнему RubyProf::GraphHtmlPrinter.new(result)
+Очень много each и map полагнаю это потому то collect_stats_from_users вызывается 7 раз и мы 7 раз бегаем по циклу
+убираем
+
+  collect_stats_from_users(stats, users_objects) do |user|
+    {
+        'sessionsCount' => user.sessions.count,  # Собираем количество сессий по пользователям
+        'totalTime' => user.sessions.sum { |s| s[:time] }.to_s + ' min.', # Собираем количество времени по пользователям
+        'longestSession' => user.sessions.max_by { |s| s[:time] }[:time].to_s + ' min.', # Выбираем самую длинную сессию пользователя
+        'browsers' => user.sessions.map { |s| s[:browser] }.sort.join(', '),  # Браузеры пользователя через запятую
+        'usedIE' => user.sessions.any? { |b| b[:browser] =~ /INTERNET EXPLORER/}, # Хоть раз использовал IE?
+        'alwaysUsedChrome' => user.sessions.all? { |b| b[:browser] =~ /CHROME/ },  # Всегда использовал только Chrome?
+        'dates' => user.sessions.map { |s| Date.strptime(s[:date], '%Y-%m-%d') }.sort.reverse.map(&:iso8601)  # Даты сессий через запятую в обратном порядке в формате iso8601
+    }
+  end
+Ну и так как нам теперь нет нужды делать merge 6 раз меняем сразу на присваивание того что возвращает блок collect_stats_from_users
+real	1m14.442s
+И сюда же в рамках борьбы с нвоыми обьектами для GC 
+
+  unique_browsers = SortedSet.new(sessions.map { |s| s[:browser] })
+  report['uniqueBrowsersCount'] = unique_browsers.count
+  report['allBrowsers'] = unique_browsers.to_a.join(',')
+
+real	1m5.162s  
+  
 
 
 ## Результаты

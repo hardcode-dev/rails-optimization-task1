@@ -1,9 +1,9 @@
 # Deoptimized version of homework task
 
 require 'json'
-require 'pry'
+#require 'pry'
 require 'date'
-require 'minitest/autorun'
+#require 'minitest/autorun'
 
 class User
   attr_reader :attributes, :sessions
@@ -40,7 +40,7 @@ end
 def fill_report_from_user(user, report, &block)
   user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
   report['usersStats'][user_key] ||= {}
-  report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  report['usersStats'][user_key].merge!(block.call(user))
 end
 
 def collect_stats_from_users(report, users_objects, &block)
@@ -173,20 +173,23 @@ end
 #   end
 # end
 #
-puts Process.pid
-require 'ruby-prof'
+# puts Process.pid
+# require 'ruby-prof'
+#
+#
+# result = RubyProf.profile do
+#   work
+# end
+#
+#
+#
+# # print a graph profile to text
+# printer = RubyProf::GraphHtmlPrinter.new(result)
+# printer.print(File.open('1.html', 'w'), {})
+#
+# printer = RubyProf::CallTreePrinter.new(result)
+#
+# printer.print
 
 
-result = RubyProf.profile do
-  work
-end
-
-
-
-# print a graph profile to text
-printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open('1.html', 'w'), {})
-
-printer = RubyProf::CallTreePrinter.new(result)
-
-printer.print
+work

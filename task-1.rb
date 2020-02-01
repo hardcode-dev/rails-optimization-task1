@@ -27,7 +27,7 @@ def parse_session(fields)
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
+    'browser' => fields[3].upcase,
     'time' => fields[4],
     'date' => fields[5],
   }
@@ -50,8 +50,8 @@ def collect_stats_from_users(report, users_objects)
       sessions_time_sum += time_to_i
       # adding
       sessions_time_max = time_to_i if time_to_i >= sessions_time_max
-      sessions_browsers_upcase << s['browser'].upcase
-      sessions_dates << s['date'].chomp
+      sessions_browsers_upcase << s['browser']
+      sessions_dates << s['date'][0..-2]
     end
 
     # Собираем количество сессий по пользователям
@@ -102,7 +102,7 @@ def work(filename: 'data.txt', disable_gc: true)
 
   report['totalUsers'] = users.count
 
-  uniqueBrowsers = sessions.map { |s| s['browser'].upcase }.uniq
+  uniqueBrowsers = sessions.map { |s| s['browser'] }.uniq
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 

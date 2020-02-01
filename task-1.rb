@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'oj'
 
 class User
   attr_reader :attributes, :sessions
@@ -87,7 +88,7 @@ def work(filename: 'data.txt', disable_gc: true)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report['totalUsers'] = users.count
 
   uniqueBrowsers = sessions.map { |s| s['browser'] }.uniq
 
@@ -115,5 +116,5 @@ def work(filename: 'data.txt', disable_gc: true)
 
   collect_stats_from_users(report, users_objects)
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report)}\n")
 end

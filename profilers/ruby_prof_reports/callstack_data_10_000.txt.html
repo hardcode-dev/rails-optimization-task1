@@ -662,7 +662,7 @@
   <body>
     <div style="display: inline-block;">
       <div id="titlebar">
-        Call tree for application <strong>profilers/ruby-prof-callstack.rb </strong><br/> Generated on 2020-02-01 10:59:40 +0500
+        Call tree for application <strong>profilers/ruby-prof-callstack.rb </strong><br/> Generated on 2020-02-01 11:02:50 +0500
         with options {}<br/>
       </div>
       <div id="commands">
@@ -692,12 +692,12 @@
       
         
         <div class="thread">
-          <span>Thread: 47288263530840, Fiber: 47288263454100 (100.00% ~ 110.87316597200697)</span>
+          <span>Thread: 47029949954420, Fiber: 47029955555600 (100.00% ~ 5.333336469018832)</span>
           <ul name="thread">
             
             <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>100.00% (100.00%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/profilers/ruby-prof-callstack.rb#8">[global]#</a> [1 calls, 1 total]</span>
+<span>100.00% (100.00%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/profilers/ruby-prof-callstack.rb#10">[global]#</a> [1 calls, 1 total]</span>
 <ul>
 <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
@@ -705,119 +705,197 @@
 <ul>
 <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>99.92% (99.92%) Array#each [3 calls, 3 total]</span>
+<span>94.83% (94.83%) Array#each [3 calls, 10 total]</span>
 <ul>
-<li class="color9" style="display:block">
+<li class="color8" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>94.55% (94.63%) Array#select [5500 calls, 5500 total]</span>
-<ul>
+<span>86.34% (91.05%) Array#select [1536 calls, 1536 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>3.60% (3.79%) Array#all? [8464 calls, 10000 total]</span>
+</li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Interrupt#initialize [1 calls, 1 total]</span>
+<span>0.47% (0.50%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/task-1.rb#27">Object#parse_session</a> [8464 calls, 8464 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (41.15%) SignalException#initialize [1 calls, 1 total]</span>
+<span>0.22% (46.52%) String#split [8464 calls, 20001 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.29% (0.31%) String#split [10000 calls, 20001 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.13% (0.13%) Class#new [1536 calls, 1536 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (55.45%) Exception#initialize [1 calls, 1 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Exception#exception [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Exception#backtrace [1 calls, 1 total]</span>
+<span>0.04% (29.14%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/task-1.rb#11">User#initialize</a> [1536 calls, 1536 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.87% (0.87%) Array#all? [42305 calls, 42305 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.13% (0.13%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/task-1.rb#27">Object#parse_session</a> [42305 calls, 42305 total]</span>
+<span>0.08% (0.08%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/task-1.rb#17">Object#parse_user</a> [1536 calls, 1536 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.06% (47.17%) String#split [42305 calls, 100001 total]</span>
+<span>0.04% (46.17%) String#split [1536 calls, 20001 total]</span>
 </li>
 </ul>
 </li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.09% (0.09%) String#split [50000 calls, 100001 total]</span>
+</ul>
 </li>
-<li class="color01" style="display:none">
+<li class="color01" style="display:block">
+<a href="#" class="toggle plus" ></a>
+<span>4.30% (4.30%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/task-1.rb#38">Object#collect_stats_from_users</a> [7 calls, 7 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:block">
+<a href="#" class="toggle plus" ></a>
+<span>4.30% (99.99%) Array#each [7 calls, 10 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:block">
+<a href="#" class="toggle plus" ></a>
+<span>2.76% (64.25%) Array#map [16896 calls, 16898 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>0.06% (0.06%) Class#new [5499 calls, 5499 total]</span>
+<span>1.47% (53.26%) &lt;Class::Date&gt;#parse [8464 calls, 8464 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.01% (24.60%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/task-1.rb#11">User#initialize</a> [5499 calls, 5499 total]</span>
+<span>0.28% (19.14%) Regexp#match [16928 calls, 16928 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.16% (10.71%) String#gsub! [8464 calls, 8464 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.15% (9.90%) MatchData#begin [8464 calls, 8464 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.08% (5.58%) String#[]= [8464 calls, 8464 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.05% (3.13%) Integer#div [8464 calls, 8464 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.04% (2.78%) MatchData#end [8464 calls, 8464 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.02% (0.02%) <a href="file:///home/f1/sites/thinknetica/home_work/rails-optimization-task1/task-1.rb#17">Object#parse_user</a> [7695 calls, 7695 total]</span>
+<span>0.12% (4.49%) Date#iso8601 [8464 calls, 8464 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.11% (4.03%) String#to_i [16928 calls, 16928 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.05% (1.98%) String#upcase [8464 calls, 23399 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.21% (4.81%) Array#sort [3072 calls, 3073 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.01% (44.82%) String#split [7695 calls, 100001 total]</span>
-</li>
-</ul>
+<span>0.08% (37.75%) Date#&lt;=&gt; [14789 calls, 14789 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.05% (0.05%) Array#map [2 calls, 2 total]</span>
+<span>0.15% (3.59%) Hash#merge [10752 calls, 10752 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.11% (2.47%) Array#any? [1536 calls, 1536 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.01% (28.56%) String#upcase [42305 calls, 42305 total]</span>
+<span>0.03% (28.08%) String#upcase [4492 calls, 23399 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.01% (0.01%) Array#sort [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.01% (0.01%) String#split [1 calls, 100001 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Array#uniq [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) &lt;Class::IO&gt;#read [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Array#join [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Kernel#puts [1 calls, 1 total]</span>
+<span>0.06% (1.31%) Array#all? [1536 calls, 10000 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (88.10%) IO#puts [1 calls, 1 total]</span>
+<span>0.01% (24.17%) String#upcase [1979 calls, 23399 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.04% (0.86%) Array#join [1536 calls, 1537 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.02% (0.56%) Integer#to_s [3072 calls, 3072 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (0.30%) Array#count [1536 calls, 1539 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (0.28%) Array#reverse [1536 calls, 1536 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (0.27%) Array#sum [1536 calls, 1536 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (0.23%) Array#max [1536 calls, 1536 total]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.56% (0.56%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (78.52%) IO#write [1 calls, 1 total]</span>
+<span>0.20% (34.96%) String#encode [25366 calls, 25366 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.06% (9.93%) String#to_s [12292 calls, 12292 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (2.36%) Hash#keys [1538 calls, 1538 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (0.02%) Kernel#dup [1 calls, 1 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (44.96%) Kernel#initialize_dup [1 calls, 1 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (44.39%) JSON::Ext::Generator::State#initialize_copy [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>
@@ -825,7 +903,63 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Array#count [3 calls, 3 total]</span>
+<span>0.00% (0.01%) Symbol#to_s [1 calls, 1 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.19% (0.19%) Array#map [2 calls, 16898 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.06% (29.84%) String#upcase [8464 calls, 23399 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.05% (0.05%) Array#sort [1 calls, 3073 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.04% (0.04%) String#split [1 calls, 20001 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (0.01%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (0.01%) Array#uniq [1 calls, 1 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.01% (0.01%) &lt;Class::IO&gt;#read [1 calls, 1 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (0.00%) Kernel#puts [2 calls, 2 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (86.86%) IO#puts [2 calls, 2 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (79.90%) IO#write [2 calls, 2 total]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (0.00%) Array#join [1 calls, 1537 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (0.00%) Array#count [3 calls, 1539 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>

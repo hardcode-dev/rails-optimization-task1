@@ -1,22 +1,13 @@
 # gem install kalibera
 require 'benchmark/ips'
-require_relative '../task-1.rb'
-
-ROWS = 100_000
-COLS = 10
-REPS = 1000
-
-GC.disable
+# require_relative '../task-1-initial.rb'
 
 Benchmark.ips do |x|
-  # The default is :stats => :sd, which doesn't have a configurable confidence
-  # confidence is 95% by default, so it can be omitted
-  x.config(
-    stats: :bootstrap,
-    confidence: 95,
-  )
+  require_relative '../task-1-initial.rb'
+  x.report('initial') { work('data_10_000.txt', disable_gc: true) }
 
-  x.report("data_1_000") do
-    x.report('1_000') { work('data_1_000.txt', gc) }
-  end
+  require_relative '../task-1-optim.rb'
+  x.report('optim') { work_optim('data_10_000.txt', disable_gc: true) }
+
+  x.compare!
 end

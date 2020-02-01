@@ -16,17 +16,17 @@ end
 
 def parse_user(user)
   fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+  {
+    'id' => fields[0],
+    'first_name' => fields[1],
+    'last_name' => fields[2],
+    'age' => fields[3],
   }
 end
 
 def parse_session(session)
   fields = session.split(',')
-  parsed_result = {
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -80,7 +80,7 @@ def work(filename = 'data.txt', disable_gc: false)
 
   report = {}
 
-  report[:totalUsers] = split_by_users.count
+  report[:totalUsers] = split_by_users.size
 
   # Подсчёт количества уникальных браузеров
   # uniqueBrowsers = []
@@ -89,17 +89,20 @@ def work(filename = 'data.txt', disable_gc: false)
   #   uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
   # end
 
-  # report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  session_lines = file.split('session')
 
-  # report['totalSessions'] = sessions.count
+  session_lines.delete_at(0)
 
-  # report['allBrowsers'] =
-  #   sessions
-  #     .map { |s| s['browser'] }
-  #     .map { |b| b.upcase }
-  #     .sort
-  #     .uniq
-  #     .join(',')
+  browsers = session_lines.map { |line| line.split(',')[3] }
+
+  browsers_uniq = browsers.uniq
+
+  report['uniqueBrowsersCount'] = browsers_uniq.size
+
+  report['totalSessions'] = session_lines.size
+
+
+  report['allBrowsers'] = browsers_uniq.sort.map(&:upcase).join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -108,11 +111,9 @@ def work(filename = 'data.txt', disable_gc: false)
     user_with_session_lines = user_with_session.split("\n")
     user = parse_user(user_with_session_lines.delete_at(0))
 
-    attributes = user
-
     user_sessions = user_with_session_lines.map { |line| parse_session(line) }
 
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    user_object = User.new(attributes: user, sessions: user_sessions)
     users_objects += [user_object]
   end
 

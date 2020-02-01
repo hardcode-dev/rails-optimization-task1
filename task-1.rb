@@ -55,7 +55,7 @@ def collect_stats_from_users(report, users_objects)
     # Всегда использовал только Chrome?
     report['usersStats'][user_key]['alwaysUsedChrome'] = !sessions_browsers_upcase.any? { |b| (b =~ /CHROME/).nil? }
     # Даты сессий через запятую в обратном порядке в формате iso8601
-    report['usersStats'][user_key]['dates'] = user.sessions.map { |s| Date.strptime(s['date'], '%Y-%m-%d') }.sort.reverse.map { |d| d.iso8601 }
+    report['usersStats'][user_key]['dates'] = user.sessions.map { |s| s['date'].chomp }.sort.reverse
   end
 end
 

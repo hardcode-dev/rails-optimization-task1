@@ -88,16 +88,16 @@ def work(filename = 'data.txt', disable_gc: false)
     user_stat['sessionsCount'] = user_sessions.size
 
     times = user_sessions.map { |s| s[4].to_i }
-    user_stat['totalTime'] = "#{times.sum} min"
-    user_stat['longestSession'] = "#{times.max} min"
-    user_stat['browsers'] = user_sessions.map { |s| s[3].upcase }.uniq.sort.join(',')
-          # "usedIE": true,
-          # "alwaysUsedChrome": false,
-          # "dates": ["2017-09-27","2017-03-28","2017-02-27","2016-10-23","2016-09-15","2016-09-01"]
+    user_stat['totalTime'] = "#{times.sum} min."
+    user_stat['longestSession'] = "#{times.max} min."
 
+    user_browsers = user_sessions.map { |s| s[3].upcase }
+    user_browsers_uniq = user_browsers.uniq
+    user_stat['browsers'] = user_browsers.sort.join(', ')
+    user_stat['usedIE'] = !!user_browsers_uniq.find { |b| b =~ /INTERNET EXPLORER/ }
+    user_stat['alwaysUsedChrome'] = user_browsers_uniq.all? { |b| b.upcase =~ /CHROME/ }
 
-    # user_object = User.new(attributes: user, sessions: user_sessions)
-    # users_objects += [user_object]
+    user_stat['dates'] = user_sessions.map { |s| s[5] }.sort.reverse!
     user_stats[user] = user_stat
   end
 

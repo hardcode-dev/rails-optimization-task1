@@ -38,3 +38,5 @@ Comparison:
 7. Переписал общую статистику
 
   провкрил через профайлер, теперь узкое место  Object#collect_stats_from_users
+
+8. избавился от collect_stats_from_users

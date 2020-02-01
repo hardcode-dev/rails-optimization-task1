@@ -43,8 +43,8 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(filename = 'data.txt', disable_gc = false)
-  puts 'Start work'
+def work(filename = 'data.txt', disable_gc: false)
+  # puts 'Start work'
   GC.disable if disable_gc
 
   file_lines = File.read(filename).split("\n")
@@ -144,7 +144,7 @@ def work(filename = 'data.txt', disable_gc = false)
   end
 
   File.write('result.json', "#{report.to_json}\n")
-  puts 'Finished work'
+  # puts 'Finished work'
 end
 
 work

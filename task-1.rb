@@ -58,7 +58,7 @@ def collect_stats_from_users(report, users_objects)
   end
 end
 
-def work(filename: 'data.txt', disable_gc: false)
+def work(filename: 'data.txt', disable_gc: true)
   users = []
   sessions = []
 

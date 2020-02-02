@@ -90,12 +90,80 @@ Object#work (/media/share/extraspace/TN/repositories/rails-optimization-task1/ta
                                   |   107  |     users_objects = users_objects + [user_object]
     1    (0.5%) /     1   (0.5%)  |   108  |   end
 `
-- как вы решили её оптимизировать
-- как изменилась метрика
-- как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
+- избавился от использования `#select` на массиве с сессиями в количестве, равном количестве пользователей -- вместо этого сформировал хэш массивов с ключами в виде пользовательских id за один раз, в последствии обращаясь по ключу, соответствующему пользовательскому id.
+- отчёт `rspec` по тесту на 10_000 строк:
+`performed above 1.37 sec (± 17.4 ms)`, метрика уменьшилась в 11.8 раза.
+- отчёт `ruby-prof` в формате CallTree показал, что 51.53 процента времени тратится на выполнение метода `Array#each`, вызываемого из методов `#work` и `#collect_stats_from_users` -- точка роста по понятным причинам (с удалением `#select`) изменилась. 
 
 ### Ваша находка №2
-- какой отчёт показал главную точку роста
+- отчёт `ruby-prof` представлен в предыдущем разделе.
+- отчёт `stack-prof`:
+
+`stackprof stackprof_reports/stackprof.dump`:
+==================================
+  Mode: wall(1000)
+  Samples: 1444 (1.03% miss rate)
+  GC: 304 (21.05%)
+==================================
+     TOTAL    (pct)     SAMPLES    (pct)     FRAME
+      1140  (78.9%)         936  (64.8%)     Object#work
+       212  (14.7%)         212  (14.7%)     (marking)
+       505  (35.0%)         103   (7.1%)     Object#collect_stats_from_users
+        92   (6.4%)          92   (6.4%)     (sweeping)
+        76   (5.3%)          76   (5.3%)     Object#parse_session
+        13   (0.9%)          13   (0.9%)     User#initialize
+        12   (0.8%)          12   (0.8%)     Object#parse_user
+       304  (21.1%)           0   (0.0%)     (garbage collection)
+      1140  (78.9%)           0   (0.0%)     block in <main>
+      1140  (78.9%)           0   (0.0%)     <main>
+      1140  (78.9%)           0   (0.0%)     <main>
+
+`stackprof stackprof_reports/stackprof.dump --method Object#work`:
+Object#work (/media/share/extraspace/TN/repositories/rails-optimization-task1/task-1.rb:47)
+  samples:   936 self (64.8%)  /   1140 total (78.9%)
+  callers:
+    1177  (  103.2%)  Object#work
+    1140  (  100.0%)  block in <main>
+     402  (   35.3%)  Object#collect_stats_from_users
+  callees (204 total):
+    1177  (  577.0%)  Object#work
+     505  (  247.5%)  Object#collect_stats_from_users
+      76  (   37.3%)  Object#parse_session
+      13  (    6.4%)  User#initialize
+      12  (    5.9%)  Object#parse_user
+  code: 
+` 293   (20.3%)                   |    53  |   file_lines.each do |line|
+                                  |    54  |     cols = line.split(',')
+   63    (4.4%) /    51   (3.5%)  |    55  |     users = users + [parse_user(line)] if cols[0] == 'user'
+   83    (5.7%) /     7   (0.5%)  |    56  |     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+  147   (10.2%) /   147  (10.2%)  |    57  |   end
+`
+`                                 |    78  |   # Подсчёт количества уникальных браузеров
+                                  |    79  |   uniqueBrowsers = []
+  239   (16.6%)                   |    80  |   sessions.each do |session|
+                                  |    81  |     browser = session['browser']
+  473   (32.8%) /   237  (16.4%)  |    82  |     uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    2    (0.1%) /     2   (0.1%)  |    83  |   end
+`
+`stackprof stackprof_reports/stackprof.dump --method Object#collect_stats_from_users`:
+Object#collect_stats_from_users (/media/share/extraspace/TN/repositories/rails-optimization-task1/task-1.rb:39)
+  samples:   103 self (7.1%)  /    505 total (35.0%)
+  callers:
+     505  (  100.0%)  Object#collect_stats_from_users
+     505  (  100.0%)  Object#work
+  callees (402 total):
+     505  (  125.6%)  Object#collect_stats_from_users
+     402  (  100.0%)  Object#work
+  code:
+`                                 |    39  | def collect_stats_from_users(report, users_objects, &block)
+  505   (35.0%)                   |    40  |   users_objects.each do |user|
+   38    (2.6%) /    38   (2.6%)  |    41  |     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+   20    (1.4%) /    20   (1.4%)  |    42  |     report['usersStats'][user_key] ||= {}
+  402   (27.8%)                   |    43  |     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+   45    (3.1%) /    45   (3.1%)  |    44  |   end
+                                  |    45  | end
+`
+- главной точкой роста является `Array#each`  методе `#collect_stats_from_users`.
 - как вы решили её оптимизировать
 - как изменилась метрика
 - как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?

@@ -5,11 +5,11 @@ RSpec.configure do |config|
   config.include RSpec::Benchmark::Matchers
 end
 
-describe 'Perfomance' do
+describe 'Report' do
 
-  describe 'work' do
-    it 'works under 1.33 sec' do
-      expect { work }.to perform_under(1.33).sec
+  describe '#call' do
+    it 'works on 100_000 items under 1 sec' do
+      expect { Report.new.call('data100000.txt') }.to perform_under(1).sec
     end
   end
 

@@ -5,6 +5,7 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 require 'set'
+require 'oj'
 
 #{"totalUsers":3,"uniqueBrowsersCount":14,
 # "totalSessions":15,"allBrowsers":"CHROME 13,CHROME 20,CHROME 35,CHROME 6,FIREFOX 12,FIREFOX 32,FIREFOX 47,
@@ -40,7 +41,7 @@ class User
 
   def initialize(session = nil, first_name = nil, last_name = nil)
     @sessions_count = 0
-    @dates = Set.new([])
+    @dates = []
     @browsers = []
     @used_ie = false
     @always_used_chrome = false
@@ -54,7 +55,7 @@ class User
     @sessions_count += 1
     @browsers << session[:browser].upcase
     @total_time += session[:time].to_i
-    @dates <<session[:date]
+    @dates << session[:date]
     @longest_session = session[:time].to_i if @longest_session < session[:time].to_i
   end
 
@@ -90,14 +91,14 @@ class Report
     #     - даты сессий в порядке убывания через запятую +
 
     report = {
-      totalUsers: @users.count,
-      uniqueBrowsersCount: @browsers.count,
-      totalSessions: @sessions,
-      allBrowsers: @browsers.sort.map(&:upcase).join(','),
-      usersStats: user_stats
+        'totalUsers' => @users.count,
+        'uniqueBrowsersCount' => @browsers.count,
+        'totalSessions' => @sessions,
+        'allBrowsers' => @browsers.sort.map(&:upcase).join(','),
+        'usersStats' => user_stats
     }
 
-    File.write('result.json', "#{report.to_json}\n")
+    File.write('result.json', Oj.dump(report) + "\n")
   end
 
   private
@@ -146,13 +147,13 @@ class Report
     stats = {}
     @users.each_value do |user|
       stats[user.full_name] = {
-        sessionsCount: user.sessions_count,
-        totalTime: user.total_time.to_s + ' min.',
-        longestSession: user.longest_session.to_s + ' min.',
-        browsers: user.browsers.sort.join(', '),
-        usedIE: user.browsers.any? {|b| b =~ /INTERNET EXPLORER/},
-        alwaysUsedChrome: user.browsers.all? { |b| b =~ /CHROME/ },
-        dates: user.dates.sort.reverse
+        'sessionsCount' => user.sessions_count,
+        'totalTime' => user.total_time.to_s + ' min.',
+        'longestSession' => user.longest_session.to_s + ' min.',
+        'browsers' => user.browsers.sort.join(', '),
+        'usedIE' => user.browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
+        'alwaysUsedChrome' => user.browsers.all? { |b| b =~ /CHROME/ },
+        'dates' => user.dates.sort.reverse
       }
     end
     stats

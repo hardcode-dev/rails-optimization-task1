@@ -47,7 +47,49 @@
 Вот какие проблемы удалось найти и решить
 
 ### Ваша находка №1
-- отчёт ruby-prof в формате CallTree показал, что 45.81 процент времени тратится на выполнение метода `Array#select`, который 154 раза вызывается из метода `Array#each`, принял её за главную текущую точку роста.
+- отчёт `ruby-prof` в формате CallTree показал, что 45.81 процент времени тратится на выполнение метода `Array#select`, который 154 раза вызывается из метода `Array#each`, принял её за главную текущую точку роста.
+- отчёт `stack-prof` в виде дампа показал следующее:
+
+`stackprof stackprof.dump`:
+==================================
+  Mode: wall(1000)
+  Samples: 198 (0.00% miss rate)
+  GC: 0 (0.00%)
+==================================
+     TOTAL    (pct)     SAMPLES    (pct)     FRAME
+       198 (100.0%)         175  (88.4%)     Object#work
+        54  (27.3%)          11   (5.6%)     Object#collect_stats_from_users
+         9   (4.5%)           9   (4.5%)     Object#parse_session
+         2   (1.0%)           2   (1.0%)     User#initialize
+         1   (0.5%)           1   (0.5%)     Object#parse_user
+       198 (100.0%)           0   (0.0%)     block in <main>
+       198 (100.0%)           0   (0.0%)     <main>
+       198 (100.0%)           0   (0.0%)     <main>
+
+`stackprof stackprof.dump --method Object#work` (наиболее нагруженный участок кода):
+Object#work (/media/share/extraspace/TN/repositories/rails-optimization-task1/task-1.rb:50)
+  samples:   175 self (88.4%)  /    198 total (100.0%)
+  callers:
+     293  (  148.0%)  Object#work
+     198  (  100.0%)  block in <main>
+      43  (   21.7%)  Object#collect_stats_from_users
+  callees (23 total):
+     293  ( 1273.9%)  Object#work
+      54  (  234.8%)  Object#collect_stats_from_users
+       9  (   39.1%)  Object#parse_session
+       2  (    8.7%)  User#initialize
+       1  (    4.3%)  Object#parse_user
+  code:
+`                                 |   100  |   # Статистика по пользователям
+                                  |   101  |   users_objects = []
+                                  |   102  |
+   94   (47.5%)                   |   103  |   users.each do |user|
+                                  |   104  |     attributes = user
+  182   (91.9%) /    91  (46.0%)  |   105  |     user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    2    (1.0%)                   |   106  |     user_object = User.new(attributes: attributes, sessions: user_sessions)
+                                  |   107  |     users_objects = users_objects + [user_object]
+    1    (0.5%) /     1   (0.5%)  |   108  |   end
+`
 - как вы решили её оптимизировать
 - как изменилась метрика
 - как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?

@@ -62,7 +62,7 @@ def work(filename = 'data_large.txt', disable_gc: false)
 
   report = {}
 
-  report[:totalUsers] = split_by_users.size
+  report['totalUsers'] = split_by_users.size
 
   session_lines = _session_lines(file)
   session_lines.delete_at(0)
@@ -70,9 +70,9 @@ def work(filename = 'data_large.txt', disable_gc: false)
   browsers = _browsers(session_lines)
   browsers_uniq = browsers.uniq
 
-  report[:uniqueBrowsersCount] = browsers_uniq.size
-  report[:totalSessions] = session_lines.size
-  report[:allBrowsers] = browsers_uniq.sort.join(',').upcase
+  report['uniqueBrowsersCount'] = browsers_uniq.size
+  report['totalSessions'] = session_lines.size
+  report['allBrowsers'] = browsers_uniq.sort.join(',').upcase
 
   # Статистика по пользователям
   user_stats = {}
@@ -83,23 +83,23 @@ def work(filename = 'data_large.txt', disable_gc: false)
     user = parse_user(user_with_session_lines.delete_at(0))
 
     user_sessions = _user_with_session_lines(user_with_session_lines)
-    user_stat[:sessionsCount] = user_sessions.size
+    user_stat['sessionsCount'] = user_sessions.size
 
     times = _times(user_sessions)
-    user_stat[:totalTime] = "#{times.sum} min."
-    user_stat[:longestSession] = "#{times.max} min."
+    user_stat['totalTime'] = "#{times.sum} min."
+    user_stat['longestSession'] = "#{times.max} min."
 
     user_browsers = _user_browsers(user_sessions)
     user_browsers_uniq = user_browsers.uniq
-    user_stat[:browsers] = user_browsers.sort.join(', ').upcase
-    user_stat[:usedIE] = !!user_browsers_uniq.find { |b| b =~ /Internet Explorer/ }
-    user_stat[:alwaysUsedChrome] = user_browsers_uniq.all? { |b| b.upcase =~ /Chrome/ }
+    user_stat['browsers'] = user_browsers.sort.join(', ').upcase
+    user_stat['usedIE'] = !!user_browsers_uniq.find { |b| b =~ /Internet Explorer/ }
+    user_stat['alwaysUsedChrome'] = user_browsers_uniq.all? { |b| b.upcase =~ /Chrome/ }
 
-    user_stat[:dates] = user_sessions.map { |s| s[5] }.sort.reverse!
+    user_stat['dates'] = user_sessions.map { |s| s[5] }.sort.reverse!
     user_stats[user] = user_stat
   end
 
-  report[:usersStats] = user_stats
+  report['usersStats'] = user_stats
 
   File.write('result.json', "#{report.to_json}\n")
   puts Time.now - start_time

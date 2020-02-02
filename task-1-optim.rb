@@ -2,40 +2,36 @@
 
 require 'json'
 require 'pry'
-require 'date'
+# require 'date'
 # require 'minitest/autorun'
-
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
 
 def parse_user(user)
   fields = user.split(',')
   "#{fields[1]} #{fields[2]}"
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
-  }
+def _user_with_session_lines(data)
+  data.map { |line| line.split(',') }
 end
 
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
-  end
+def _user_with_session(data)
+  data.split("\n")
+end
+
+def _times(data)
+  data.map { |s| s[4].to_i }
+end
+
+def _user_browsers(data)
+  data.map { |s| s[3] }
+end
+
+def _browsers(data)
+  data.map { |line| line.split(',')[3] }
+end
+
+def _session_lines(data)
+  data.split('session')
 end
 
 def work(filename = 'data_large.txt', disable_gc: false)
@@ -68,36 +64,36 @@ def work(filename = 'data_large.txt', disable_gc: false)
 
   report[:totalUsers] = split_by_users.size
 
-  session_lines = file.split('session')
+  session_lines = _session_lines(file)
   session_lines.delete_at(0)
 
-  browsers = session_lines.map { |line| line.split(',')[3] }
+  browsers = _browsers(session_lines)
   browsers_uniq = browsers.uniq
 
   report[:uniqueBrowsersCount] = browsers_uniq.size
   report[:totalSessions] = session_lines.size
-  report[:allBrowsers] = browsers_uniq.sort.map(&:upcase).join(',')
+  report[:allBrowsers] = browsers_uniq.sort.join(',').upcase
 
   # Статистика по пользователям
   user_stats = {}
 
   split_by_users.each do |user_with_session|
     user_stat = {}
-    user_with_session_lines = user_with_session.split("\n")
+    user_with_session_lines = _user_with_session(user_with_session)
     user = parse_user(user_with_session_lines.delete_at(0))
 
-    user_sessions = user_with_session_lines.map { |line| line.split(',') }
+    user_sessions = _user_with_session_lines(user_with_session_lines)
     user_stat[:sessionsCount] = user_sessions.size
 
-    times = user_sessions.map { |s| s[4].to_i }
+    times = _times(user_sessions)
     user_stat[:totalTime] = "#{times.sum} min."
     user_stat[:longestSession] = "#{times.max} min."
 
-    user_browsers = user_sessions.map { |s| s[3].upcase }
+    user_browsers = _user_browsers(user_sessions)
     user_browsers_uniq = user_browsers.uniq
-    user_stat[:browsers] = user_browsers.sort.join(', ')
-    user_stat[:usedIE] = !!user_browsers_uniq.find { |b| b =~ /INTERNET EXPLORER/ }
-    user_stat[:alwaysUsedChrome] = user_browsers_uniq.all? { |b| b.upcase =~ /CHROME/ }
+    user_stat[:browsers] = user_browsers.sort.join(', ').upcase
+    user_stat[:usedIE] = !!user_browsers_uniq.find { |b| b =~ /Internet Explorer/ }
+    user_stat[:alwaysUsedChrome] = user_browsers_uniq.all? { |b| b.upcase =~ /Chrome/ }
 
     user_stat[:dates] = user_sessions.map { |s| s[5] }.sort.reverse!
     user_stats[user] = user_stat

@@ -233,9 +233,22 @@ Object#process_line	 41.21% / 7.24% self
 
 real	0m35.498s
 
+### Ваша находка №11
+Так как обьект work все езе большой я решил разбить его на более мелкие части
+и по пути заметил что указанный ниже код не нужен
+
+users_objects = users.collect do |user|
+  attributes = user
+  user_sessions = hashed_sessions[user[:id]] || []
+
+  User.new(attributes: attributes, sessions: user_sessions)
+end
+
+Потому что все что нам ниже по коду нужно это получить отсюда сессии, так можно сразу и запросить их из hashed_sessions[user[:id]]
 
 
-
+Дает небольшой прирост 
+real	0m34.806s
 
 
 ## Результаты

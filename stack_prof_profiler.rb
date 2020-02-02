@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'stackprof'
 require_relative 'task-1'

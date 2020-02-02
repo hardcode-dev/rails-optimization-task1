@@ -1,13 +1,11 @@
-# Optimized version of homework task
+# frozen_string_literal: true
 
-require 'json'
-require 'pry'
-require 'date'
+# Optimized version of homework task
 require 'minitest/autorun'
 require 'set'
 require 'oj'
 
-#{"totalUsers":3,"uniqueBrowsersCount":14,
+# {"totalUsers":3,"uniqueBrowsersCount":14,
 # "totalSessions":15,"allBrowsers":"CHROME 13,CHROME 20,CHROME 35,CHROME 6,FIREFOX 12,FIREFOX 32,FIREFOX 47,
 # INTERNET EXPLORER 10,INTERNET EXPLORER 28,INTERNET EXPLORER 35,SAFARI 17,SAFARI 29,SAFARI 39,SAFARI 49",
 # "usersStats":{"Leida Cira":{"sessionsCount":6,"totalTime":"455 min.","longestSession":"118 min.",
@@ -56,13 +54,13 @@ class User
     @browsers << session[:browser].upcase
     @total_time += session[:time].to_i
     @dates << session[:date]
-    @longest_session = session[:time].to_i if @longest_session < session[:time].to_i
+    if @longest_session < session[:time].to_i
+      @longest_session = session[:time].to_i
+    end
   end
-
 end
 
 class Report
-
   def initialize
     @users = {}
     @browsers = Set.new([])
@@ -91,11 +89,11 @@ class Report
     #     - даты сессий в порядке убывания через запятую +
 
     report = {
-        'totalUsers' => @users.count,
-        'uniqueBrowsersCount' => @browsers.count,
-        'totalSessions' => @sessions,
-        'allBrowsers' => @browsers.sort.map(&:upcase).join(','),
-        'usersStats' => user_stats
+      'totalUsers' => @users.count,
+      'uniqueBrowsersCount' => @browsers.count,
+      'totalSessions' => @sessions,
+      'allBrowsers' => @browsers.sort.map(&:upcase).join(','),
+      'usersStats' => user_stats
     }
 
     File.write('result.json', Oj.dump(report) + "\n")
@@ -158,9 +156,7 @@ class Report
     end
     stats
   end
-
 end
-
 
 class TestMe < Minitest::Test
   def setup

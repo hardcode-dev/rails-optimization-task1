@@ -54,7 +54,7 @@ class User
     @sessions_count += 1
     @browsers << session[:browser].upcase
     @total_time += session[:time].to_i
-    @dates << Date.iso8601(session[:date])
+    @dates <<session[:date]
     @longest_session = session[:time].to_i if @longest_session < session[:time].to_i
   end
 

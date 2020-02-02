@@ -8,26 +8,27 @@ require 'minitest/autorun'
 class User
   attr_reader :attributes, :sessions
 
-  def initialize(attributes:, sessions:)
+  def initialize(attributes)
     @attributes = attributes
-    @sessions = sessions
+    @sessions = []
   end
 end
 
 def parse_user(user)
   fields = user.split(',')
   parsed_result = {
-    'id' => fields[1],
+    'id' => fields[1].to_i,
     'first_name' => fields[2],
     'last_name' => fields[3],
     'age' => fields[4],
   }
+  User.new(parsed_result)
 end
 
 def parse_session(session)
   fields = session.split(',')
   parsed_result = {
-    'user_id' => fields[1],
+    'user_id' => fields[1].to_i,
     'session_id' => fields[2],
     'browser' => fields[3],
     'time' => fields[4],
@@ -43,17 +44,57 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
-  file_lines = File.read('data.txt').split("\n")
+def read_file(filename)
+  File.read(ENV['DATA_FILE'] || filename).split("\n")
+end
 
+def parse_file(file_lines)
   users = []
   sessions = []
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    if cols[0] == 'user'
+      user = parse_user(line)
+      user_id = user.attributes["id"]
+      users[user_id] = user if users[user_id].nil?
+    end
+
+    if cols[0] == 'session'
+      session = parse_session(line)
+      user_id = session['user_id']
+      users[user_id].sessions << session
+      sessions << session
+    end
   end
+  [users, sessions]
+end
+
+def count_sessions(sessions)
+  uniqueBrowsers = []
+  sessions.each do |session|
+    browser = session['browser']
+    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+  end
+  uniqueBrowsers
+end
+
+def get_browsers(sessions)
+  sessions
+      .map { |s| s['browser'] }
+      .map { |b| b.upcase }
+      .sort
+      .uniq
+      .join(',')
+end
+
+def work(filename = 'data_small.txt', disable_gc: true)
+  puts 'Start work'
+  GC.disable if disable_gc
+
+  file_lines = read_file(filename)
+
+  users_objects, sessions = parse_file file_lines
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -75,33 +116,13 @@ def work
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  uniqueBrowsers = count_sessions(sessions)
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
-
-  # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
+  report['allBrowsers'] = get_browsers(sessions)
 
   report['usersStats'] = {}
 

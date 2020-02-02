@@ -168,7 +168,7 @@ def work(filename, disable_gc: false)
 
   # Выбираем самую длинную сессию пользователя
   collect_stats_from_users_3(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
+    { 'longestSession' => user.sessions.map {|s| s['time'].to_i }.max.to_s + ' min.' }
   end
 
   # Браузеры пользователя через запятую

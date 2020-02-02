@@ -71,12 +71,7 @@ def parse_file(file_lines)
 end
 
 def count_sessions(sessions)
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-  uniqueBrowsers
+  sessions.map{|ss| ss["browser"]}.uniq
 end
 
 def get_browsers(sessions)

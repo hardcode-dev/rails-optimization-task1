@@ -1,3 +1,6 @@
+# Ignore mac-related system files
+.DS_Store
+
 # Local RubyMine settings
 .idea/
 

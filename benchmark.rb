@@ -17,7 +17,7 @@ Benchmark.ips do |x|
   x.confidence = 95
 
   x.report 'main' do
-    work
+    Work.new.work
   end
 
 

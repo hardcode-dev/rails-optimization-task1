@@ -31,7 +31,7 @@ def parse_session(session)
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3].upcase,
-    'time' => fields[4],
+    'time' => fields[4].to_i,
     'date' => fields[5],
   }
 end
@@ -162,12 +162,12 @@ def work(filename, disable_gc: false)
 
   # Собираем количество времени по пользователям
   collect_stats_from_users_2(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.' }
+    { 'totalTime' => user.sessions.map {|s| s['time']}.sum.to_s + ' min.' }
   end
 
   # Выбираем самую длинную сессию пользователя
   collect_stats_from_users_3(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time'].to_i }.max.to_s + ' min.' }
+    { 'longestSession' => user.sessions.map {|s| s['time'] }.max.to_s + ' min.' }
   end
 
   # Браузеры пользователя через запятую

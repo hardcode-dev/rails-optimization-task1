@@ -9,7 +9,9 @@ class Work
 
   attr_accessor :report
 
-  def initialize
+  def initialize(filename)
+    @filename = filename
+
     @report = {}
     @user_stats = {}
     @user_id_name_map = {}
@@ -70,7 +72,7 @@ class Work
   end
 
   def work
-    file_lines = File.read(ENV['FILENAME']).split("\n")
+    file_lines = File.read(@filename).split("\n")
 
 
     sessions_count = 0

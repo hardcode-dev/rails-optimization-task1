@@ -45,7 +45,7 @@ def work
   users = []
   sessions = []
 
-  File.read('data_large.txt').split("\n").take_while do |line|
+  File.read('data_sample.txt').split("\n").take_while do |line|
     cols = line.split(',')
     cols[0] == 'user' ? users << parse_user(cols) : sessions << parse_session(cols)
   end

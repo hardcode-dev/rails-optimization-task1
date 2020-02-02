@@ -148,6 +148,12 @@ def work(filename, disable_gc: false)
     format: '%a, %J, %E %B' # elapsed time, percent complete, estimate, bar
   )
 
+  progressbar = ProgressBar.create(
+    total: user_count,
+    format: '%a, %J, %E %B', # elapsed time, percent complete, estimate, bar
+    output: File.open(File::NULL, 'w')
+  )  if ENV['TEST_ENV'] == 'test'
+
   sessions_by_user_id = sessions.group_by { |s| s['user_id'] }
 
   users.each do |user|

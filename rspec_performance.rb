@@ -6,6 +6,7 @@ require 'minitest/autorun'
 
 RSpec.configure do |config|
   config.include RSpec::Benchmark::Matchers
+  ENV['TEST_ENV'] = 'test'
 end
 
 describe 'Process test' do

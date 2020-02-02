@@ -2,6 +2,7 @@
 
 require 'json'
 require 'pry'
+require 'pry-byebug'
 require 'date'
 require 'minitest/autorun'
 
@@ -36,6 +37,54 @@ def parse_session(session)
 end
 
 def collect_stats_from_users(report, users_objects, &block)
+  users_objects.each do |user|
+    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  end
+end
+
+def collect_stats_from_users_2(report, users_objects, &block)
+  users_objects.each do |user|
+    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  end
+end
+
+def collect_stats_from_users_3(report, users_objects, &block)
+  users_objects.each do |user|
+    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  end
+end
+
+def collect_stats_from_users_4(report, users_objects, &block)
+  users_objects.each do |user|
+    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  end
+end
+
+def collect_stats_from_users_5(report, users_objects, &block)
+  users_objects.each do |user|
+    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  end
+end
+
+def collect_stats_from_users_6(report, users_objects, &block)
+  users_objects.each do |user|
+    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  end
+end
+
+def collect_stats_from_users_7(report, users_objects, &block)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
@@ -113,32 +162,32 @@ def work(filename, disable_gc: false)
   end
 
   # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users_2(report, users_objects) do |user|
     { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
   end
 
   # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users_3(report, users_objects) do |user|
     { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
   end
 
   # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
+  collect_stats_from_users_4(report, users_objects) do |user|
+    { 'browsers' => user.sessions.map {|s| s['browser'].upcase }.sort.join(', ') }
   end
 
   # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users_5(report, users_objects) do |user|
     { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
   end
 
   # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users_6(report, users_objects) do |user|
     { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
   end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users_7(report, users_objects) do |user|
     { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
   end
 

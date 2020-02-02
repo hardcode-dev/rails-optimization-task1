@@ -113,7 +113,7 @@ def work(filename = 'data_small.txt', disable_gc: true)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = users_objects.count
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = count_sessions(sessions)

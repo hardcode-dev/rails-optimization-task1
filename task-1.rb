@@ -30,7 +30,7 @@ def parse_session(session)
   parsed_result = {
     'user_id' => fields[1].to_i,
     'session_id' => fields[2],
-    'browser' => fields[3],
+    'browser' => fields[3].upcase,
     'time' => fields[4],
     'date' => fields[5],
   }
@@ -77,9 +77,8 @@ end
 def get_browsers(sessions)
   sessions
       .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
       .uniq
+      .sort
       .join(',')
 end
 

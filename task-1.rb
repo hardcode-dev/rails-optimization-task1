@@ -163,7 +163,7 @@ def work(filename, disable_gc: false)
 
   # Собираем количество времени по пользователям
   collect_stats_from_users_2(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
+    { 'totalTime' => user.sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.' }
   end
 
   # Выбираем самую длинную сессию пользователя

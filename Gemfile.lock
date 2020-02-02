@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    benchmark-ips (2.7.2)
     benchmark-malloc (0.1.0)
     benchmark-perf (0.5.0)
     benchmark-trend (0.3.0)
@@ -28,14 +29,17 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
+    ruby-prof (1.2.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  benchmark-ips
   pry
   rspec
   rspec-benchmark
+  ruby-prof
 
 RUBY VERSION
    ruby 2.6.3p62

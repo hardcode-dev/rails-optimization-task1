@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Deoptimized version of homework task
-require "set"
 require 'oj'
 
 def parse_user(fields)
@@ -49,10 +48,10 @@ end
 
 def fill_uniq_browser_stats(report,sessions)
 
-  unique_browsers = SortedSet.new(sessions.map { |s| s[:browser] })
+  unique_browsers = sessions.uniq{|s| s[:browser]}.map { |s| s[:browser] }
   report['uniqueBrowsersCount'] = unique_browsers.count
   report['totalSessions'] = sessions.count
-  report['allBrowsers'] = unique_browsers.to_a.join(',')
+  report['allBrowsers'] = unique_browsers.sort.join(',')
 
 end
 

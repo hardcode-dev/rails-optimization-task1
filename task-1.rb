@@ -2,6 +2,7 @@
 
 require 'json'
 require 'pry'
+require 'ruby-progressbar'
 require 'pry-byebug'
 require 'date'
 require 'minitest/autorun'
@@ -17,7 +18,7 @@ end
 
 def parse_user(user)
   fields = user.split(',')
-  parsed_result = {
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -27,7 +28,7 @@ end
 
 def parse_session(session)
   fields = session.split(',')
-  parsed_result = {
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3].upcase,
@@ -97,14 +98,13 @@ def work(filename, disable_gc: false)
 
   file_lines = File.read(filename).split("\n")
 
-  users = []
-  sessions = []
+  users = file_lines.select do |line|
+    line.start_with?('user')
+  end.map { |user_line| parse_user(user_line)}
 
-  file_lines.each do |line|
-    cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
-  end
+  sessions = file_lines.select do |line|
+    line.start_with?('session')
+  end.map { |session_line| parse_session(session_line) }
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -146,11 +146,19 @@ def work(filename, disable_gc: false)
   # Статистика по пользователям
   users_objects = []
 
+  user_count = users.count
+  progressbar = ProgressBar.create(
+    total: user_count,
+    format: '%a, %J, %E %B' # elapsed time, percent complete, estimate, bar
+  )
+
+  sessions_by_user_id = sessions.group_by { |s| s['user_id'] }
+
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    user_object = User.new(attributes: attributes, sessions: sessions_by_user_id[user['id']])
+    users_objects << user_object
+    progressbar.increment
   end
 
   report['usersStats'] = {}

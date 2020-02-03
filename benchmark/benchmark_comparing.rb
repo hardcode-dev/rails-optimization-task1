@@ -32,9 +32,6 @@ require 'benchmark/ips'
 #   x.compare!
 # end
 
-
-
-
 def iterate_array(array)
   array.each { |i| }
 end
@@ -53,5 +50,33 @@ Benchmark.ips do |x|
 
   x.report('generate_array from 1000 rows') { iterate_array(array_1000) }
   x.report('generate hash from 1000 rows') { iterate_hash(hash_1000) }
+  x.compare!
+end
+
+
+
+def create_array(size)
+  Array.new(size){ |index| [0, 0, 0, [], nil, nil, []] }
+
+  # {
+  #   sessionsCount: 0,
+  #   totalTime: 0,
+  #   longestSession: 0,
+  #   browsers: [],
+  #   usedIE: false,
+  #   alwaysUsedChrome: true,
+  #   dates: []
+  # }
+end
+
+
+Benchmark.ips do |x|
+  # The default is :stats => :sd, which doesn't have a configurable confidence
+  # confidence is 95% by default, so it can be omitted
+  x.config(:stats => :bootstrap, :confidence => 99)
+
+  SIZE = [10, 100, 1000, 10_000, 100_000, 1000_000]
+
+  SIZE.each { |size| x.report("create array with #{size} users") { create_array(size) } }
   x.compare!
 end

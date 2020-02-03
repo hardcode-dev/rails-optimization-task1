@@ -19,7 +19,11 @@ describe 'Performance' do
     expect { work(rows_count: 1000) }.to perform_at_least(0.8).within(2).warmup(0.2).ips
   end
 
-  it 'works with 1000 rows under 1.25 ms' do
-    expect { work(rows_count: 1000) }.to perform_under(1.25).sec.warmup(2).times.sample(10).times
+  it 'works with 1000 rows under 1.25 sec' do
+    expect { work(rows_count: 1000) }.to perform_under(1.25).sec.warmup(2).times
+  end
+
+  it 'works with data_large under 30 sec' do
+    expect { work(file_name: 'files/data_large.txt') }.to perform_under(30).sec.warmup(2).times
   end
 end

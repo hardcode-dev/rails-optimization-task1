@@ -20,4 +20,7 @@ Benchmark.ips do |x|
   x.report('method work with 1000 rows') do
     work(rows_count: 1000)
   end
+  x.report('method work with large_data') do
+    work(file_name: 'files/data_large.txt')
+  end
 end

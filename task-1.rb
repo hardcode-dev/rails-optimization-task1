@@ -6,33 +6,34 @@ require 'date'
 require 'minitest/autorun'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_reader  :sessions
+  attr_reader :id, :first_name, :last_name, :age
 
   def initialize(attributes)
-    @attributes = attributes
+    @id = attributes[:id]
+    @first_name = attributes[:first_name]
+    @last_name = attributes[:last_name]
+    @age = attributes[:age]
     @sessions = []
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1].to_i,
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+def parse_user(fields)
+  {
+    id: fields[1].to_i,
+    first_name: fields[2],
+    last_name: fields[3],
+    age: fields[4],
   }
-  User.new(parsed_result)
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
-    'user_id' => fields[1].to_i,
-    'session_id' => fields[2],
-    'browser' => fields[3].upcase,
-    'time' => fields[4].to_i,
-    'date' => Date.strptime(fields[5]).iso8601,
+def parse_session(fields)
+  {
+    user_id: fields[1].to_i,
+    session_id: fields[2],
+    browser: fields[3],
+    time: fields[4],
+    date: Date.strptime(fields[5]),
   }
 end
 
@@ -45,16 +46,14 @@ def parse_file(file_lines)
   sessions = []
 
   file_lines.each do |line|
-    cols = line.split(',')
-    if cols[0] == 'user'
-      user = parse_user(line)
-      user_id = user.attributes["id"]
+    fields = line.split(',')
+    if fields[0] == 'user'
+      user = User.new(parse_user(fields))
+      user_id = user.id
       users[user_id] = user if users[user_id].nil?
-    end
-
-    if cols[0] == 'session'
-      session = parse_session(line)
-      user_id = session['user_id']
+    else
+      session = parse_session(fields)
+      user_id = session[:user_id]
       users[user_id].sessions << session
       sessions << session
     end
@@ -92,7 +91,6 @@ def collect_stats(report, users_objects, sessions)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
-    # binding.pry
     # Собираем количество сессий по пользователям
     sessions_count = { 'sessionsCount' => user.sessions.count }
     # Собираем количество времени по пользователям
@@ -119,7 +117,7 @@ def collect_stats(report, users_objects, sessions)
   end
 end
 
-def work(filename = 'data_small.txt', disable_gc: false)
+def work(filename = 'data_large.txt', disable_gc: false)
   puts 'Start work'
   GC.disable if disable_gc
 

@@ -52,7 +52,11 @@ def parse_session(fields)
       fields[2],
       fields[3],
       fields[4],
-      Date.strptime(fields[5]),
+      # Date.strptime(fields[5]),
+      # no speedup
+      # Date.strptime(fields[5], '%Y-%m-%d'),
+      # this speeds up upto 40%
+      fields[5],
       )
 end
 

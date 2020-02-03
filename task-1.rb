@@ -27,8 +27,8 @@ def parse_session(fields)
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
+    'browser' => fields[3].upcase,
+    'time' => fields[4].to_i,
     'date' => fields[5],
   }
 end
@@ -75,15 +75,15 @@ def work(filename = 'data.txt', disable_gc: false)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = sessions.group_by{|s| s['browser']}.keys.to_a
-
+  # uniqueBrowsers = sessions.group_by{|s| s['browser']}.keys.to_a
+  uniqueBrowsers = sessions.map{|s| s['browser']}.uniq
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
   report['totalSessions'] = sessions.count
 
   report['allBrowsers'] =
     sessions
-      .map { |s| s['browser'].upcase }
+      .map { |s| s['browser'] }
       .uniq
       .sort
       .join(',')
@@ -104,43 +104,43 @@ def work(filename = 'data.txt', disable_gc: false)
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
-  end
+    { 'sessionsCount' => user.sessions.count,
+  # end
 
   # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
+  # collect_stats_from_users(report, users_objects) do |user|
     # { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
-    { 'totalTime' => "#{user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum} min."}
-  end
+    'totalTime' => "#{user.sessions.map {|s| s['time']}.sum} min." ,
+  # end
 
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
-    # { 'longestSession' => "#{user.sessions.reduce(0) {|max, s| max = s['time'] if s['time'] > max; max }} min." }
-  end
+  # # Выбираем самую длинную сессию пользователя
+  # collect_stats_from_users(report, users_objects) do |user|
+    # { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
+     'longestSession' => user.sessions.map {|s| s['time']}.max.to_s + ' min.',
+  # end
 
   # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
+  # collect_stats_from_users(report, users_objects) do |user|
     # { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
-    { 'browsers' => user.sessions.map{|s| s['browser'].upcase}.sort.join(', ') }
-  end
+    'browsers' => user.sessions.map{|s| s['browser']}.sort.join(', ') ,
+  # end
 
   # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
+  # collect_stats_from_users(report, users_objects) do |user|
     # { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-    { 'usedIE' => user.sessions.any?{ |s| s['browser'].upcase =~ /INTERNET EXPLORER/ } }
-  end
+     'usedIE' => user.sessions.any?{ |s| s['browser'] =~ /internet explorer/i } ,
+  # end
 
   # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
+  # collect_stats_from_users(report, users_objects) do |user|
     # { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
-    { 'alwaysUsedChrome' => user.sessions.all?{|s| s['browser'].upcase =~ /CHROME/ } }
-  end
+     'alwaysUsedChrome' => user.sessions.all?{|s| s['browser'] =~ /chrome/i } ,
+  # end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
+  # collect_stats_from_users(report, users_objects) do |user|
     # { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
-    { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
+     'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")

@@ -161,9 +161,81 @@ Object#collect_stats_from_users (/media/share/extraspace/TN/repositories/rails-o
                                   |    45  | end
 `
 - главной точкой роста является `Array#each`, вызываемый в нескольких местах, и внутри которого неоптимально реализована работа с его `callies`.
-- как вы решили её оптимизировать
-- как изменилась метрика
-- как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
+- в блоке `file_lines.each` заменил два `if` выражения на один блок `case when`, в методы `parse` стал передавать массив, а не строку, чтобы не повторять в методах работу, сделанную `split`. В методах убрал бесполезное присвоение возвращаемого результата локальной переменной. Подсчёт количества уникальных браузеров реализовал через `.map { }.uniq`. В блоке с формированием массива `users_objects` убрал промежуточные присвоения, добавление в массив переделал с помощью мьютабл-метода `<<`. Заменил группу вызовов метода `collect_stats_from_users` на единичное, с единым и одноуровневым перебором коллекции в нём.
+- отчёт `rspec` по тесту на 10_000 строк:
+`performed above 606 ms (± 2.9 ms)`, метрика уменьшилась в 2.26 раза.
+- отчёт `ruby-prof` в формате CallTree показал, что 18.72 процента времени тратится на выполнение метода `Array#map`, вызываемого из методов `#work` и `Array#each` -- главная точка роста изменилась.
+
+### Ваша находка №3
+- отчёт `ruby-prof` представлен в предыдущем разделе.
+- отчёт `stack-prof`:
+
+`stackprof stackprof_reports/stackprof.dump`:
+==================================
+  Mode: wall(1000)
+  Samples: 586 (2.82% miss rate)
+  GC: 0 (0.00%)
+==================================
+     TOTAL    (pct)     SAMPLES    (pct)     FRAME
+       400  (68.3%)         400  (68.3%)     Object#collect_stats_from_users
+       586 (100.0%)          93  (15.9%)     Object#work
+        72  (12.3%)          72  (12.3%)     Object#parse_session
+        11   (1.9%)          11   (1.9%)     User#initialize
+        10   (1.7%)          10   (1.7%)     Object#parse_user
+       586 (100.0%)           0   (0.0%)     block in <main>
+       586 (100.0%)           0   (0.0%)     <main>
+       586 (100.0%)           0   (0.0%)     <main>
+
+`stackprof stackprof_reports/stackprof.dump --method Object#work`:
+Object#work (/media/share/extraspace/TN/repositories/rails-optimization-task1/task-1.rb:59)
+  samples:    93 self (15.9%)  /    586 total (100.0%)
+  callers:
+     586  (  100.0%)  block in <main>
+     133  (   22.7%)  Object#work
+  callees (493 total):
+     400  (   81.1%)  Object#collect_stats_from_users
+     133  (   27.0%)  Object#work
+      72  (   14.6%)  Object#parse_session
+      11  (    2.2%)  User#initialize
+      10  (    2.0%)  Object#parse_user
+  code: 
+` 400   (68.3%)                   |   123  |   collect_stats_from_users(report, users_objects)`
+
+`stackprof stackprof_reports/stackprof.dump --method Object#collect_stats_from_users`:
+Object#collect_stats_from_users (/media/share/extraspace/TN/repositories/rails-optimization-task1/task-1.rb:37)
+  samples:   400 self (68.3%)  /    400 total (68.3%)
+  callers:
+     774  (  193.5%)  Object#collect_stats_from_users
+     400  (  100.0%)  Object#work
+  callees (0 total):
+     774  (    Inf%)  Object#collect_stats_from_users
+  code:
+`                                 |    37  | def collect_stats_from_users(report, users_objects)
+  400   (68.3%)                   |    38  |   users_objects.each do |user|
+    4    (0.7%) /     4   (0.7%)  |    39  |     user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
+                                  |    40  |     report['usersStats'][user_key] = {
+                                  |    41  |   # Собираем количество сессий по пользователям
+                                  |    42  |       'sessionsCount' => user.sessions.count,
+                                  |    43  |   # Собираем количество времени по пользователям
+   40    (6.8%) /    20   (3.4%)  |    44  |       'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
+                                  |    45  |   # Выбираем самую длинную сессию пользователя
+   32    (5.5%) /    16   (2.7%)  |    46  |       'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
+                                  |    47  |   # Браузеры пользователя через запятую
+   20    (3.4%) /    10   (1.7%)  |    48  |       'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
+                                  |    49  |   # Хоть раз использовал IE?
+   56    (9.6%) /    28   (4.8%)  |    50  |       'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+                                  |    51  |   # Всегда использовал только Chrome?
+   20    (3.4%) /    10   (1.7%)  |    52  |       'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
+                                  |    53  |   # Даты сессий через запятую в обратном порядке в формате iso8601
+  594  (101.4%) /   304  (51.9%)  |    54  |       'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+                                  |    55  |     }
+    8    (1.4%) /     8   (1.4%)  |    56  |   end
+                                  |    57  | end`
+
+- главной точкой роста является `Array#map`, вызываемый в методе `#collect_stats_from_users`.
+
+
+
 
 ### Ваша находка №X
 - какой отчёт показал главную точку роста

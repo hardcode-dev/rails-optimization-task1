@@ -5,6 +5,9 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 
+Session = Struct.new(:user_id, :session_id, :browser, :time, :date)
+UserStruct = Struct.new(:id, :first_name, :last_name, :age)
+
 class User
   attr_reader  :sessions
   attr_reader :id, :first_name, :last_name, :age
@@ -19,22 +22,38 @@ class User
 end
 
 def parse_user(fields)
-  {
-    id: fields[1].to_i,
-    first_name: fields[2],
-    last_name: fields[3],
-    age: fields[4],
-  }
+  # {
+  #   id: fields[1].to_i,
+  #   first_name: fields[2],
+  #   last_name: fields[3],
+  #   age: fields[4],
+  # }
+  #   using Struct gives no speedup on small data
+  # User.count much less then Session.count
+  UserStruct.new(
+      fields[1].to_i,
+      fields[2],
+      fields[3],
+      fields[4],
+      )
 end
 
 def parse_session(fields)
-  {
-    user_id: fields[1].to_i,
-    session_id: fields[2],
-    browser: fields[3],
-    time: fields[4],
-    date: Date.strptime(fields[5]),
-  }
+  # {
+  #   user_id: fields[1].to_i,
+  #   session_id: fields[2],
+  #   browser: fields[3],
+  #   time: fields[4],
+  #   date: Date.strptime(fields[5]),
+  # }
+  # Struc gives hire 25% percents speedup
+  Session.new(
+      fields[1].to_i,
+      fields[2],
+      fields[3],
+      fields[4],
+      Date.strptime(fields[5]),
+      )
 end
 
 def read_file(filename)

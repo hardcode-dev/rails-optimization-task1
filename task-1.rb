@@ -16,9 +16,9 @@ class Report
   end
 
   def work(filename: 'data.txt', disable_gc: true)
-    data = File.open(filename).read
+    file_lines = File.read(filename).split("\n")
 
-    data.each_line do |line|
+    file_lines.each do |line|
       cols = line.split(',')
       case cols[0]
         when 'user' then
@@ -26,7 +26,7 @@ class Report
           parse_user(user_key)
           @last_user_name = user_key
         when 'session' then
-          parse_session(cols[3].upcase, cols[4].to_i, cols[5][0..-2])
+          parse_session(cols[3].upcase, cols[4].to_i, cols[5])
       end
     end
 

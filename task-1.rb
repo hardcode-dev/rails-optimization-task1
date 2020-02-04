@@ -18,8 +18,8 @@ class Report
   def work(filename: 'data.txt', disable_gc: true)
     file_lines = File.read(filename).split("\n")
 
-    file_lines.each do |line|
-      cols = line.split(',')
+    while file_lines.size > 0
+      cols = file_lines.shift.split(',')
       case cols[0]
         when 'user' then
           user_key = "#{cols[2]} #{cols[3]}"

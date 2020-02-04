@@ -1,49 +1,7 @@
 # Deoptimized version of homework task
 
-require 'json'
-require 'pry'
 require 'minitest/autorun'
-require 'byebug'
-
-UserStatsStruct = Struct.new(
-  :user_key,
-  :sessions
-)
-
-UserStruct = Struct.new(
-  :id,
-  :name
-)
-
-SessionStruct = Struct.new(
-  :user_id,
-  :browser,
-  :time,
-  :date
-)
-
-def collect_stats_from_users(report, users_objects)
-  users_objects.each do |user|
-    user_times = user.sessions.map(&:time)
-    user_browsers = user.sessions.map(&:browser).sort
-    report[:usersStats][user.user_key] = {
-  # Собираем количество сессий по пользователям
-      sessionsCount: user.sessions.size,
-  # Собираем количество времени по пользователям
-      totalTime: "#{user_times.sum} min.",
-  # Выбираем самую длинную сессию пользователя
-      longestSession: "#{user_times.max} min.",
-  # Браузеры пользователя через запятую
-      browsers: user_browsers.join(', '),
-  # Хоть раз использовал IE?
-      usedIE: include_ie?(user_browsers),
-  # Всегда использовал только Chrome?
-      alwaysUsedChrome: all_chrome?(user_browsers),
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-      dates: user.sessions.map(&:date).sort.reverse
-    }
-  end
-end
+require 'oj'
 
 def include_ie?(browsers)
   browsers.each { |b| return true if b =~ /INTERNET EXPLORER/ }
@@ -55,29 +13,65 @@ def all_chrome?(browsers)
   return true
 end
 
-def work
-  file_lines = File.read('data.txt').split("\n")
+def work(file_name = 'data.txt')
+  file_lines = File.read(file_name).split("\n")
 
-  users = []
-  sessions = []
+  user_names = {}
+  unique_browsers = {}
+
+  report = {
+    totalUsers: 0,
+    uniqueBrowsersCount: 0,
+    totalSessions: 0,
+    allBrowsers: nil,
+    usersStats: {}
+  }
 
   file_lines.each do |line|
     cols = line.split(',')
     case cols[0]
     when 'user'
-      users << UserStruct.new(
-        cols[1].to_i,
-        "#{cols[2]} #{cols[3]}"
-      )
+      user_name = "#{cols[2]} #{cols[3]}"
+
+      user_names[cols[1]] = user_name
+
+      report[:usersStats][user_name] ||= {
+        sessionsCount: 0,
+        totalTime: 0,
+        longestSession: 0,
+        browsers: [],
+        usedIE: false,
+        alwaysUsedChrome: false,
+        dates: []
+      }
+
+      report[:totalUsers] += 1
     when 'session'
-      sessions << SessionStruct.new(
-        cols[1].to_i,
-        cols[3].upcase,
-        cols[4].to_i,
-        cols[5]
-      )
+      user_stats = report[:usersStats][user_names[cols[1]]]
+      session_time = cols[4].to_i
+
+      user_stats[:sessionsCount] += 1
+      user_stats[:totalTime] += session_time
+      user_stats[:longestSession] = session_time if user_stats[:longestSession] < session_time
+      user_stats[:browsers] << cols[3].upcase!
+      user_stats[:dates] << cols[5]
+
+      report[:totalSessions] += 1
+      unique_browsers[cols[3]] = nil
     end
   end
+
+  report[:usersStats].each do |_user, user_stats|
+    user_stats[:totalTime] = "#{user_stats[:totalTime]} min."
+    user_stats[:longestSession] = "#{user_stats[:longestSession]} min."
+    user_stats[:usedIE] = include_ie?(user_stats[:browsers])
+    user_stats[:alwaysUsedChrome] = user_stats[:usedIE] ? false : all_chrome?(user_stats[:browsers])
+    user_stats[:browsers] = user_stats[:browsers].sort!.join(', ')
+    user_stats[:dates].sort!.reverse!
+  end
+
+  report[:uniqueBrowsersCount] = unique_browsers.keys.size
+  report[:allBrowsers] = unique_browsers.keys.sort!.join(',')
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -94,42 +88,10 @@ def work
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
-  report[:totalUsers] = users.size
-
-  # Подсчёт количества уникальных браузеров
-  all_browsers = sessions.map(&:browser)
-
-  uniqueBrowsers = all_browsers.uniq
-
-  report[:uniqueBrowsersCount] = uniqueBrowsers.size
-
-  report[:totalSessions] = sessions.size
-
-  report[:allBrowsers] = uniqueBrowsers.sort.join(',')
-
-  users_objects = []
-
-  sessions_by_user_id = {}
-
-  sessions.each do |session|
-    sessions_by_user_id[session.user_id] ||= []
-    sessions_by_user_id[session.user_id] << session
+  File.open("result.json","w") do |f|
+    f.write Oj.dump(report, mode: :compat)
+    f.write "\n"
   end
-
-  users.each do |user|
-    users_objects << UserStatsStruct.new(
-      user.name,
-      sessions_by_user_id[user.id]
-    )
-  end
-
-  report[:usersStats] = {}
-
-  collect_stats_from_users(report, users_objects)
-
-  File.write('result.json', report.to_json << "\n")
 end
 
 class TestMe < Minitest::Test

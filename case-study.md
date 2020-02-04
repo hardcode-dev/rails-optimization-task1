@@ -152,10 +152,127 @@ end
 
 Мы сократили время работы примерно в 30 раз и приблизились к бюджету.
 Кстати, если теперь снова включить сборку мусора, то время выполнения теста будет около 350мс — теперь сборка мусора начинает быть заметной относительно общего времени.
-Снова отключим сборку и тест, и попробуем еще раз профилировать скрипт, чтобы найти новую точку роста.
+Снова отключим GC и попробуем еще раз профилировать скрипт, чтобы найти новую точку роста.
 
 ### Вторая итерация
 
+По новому отчету видим, что половину времени программа проводит в вызовах `#collect_stats_from_users`.
+Если посмотреть в код — это несколько итераций по всем юзерам с целью сбора данных в репорт.
+Можно немного изменить код, чтобы собирать всю стату за один проход.
+
+```ruby
+collect_stats_from_users(report, users) do |user|
+  {
+    'sessionsCount' => user.sessions.count,
+    'totalTime' => user.sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.',
+    'longestSession' => user.sessions.map {|s| s['time'].to_i}.max.to_s + ' min.',
+    'browsers' => user.sessions.map {|s| s['browser'].upcase}.sort.join(', '),
+    'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+    'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
+    'dates' => user.sessions.map {|s| Date.parse(s['date'])}.sort.reverse.map { |d| d.iso8601 },
+  }
+end
+```
+
+Тест показывает, что сильно сократить время работы за счет уменьшения проходов не удалось — время `#collect_stats_from_users` сократилось лишь с 46% до 41%.
+Так же заметили, что второй претендент на оптимизацию — множество вызовов `#each` и `#all` прямо из тела `#work` — судя по коду это явно подсчет уникальных браузеров с итерацией по всем сессиям.
+Попробуем сначала еще раз улучшить сборку статистики — встроим ее прямо в тот же цикл, где собираются все юзеры и сессии.
+Это ухудшит читаемость кода, но возможно нам удастся существенно сократить время процессора.
+```ruby
+def collect_stats_from_user(report, user)
+  user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+  report['usersStats'][user_key] = {
+    'sessionsCount' => user.sessions.count,
+    'totalTime' => user.sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.',
+    'longestSession' => user.sessions.map {|s| s['time'].to_i}.max.to_s + ' min.',
+    'browsers' => user.sessions.map {|s| s['browser'].upcase}.sort.join(', '),
+    'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+    'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
+    'dates' => user.sessions.map {|s| Date.parse(s['date'])}.sort.reverse.map { |d| d.iso8601 },
+  }
+end
+
+File.open(file_name).each_line.with_index do |l, i|
+  cols = l.split(',')
+  if cols[0] == 'user'
+    previous_user = current_user
+    if !previous_user.nil?
+      collect_stats_from_user(report, previous_user)
+    end
+    current_user = parse_user(cols)
+    users << current_user
+  end
+  if cols[0] == 'session'
+    session = parse_session(cols)
+    current_user.sessions << session
+    sessions << session
+  end
+
+  # handle last user
+  collect_stats_from_user(report, current_user) if i == last_line_index
+end
+```
+
+Замерим результат такого изменения.
+`expected block to perform under 150 ms, but performed above 281 ms (± 20 ms)`
+Печально — практически никакого выйгрыша. Вернем все обратно, чтобы не уродовать код в пустую (хорошо, что мы заранее закоммитились перед изменениями) и вернемся к другой находке — подсчету уникальных браузеров.
+
+### Итерация 3
+Попробуем сделать что-то вот с этим куском:
+```ruby
+uniqueBrowsers = []
+sessions.each do |session|
+  browser = session['browser']
+  uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+end
+```
+Сделаем в лоб:
+`uniqueBrowsers = sessions.map { |s| s['browser'] }.uniq`
+
+Ура, наш перфоманс тест почти позеленел:
+` expected block to perform under 150 ms, but performed above 166 ms (± 3.9 ms)`
+Попробуем еще раз посмотреть в профилировщик.
+
+### Итерация 4
+Профилировщик как основную точку роста показывает парсинг данных юзера, который нам не удалось улучшить во второй итерации.
+Согласно тесту, нам нехватает до бюджета совсем чуть-чуть, попробуем уменьшить количество работы `#map` и `Date.parse` — вторых претендентов на улучшение.
+
+Первая идея, которая приходит в голову — сделать кеш дат. Ведь вряд ли количество дат в файле будет превышать несколько тысяч.
+Однако, внимательный анализ входных данных показывает, что парсинг дат нам не нужен вообще.
+Все, что нужно - это просто убрать у дат символ перехода строки.
+Докажем это простым экспериментом.
+Во-первых, распаршеные даты в формате iso8601 равны исходным данным:
+```
+pry(#<RSpec::ExampleGroups::Task1>)> dates = sessions.map { |s| s['date'].strip };nil
+=> nil
+pry(#<RSpec::ExampleGroups::Task1>)> dates.all? { |d| Date.parse(d).iso8601 == d }
+=> true
+```
+Во-вторых, даты прекрасно сортируются в виде исходных строк:
+```
+pry(#<RSpec::ExampleGroups::Task1>)> users.first.sessions.map { |s| Date.parse(s['date']) }.sort.reverse.map(&:iso8601)
+=> ["2019-02-04", "2018-02-01", "2017-11-30", "2017-11-21", "2017-10-28", "2017-05-31", "2016-11-02", "2016-08-22"]
+pry(#<RSpec::ExampleGroups::Task1>)> users.first.sessions.map { |s| s['date'].strip }.sort.reverse
+=> ["2019-02-04", "2018-02-01", "2017-11-30", "2017-11-21", "2017-10-28", "2017-05-31", "2016-11-02", "2016-08-22"]
+```
+
+Воспользуемся этим открытием и попробуем полностью избавиться от затратной операции.
+`'dates' => user.sessions.map {|s| s['date']}.sort.reverse,`
+
+Убедимся в правильности работы программы и замерим результат.
+Тест зеленый! По факту, мы даже достигли цифры в 100мс.
+Даже с включенной сборкой мусора, тест лишь иногда переваливает за показатель в 100мс.
+Попробуем теперь обработать исходный файл. Добавим в программу простой прогресс-бар, чтобы видеть, не придется ли нам долго ждать.
+```
+$ time ruby task-1.rb
+ruby task-1.rb  50.77s user 1.84s system 98% cpu 53.391 total
+```
+К сожалению, исходный файл обрабатывается около 50 секунд. Пойдем на еще одно ухищрение.
+
+### Итерация 5
+
+Мы можем cделать скрипт более производительным, если разделим файл на две части, обработаем их в отдельных процессах и потом смержим хеши с репортом.
+Единственный минус — для одноядерных машин это не даст никакого выйгрыша.
 
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.

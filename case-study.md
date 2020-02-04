@@ -240,9 +240,52 @@ Object#collect_stats_from_users (/media/share/extraspace/TN/repositories/rails-o
 `performed above 147 sec (± 6.32 sec)` --  виду понижения времени отлика до вменяемой величины, перехожу к тестированию с полным файлом данных и уставкой в 30 секунд.
 - отчёт `ruby-prof` в формате CallTree показал, что 32.39 процента времени тратится на выполнение метода `Array#each`, вызываемого из методов `#work` и `#all_chrome?` и `#collect_stats_from_users`. Так как оптимизация в рамках текущей структуры последовательности построения отчёта уже произведена, нужно обратить внимание уже на саму структуру.
 
+### Ваша находка №4
+- отчёт `ruby-prof` представлен в предыдущем разделе.
+- отчёт `stack-prof`:
+
+`stackprof stackprof_reports/stackprof.dump`:
+==================================
+  Mode: wall(1000)
+  Samples: 78198 (4.85% miss rate)
+  GC: 0 (0.00%)
+==================================
+     TOTAL    (pct)     SAMPLES    (pct)     FRAME
+     78198 (100.0%)       54816  (70.1%)     Object#work
+     10376  (13.3%)       10376  (13.3%)     Object#include_ie?
+     23382  (29.9%)        9883  (12.6%)     Object#collect_stats_from_users
+      3123   (4.0%)        3123   (4.0%)     Object#all_chrome?
+     78198 (100.0%)           0   (0.0%)     block in <main>
+     78198 (100.0%)           0   (0.0%)     <main>
+     78198 (100.0%)           0   (0.0%)     <main>
+
+`stackprof stackprof_reports/stackprof.dump --method Object#work`:
+Object#work (/media/share/extraspace/TN/repositories/rails-optimization-task1/task-1.rb:58)
+  samples:  54816 self (70.1%)  /   78198 total (100.0%)
+  callers:
+    78198  (  100.0%)  block in <main>
+    37578  (   48.1%)  Object#work
+  callees (23382 total):
+    37578  (  160.7%)  Object#work
+    23382  (  100.0%)  Object#collect_stats_from_users
+  code:
+`33197   (42.5%)                  |    64  |   file_lines.each do |line|
+                                  |    65  |     cols = line.split(',')
+...
+                                  |    72  |     when 'session'
+ 27709   (35.4%) /  27709  (35.4%)|    73  |       sessions << SessionStruct.new(
+                                  |    74  |         cols[1].to_i,
+...
+ 23382   (29.9%)                  |   130  |   collect_stats_from_users(report, users_objects)
+                                  |   131  |
+ 15987   (20.4%) /  15987  (20.4%)|   132  |   File.write('result.json', report.to_json << "\n")`
+- на данном этапе решил оптимизировать запись в файл json с помощью библиотеки `oj` -- это уменьшит время отклика при работе с логикой формирования отчёта на последующих этапах.
+- подключил гем `oj`, использовал его для сериализации отчёта. Методом перебора выбрал метод модуля `File`, показывающий наименьшее время записи.
+- отчёт `rspec`:
+`performed above 115 sec (± 2.96 sec)`, метрика уменьшилась на 9.0%.
 
 ### Ваша находка №X
-- какой отчёт показал главную точку роста
+- отчёты `ruby-prof` и `stackprof` по сравнению с предыдущим разделом структурно не изменились, главная точка роста -- множественные вызовы методов итераций массивов.
 - как вы решили её оптимизировать
 - как изменилась метрика
 - как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?

@@ -65,15 +65,13 @@ class Report
 
   def collect_stats_from_users
     report['usersStats'].each do |user_key, value|
-      user_data = report['usersStats'][user_key]
+      report['allBrowsers'] << value['browsers']
+      report['totalSessions'] += value['sessionsCount']
 
-      report['allBrowsers'] << user_data['browsers']
-      report['totalSessions'] += user_data['sessionsCount']
-
-      user_data['totalTime'] = "#{user_data['totalTime']} min."
-      user_data['longestSession'] = "#{user_data['longestSession']} min."
-      user_data['browsers'] = user_data['browsers'].sort.join(', ')
-      user_data['dates'] = user_data['dates'].sort.reverse
+      value['totalTime'] = "#{value['totalTime']} min."
+      value['longestSession'] = "#{value['longestSession']} min."
+      value['browsers'] = value['browsers'].sort.join(', ')
+      value['dates'] = value['dates'].sort.reverse
     end
 
     report['totalUsers'] = report['usersStats'].length

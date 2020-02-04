@@ -274,12 +274,80 @@ ruby task-1.rb  50.77s user 1.84s system 98% cpu 53.391 total
 Мы можем cделать скрипт более производительным, если разделим файл на две части, обработаем их в отдельных процессах и потом смержим хеши с репортом.
 Единственный минус — для одноядерных машин это не даст никакого выйгрыша.
 
+Возьмем гем `parallel` который позволяет сделать форк и собрать результаты исполнения программы в памяти исходного процесса.
+Между тем, программа становится все уродливее :D
+```ruby
+def work(file_name, disable_gc: false)
+  GC.disable if disable_gc
+
+  users_count = `grep -R "^user" #{file_name} | wc -l`.strip.split(' ')[0].to_i
+
+  report = {}
+
+  if users_count > 100_000
+    f1, f2 = split_work(file_name)
+    report = do_hard_work(f1, f2)
+    File.delete(f1) if File.exist?(f1)
+    File.delete(f2) if File.exist?(f2)
+  else
+    report = do_small_work(file_name)
+  end
+  File.write('result.json', "#{report.to_json}\n")
+end
+
+
+def do_hard_work(f1, f2)
+  reports = Parallel.map([f1, f2], in_processes: 2) { |file_name| do_small_work(file_name) }
+  reports[0].merge!(reports[1])
+end
+
+def do_small_work(file_name)
+  # тут всё то же что было в старом work, только результат возвращается в виде хеша
+end
+```
+
+Посмотрим, что у нас получилось.
+```
+$ time ruby task-1.rb
+ruby task-1.rb  52.50s user 2.85s system 179% cpu **30.911 total**
+```
+УРА! Тест рспек также проходит.
+```
+it 'performs under 31 sec for large file' do
+  expect {
+    work('data_large.txt')
+  }.to perform_under(31000).ms.warmup(1).times.sample(2).times
+end
+```
+
+```
+$ rspec test/perf-test.rb
+.
+
+Finished in 1 minute 31.42 seconds (files took 0.23075 seconds to load)
+  1 example, 0 failures
+```
+
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.
-Удалось улучшить метрику системы с *того, что у вас было в начале, до того, что получилось в конце* и уложиться в заданный бюджет.
-
-*Какими ещё результами можете поделиться*
+Удалось улучшить метрику системы с бесконечно большой до 30 секунд и уложиться в заданный бюджет.
 
 ## Защита от регрессии производительности
-Для защиты от потери достигнутого прогресса при дальнейших изменениях программы *о performance-тестах, которые вы написали*
+Для защиты от потери достигнутого прогресса при дальнейших изменениях программы будем использовать rspec-benchmark с проверкой для маленького и большого файла.
+
+```
+describe 'task-1' do
+  it 'performs under 150ms for small file' do
+    expect {
+      work('test/support/small_samples/data_2500.txt', disable_gc: false)
+    }.to perform_under(110).ms.warmup(1).times.sample(5).times
+  end
+
+  it 'performs under 31 sec for large file' do
+    expect {
+      work('data_large.txt')
+    }.to perform_under(31000).ms.warmup(1).times.sample(2).times
+  end
+end
+```
 

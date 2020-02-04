@@ -1,0 +1,190 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 3
+
+fl=
+fn=Exception::exception
+0 1
+
+fl=
+fn=Exception::initialize
+0 2
+
+fl=
+fn=NameError::initialize
+0 8
+cfl=
+cfn=Exception::initialize
+calls=1 0
+0 2
+
+fl=
+fn=BasicObject::method_missing
+0 7
+cfl=
+cfn=NameError::initialize
+calls=1 0
+0 9
+
+fl=
+fn=Array::select
+0 13
+cfl=
+cfn=BasicObject::method_missing
+calls=1 47
+47 16
+cfl=
+cfn=Exception::exception
+calls=1 47
+47 1
+cfl=
+cfn=Exception::backtrace
+calls=1 47
+47 3
+
+fl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+fn=Object::select_sessions_by_user
+46 4
+cfl=
+cfn=Array::select
+calls=1 47
+47 33
+
+fl=
+fn=Array::join
+0 27
+
+fl=
+fn=Array::uniq
+0 691
+
+fl=
+fn=Array::sort
+0 2313
+
+fl=
+fn=String::upcase
+0 2534
+
+fl=
+fn=Array::map
+0 7876
+cfl=
+cfn=String::upcase
+calls=13950 97
+97 2534
+
+fl=
+fn=Enumerable::all?
+0 5232
+cfl=
+cfn=Array::each
+calls=13950 0
+0 195250
+
+fl=
+fn=Array::count
+0 7
+
+fl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+27 19567
+cfl=
+cfn=String::split
+calls=13950 28
+28 14082
+
+fl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+17 3332
+cfl=
+cfn=String::split
+calls=2500 18
+18 2715
+
+fl=
+fn=Array::each
+0 738729
+cfl=
+cfn=String::split
+calls=16450 59
+59 21035
+cfl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=2500 60
+60 6047
+cfl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=13950 61
+61 33649
+cfl=
+cfn=Enumerable::all?
+calls=13950 87
+87 200482
+cfl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+cfn=Object::select_sessions_by_user
+calls=1 107
+107 37
+
+fl=
+fn=String::split
+0 40838
+
+fl=
+fn=IO::read^
+0 475
+
+fl=
+fn=GC::disable^
+0 4
+
+fl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+fn=Object::work
+50 31
+cfl=
+cfn=GC::disable^
+calls=1 51
+51 4
+cfl=
+cfn=IO::read^
+calls=1 53
+53 475
+cfl=
+cfn=String::split
+calls=1 53
+53 3005
+cfl=
+cfn=Array::each
+calls=3 58
+58 804729
+cfl=
+cfn=Array::count
+calls=3 81
+81 7
+cfl=
+cfn=Array::map
+calls=2 94
+94 10410
+cfl=
+cfn=Array::sort
+calls=1 94
+94 2313
+cfl=
+cfn=Array::uniq
+calls=1 94
+94 691
+cfl=
+cfn=Array::join
+calls=1 94
+94 27
+
+fl=/Users/vshvedchenko/workspace/rails-optimization-task1/test/ruby-prof-callgrind.rb
+fn=[global]::
+7 22
+cfl=/Users/vshvedchenko/workspace/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 7
+7 821692
+

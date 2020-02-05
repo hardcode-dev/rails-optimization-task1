@@ -2,7 +2,6 @@
 
 require 'json'
 require 'pry'
-require 'date'
 
 def parse_user(fields)
   parsed_result = {

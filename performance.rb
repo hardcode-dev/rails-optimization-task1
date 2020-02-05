@@ -6,11 +6,11 @@ RSpec.configure do |config|
 end
 
 describe 'Performance' do
-  describe 'work' do
-    it 'works under 3000 ms' do
+  describe 'file handler' do
+    it 'works under 25s' do
       expect {
-        work('data500000.txt', disable_gc: true)
-      }.to perform_under(3000).ms.warmup(2).times.sample(10).times
+        work('data_large.txt', disable_gc: false)
+      }.to perform_under(25000).ms.warmup(2).times.sample(10).times
     end
   end
 end

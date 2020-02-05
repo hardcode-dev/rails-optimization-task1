@@ -1,151 +1,109 @@
-# Deoptimized version of homework task
-
-require 'json'
-require 'pry'
-require 'date'
 require 'minitest/autorun'
+require 'json'
 
-Session = Struct.new(:user_id, :session_id, :browser, :time, :date)
-UserStruct = Struct.new(:id, :first_name, :last_name, :age)
-
-class User
-  attr_reader  :sessions
-  attr_reader :id, :first_name, :last_name, :age
-
-  def initialize(attributes)
-    @id = attributes[:id]
-    @first_name = attributes[:first_name]
-    @last_name = attributes[:last_name]
-    @age = attributes[:age]
-    @sessions = []
-  end
-end
+UserStruct = Struct.new(:id,
+                        :first_name,
+                        :last_name,
+                        :age,
+                        :sessions_count,
+                        :total_time,
+                        :longest_session,
+                        :browsers,
+                        :dates)
 
 def parse_user(fields)
-  # {
-  #   id: fields[1].to_i,
-  #   first_name: fields[2],
-  #   last_name: fields[3],
-  #   age: fields[4],
-  # }
-  #   using Struct gives no speedup on small data
-  # User.count much less then Session.count
   UserStruct.new(
       fields[1].to_i,
       fields[2],
       fields[3],
       fields[4],
-      )
+      0,
+      0,
+      0,
+      [],
+      [])
 end
 
-def parse_session(fields)
-  # {
-  #   user_id: fields[1].to_i,
-  #   session_id: fields[2],
-  #   browser: fields[3],
-  #   time: fields[4],
-  #   date: Date.strptime(fields[5]),
-  # }
-  # Struc gives hire 25% percents speedup
-  Session.new(
-      fields[1].to_i,
-      fields[2],
-      fields[3].upcase,
-      fields[4].to_i,
-      # Date.strptime(fields[5]),
-      # no speedup
-      # Date.strptime(fields[5], '%Y-%m-%d'),
-      # this speeds up upto 40%
-      fields[5],
-      )
+
+def include_ie?(browsers)
+  browsers.each {|b| return true if b =~ /INTERNET EXPLORER/}
+  return false
 end
 
-def read_file(filename)
-  File.read(ENV['DATA_FILE'] || filename).split("\n")
+def all_chrome?(browsers)
+  browsers.each {|b| return false unless b =~ /CHROME/}
+  return true
 end
 
-def parse_file(file_lines)
-  users = []
-  sessions = []
-
-  file_lines.each do |line|
-    fields = line.split(',')
-    if fields[0] == 'user'
-      user = User.new(parse_user(fields))
-      user_id = user.id
-      users[user_id] = user if users[user_id].nil?
-    else
-      session = parse_session(fields)
-      user_id = session[:user_id]
-      users[user_id].sessions << session
-      sessions << session
-    end
-  end
-  [users, sessions]
-end
-
-def unique_browsers(sessions)
-  @unique_browsers ||= sessions.map{|ss| ss["browser"]}.uniq
-end
-
-def get_browsers(sessions)
-  unique_browsers(sessions)
-      .sort
-      .join(',')
-end
-
-def collect_stats(report, users_objects, sessions)
-  report[:totalUsers] = users_objects.count
-
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = unique_browsers(sessions)
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] = get_browsers(sessions)
-
-  report['usersStats'] = {}
-
-
-  users_objects.each do |user|
-    user_key = "#{user.first_name}" + ' ' + "#{user.last_name}"
-    report['usersStats'][user_key] ||= {}
-    # Собираем количество сессий по пользователям
-    sessions_count = { 'sessionsCount' => user.sessions.count }
-    # Собираем количество времени по пользователям
-    total_time = { 'totalTime' => user.sessions.map {|s| s['time']}.sum.to_s + ' min.' }
-    # Выбираем самую длинную сессию пользователя
-    longest_session = { 'longestSession' => user.sessions.map {|s| s['time']}.max.to_s + ' min.' }
-    # Браузеры пользователя через запятую
-    browsers = { 'browsers' => user.sessions.map {|s| s['browser']}.sort.join(', ') }
-    # Хоть раз использовал IE?
-    used_IE = { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b =~ /INTERNET EXPLORER/ } }
-    # Всегда использовал только Chrome?
-    always_used_chrome = { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b =~ /CHROME/ } }
-    # Даты сессий через запятую в обратном порядке в формате iso8601
-    dates = { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(
-        sessions_count,
-        total_time,
-        longest_session,
-        browsers,
-        used_IE,
-        always_used_chrome,
-        dates
-    )
-  end
-end
-
-def work(filename = 'data_small.txt', disable_gc: false)
+def work(filename = 'data_large.txt', disable_gc: false)
   puts 'Start work'
   GC.disable if disable_gc
 
-  file_lines = read_file(filename)
+  file_lines = File.read(ENV['DATA_FILE'] || filename).split("\n")
 
-  users_objects, sessions = parse_file file_lines
+  users = {}
+  sessions = []
+  unique_browsers = {}
 
+  report = {
+      totalUsers: 0,
+      uniqueBrowsersCount: 0,
+      totalSessions: 0,
+      allBrowsers: nil,
+      usersStats: {}
+  }
+
+  # res = Parallel.each(file_lines, in_threads: 5) do |line|
+  file_lines.each do |line|
+    fields = line.split(',')
+    if fields[0] == 'user'
+      id = fields[1]
+      users[id] = parse_user(fields)
+      report[:usersStats]["#{fields[2]} #{fields[3]}"] ||= {
+          sessionsCount: 0,
+          totalTime: 0,
+          longestSession: 0,
+          browsers: [],
+          usedIE: false,
+          alwaysUsedChrome: false,
+          dates: []
+      }
+
+      report[:totalUsers] += 1
+    else
+      user = users[fields[1]]
+      user.sessions_count += 1
+      session_time = fields[4].to_i
+      user.total_time += session_time
+      user.longest_session = session_time if user.longest_session < session_time
+      user.browsers << fields[3].upcase!
+      user.dates << fields[5]
+      report[:totalSessions] += 1
+      unique_browsers[fields[3]] = nil
+    end
+  end
+
+  users.each do |user|
+    # binding.pry
+    user_key = "#{user[1].first_name} #{user[1].last_name}"
+    # report['usersStats'][user_key] ||= {}
+    report[:usersStats][user_key][:sessionsCount] = user[1].sessions_count
+    # Собираем количество времени по пользователям
+    report[:usersStats][user_key][:totalTime] = user[1].total_time.to_s + ' min.'
+    # Выбираем самую длинную сессию пользователя
+    report[:usersStats][user_key][:longestSession] = user[1].longest_session.to_s + ' min.'
+    # Браузеры пользователя через запятую
+    report[:usersStats][user_key][:browsers] = user[1].browsers.sort.join(', ')
+    # Хоть раз использовал IE?
+    report[:usersStats][user_key][:usedIE] = include_ie?(user[1].browsers)
+    # Всегда использовал только Chrome?
+    report[:usersStats][user_key][:alwaysUsedChrome] = all_chrome?(user[1].browsers)
+    # Даты сессий через запятую в обратном порядке в формате iso8601
+    report[:usersStats][user_key][:dates] = user[1].dates.sort!.reverse!
+  end
+
+  report[:uniqueBrowsersCount] = unique_browsers.keys.size
+  report[:allBrowsers] = unique_browsers.keys.sort!.join(',')
   # Отчёт в json
   #   - Сколько всего юзеров +
   #   - Сколько всего уникальных браузеров +
@@ -161,9 +119,6 @@ def work(filename = 'data_small.txt', disable_gc: false)
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
-  collect_stats(report, users_objects, sessions)
 
   File.write('result.json', "#{report.to_json}\n")
 end

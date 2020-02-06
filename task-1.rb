@@ -53,7 +53,7 @@ def work(filename='data.txt', disable_gc=false)
 
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = sessions.map{|s| s['browser'].upcase}.uniq.sort
+  uniqueBrowsers = sessions.map{|s| s['browser']}.uniq.sort
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
   report['totalSessions'] = sessions.count
@@ -82,11 +82,11 @@ def work(filename='data.txt', disable_gc=false)
     # Выбираем самую длинную сессию пользователя
     'longestSession' => "#{user[:sessions].map {|s| s['time']}.max} min." ,
     # Браузеры пользователя через запятую
-    'browsers' => user[:sessions].map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') ,
+    'browsers' => user[:sessions].map{|s| s['browser']}.sort.join(', ') ,
     # Хоть раз использовал IE?
-    'usedIE' => user[:sessions].map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } ,
+    'usedIE' => user[:sessions].map{|s| s['browser'].match?(/INTERNET EXPLORER/) }.any? ,
     # Всегда использовал только Chrome?
-    'alwaysUsedChrome' => user[:sessions].map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } ,
+    'alwaysUsedChrome' => user[:sessions].all?{|s| s['browser'].match?(/CHROME/) } ,
     # Даты сессий через запятую в обратном порядке в формате iso8601
     'dates' => user[:sessions].map{|s| s['date']}.sort.reverse }
   end

@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'json'
+require 'oj'
 
 UserStruct = Struct.new(:id,
                         :first_name,
@@ -120,7 +120,10 @@ def work(filename = 'data_large.txt', disable_gc: false)
   #     - даты сессий в порядке убывания через запятую +
 
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.open("result.json","w") do |f|
+    f.write Oj.dump(report, mode: :compat)
+    f.write "\n"
+  end
 end
 
 class TestMe < Minitest::Test

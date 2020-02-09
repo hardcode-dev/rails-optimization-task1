@@ -54,9 +54,9 @@ def work
 
   set_default_user_stats
 
-  amount_of_lines = File.read('data_sample.txt').each_line.count
+  amount_of_lines = File.read('data_large.txt').each_line.count
 
-  File.read('data_sample.txt').split("\n").each_with_index do |line, index|
+  File.read('data_large.txt').split("\n").each_with_index do |line, index|
     cols = line.split(',')
 
     if cols[0] == 'session' && user_id == cols[1]
@@ -83,7 +83,7 @@ def work
     user_name = "#{cols[2]} #{cols[3]}"
     users_count += 1
 
-    generate_user_stats(report, user_name)
+    set_default_user_stats_report(report, user_name)
   end
 
   report['totalUsers'] = users_count

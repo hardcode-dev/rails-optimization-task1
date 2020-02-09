@@ -1,81 +1,97 @@
 # Optimized version of homework task
 
-require 'json'
-require 'pry'
-require 'date'
+require 'oj'
 require 'minitest'
 require 'set'
 
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
+def set_default_user_stats
+  @user_time = []
+  @dates = []
+  @user_sessions = 0
+  @user_browsers = []
+  @used_ie = false
+  @always_used_chrome = true
 end
 
-def parse_user(fields)
-  {
-    'id' => fields[1],
-    'full_name' => "#{fields[2]} #{fields[3]}",
-    'age' => fields[4]
+def set_default_user_stats_report(report, user_name)
+  report['usersStats'][user_name] ||= {}
+  report['usersStats'][user_name] = {
+    'sessionsCount' => 0,
+    'totalTime' => '',
+    'longestSession' => '',
+    'browsers' => [],
+    'usedIE' => false,
+    'alwaysUsedChrome' => true,
+    'dates' => []
   }
 end
 
-def parse_session(fields)
-  {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3].upcase,
-    'time' => fields[4],
-    'date' => fields[5]
-  }
+def generate_user_stats(report, user_name)
+  report['usersStats'][user_name]['sessionsCount'] = @user_sessions
+  report['usersStats'][user_name]['totalTime'] = "#{@user_time.sum} min."
+  report['usersStats'][user_name]['longestSession'] = "#{@user_time.max} min."
+  report['usersStats'][user_name]['browsers'] = @user_browsers.sort.join(', ')
+  report['usersStats'][user_name]['usedIE'] = @used_ie
+  report['usersStats'][user_name]['alwaysUsedChrome'] = @always_used_chrome
+  report['usersStats'][user_name]['dates'] = @dates.sort.reverse
 end
-
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    report['usersStats'][user.attributes['full_name']] ||= {}
-    report['usersStats'][user.attributes['full_name']] = block.call(user)
-  end
-end
-
 
 def work
-  users = []
-  sessions = []
+  report = {
+    'totalUsers' => 0,
+    'uniqueBrowsersCount' => 0,
+    'totalSessions' => 0,
+    'allBrowsers' => '',
+    'usersStats' => {}
+  }
 
-  File.read('data_sample.txt').split("\n").take_while do |line|
+  users_count = 0
+  uniq_browsers = SortedSet.new
+  total_sessions = 0
+
+  user_id = ''
+  user_name = ''
+
+  set_default_user_stats
+
+  amount_of_lines = File.read('data_sample.txt').each_line.count
+
+  File.read('data_sample.txt').split("\n").each_with_index do |line, index|
     cols = line.split(',')
-    cols[0] == 'user' ? users << parse_user(cols) : sessions << parse_session(cols)
+
+    if cols[0] == 'session' && user_id == cols[1]
+      browser = cols[3].upcase
+      total_sessions += 1
+      uniq_browsers << browser
+      @user_time << cols[4].to_i
+      @user_sessions += 1
+      @user_browsers << browser
+      @used_ie = true if browser.start_with?('INTERNET EXPLORER')
+      @always_used_chrome = false unless browser.start_with?('CHROME')
+      @dates << cols[5]
+      next unless amount_of_lines == index + 1
+    end
+
+    if @user_sessions > 0
+      generate_user_stats(report, user_name)
+      set_default_user_stats
+    end
+
+    next unless cols[0] == 'user'
+
+    user_id = cols[1]
+    user_name = "#{cols[2]} #{cols[3]}"
+    users_count += 1
+
+    generate_user_stats(report, user_name)
   end
 
-  user_sessions = sessions.group_by { |x| x['user_id'] }
-  users_objects = users.map { |user| User.new(attributes: user, sessions: user_sessions[user['id']]) }
+  report['totalUsers'] = users_count
+  report['uniqueBrowsersCount'] = uniq_browsers.length
+  report['totalSessions'] = total_sessions
+  report['allBrowsers'] = uniq_browsers.to_a.join(',')
 
-  report = {}
-
-  report[:totalUsers] = users.length
-
-  uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.length
-  report['totalSessions'] = sessions.length
-  report['allBrowsers'] =
-    sessions.map { |s| s['browser'] }.sort.uniq.join(',')
-  report['usersStats'] = {}
-
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.length,
-      'totalTime' => user.sessions.sum { |s| s['time'].to_i }.to_s + ' min.',
-      'longestSession' => user.sessions.max_by { |s| s['time'] }['time'] + ' min.',
-      'browsers' => user.sessions.map { |s| s['browser'] }.sort.join(', '),
-      'usedIE' => user.sessions.any? { |s| s['browser'].start_with?('INTERNET EXPLORER') },
-      'alwaysUsedChrome' => user.sessions.all? { |s| s['browser'].start_with?('CHROME') },
-      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse }
-  end
-
-  File.write('result.json', "#{report.to_json}\n")
+  File.write("result.json", Oj.dump(report) + "\n")
 end
 
 class TestMe < Minitest::Test
@@ -109,3 +125,5 @@ session,2,3,Chrome 20,84,2016-11-25
     assert_equal expected_result, File.read('result.json')
   end
 end
+
+work

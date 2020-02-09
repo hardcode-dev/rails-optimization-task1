@@ -19,6 +19,6 @@ describe '#work' do
     expect do |n, _i|
       file = "test/data/data_#{n}.txt"
       work(file)
-    end.to perform_linear.in_range(sizes)
+    end.to perform_linear.in_range(sizes).sample(10).times
   end
 end

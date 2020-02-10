@@ -41,7 +41,7 @@ def work(filename = 'data_large.txt', disable_gc: false)
 
   file_lines = File.read(ENV['DATA_FILE'] || filename).split("\n")
 
-  users = {}
+  users = []
   sessions = []
   unique_browsers = {}
 
@@ -53,11 +53,10 @@ def work(filename = 'data_large.txt', disable_gc: false)
       usersStats: {}
   }
 
-  # res = Parallel.each(file_lines, in_threads: 5) do |line|
   file_lines.each do |line|
     fields = line.split(',')
     if fields[0] == 'user'
-      id = fields[1]
+      id = fields[1].to_i
       users[id] = parse_user(fields)
       report[:usersStats]["#{fields[2]} #{fields[3]}"] ||= {
           sessionsCount: 0,
@@ -71,7 +70,7 @@ def work(filename = 'data_large.txt', disable_gc: false)
 
       report[:totalUsers] += 1
     else
-      user = users[fields[1]]
+      user = users[fields[1].to_i]
       user.sessions_count += 1
       session_time = fields[4].to_i
       user.total_time += session_time
@@ -82,24 +81,23 @@ def work(filename = 'data_large.txt', disable_gc: false)
       unique_browsers[fields[3]] = nil
     end
   end
-
+  #
   users.each do |user|
-    # binding.pry
-    user_key = "#{user[1].first_name} #{user[1].last_name}"
+    user_key = "#{user.first_name} #{user.last_name}"
     # report['usersStats'][user_key] ||= {}
-    report[:usersStats][user_key][:sessionsCount] = user[1].sessions_count
+    report[:usersStats][user_key][:sessionsCount] = user.sessions_count
     # Собираем количество времени по пользователям
-    report[:usersStats][user_key][:totalTime] = user[1].total_time.to_s + ' min.'
+    report[:usersStats][user_key][:totalTime] = user.total_time.to_s + ' min.'
     # Выбираем самую длинную сессию пользователя
-    report[:usersStats][user_key][:longestSession] = user[1].longest_session.to_s + ' min.'
+    report[:usersStats][user_key][:longestSession] = user.longest_session.to_s + ' min.'
     # Браузеры пользователя через запятую
-    report[:usersStats][user_key][:browsers] = user[1].browsers.sort.join(', ')
+    report[:usersStats][user_key][:browsers] = user.browsers.sort.join(', ')
     # Хоть раз использовал IE?
-    report[:usersStats][user_key][:usedIE] = include_ie?(user[1].browsers)
+    report[:usersStats][user_key][:usedIE] = include_ie?(user.browsers)
     # Всегда использовал только Chrome?
-    report[:usersStats][user_key][:alwaysUsedChrome] = all_chrome?(user[1].browsers)
+    report[:usersStats][user_key][:alwaysUsedChrome] = all_chrome?(user.browsers)
     # Даты сессий через запятую в обратном порядке в формате iso8601
-    report[:usersStats][user_key][:dates] = user[1].dates.sort!.reverse!
+    report[:usersStats][user_key][:dates] = user.dates.sort!.reverse!
   end
 
   report[:uniqueBrowsersCount] = unique_browsers.keys.size

@@ -39,6 +39,8 @@ def work(filename = 'data_large.txt', disable_gc: false)
   puts 'Start work'
   GC.disable if disable_gc
 
+  lines_count = File.read(ENV['DATA_FILE'] || filename).size
+  file_lines = Array.new(lines_count)
   file_lines = File.read(ENV['DATA_FILE'] || filename).split("\n")
 
   users = []

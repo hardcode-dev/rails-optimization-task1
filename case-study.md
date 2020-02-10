@@ -92,7 +92,7 @@ Enumerable#all? стал занимать 1,5% от общего времени 
 Ещё +50%.
 
 ### JSON::Ext::Generator::GeneratorMethods::Hash#to_json
-Меняем json на oj, который делает то же самое, только тратит на это в 7 раз меньше.
+Меняем json на oj.
 
 | rows | t, sec |
 |------|--------|

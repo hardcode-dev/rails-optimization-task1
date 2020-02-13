@@ -17,3 +17,5 @@ gem "minitest", "~> 5.14"
 gem "ruby-prof", "~> 1.2"
 
 gem "stackprof", "~> 0.2.15"
+
+gem "oj", "~> 3.10"

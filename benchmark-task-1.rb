@@ -3,7 +3,7 @@ require 'benchmark'
 require_relative 'work_method.rb'
 
 time = Benchmark.realtime do
-  work('data_small.txt', disable_gc: true)
+  work('data_large.txt', disable_gc: true)
 end
 
 puts "Finish in #{time.round(2)}"

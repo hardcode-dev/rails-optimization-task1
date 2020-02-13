@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'oj'
 
 def work(filename = '', disable_gc: true)
   puts 'Start work'
@@ -30,8 +31,8 @@ def work(filename = '', disable_gc: true)
         totalTime: 0,
         longestSession: 0,
         browsers: [],
-        usedIE: 0,
-        alwaysUsedChrome: 0,
+        usedIE: false,
+        alwaysUsedChrome: true,
         dates: [],
       }
       report[:totalUsers] += 1
@@ -43,6 +44,8 @@ def work(filename = '', disable_gc: true)
       user[:totalTime] += cols[4]
       user[:longestSession] = cols[4] if user[:longestSession] < cols[4]
       user[:browsers].push(cols[3])
+      user[:usedIE] = true if !user[:usedIE] && cols[3].start_with?('INTERNET')
+      user[:usedIE] = true if user[:alwaysUsedChrome] && !cols[3].start_with?('CHROME')
       user[:dates].push(cols[5])
       report[:totalSessions] += 1
       sessions[cols[3]] = nil
@@ -53,14 +56,14 @@ def work(filename = '', disable_gc: true)
   report[:allBrowsers] = sessions.keys.sort!.join(',')
 
   report[:usersStats].each do |_, user|
-    browsers = user[:browsers].sort.join(', ')
     user[:totalTime] = "#{user[:totalTime]} min."
     user[:longestSession] = "#{user[:longestSession]} min."
     user[:dates] = user[:dates].sort!.reverse!
-    user[:usedIE] = browsers.include?('INTERNET')
-    user[:alwaysUsedChrome] = user[:browsers].all? { |b| b =~ /CHROME/ }
-    user[:browsers] = browsers
+    user[:browsers] = user[:browsers].sort!.join(', ')
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.open('result.json', 'w') do |f|
+    f.write Oj.dump(report, mode: :compat)
+    f.write "\n"
+  end
 end

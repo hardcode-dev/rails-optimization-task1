@@ -29,7 +29,7 @@ session,2,3,Chrome 20,84,2016-11-25
   end
 
   it 'writes expected data to json file' do
-    work
+    Work.new.work
     expect(File.read('result.json')).to eq(expected_result)
   end
 end

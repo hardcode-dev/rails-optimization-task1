@@ -7,24 +7,8 @@ end
 
 describe 'Performance' do
   describe 'Lenear work' do
-    it 'works with 100 strings under 1 ms' do
-      expect { work('data100.txt') }.to perform_under(1).ms
-    end
-
-    it 'works with 500 strings under 1 ms' do
-      expect { work('data500.txt') }.to perform_under(1).ms
-    end
-
-    it 'works with 1000 strings under 1 ms' do
-      expect { work('data1000.txt') }.to perform_under(1).ms
-    end
-
-    it 'works with 5000 strings under 1 ms' do
-      expect { work('data5000.txt') }.to perform_under(1).ms
-    end
-
-    it 'works with 10000 strings under 1 ms' do
-      expect { work('data10000.txt') }.to perform_under(1).ms
+    it 'works with 10000 strings under 30 ms' do
+      expect { Work.new.work('data10000.txt') }.to perform_under(30).ms
     end
   end
 end

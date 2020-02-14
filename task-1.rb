@@ -2,63 +2,31 @@
 
 require 'json'
 require 'pry'
-require 'date'
+require 'oj'
 
-require 'ruby-progressbar'
 require 'benchmark/ips'
 
-class User
-  attr_reader :attributes, :sessions
+class Work
+  attr_accessor :report, :users
 
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
+  def initialize
+    @report = {}
+    @users = {}
   end
-end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
-  }
-end
+  def work(filename = 'data.txt', disable_gc: false)
+    GC.disable if disable_gc
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
-  }
-end
-
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    file_lines = File.read(filename).split("\n")
+    parse_filelines(file_lines)
+    make_report
   end
-end
 
-def get_report(file_lines)
-  users = []
-  sessions = []
-
-  # progressbar = ProgressBar.create(total: file_lines.size, format: '%a, %J, %E, %B')
-
-  i = 0
-  while i < file_lines.size
-    line = file_lines[i]
-    cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
-    i += 1
-    # progressbar.increment
+  def parse_filelines(file_lines)
+    lines = file_lines.map { |line| line.split(',') }
+    grouped_file_lines = lines.group_by { |line| line[0] }
+    grouped_file_lines['user'].each { |user| users[user[1]] = user[2] + ' ' + user[3] }
+    @users = grouped_file_lines['session'].group_by { |line| line[1] }.transform_keys { |k| users[k] }
   end
 
   # Отчёт в json
@@ -75,99 +43,67 @@ def get_report(file_lines)
   #     - Хоть раз использовал IE? +
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
+  #
+  def make_report
+    count_users
+    count_uniq_browsers
+    count_sessions
+    set_all_browsers
+    set_users_stats
+    write_report
+  end
 
-  report = {}
-
-  report[:totalUsers] = users.count
+  def count_users
+    report[:totalUsers] = users.count
+  end
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+  #
+  def count_uniq_browsers
+    @uniq_browsers = users.values.flatten(1).flat_map { |i| i[3].upcase }.uniq
+    report[:uniqueBrowsersCount] = @uniq_browsers.count
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  def count_sessions
+    report[:totalSessions] = users.values.flatten(1).count
+  end
 
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] =
-
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  def set_all_browsers
+    report[:allBrowsers] = @uniq_browsers.sort.join(',')
+  end
 
   # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+  #
+  def set_users_stats
+    report[:usersStats] = {}
+    users.each do |name, value|
+      times = value.map { |i| i[4].to_i }
+      browsers = value.map { |i| i[3].upcase }
+      joined_browsers = browsers.sort.join(', ')
+      report[:usersStats][name] = {
+        sessionsCount: times.count,
+        totalTime: times.sum.to_s + ' min.',
+        longestSession: times.max.to_s + ' min.',
+        browsers: joined_browsers,
+        usedIE: joined_browsers.include?('INTERNET EXPLORER'),
+        alwaysUsedChrome: browsers.all? { |b| b.start_with?('CHROME') },
+        dates: value.map { |i| i[5] }.sort.reverse
+      }
+    end
   end
 
-  report['usersStats'] = {}
-
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
-  end
-
-  # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.sum.to_s + ' min.' }
-  end
-
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.max.to_s + ' min.' }
-  end
-
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map { |s| s['browser'] }.map { |b| b.upcase }.sort.join(', ') }
-  end
-
-  # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-  end
-
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ } }
-  end
-
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map { |d| d.iso8601 } }
-  end
-  report
-end
-
-def work(filename = 'data.txt')
-  sample = 1000
-  line_count = `wc -l "#{filename}"`.strip.split(' ')[0].to_i
-  times = (line_count / sample).ceil
-
-  times.times do
-    file_lines = File.readlines(filename, sample)
-    report = get_report(file_lines)
-    File.write('result.json', "#{report.to_json}\n")
+  def write_report
+    File.write('result.json', "#{Oj.dump(report, mode: :compat)}\n")
   end
 end
 
-Benchmark.ips do |x|
-  x.config(
-    stats: :bootstrap,
-    confidence: 95
-  )
-
-  x.report('task-1') do
-    work('data50000.txt')
-  end
-end
+# Benchmark.ips do |x|
+#   x.config(
+#     stats: :bootstrap,
+#     confidence: 95
+#   )
+#
+#   x.report('task-1') do
+#     Work.new.work('data_large.txt')
+#   end
+# end

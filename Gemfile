@@ -19,3 +19,5 @@ gem "ruby-prof", "~> 1.2"
 gem "stackprof", "~> 0.2.15"
 
 gem "oj", "~> 3.10"
+
+gem "minitest-assert-json-equal", "~> 0.2.1"

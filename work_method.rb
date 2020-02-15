@@ -20,13 +20,12 @@ def work(filename = '', disable_gc: true)
   }
   report[:usersStats] = {}
 
-  user_key = nil
+  hash_key = nil
   file_lines.each do |line|
     cols = line.split(',')
     if cols[0] == 'user'
-
-      user_key = "#{cols[2]}" + ' ' + "#{cols[3]}"
-      report[:usersStats][user_key] = {
+      hash_key = "#{cols[2]} #{cols[3]}".to_sym
+      report[:usersStats][hash_key] = {
         sessionsCount: 0,
         totalTime: 0,
         longestSession: 0,
@@ -39,13 +38,13 @@ def work(filename = '', disable_gc: true)
     else
       cols[3].upcase!
       cols[4] = cols[4].to_i
-      user = report[:usersStats][user_key]
+      user = report[:usersStats][hash_key]
       user[:sessionsCount] += 1
       user[:totalTime] += cols[4]
       user[:longestSession] = cols[4] if user[:longestSession] < cols[4]
       user[:browsers].push(cols[3])
       user[:usedIE] = true if !user[:usedIE] && cols[3].start_with?('INTERNET')
-      user[:usedIE] = true if user[:alwaysUsedChrome] && !cols[3].start_with?('CHROME')
+      user[:alwaysUsedChrome] = false if user[:alwaysUsedChrome] && !cols[3].start_with?('CHROME')
       user[:dates].push(cols[5])
       report[:totalSessions] += 1
       sessions[cols[3]] = nil

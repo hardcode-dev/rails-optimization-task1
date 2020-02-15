@@ -1,9 +1,18 @@
+require "./measure.rb"
+require_relative "work_method.rb"
 
-require 'benchmark'
-require_relative 'work_method.rb'
+# measure do
+#   work("data_small.txt", disable_gc: true)
+# end
 
-time = Benchmark.realtime do
-  work('data_large.txt', disable_gc: true)
+# measure do
+#   work_new("data_small.txt", disable_gc: true)
+# end
+
+# measure do
+#   work("data_large.txt", disable_gc: true)
+# end
+
+measure do
+  work_new("data_large.txt", disable_gc: true)
 end
-
-puts "Finish in #{time.round(2)}"

@@ -77,11 +77,17 @@ def work(filename)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  unique_browsers = []
-  sessions.each do |session|
+  # unique_browsers = []
+  # sessions.each do |session|
+  #   browser = session['browser']
+  #   unique_browsers += [browser] if unique_browsers.all? { |b| b != browser }
+  # end
+
+  unique_browsers = sessions.each_with_object([]) do |session, result|
     browser = session['browser']
-    unique_browsers += [browser] if unique_browsers.all? { |b| b != browser }
-  end
+    result << browser
+    result
+  end.uniq
 
   report['uniqueBrowsersCount'] = unique_browsers.count
 
@@ -203,7 +209,7 @@ describe 'Performance' do
     it 'works under 1 ms' do
       expect do
         work(filename)
-      end.to perform_under(700).ms.warmup(2).times.sample(10).times
+      end.to perform_under(460).ms.warmup(2).times.sample(10).times
     end
   end
 end

@@ -42,6 +42,10 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
+def select_user_sessions(sessions, user)
+  sessions.select { |session| session['user_id'] == user['id'] }
+end
+
 def work(filename, disable_gc: false)
   GC.disable if disable_gc
   file_lines = File.read(filename).split("\n")
@@ -98,7 +102,7 @@ def work(filename, disable_gc: false)
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = select_user_sessions(sessions, user)
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

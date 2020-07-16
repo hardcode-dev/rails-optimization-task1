@@ -5,14 +5,6 @@ require 'pry'
 require 'date'
 require 'set'
 
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
 
 def parse_user(fields)
   {
@@ -36,7 +28,7 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
+    user_key = "#{user[:first_name]} #{user[:last_name]}"
     report[:usersStats][user_key] ||= {}
     report[:usersStats][user_key] = report[:usersStats][user_key].merge(block.call(user))
   end
@@ -97,17 +89,16 @@ def work(filename, disable_gc: false)
   report[:allBrowsers] = unique_browsers.map(&:upcase).sort.join(',')
 
   # Статистика по пользователям
-  users_objects = users.map { |u| User.new(attributes: u, sessions: u[:sessions]) }
 
-  collect_stats_from_users(report, users_objects) do |user|
-    browsers = user.sessions.map { |s| s[:browser].upcase }.sort!
+  collect_stats_from_users(report, users) do |user|
+    browsers = user[:sessions].map { |s| s[:browser].upcase }.sort!
     {
       # Собираем количество сессий по пользователям
-      sessionsCount: user.sessions.count,
+      sessionsCount: user[:sessions].count,
       # Собираем количество времени по пользователям
-      totalTime: "#{user.sessions.sum { |s| s[:time] }} min.",
+      totalTime: "#{user[:sessions].sum { |s| s[:time] }} min.",
       # Выбираем самую длинную сессию пользователя
-      longestSession: "#{user.sessions.max { |a, b| a[:time] <=> b[:time] }&.[](:time)} min.",
+      longestSession: "#{user[:sessions].max { |a, b| a[:time] <=> b[:time] }&.[](:time)} min.",
       # Браузеры пользователя через запятую
       browsers: browsers.join(', '),
       # Хоть раз использовал IE?
@@ -115,7 +106,7 @@ def work(filename, disable_gc: false)
       # Всегда использовал только Chrome?
       alwaysUsedChrome: browsers.all? { |b| b =~ /CHROME/i },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      dates: user.sessions.map { |s| s[:date] }.sort.reverse!,
+      dates: user[:sessions].map { |s| s[:date] }.sort.reverse!,
     }
   end
 

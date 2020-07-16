@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'set'
+require 'oj'
 
 
 def parse_user(fields)
@@ -106,6 +107,6 @@ def work(filename, disable_gc: false)
   # Статистика по пользователям
   collect_stats_from_users(report, users)
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report, mode: :compat)}\n")
 end
 

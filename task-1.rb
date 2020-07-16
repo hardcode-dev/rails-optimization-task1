@@ -36,7 +36,7 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes[:first_name]}" + ' ' + "#{user.attributes[:last_name]}"
+    user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
     report[:usersStats][user_key] ||= {}
     report[:usersStats][user_key] = report[:usersStats][user_key].merge(block.call(user))
   end
@@ -48,8 +48,16 @@ def work(filename, disable_gc: false)
   file_lines = File.read(filename).split("\n")
 
   users = []
-  sessions = []
   user = {}
+
+  report = {
+    totalUsers: 0,
+    uniqueBrowsersCount: 0,
+    totalSessions: 0,
+    allBrowsers: nil,
+    usersStats: {},
+  }
+
   unique_browsers = Set.new
 
   file_lines.each do |line|
@@ -61,7 +69,7 @@ def work(filename, disable_gc: false)
     end
     if cols[0] == 'session'
       session = parse_session(cols)
-      sessions << session
+      report[:totalSessions] += 1
       user[:sessions] << session
       unique_browsers.add(session[:browser])
     end
@@ -82,27 +90,14 @@ def work(filename, disable_gc: false)
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
   report[:uniqueBrowsersCount] = unique_browsers.count
-
-  report[:totalSessions] = sessions.count
-
   report[:allBrowsers] = unique_browsers.map(&:upcase).sort.join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_object = User.new(attributes: attributes, sessions: user[:sessions])
-    users_objects = users_objects + [user_object]
-  end
-
-  report[:usersStats] = {}
+  users_objects = users.map { |u| User.new(attributes: u, sessions: u[:sessions]) }
 
   collect_stats_from_users(report, users_objects) do |user|
     browsers = user.sessions.map { |s| s[:browser].upcase }.sort!

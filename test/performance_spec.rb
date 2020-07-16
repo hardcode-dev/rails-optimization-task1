@@ -10,7 +10,7 @@ end
 describe 'Performance' do
   describe 'task-1' do
     it 'works under N ms' do
-      expect { work('tmp/data_20000.txt') }.to perform_under(400).ms.warmup(2).times.sample(3).times
+      expect { work('tmp/data_20000.txt') }.to perform_under(200).ms.warmup(2).times.sample(3).times
     end
   end
 end

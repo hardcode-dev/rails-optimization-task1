@@ -53,8 +53,8 @@ def work(filename)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users += [parse_user(line)] if cols[0] == 'user'
-    sessions += [parse_session(line)] if cols[0] == 'session'
+    users << parse_user(line) if cols[0] == 'user'
+    sessions << parse_session(line) if cols[0] == 'session'
   end
 
   report = {}
@@ -80,14 +80,17 @@ def work(filename)
     index[session['user_id']] << session
     index[session['user_id']]
   end
-  # O(1)
+
   users.each do |user|
     attributes = user
 
     id = user['id']
     user_sessions = sessions_index[id]
+
+    next if user_sessions.nil? # Например, если выделить 200к записей, то последним будет юзер без сессий
+
     user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects += [user_object]
+    users_objects << user_object
   end
 
   report['usersStats'] = {}
@@ -143,13 +146,20 @@ RSpec.configure do |config|
   config.include RSpec::Benchmark::Matchers
 end
 
-describe 'Performance' do
-  describe 'linear work' do
-    let(:filename) { 'data10000.txt' }
-    it 'works under 1 ms' do
-      expect do
-        work(filename)
-      end.to perform_under(390).ms.warmup(2).times.sample(10).times
-    end
+describe '10.000 записей' do
+  let(:filename) { 'data10000.txt' }
+  it 'скорость обработки данных не больше 150 мс' do
+    expect do
+      work(filename)
+    end.to perform_under(150).ms.warmup(2).times.sample(10).times
+  end
+end
+
+describe 'все записи' do
+  let(:filename) { 'data10000.txt' }
+  it 'скорость обработки данных не больше 70 секунд' do
+    expect do
+      work(filename)
+    end.to perform_under(70).sec.warmup(2).times.sample(10).times
   end
 end

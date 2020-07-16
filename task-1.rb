@@ -20,6 +20,7 @@ def parse_user(user)
     'first_name' => fields[2],
     'last_name' => fields[3],
     'age' => fields[4],
+    sessions: [],
   }
 end
 
@@ -42,9 +43,6 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def select_user_sessions(sessions, user)
-  sessions.select { |session| session['user_id'] == user['id'] }
-end
 
 def work(filename, disable_gc: false)
   GC.disable if disable_gc
@@ -52,11 +50,20 @@ def work(filename, disable_gc: false)
 
   users = []
   sessions = []
+  user = {}
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    if cols[0] == 'user'
+      user = parse_user(line)
+      users << user
+    end
+    if cols[0] == 'session'
+      session = parse_session(line)
+      sessions << session
+      user[:sessions] << session
+    end
   end
 
   # Отчёт в json
@@ -102,8 +109,7 @@ def work(filename, disable_gc: false)
 
   users.each do |user|
     attributes = user
-    user_sessions = select_user_sessions(sessions, user)
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    user_object = User.new(attributes: attributes, sessions: user[:sessions])
     users_objects = users_objects + [user_object]
   end
 

@@ -37,11 +37,11 @@ def parse_session(session)
   }
 end
 
-def collect_stats_from_users(report, users_objects, &block)
+def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 end
 
@@ -95,12 +95,12 @@ def work(filename)
   collect_stats_from_users(report, users_objects) do |user|
     {
       'sessionsCount' => user.sessions.count, # Собираем количество сессий по пользователям
-      'totalTime' => user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.sum.to_s + ' min.', # Собираем количество времени по пользователям
-      'longestSession' => user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.max.to_s + ' min.', # Выбираем самую длинную сессию пользователя
-      'browsers' => user.sessions.map { |s| s['browser'] }.map { |b| b.upcase }.sort.join(', '), # Браузеры пользователя через запятую
+      'totalTime' => user.sessions.map { |s| s['time'] }.map(&:to_i).sum.to_s + ' min.', # Собираем количество времени по пользователям
+      'longestSession' => user.sessions.map { |s| s['time'] }.map(&:to_i).max.to_s + ' min.', # Выбираем самую длинную сессию пользователя
+      'browsers' => user.sessions.map { |s| s['browser'] }.map(&:upcase).sort.join(', '), # Браузеры пользователя через запятую
       'usedIE' => user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase.match?(/INTERNET EXPLORER/) }, # Хоть раз использовал IE?
       'alwaysUsedChrome' => user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase.match?(/CHROME/) }, # Всегда использовал только Chrome?
-      'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map { |d| d.iso8601 } # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map(&:iso8601) # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 
@@ -149,7 +149,7 @@ describe 'Performance' do
     it 'works under 1 ms' do
       expect do
         work(filename)
-      end.to perform_under(400).ms.warmup(2).times.sample(10).times
+      end.to perform_under(390).ms.warmup(2).times.sample(10).times
     end
   end
 end

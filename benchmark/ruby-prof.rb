@@ -6,7 +6,7 @@ require_relative '../task-1'
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
-  work('tmp/data_10000.txt', disable_gc: true)
+  work('tmp/data_20000.txt', disable_gc: true)
 end
 
 printer = RubyProf::FlatPrinter.new(result)

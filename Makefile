@@ -1,5 +1,6 @@
 .PHONY: test
 
+all: samples test bench
 samples:
 	ruby benchmark/data_samples.rb
 test:

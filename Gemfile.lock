@@ -29,6 +29,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
+    ruby-prof (1.4.1)
 
 PLATFORMS
   ruby
@@ -37,6 +38,7 @@ DEPENDENCIES
   minitest (~> 5.14)
   pry
   rspec-benchmark (~> 0.6.0)
+  ruby-prof (~> 1.4)
 
 RUBY VERSION
    ruby 2.6.6p146

@@ -95,12 +95,12 @@ def work(filename)
   collect_stats_from_users(report, users_objects) do |user|
     {
       'sessionsCount' => user.sessions.count, # Собираем количество сессий по пользователям
-      'totalTime' => user.sessions.map { |s| s['time'] }.map(&:to_i).sum.to_s + ' min.', # Собираем количество времени по пользователям
-      'longestSession' => user.sessions.map { |s| s['time'] }.map(&:to_i).max.to_s + ' min.', # Выбираем самую длинную сессию пользователя
-      'browsers' => user.sessions.map { |s| s['browser'] }.map(&:upcase).sort.join(', '), # Браузеры пользователя через запятую
+      'totalTime' => user.sessions.map { |s| s['time'].to_i }.sum.to_s + ' min.', # Собираем количество времени по пользователям
+      'longestSession' => user.sessions.map { |s| s['time'].to_i }.max.to_s + ' min.', # Выбираем самую длинную сессию пользователя
+      'browsers' => user.sessions.map { |s| s['browser'].upcase }.sort.join(', '), # Браузеры пользователя через запятую
       'usedIE' => user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase.match?(/INTERNET EXPLORER/) }, # Хоть раз использовал IE?
       'alwaysUsedChrome' => user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase.match?(/CHROME/) }, # Всегда использовал только Chrome?
-      'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map(&:iso8601) # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 

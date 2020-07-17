@@ -24,20 +24,20 @@ describe '#work' do
     context 'когда 10к записей' do
       let(:filename) { 'data/data10000.txt' }
 
-      it 'скорость обработки данных не больше 150 мс' do
+      it 'скорость обработки данных не больше 110 мс' do
         expect do
           work(filename)
-        end.to perform_under(150).ms.warmup(2).times.sample(10).times
+        end.to perform_under(110).ms.warmup(2).times.sample(10).times
       end
     end
 
-    describe 'когда все записи' do
+    context 'когда все записи' do
       let(:filename) { 'data/data_large.txt' }
 
-      it 'скорость обработки данных не больше 70 секунд' do
+      it 'скорость обработки данных не больше 45 секунд' do
         expect do
           work(filename)
-        end.to perform_under(70).sec.warmup(2).times.sample(3).times
+        end.to perform_under(45).sec.warmup(2).times.sample(3).times
       end
     end
   end

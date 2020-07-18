@@ -15,7 +15,8 @@ end
 
 def parse_user(user)
   fields = user.split(',')
-  parsed_result = {
+
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -25,7 +26,8 @@ end
 
 def parse_session(session)
   fields = session.split(',')
-  parsed_result = {
+
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -67,10 +69,10 @@ def collect_stats_from_users(report, user)
   report['usersStats'][user_key]['sessionsCount'] = user_sessions_cn
 
   # Собираем количество времени по пользователям
-  report['usersStats'][user_key]['totalTime'] = session_times.sum.to_s + ' min.'
+  report['usersStats'][user_key]['totalTime'] = "#{session_times.sum.to_s} min."
 
   # Выбираем самую длинную сессию пользователя
-  report['usersStats'][user_key]['longestSession'] = session_times.max.to_s + ' min.'
+  report['usersStats'][user_key]['longestSession'] = "#{session_times.max.to_s} min."
 
   # Браузеры пользователя через запятую
   report['usersStats'][user_key]['browsers'] = session_browsers.sort.join(', ')
@@ -87,6 +89,14 @@ def collect_stats_from_users(report, user)
   report
 end
 
+# Статистика по пользователю
+def report_user(user_attributes, report)
+  sessions = user_attributes.delete('sessions')
+  user_object = User.new(attributes: user_attributes, sessions: sessions)
+
+  collect_stats_from_users(report, user_object)
+end
+
 def work(file_path = 'data.txt')
   file_lines = File.read(file_path).split("\n")
 
@@ -98,16 +108,29 @@ def work(file_path = 'data.txt')
 
   # А также подсчитываем кол-во сессий
   sessions_count = 0
+  users_count = 0
+  report = {}
 
+  old_user_id = nil
   file_lines.each do |line|
-    cols = line.split(',')
+    if line.start_with?('user')
+      if old_user_id
+        # Статистика по пользователю
+        report = report_user(users[old_user_id], report)
 
-    if cols[0] == 'user'
+        # Убиваем ненужного юзера
+        users.delete(old_user_id)
+      end
+
       user_attributes = parse_user(line)
       users[user_attributes['id']] = user_attributes
-    elsif cols[0] == 'session'
+      old_user_id = user_attributes['id']
+
+      users_count += 1
+    else
       session_attributes = parse_session(line)
       # нужному юзеру присваиваем сессии
+
       users[session_attributes['user_id']]['sessions'] ||= []
       users[session_attributes['user_id']]['sessions'] << session_attributes
 
@@ -119,6 +142,19 @@ def work(file_path = 'data.txt')
       sessions_count += 1
     end
   end
+
+  # Собираем статистику по последнему юзеру
+  report = report_user(users[old_user_id], report)
+
+  unique_browsers = hash_unique_browsers.keys
+
+  # Мержим, для того, чтобы сохранить изначальный порядок хеша (json)
+  report = {
+    totalUsers: users_count,
+    uniqueBrowsersCount: unique_browsers.count,
+    totalSessions: sessions_count,
+    allBrowsers: unique_browsers.sort.join(',')
+  }.merge!(report)
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -134,32 +170,6 @@ def work(file_path = 'data.txt')
   #     - Хоть раз использовал IE? +
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
-
-  unique_browsers = hash_unique_browsers.keys
-
-  report = {}
-
-  report[:totalUsers] = users.count
-
-  # Подсчёт количества уникальных браузеров
-  report['uniqueBrowsersCount'] = unique_browsers.count
-
-  report['totalSessions'] = sessions_count
-
-  report['allBrowsers'] = unique_browsers.sort.join(',')
-
-  # Статистика по пользователям
-  #users_objects = []
-
-  users.each do |_, attributes|
-    sessions = attributes.delete('sessions')
-    user_object = User.new(attributes: attributes, sessions: sessions)
-
-    report = collect_stats_from_users(report, user_object)
-  end
-
-  # Собираем статистику по пользователям
-  #report = collect_stats_from_users(report, users_objects)
 
   File.write('result.json', "#{report.to_json}\n")
 end

@@ -1,0 +1,4 @@
+File: data_10-000.txt / Time: 0.35
+File: data_40-000.txt / Time: 3.26
+File: data_20-000.txt / Time: 1.08
+File: data_80-000.txt / Time: 24.91

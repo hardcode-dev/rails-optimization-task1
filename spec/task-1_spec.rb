@@ -2,12 +2,12 @@ require_relative '../lib/task-1'
 
 RSpec.describe '.work' do
   context 'performance' do
-    it 'works under 1.9s' do
-      expect { work('files/data_8000.txt') }.to perform_under(200).ms
+    it 'works under 50ms' do
+      expect { work('files/data_8000.txt') }.to perform_under(70).ms
     end
 
-    it 'works equals or more ips than 5.5' do
-      expect { work('files/data_8000.txt') }.to perform_at_least(5).ips
+    it 'works equals or more ips than 5' do
+      expect { work('files/data_8000.txt') }.to perform_at_least(18).ips
     end
   end
 

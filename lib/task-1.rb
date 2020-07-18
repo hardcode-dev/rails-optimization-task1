@@ -45,13 +45,33 @@ end
 def work(file_path = 'data.txt')
   file_lines = File.read(file_path).split("\n")
 
-  users = []
-  sessions = []
+  # Используем users в качестве Hash, дабы чтобы в нем можно было в нем хранить не только аттрибуты, но и также сессии
+  users = {}
+
+  # Во время перебора строк сразу же собираем все браузеры
+  total_browsers = []
+
+  # А также подсчитываем кол-во сессий
+  sessions_count = 0
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    if cols[0] == 'user'
+      user_attributes = parse_user(line)
+      users[user_attributes['id']] = parse_user(line)
+    elsif cols[0] == 'session'
+      session_attributes = parse_session(line)
+      # нужному юзеру присваиваем сессии
+      users[session_attributes['user_id']]['sessions'] ||= []
+      users[session_attributes['user_id']]['sessions'] += [session_attributes]
+
+      # собираем все браузеры
+      total_browsers << session_attributes['browser']
+
+      # иттерируем сессии
+      sessions_count += 1
+    end
   end
 
   # Отчёт в json
@@ -75,18 +95,16 @@ def work(file_path = 'data.txt')
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
+  total_browsers.each do |browser|
     uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
   end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions_count
 
   report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
+    total_browsers
       .map { |b| b.upcase }
       .sort
       .uniq
@@ -95,10 +113,9 @@ def work(file_path = 'data.txt')
   # Статистика по пользователям
   users_objects = []
 
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+  users.each do |_, attributes|
+    sessions = attributes.delete('sessions')
+    user_object = User.new(attributes: attributes, sessions: sessions)
     users_objects = users_objects + [user_object]
   end
 

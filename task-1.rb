@@ -119,7 +119,7 @@ def work(filename = 'data.txt')
         # Всегда использовал только Chrome?
         'alwaysUsedChrome': browsers.all? { |b| b =~ /CHROME/ },
         # Даты сессий через запятую в обратном порядке в формате iso8601
-        'dates': user.sessions.map { |s| Date.parse(s['date']) }.sort.reverse.map { |d| d.iso8601 }
+        'dates': user.sessions.map { |s| Date.iso8601(s['date']) }.sort.reverse
     }
   end
 

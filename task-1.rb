@@ -15,35 +15,24 @@ class User
 end
 
 def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
-  }
+  fields = user.split(',').slice(1..-1)
+  Hash[%i(id first_name last_name age).zip(fields)]
 end
 
 def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
-  }
+  fields = session.split(',').slice(1..-1)
+  Hash[%i(user_id session_id browser time date).zip(fields)] 
 end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
 end
 
-def work(params)
+def work(params = {})
   file_lines = File.read(params[:file]).split("\n")
 
   users = []
@@ -77,7 +66,7 @@ def work(params)
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = sessions.each_with_object([]) do |session, result|
-    result << session['browser']
+    result << session[:browser]
   end.uniq
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
@@ -86,13 +75,13 @@ def work(params)
 
   # Create structure for for user and sessions
   user_sessions_structure = sessions.reduce(Hash.new {|h,k| h[k]=[]}) do |mapping, session|
-    mapping[session['user_id']] << session
+    mapping[session[:user_id]] << session
     mapping
   end
   
   # Статистика по пользователям
   users_objects = users.reduce([]) do |result, user|
-    result << User.new(attributes: user, sessions: user_sessions_structure[user['id']])
+    result << User.new(attributes: user, sessions: user_sessions_structure[user[:id]])
   end
 
   report['usersStats'] = {}
@@ -101,12 +90,12 @@ def work(params)
   collect_stats_from_users(report, users_objects) do |user|
     { 
       sessionsCount: user.sessions.count,
-      totalTime: user.sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.',
-      longestSession: user.sessions.map {|s| s['time'].to_i}.max.to_s + ' min.',
-      browsers: user.sessions.map {|s| s['browser'].upcase}.sort.join(', '),
-      usedIE: user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      alwaysUsedChrome: user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
-      dates: user.sessions.map{|s| Date.parse(s['date']).iso8601}.sort.reverse
+      totalTime: user.sessions.map {|s| s[:time].to_i}.sum.to_s + ' min.',
+      longestSession: user.sessions.map {|s| s[:time].to_i}.max.to_s + ' min.',
+      browsers: user.sessions.map {|s| s[:browser].upcase}.sort.join(', '),
+      usedIE: user.sessions.map{|s| s[:browser]}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      alwaysUsedChrome: user.sessions.map{|s| s[:browser]}.all? { |b| b.upcase =~ /CHROME/ },
+      dates: user.sessions.map{|s| Date.parse(s[:date]).iso8601}.sort.reverse
     }
   end
 

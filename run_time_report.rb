@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'benchmark'
-require_relative 'task-1'
+require_relative 'task_1'
 GC.disable
 
 times = {}
@@ -7,7 +9,7 @@ times = {}
 Dir['data_samples/*.txt'].sort.each do |data_sample|
   file_name = data_sample.split('/').last
   p "String process: #{file_name}"
-  
+
   time = Benchmark.realtime do
     work(file: data_sample)
   end

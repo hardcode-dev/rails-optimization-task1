@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'benchmark'
 require 'stackprof'
 require 'ruby-prof'
 
-require_relative 'task-1'
+require_relative 'task_1'
 
 GC.disable
 

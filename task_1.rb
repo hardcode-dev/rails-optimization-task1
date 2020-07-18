@@ -1,4 +1,4 @@
-# Deoptimized version of homework task
+# frozen_string_literal: true
 
 require 'json'
 require 'pry'
@@ -16,19 +16,19 @@ end
 
 def parse_user(user)
   fields = user.split(',').slice(1..-1)
-  Hash[%i(id first_name last_name age).zip(fields)]
+  Hash[%i[id first_name last_name age].zip(fields)]
 end
 
 def parse_session(session)
   fields = session.split(',').slice(1..-1)
-  Hash[%i(user_id session_id browser time date).zip(fields)] 
+  Hash[%i[user_id session_id browser time date].zip(fields)]
 end
 
-def collect_stats_from_users(report, users_objects, &block)
+def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
     user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 end
 
@@ -44,58 +44,37 @@ def work(params = {})
     sessions << parse_session(line) if cols[0] == 'session'
   end
 
-  # Отчёт в json
-  #   - Сколько всего юзеров +
-  #   - Сколько всего уникальных браузеров +
-  #   - Сколько всего сессий +
-  #   - Перечислить уникальные браузеры в алфавитном порядке через запятую и капсом +
-  #
-  #   - По каждому пользователю
-  #     - сколько всего сессий +
-  #     - сколько всего времени +
-  #     - самая длинная сессия +
-  #     - браузеры через запятую +
-  #     - Хоть раз использовал IE? +
-  #     - Всегда использовал только Хром? +
-  #     - даты сессий в порядке убывания через запятую +
-
   report = {}
 
   report['totalUsers'] = users.count
-  
 
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = sessions.each_with_object([]) do |session, result|
+  unique_browsers = sessions.each_with_object([]) do |session, result|
     result << session[:browser]
   end.uniq
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = unique_browsers.count
   report['totalSessions'] = sessions.count
-  report['allBrowsers'] = uniqueBrowsers.sort.map(&:upcase).join(',')
+  report['allBrowsers'] = unique_browsers.sort.map(&:upcase).join(',')
 
-  # Create structure for for user and sessions
-  user_sessions_structure = sessions.reduce(Hash.new {|h,k| h[k]=[]}) do |mapping, session|
+  user_sessions_structure = sessions.each_with_object(Hash.new { |h, k| h[k] = [] }) do |session, mapping|
     mapping[session[:user_id]] << session
-    mapping
   end
-  
-  # Статистика по пользователям
+
   users_objects = users.reduce([]) do |result, user|
     result << User.new(attributes: user, sessions: user_sessions_structure[user[:id]])
   end
 
   report['usersStats'] = {}
 
-  # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 
+    {
       sessionsCount: user.sessions.count,
-      totalTime: user.sessions.map {|s| s[:time].to_i}.sum.to_s + ' min.',
-      longestSession: user.sessions.map {|s| s[:time].to_i}.max.to_s + ' min.',
-      browsers: user.sessions.map {|s| s[:browser].upcase}.sort.join(', '),
-      usedIE: user.sessions.map{|s| s[:browser]}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      alwaysUsedChrome: user.sessions.map{|s| s[:browser]}.all? { |b| b.upcase =~ /CHROME/ },
-      dates: user.sessions.map{|s| Date.parse(s[:date]).iso8601}.sort.reverse
+      totalTime: user.sessions.map { |s| s[:time].to_i }.sum.to_s + ' min.',
+      longestSession: user.sessions.map { |s| s[:time].to_i }.max.to_s + ' min.',
+      browsers: user.sessions.map { |s| s[:browser].upcase }.sort.join(', '),
+      usedIE: user.sessions.map { |s| s[:browser] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      alwaysUsedChrome: user.sessions.map { |s| s[:browser] }.all? { |b| b.upcase =~ /CHROME/ },
+      dates: user.sessions.map { |s| Date.parse(s[:date]).iso8601 }.sort.reverse
     }
   end
 
@@ -106,7 +85,7 @@ class TestMe < Minitest::Test
   def setup
     File.write('result.json', '')
     File.write('data.txt',
-'user,0,Leida,Cira,0
+               'user,0,Leida,Cira,0
 session,0,0,Safari 29,87,2016-10-23
 session,0,1,Firefox 12,118,2017-02-27
 session,0,2,Internet Explorer 28,31,2017-03-28

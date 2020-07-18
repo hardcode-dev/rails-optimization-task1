@@ -13,11 +13,19 @@ RSpec.describe '#benchmark' do
   include RSpec::Benchmark::Matchers
 
   context 'parse file' do
-    [2500, 5000, 10_000, 20_000, 50_000, 100_000].each do |qty_of_row|
+    [2500, 5000, 10_000, 20_000].each do |qty_of_row|
       it "data_part_#{qty_of_row}.txt" do
         expect do
           work("data_part_#{qty_of_row}.txt")
         end.to perform_under(0.2).sec.warmup(2).times.sample(10).times
+      end
+    end
+
+    [50_000, 100_000].each do |qty_of_row|
+      it "data_part_#{qty_of_row}.txt" do
+        expect do
+          work("data_part_#{qty_of_row}.txt")
+        end.to perform_under(10).sec.warmup(2).times.sample(10).times
       end
     end
   end

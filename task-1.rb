@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'set'
 
 class User
   attr_reader :attributes, :sessions
@@ -34,6 +35,7 @@ end
 
 def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
+    next if user.sessions.nil?
     user_key = user.attributes['first_name'].to_s + ' ' + user.attributes['last_name'].to_s
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
@@ -45,11 +47,28 @@ def work(filename = 'data.txt')
 
   users = []
   sessions = []
+  report = {
+      'totalUsers' => 0,
+      'uniqueBrowsersCount' => 0,
+      'totalSessions' => 0,
+      'allBrowsers' => 0,
+      'usersStats' => {}
+  }
+  unique_browsers = Set.new
 
   file_lines.each do |line|
     cols = line.split(',')
-    users += [parse_user(cols)] if cols[0] == 'user'
-    sessions += [parse_session(cols)] if cols[0] == 'session'
+
+    if cols[0] == 'user'
+      users << parse_user(cols)
+      report['totalUsers'] += 1
+    elsif cols[0] == 'session'
+      # Подсчёт количества уникальных браузеров
+      session = parse_session(cols)
+      sessions << session
+      unique_browsers.add(session['browser'])
+      report['totalSessions'] += 1
+    end
   end
 
   # Отчёт в json
@@ -67,23 +86,12 @@ def work(filename = 'data.txt')
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
-  report[:totalUsers] = users.count
-
-  # Подсчёт количества уникальных браузеров
-  unique_browsers = sessions.map { |session| session['browser'] }.uniq
-
   report['uniqueBrowsersCount'] = unique_browsers.count
 
-  report['totalSessions'] = sessions.count
-
   report['allBrowsers'] =
-    sessions
-    .map { |s| s['browser'] }
+    unique_browsers
     .map { |b| b.upcase }
     .sort
-    .uniq
     .join(',')
 
   # Статистика по пользователям
@@ -94,10 +102,8 @@ def work(filename = 'data.txt')
   users.each do |user|
     attributes = user
     user_object = User.new(attributes: attributes, sessions: sessions_by_user[user['id']])
-    users_objects += [user_object]
+    users_objects << user_object
   end
-
-  report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
     sessions_times = user.sessions.map { |s| s['time'].to_i }
@@ -117,7 +123,7 @@ def work(filename = 'data.txt')
         # Всегда использовал только Chrome?
         'alwaysUsedChrome': browsers.all? { |b| b =~ /CHROME/ },
         # Даты сессий через запятую в обратном порядке в формате iso8601
-        'dates': user.sessions.map { |s| Date.iso8601(s['date']) }.sort.reverse
+        'dates': user.sessions.map { |s| s['date'] }.sort.reverse
     }
   end
 

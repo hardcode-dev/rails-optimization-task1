@@ -4,7 +4,7 @@ require_relative '../task-1'
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile(disable_gc: true) do
-  work('data_part_5000.txt')
+  work('data_part_10000.txt')
 end
 
 require 'fileutils'

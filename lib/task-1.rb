@@ -46,6 +46,7 @@ def collect_stats_from_users(report, user)
 
   use_ie = false
   all_times_use_chrome = true
+  user_sessions_cn = 0
 
   user.sessions.each do |session|
     browser = session['browser'].upcase
@@ -58,11 +59,12 @@ def collect_stats_from_users(report, user)
 
     all_times_use_chrome = false unless browser =~ /CHROME/
 
-    session_dates << Date.parse(session['date'])
+    session_dates << session['date']
+    user_sessions_cn += 1
   end
 
   # Собираем количество сессий по пользователям
-  report['usersStats'][user_key]['sessionsCount'] = user.sessions.count
+  report['usersStats'][user_key]['sessionsCount'] = user_sessions_cn
 
   # Собираем количество времени по пользователям
   report['usersStats'][user_key]['totalTime'] = session_times.sum.to_s + ' min.'
@@ -80,8 +82,7 @@ def collect_stats_from_users(report, user)
   report['usersStats'][user_key]['alwaysUsedChrome'] = all_times_use_chrome
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
-  report['usersStats'][user_key]['dates'] = session_dates.sort.reverse.map { |d| d.iso8601 }
-
+  report['usersStats'][user_key]['dates'] = session_dates.sort.reverse
 
   report
 end
@@ -93,7 +94,7 @@ def work(file_path = 'data.txt')
   users = {}
 
   # Во время перебора строк сразу же собираем браузеры
-  unique_browsers = []
+  hash_unique_browsers = {}
 
   # А также подсчитываем кол-во сессий
   sessions_count = 0
@@ -112,7 +113,7 @@ def work(file_path = 'data.txt')
 
       browser = session_attributes['browser'].upcase
       # собираем все браузеры
-      unique_browsers << browser unless unique_browsers.include?(browser)
+      hash_unique_browsers[browser] = true unless hash_unique_browsers.has_key?(browser)
 
       # иттерируем сессии
       sessions_count += 1
@@ -133,6 +134,8 @@ def work(file_path = 'data.txt')
   #     - Хоть раз использовал IE? +
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
+
+  unique_browsers = hash_unique_browsers.keys
 
   report = {}
 

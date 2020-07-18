@@ -18,5 +18,13 @@ RSpec.describe '.work' do
 
     work('spec/fixtures/files/data.txt')
   end
+
+  it 'creates result.json file with content only chrome browsers' do
+    expected_result = '{"totalUsers":1,"uniqueBrowsersCount":2,"totalSessions":2,"allBrowsers":"CHROME 20,CHROME 35","usersStats":{"Gregory Santos":{"sessionsCount":2,"totalTime":"90 min.","longestSession":"84 min.","browsers":"CHROME 20, CHROME 35","usedIE":false,"alwaysUsedChrome":true,"dates":["2018-09-21","2016-11-25"]}}}' + "\n"
+
+    expect(File).to receive(:write).with('result.json', expected_result)
+
+    work('spec/fixtures/files/data_chrome.txt')
+  end
 end
 

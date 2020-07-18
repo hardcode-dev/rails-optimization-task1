@@ -4,7 +4,7 @@ GC.disable
 
 times = {}
 
-Dir['data_samples/*.txt'].each do |data_sample|
+Dir['data_samples/*.txt'].sort.each do |data_sample|
   file_name = data_sample.split('/').last
   p "String process: #{file_name}"
   

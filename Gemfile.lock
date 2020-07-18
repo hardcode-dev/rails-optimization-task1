@@ -2,6 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.4.4)
+    kalibera (0.1)
+      memoist (~> 0.11.0)
+      rbzip2 (~> 0.2.0)
+    memoist (0.11.0)
+    rbzip2 (0.2.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -20,6 +25,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  kalibera (~> 0.1)
   rspec (~> 3.9)
 
 BUNDLED WITH

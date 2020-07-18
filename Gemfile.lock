@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    benchmark (0.1.0)
+    ruby-prof (1.4.1)
+    stackprof (0.2.15)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  benchmark
+  ruby-prof
+  stackprof
+
+BUNDLED WITH
+   1.17.3

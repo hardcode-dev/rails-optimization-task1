@@ -10,7 +10,7 @@ GC.disable
 
 # Analitics by RubyProf::CallStackPrinter
 result = RubyProf.profile do
-  work(file: 'data_samples/data_20-000.txt')
+  work(file: 'data_samples/data_80-000.txt')
 end
 
 printer = RubyProf::CallStackPrinter.new(result)

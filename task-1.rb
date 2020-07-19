@@ -1,8 +1,9 @@
 # Deoptimized version of homework task
 require 'json'
 require 'pry'
-require 'date'
 require 'csv'
+require 'set'
+
 
 def parse_user(fields)
   {
@@ -43,20 +44,27 @@ def work(file_name: 'data.txt', disable_gc: false)
 
   users = {}
   sessions_array = []
-  sessions_by_user = {}
   report = {}
+  report[:totalUsers] = 0
+  report[:uniqueBrowsersCount] = 0
+  report[:totalSessions] = 0
+  unique_browsers = Set.new
 
   CSV.foreach(file_name) do |line|
     if line[0] == 'user'
       users[line[1].to_i] = parse_user(line)
+      report[:totalUsers] += 1
     else
       user_id = line[1].to_i
       time = line[4].to_i
-      users[user_id][:browsers] << line[3].upcase
+      browser = line[3].upcase
+      users[user_id][:browsers] << browser
       users[user_id][:total_time] += time
       users[user_id][:longest_session] = time if users[user_id][:longest_session] < time
       users[user_id][:dates] << line[5]
       users[user_id][:sessions_count] += 1
+      unique_browsers.add(browser)
+      report[:totalSessions] += 1
 
       sessions_array << parse_session(line)
     end
@@ -77,11 +85,7 @@ def work(file_name: 'data.txt', disable_gc: false)
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-  report[:totalUsers] = users.count
-
-  report['uniqueBrowsersCount'] = sessions_array.uniq { |session| session['browser'] }.count
-  report['totalSessions'] = sessions_array.count
+  report[:uniqueBrowsersCount] = unique_browsers.count
   report['allBrowsers'] =
     sessions_array
       .map { |s| s['browser'] }

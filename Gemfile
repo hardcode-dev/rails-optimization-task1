@@ -9,3 +9,6 @@ gem 'rubocop-performance', require: false
 gem 'ruby-prof'
 gem 'stackprof'
 gem 'fasterer'
+gem 'rspec'
+gem 'rspec-benchmark'
+gem 'pry'

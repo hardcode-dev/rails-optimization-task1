@@ -44,6 +44,7 @@ def work(file_name: 'data.txt', disable_gc: false)
   users = {}
   sessions_array = []
   sessions_by_user = {}
+  report = {}
 
   CSV.foreach(file_name) do |line|
     if line[0] == 'user'
@@ -99,14 +100,13 @@ def work(file_name: 'data.txt', disable_gc: false)
   # Всегда использовал только Chrome?
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users) do |user_data|
-    # binding.pry
     { 'sessionsCount' => user_data[:sessions_count],
       'totalTime' => user_data[:total_time].to_s + ' min.',
       'longestSession' => user_data[:longest_session].to_s + ' min.',
       'browsers' => user_data[:browsers].sort.join(', '),
       'usedIE' => user_data[:browsers].any? { |b| b =~ /INTERNET EXPLORER/ },
       'alwaysUsedChrome' => user_data[:browsers].all? { |b| b =~ /CHROME/ },
-      'dates' => user_data[:dates].map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+      'dates' => user_data[:dates].sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")

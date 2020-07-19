@@ -4,7 +4,7 @@ require_relative '../task-1'
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
-  work(file_name: './tmp/data_10000.txt', disable_gc: true)
+  work(file_name: './tmp/data_100000.txt', disable_gc: true)
 end
 
 system('rm -rf reports/ruby_prof')
@@ -19,5 +19,5 @@ printer.print(File.open('reports/ruby_prof/graph.html', 'w+'))
 printer = RubyProf::CallStackPrinter.new(result)
 printer.print(File.open('reports/ruby_prof/callstack.html', 'w+'))
 
-printer4 = RubyProf::CallTreePrinter.new(result)
-printer4.print(path: 'reports/ruby_prof', profile: 'callgrind')
+printer = RubyProf::CallTreePrinter.new(result)
+printer.print(path: 'reports/ruby_prof', profile: 'callgrind')

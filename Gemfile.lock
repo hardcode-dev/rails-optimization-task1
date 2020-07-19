@@ -12,6 +12,7 @@ GEM
       ruby_parser (>= 3.14.1)
     method_source (1.0.0)
     minitest (5.14.1)
+    oj (3.10.7)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -45,6 +46,7 @@ PLATFORMS
 DEPENDENCIES
   fasterer
   minitest
+  oj
   pry
   rspec-benchmark
   ruby-prof

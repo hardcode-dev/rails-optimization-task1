@@ -1,9 +1,7 @@
 # Deoptimized version of homework task
 require 'json'
-require 'pry'
 require 'csv'
 require 'set'
-
 
 def parse_user(fields)
   {
@@ -24,8 +22,8 @@ end
 def collect_stats_from_users(report, users_objects)
   users_objects.each do |_, user_data|
     user_key = "#{user_data[:user_attributes][:first_name]} #{user_data[:user_attributes][:last_name]}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user_data))
+    report[:usersStats][user_key] ||= {}
+    report[:usersStats][user_key] = report[:usersStats][user_key].merge(yield(user_data))
   end
 end
 
@@ -75,7 +73,7 @@ def work(file_name: 'data.txt', disable_gc: false)
   report[:uniqueBrowsersCount] = unique_browsers.count
   report[:allBrowsers] = unique_browsers.sort.join(',')
 
-  report['usersStats'] = {}
+  report[:usersStats] = {}
 
   # Собираем количество сессий по пользователям
   # Собираем количество времени по пользователям
@@ -85,13 +83,13 @@ def work(file_name: 'data.txt', disable_gc: false)
   # Всегда использовал только Chrome?
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users) do |user_data|
-    { 'sessionsCount' => user_data[:sessions_count],
-      'totalTime' => user_data[:total_time].to_s + ' min.',
-      'longestSession' => user_data[:longest_session].to_s + ' min.',
-      'browsers' => user_data[:browsers].sort.join(', '),
-      'usedIE' => user_data[:browsers].any? { |b| b =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user_data[:browsers].all? { |b| b =~ /CHROME/ },
-      'dates' => user_data[:dates].sort.reverse }
+    { sessionsCount: user_data[:sessions_count],
+      totalTime: user_data[:total_time].to_s + ' min.',
+      longestSession: user_data[:longest_session].to_s + ' min.',
+      browsers: user_data[:browsers].sort.join(', '),
+      usedIE: user_data[:browsers].any? { |b| b =~ /INTERNET EXPLORER/ },
+      alwaysUsedChrome: user_data[:browsers].all? { |b| b =~ /CHROME/ },
+      dates: user_data[:dates].sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")

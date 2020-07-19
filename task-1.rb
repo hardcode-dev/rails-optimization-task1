@@ -21,16 +21,6 @@ def parse_user(fields)
   }
 end
 
-def parse_session(fields)
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
-  }
-end
-
 def collect_stats_from_users(report, users_objects)
   users_objects.each do |_, user_data|
     user_key = "#{user_data[:user_attributes][:first_name]} #{user_data[:user_attributes][:last_name]}"
@@ -43,7 +33,6 @@ def work(file_name: 'data.txt', disable_gc: false)
   GC.disable if disable_gc
 
   users = {}
-  sessions_array = []
   report = {}
   report[:totalUsers] = 0
   report[:uniqueBrowsersCount] = 0
@@ -65,8 +54,6 @@ def work(file_name: 'data.txt', disable_gc: false)
       users[user_id][:sessions_count] += 1
       unique_browsers.add(browser)
       report[:totalSessions] += 1
-
-      sessions_array << parse_session(line)
     end
   end
 
@@ -86,13 +73,7 @@ def work(file_name: 'data.txt', disable_gc: false)
   #     - даты сессий в порядке убывания через запятую +
 
   report[:uniqueBrowsersCount] = unique_browsers.count
-  report['allBrowsers'] =
-    sessions_array
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report[:allBrowsers] = unique_browsers.sort.join(',')
 
   report['usersStats'] = {}
 

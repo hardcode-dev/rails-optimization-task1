@@ -1,9 +1,7 @@
 # Deoptimized version of homework task
-
 require 'json'
 require 'pry'
 require 'date'
-require 'minitest/autorun'
 
 class User
   attr_reader :attributes, :sessions
@@ -48,12 +46,18 @@ def work(file_name: 'data.txt', disable_gc: false)
   file_lines = File.read(file_name).split("\n")
 
   users = []
-  sessions = []
+  sessions_array = []
+  sessions_by_user = {}
 
   file_lines.each do |line|
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    if cols[0] == 'session'
+      sessions_by_user[cols[1].to_i] ||= []
+      sessions_by_user[cols[1].to_i] << parse_session(line)
+      sessions_array << parse_session(line)
+    end
   end
 
   # Отчёт в json
@@ -72,22 +76,20 @@ def work(file_name: 'data.txt', disable_gc: false)
   #     - даты сессий в порядке убывания через запятую +
 
   report = {}
-
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = []
-  sessions.each do |session|
+
+  sessions_array.each do |session|
     browser = session['browser']
     uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
   end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  report['totalSessions'] = sessions.count
-
+  report['totalSessions'] = sessions_array.count
   report['allBrowsers'] =
-    sessions
+    sessions_array
       .map { |s| s['browser'] }
       .map { |b| b.upcase }
       .sort
@@ -99,7 +101,7 @@ def work(file_name: 'data.txt', disable_gc: false)
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = sessions_by_user[user['id'].to_i]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

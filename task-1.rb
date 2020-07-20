@@ -6,44 +6,48 @@ require 'oj'
 require 'ruby-progressbar'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_reader :attributes
+  attr_accessor :sessions
 
-  def initialize(attributes:, sessions:)
+  def initialize(attributes:)
     @attributes = attributes
-    @sessions = sessions
+    @sessions = []
   end
 end
 
 def parse_user(fields)
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
-  }
+  User.new(attributes: {
+    'id': fields[1],
+    'first_name': fields[2],
+    'last_name': fields[3],
+    'age': fields[4],
+  })
 end
 
 def parse_session(fields)
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+  {
+    'user_id': fields[1],
+    'session_id': fields[2],
+    'browser': fields[3],
+    'time': fields[4],
+    'date': fields[5],
   }
 end
 
-def collect_stats_from_users(report, users_objects)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
-    report['usersStats'][user_key] = data_for_user(user)
+def collect_stats_from_users(users)
+  report = {}
+  users.each do |user|
+    user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
+    report[user_key] = data_for_user(user)
     progress_bar.increment
   end
+
+  report
 end
 
 def data_for_user(user)
-  sessions_times = user.sessions.map { |s| s['time'].to_i }
-  sessions_browsers = user.sessions.map { |s| s['browser'].upcase }.sort
+  sessions_times = user.sessions.map { |s| s[:time].to_i }
+  sessions_browsers = user.sessions.map { |s| s[:browser].upcase }.sort
 
   {
     'sessionsCount' => user.sessions.count,   # Собираем количество сессий по пользователям
@@ -52,7 +56,7 @@ def data_for_user(user)
     'browsers' => sessions_browsers.join(', '), # Браузеры пользователя через запятую
     'usedIE' => sessions_browsers.any? { |b| b =~ /INTERNET EXPLORER/ }, # Хоть раз использовал IE?
     'alwaysUsedChrome' => sessions_browsers.all? { |b| b =~ /CHROME/ }, # Всегда использовал только Chrome?
-    'dates' => user.sessions.map { |s| s['date'] }.sort.reverse, # Даты сессий через запятую в обратном порядке в формате iso8601
+    'dates' => user.sessions.map { |s| s[:date] }.sort.reverse, # Даты сессий через запятую в обратном порядке в формате iso8601
   }
 end
 
@@ -71,7 +75,11 @@ def work(path)
   file_lines.each do |line|
     cols = line.split(',')
     users << parse_user(cols) if cols[0] == 'user'
-    sessions << parse_session(cols) if cols[0] == 'session'
+    if cols[0] == 'session'
+      session = parse_session(cols)
+      users.last.sessions << session
+      sessions << session
+    end
   end
 
   progress_bar(users.count)
@@ -96,32 +104,20 @@ def work(path)
   report['totalUsers'] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
+  unique_browsers = sessions.map { |session| session[:browser] }.uniq
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = unique_browsers.count
 
   report['totalSessions'] = sessions.count
 
   report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'].upcase }
+    unique_browsers.map(&:upcase)
       .sort
-      .uniq
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
-  grouped_sessions = sessions.group_by { |session| session['user_id'] }
-  users.each do |user|
-    attributes = user
-    user_sessions = grouped_sessions[user['id']]
-    users_objects << User.new(attributes: attributes, sessions: user_sessions)
-  end
-
-  report['usersStats'] = {}
-
-  collect_stats_from_users(report, users_objects)
+  
+  report['usersStats'] = collect_stats_from_users(users)
 
   File.write('result.json', Oj.dump(report) + "\n")
 end

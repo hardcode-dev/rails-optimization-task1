@@ -3,6 +3,7 @@
 require 'pry'
 require 'date'
 require 'oj'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions
@@ -36,6 +37,7 @@ def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] = data_for_user(user)
+    progress_bar.increment
   end
 end
 
@@ -54,6 +56,12 @@ def data_for_user(user)
   }
 end
 
+def progress_bar(total = nil)
+  @progress_bar ||= ProgressBar.create(
+    total: total, format: '%a, %J, %E, %B'
+  )
+end
+
 def work(path)
   file_lines = File.read(path).split("\n")
 
@@ -65,6 +73,8 @@ def work(path)
     users << parse_user(cols) if cols[0] == 'user'
     sessions << parse_session(cols) if cols[0] == 'session'
   end
+
+  progress_bar(users.count)
 
   # Отчёт в json
   #   - Сколько всего юзеров +

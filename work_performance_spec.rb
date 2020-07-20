@@ -30,7 +30,7 @@ RSpec.describe 'Performance' do
     # end
 
     it 'performs with linear complexity' do
-      sizes = bench_range(1, 64)
+      sizes = [1, 2, 4, 8]
       expect { |n, _i|
         work(file_path: generate_data_file(n))
       }.to perform_linear.in_range(sizes).ratio(2)

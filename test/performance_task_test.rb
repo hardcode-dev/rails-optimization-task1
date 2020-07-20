@@ -7,10 +7,10 @@ end
 
 describe 'Performance' do
   describe 'work' do
-    it 'works under 10 ms for 100 records' do
+    it 'works under 6 ms for 100 records' do
       expect {
         work('test/data_medium.txt')
-      }.to perform_under(10).ms.warmup(2).times.sample(20).times
+      }.to perform_under(6).ms.warmup(2).times.sample(20).times
     end
   end
 end

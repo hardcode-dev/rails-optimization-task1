@@ -8,4 +8,4 @@ RubyProf.measure_mode = RubyProf::MEMORY
 GC.disable
 
 REPORTS_DIR = 'ruby_prof/reports/'.freeze
-DATA_FILE = 'test_data.txt'.freeze
+DATA_FILE = 'data_samples/data8x.txt'.freeze

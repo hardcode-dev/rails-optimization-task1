@@ -4,4 +4,4 @@ result = RubyProf.profile do
   work(file_path: DATA_FILE)
 end
 printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open(REPORTS_DIR + 'flat2.txt', 'w+'))
+printer.print(File.open(REPORTS_DIR + 'flat.txt', 'w+'))

@@ -51,7 +51,7 @@ def work(file_path: DATA_FILE)
   users = []
   sessions = []
 
-  IO.foreach(file_path).each do |line|
+  IO.foreach(file_path) do |line|
     cols = line.split(',')
     users << parse_user(line) if cols[0] == 'user'
     sessions << parse_session(line) if cols[0] == 'session'
@@ -97,7 +97,7 @@ def work(file_path: DATA_FILE)
       browsers: user.sessions.map { |s| s[:browser].upcase }.sort.join(', '),
       usedIE: user.sessions.any? { |s| s[:browser] =~ /internet explorer/i },
       alwaysUsedChrome: user.sessions.all? { |s| s[:browser] =~ /chrome/i },
-      dates: user.sessions.map { |s| Date.strptime(s[:date], '%Y-%m-%d').to_s }.sort.reverse
+      dates: user.sessions.map { |s| Date.strptime(s[:date], '%Y-%m-%d') }.sort.reverse
     }
   end
 

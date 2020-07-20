@@ -7,7 +7,7 @@ end
 
 def generate_data_file(x = 1)
   data = File.read(DATA_FILE)
-  data_file = File.open('test_data.txt', 'w+')
+  data_file = File.open('data_samples/test_data.txt', 'w+')
   x.times do
     File.write(data_file, "#{data}", mode: 'a')
   end

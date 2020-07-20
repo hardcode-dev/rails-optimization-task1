@@ -1,7 +1,9 @@
 require 'benchmark/ips'
 require_relative 'task-1'
 
-GC.disable
+# GC.disable
+$stdout = File.new('reports/benchmarks.txt', 'w')
+$stdout.sync = true
 
 Benchmark.ips do |x|
   # x.time = 1

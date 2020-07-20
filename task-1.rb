@@ -48,12 +48,10 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work(file_path: DATA_FILE)
-  file_lines = File.read(file_path).split("\n")
-
   users = []
   sessions = []
 
-  file_lines.each do |line|
+  IO.foreach(file_path).each do |line|
     cols = line.split(',')
     users << parse_user(line) if cols[0] == 'user'
     sessions << parse_session(line) if cols[0] == 'session'
@@ -92,8 +90,6 @@ def work(file_path: DATA_FILE)
 
   report[:usersStats] = {}
   collect_stats_from_users(report, users_objects) do |user|
-    # err = user.sessions.max_by { |s| s[:time].to_i }.fetch(:time) rescue nil
-    # byebug if err.nil?
     {
       sessionsCount: user.sessions.count,
       totalTime: "#{user.sessions.sum { |s| s[:time].to_i }} min.",

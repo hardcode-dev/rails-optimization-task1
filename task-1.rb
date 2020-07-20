@@ -32,11 +32,10 @@ def parse_session(fields)
   }
 end
 
-def collect_stats_from_users(report, users_objects, &block)
+def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
+    report['usersStats'][user_key] = data_for_user(user)
   end
 end
 
@@ -112,9 +111,7 @@ def work(path)
 
   report['usersStats'] = {}
 
-  collect_stats_from_users(report, users_objects) do |user|
-    data_for_user(user)
-  end
+  collect_stats_from_users(report, users_objects)
 
   File.write('result.json', "#{report.to_json}\n")
 end

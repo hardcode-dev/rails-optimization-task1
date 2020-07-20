@@ -74,11 +74,7 @@ def work(path)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 

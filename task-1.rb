@@ -18,8 +18,7 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
+def parse_user(fields)
   {
     id: fields[1],
     first_name: fields[2],
@@ -28,8 +27,7 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
+def parse_session(fields)
   {
     user_id: fields[1],
     session_id: fields[2],
@@ -47,14 +45,18 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
+def data_file_lines
+  @data_file_lines ||= IO.foreach(@file_path).map { |l| l.split(',') }
+end
+
 def work(file_path: DATA_FILE)
+  @file_path = file_path
   users = []
   sessions = []
 
-  IO.foreach(file_path) do |line|
-    cols = line.split(',')
-    users << parse_user(line) if cols[0] == 'user'
-    sessions << parse_session(line) if cols[0] == 'session'
+  data_file_lines.each do |line|
+    users << parse_user(line) if line[0] == 'user'
+    sessions << parse_session(line) if line[0] == 'session'
   end
 
   # Отчёт в json

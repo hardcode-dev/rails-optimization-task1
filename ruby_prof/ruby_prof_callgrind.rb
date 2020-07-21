@@ -1,3 +1,5 @@
+# kcachegrind ruby_prof/reports/callgrind.callgrind.out
+
 require_relative 'prof_config'
 
 result = RubyProf.profile do

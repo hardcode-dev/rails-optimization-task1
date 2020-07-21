@@ -16,24 +16,24 @@ def generate_data_file(x = 1)
 end
 
 RSpec.describe 'Performance' do
-  describe 'linear work' do
-    it 'works under 4 ms' do
-      expect { work(file_path: generate_data_file(1)) }.to perform_under(1).ms.warmup(2).times.sample(20).times
+  describe 'work method' do
+    it 'works under 1 ms' do
+      expect { work(file_path: generate_data_file(2)) }.to perform_under(1).ms.warmup(2).times.sample(20).times
     end
 
-    it 'works with 2000 its per sec' do
-      expect { work(file_path: generate_data_file(1)) }.to perform_at_least(2000).within(1).warmup(1).ips
+    it 'works with 3000 its per sec' do
+      expect { work(file_path: generate_data_file(1)) }.to perform_at_least(3000).within(1).warmup(1).ips
     end
 
     # it 'performs large data with 30 sec' do
     #   expect { work(file_path: 'data_large.txt') }.to perform_under(30).ms
     # end
 
-    it 'performs with linear complexity' do
+    it 'performs with logarithmic complexity' do
       sizes = [1, 2, 4, 8]
       expect { |n, _i|
         work(file_path: generate_data_file(n))
-      }.to perform_linear.in_range(sizes).ratio(2)
+      }.to perform_log.in_range(sizes).ratio(2)
     end
   end
 end

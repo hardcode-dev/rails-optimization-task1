@@ -3,7 +3,6 @@
 require 'json'
 require 'pry'
 require 'date'
-require 'byebug'
 
 DATA_FILE = 'data_samples/data.txt'.freeze
 LARGE_DATA_FILE = 'data_samples/data_large.txt'.freeze
@@ -18,7 +17,8 @@ class User
   end
 end
 
-def parse_user(fields)
+def parse_user(user)
+  fields = user.split(',')
   {
     id: fields[1],
     first_name: fields[2],
@@ -27,7 +27,8 @@ def parse_user(fields)
   }
 end
 
-def parse_session(fields)
+def parse_session(session)
+  fields = session.split(',')
   {
     user_id: fields[1],
     session_id: fields[2],
@@ -45,19 +46,27 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def data_file_lines
-  @data_file_lines ||= IO.foreach(@file_path).map { |l| l.split(',') }
+def parse_file_lines(lines)
+  users = []
+  sessions = []
+  session_by_user = {}
+
+  lines.each do |line|
+    users << parse_user(line) if line.start_with? 'user'
+    if line.start_with? 'session'
+      session = parse_session(line)
+      sessions << session
+      session_by_user[session[:user_id]] = [] if session_by_user[session[:user_id]].nil?
+      session_by_user[session[:user_id]] << session
+    end
+  end
+
+  [users, sessions, session_by_user]
 end
 
 def work(file_path: DATA_FILE)
-  @file_path = file_path
-  users = []
-  sessions = []
-
-  data_file_lines.each do |line|
-    users << parse_user(line) if line[0] == 'user'
-    sessions << parse_session(line) if line[0] == 'session'
-  end
+  file_lines = File.read(file_path).split("\n")
+  users, sessions, session_by_user = parse_file_lines(file_lines)
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -86,8 +95,7 @@ def work(file_path: DATA_FILE)
   # Статистика по пользователям
   users_objects = []
   users.each do |user|
-    user_sessions = sessions.select { |session| session[:user_id] == user[:id] }
-    users_objects << User.new(attributes: user, sessions: user_sessions)
+    users_objects << User.new(attributes: user, sessions: session_by_user[user[:id]] || [])
   end
 
   report[:usersStats] = {}

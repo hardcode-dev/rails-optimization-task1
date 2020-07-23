@@ -14,8 +14,9 @@ def users_sessions
   users = []
   users_count = 0
   sessions = []
+  grouped_sessions = {}
   sessions_count = 0
-  browser_names = []
+  browser_names = {}
 
   lines = file_lines
   lines_count = lines.size
@@ -29,8 +30,9 @@ def users_sessions
       users_count += 1
     else
       browser_name = fields[3].upcase
+      user_id = fields[1]
 
-      sessions << {
+      session = {
         user_id: fields[1],
         session_id: fields[2],
         browser: browser_name,
@@ -38,7 +40,10 @@ def users_sessions
         date: fields[5],
       }
 
-      browser_names << browser_name
+      sessions << session
+      grouped_sessions[user_id] ||= []
+      grouped_sessions[user_id] << session
+      browser_names[browser_name] = true
       sessions_count += 1
     end
 
@@ -47,10 +52,11 @@ def users_sessions
 
   {
     users: users,
-    sessions: sessions,
     users_count: users_count,
+    sessions: sessions,
+    grouped_sessions: grouped_sessions,
     sessions_count: sessions_count,
-    browser_names: browser_names.sort.uniq
+    browser_names: browser_names.keys.sort
   }
 end
 
@@ -91,9 +97,6 @@ def work
   report['uniqueBrowsersCount'] = parsed_info[:browser_names].count
   report['totalSessions'] = parsed_info[:sessions_count]
   report['allBrowsers'] = parsed_info[:browser_names].join(',')
-
-  grouped_sessions = parsed_info[:sessions].group_by { |session| session[:user_id] }
-
   report['usersStats'] = {}
 
   step = 0
@@ -107,7 +110,7 @@ def work
     used_chrome = true
     dates = []
 
-    user.add_sessions(grouped_sessions[user.attributes['id']])
+    user.add_sessions(parsed_info[:grouped_sessions][user.attributes['id']])
     sessions_count = user.sessions.size
     session_step = 0
 

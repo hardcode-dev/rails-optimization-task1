@@ -18,22 +18,19 @@ RSpec.describe "Performance testing" do
     context 'with 1000 rows' do
       let(:count) { 500 }
 
-      it { expect { work }.to perform_constant }
-      it { expect { work }.to perform_under(1).ms.warmup(2).times.sample(10).times }
+      it { expect { work }.to perform_under(7).ms.warmup(2).times.sample(10).times }
     end
 
     context 'with 5000 rows' do
       let(:count) { 2500 }
 
-      it { expect { work }.to perform_constant }
-      it { expect { work }.to perform_under(10).ms.warmup(2).times.sample(10).times }
+      it { expect { work }.to perform_under(50).ms.warmup(2).times.sample(10).times }
     end
 
     context 'with 100_000 rows' do
-      let(:count) { 50_000 }
+      let(:count) { 100_000 }
 
-      xit { expect { work }.to perform_constant }
-      xit { expect { work }.to perform_under(1).sec.warmup(2).times.sample(10).times }
+      it { expect { work }.to perform_under(2).sec.warmup(2).times.sample(10).times }
     end
   end
 end

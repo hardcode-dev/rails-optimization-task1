@@ -12,9 +12,12 @@ end
 
 def users_sessions
   users = []
+  users_count = 0
   sessions = []
-  lines = file_lines
+  sessions_count = 0
+  browser_names = []
 
+  lines = file_lines
   lines_count = lines.size
   step = 0
 
@@ -23,14 +26,32 @@ def users_sessions
 
     if fields[0] == 'user'
       users << User.new(attributes: parse_user(fields))
+      users_count += 1
     else
-      sessions << parse_session(fields)
+      browser_name = fields[3].upcase
+
+      sessions << {
+        user_id: fields[1],
+        session_id: fields[2],
+        browser: browser_name,
+        time: fields[4].to_i,
+        date: fields[5],
+      }
+
+      browser_names << browser_name
+      sessions_count += 1
     end
 
     step += 1
   end
 
-  [users, sessions]
+  {
+    users: users,
+    sessions: sessions,
+    users_count: users_count,
+    sessions_count: sessions_count,
+    browser_names: browser_names.sort.uniq
+  }
 end
 
 def parse_user(fields)
@@ -43,13 +64,7 @@ def parse_user(fields)
 end
 
 def parse_session(fields)
-  {
-    user_id: fields[1],
-    session_id: fields[2],
-    browser: fields[3].upcase,
-    time: fields[4].to_i,
-    date: fields[5],
-  }
+
 end
 
 # Отчёт в json
@@ -68,26 +83,22 @@ end
 #     - даты сессий в порядке убывания через запятую +
 # Подсчёт количества уникальных браузеров
 def work
-  users, sessions = users_sessions
-  users_count = users.size
+  parsed_info = users_sessions
 
   report = {}
 
-  report['totalUsers'] = users_count
+  report['totalUsers'] = parsed_info[:users_count]
+  report['uniqueBrowsersCount'] = parsed_info[:browser_names].count
+  report['totalSessions'] = parsed_info[:sessions_count]
+  report['allBrowsers'] = parsed_info[:browser_names].join(',')
 
-  browser_names = sessions.map { |session| session[:browser] }.sort.uniq
-
-  report['uniqueBrowsersCount'] = browser_names.count
-  report['totalSessions'] = sessions.count
-  report['allBrowsers'] = browser_names.join(',')
-
-  grouped_sessions = sessions.group_by { |session| session[:user_id] }
+  grouped_sessions = parsed_info[:sessions].group_by { |session| session[:user_id] }
 
   report['usersStats'] = {}
 
   step = 0
-  while step < users_count
-    user = users[step]
+  while step < parsed_info[:users_count]
+    user = parsed_info[:users][step]
 
     session_time = 0
     session_time_max = 0

@@ -69,10 +69,6 @@ def parse_user(fields)
   }
 end
 
-def parse_session(fields)
-
-end
-
 # Отчёт в json
 #   - Сколько всего юзеров +
 #   - Сколько всего уникальных браузеров +

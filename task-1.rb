@@ -1,7 +1,5 @@
 # Deoptimized version of homework task
 
-require 'date'
-require_relative 'user'
 require 'oj'
 
 def file_lines

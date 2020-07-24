@@ -1,10 +1,8 @@
 # Deoptimized version of homework task
 
-require 'json'
-require 'pry'
 require 'date'
-require 'minitest/autorun'
 require_relative 'user'
+require 'oj'
 
 def file_lines
   File.read('data.txt').split("\n")
@@ -26,10 +24,10 @@ def users_sessions
     fields = lines[step].split(',')
 
     if fields[0] == 'user'
-      users << User.new(attributes: parse_user(fields))
+      users << parse_user(fields)
       users_count += 1
     else
-      browser_name = fields[3].upcase
+      browser_name = fields[3].upcase!
       user_id = fields[1]
 
       session = {
@@ -99,6 +97,7 @@ def work
   while step < parsed_info[:users_count]
     user = parsed_info[:users][step]
 
+    user_sessions = parsed_info[:grouped_sessions][user['id']]
     session_time = 0
     session_time_max = 0
     browser_names = []
@@ -106,12 +105,11 @@ def work
     used_chrome = true
     dates = []
 
-    user.add_sessions(parsed_info[:grouped_sessions][user.attributes['id']])
-    sessions_count = user.sessions.size
+    sessions_count = user_sessions.size
     session_step = 0
 
     while session_step < sessions_count
-      session = user.sessions[session_step]
+      session = user_sessions[session_step]
 
       session_time += session[:time]
       session_time_max = session[:time] if session_time_max < session[:time]
@@ -125,8 +123,8 @@ def work
       session_step += 1
     end
 
-    report['usersStats'][user.fullname] = {
-      'sessionsCount' => user.sessions.count, # Собираем количество сессий по пользователям
+    report['usersStats']["#{user['first_name']} #{user['last_name']}"] = {
+      'sessionsCount' => sessions_count, # Собираем количество сессий по пользователям
       'totalTime' => "#{session_time} min.", # Собираем количество времени по пользователям
       'longestSession' => "#{session_time_max} min.", # Выбираем самую длинную сессию пользователя
       'browsers' => browser_names.sort.join(', '), # Браузеры пользователя через запятую
@@ -138,7 +136,7 @@ def work
     step += 1
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report)}\n")
 end
 
 work

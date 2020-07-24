@@ -8,11 +8,11 @@ end
 describe 'Performance' do
   describe 'linear work' do
     let (:file_path) { "#{__dir__}/../data/data_x2.txt" }
-    it '3072 rows works under 50ms' do
+    it '3072 rows works under 25ms' do
       expect {
         worker = Worker.new(file_path)
         worker.run
-      }.to perform_under(0.05).sec.warmup(2).times.sample(10).times
+      }.to perform_under(0.025).sec.warmup(2).times.sample(10).times
     end
 
     it 'has linear asymptotics' do

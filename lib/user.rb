@@ -36,12 +36,12 @@ class User
 
   # Хоть раз использовал IE?
   def used_ie?
-    @browsers.any? { |b| b.upcase =~ /INTERNET EXPLORER/ }
+    @browsers.any? { |b| b =~ /INTERNET EXPLORER/ }
   end
 
   # Всегда использовал только Chrome?
   def used_only_chrome?
-    @browsers.all? { |b| b.upcase =~ /CHROME/ }
+    @browsers.all? { |b| b =~ /CHROME/ }
   end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601

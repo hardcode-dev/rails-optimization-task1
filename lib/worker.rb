@@ -1,5 +1,4 @@
 require_relative './user'
-require 'date'
 require 'json'
 
 class Worker
@@ -67,12 +66,16 @@ class Worker
       if cols[0] == 'session'
         @sessions_count += 1
         session = parse_session(cols)
+
         @users[cols[1]].add_session(session)
-        @unique_browsers << session['browser'] unless @unique_browsers.include?(session['browser'])
+
+        @unique_browsers << session['browser']
       elsif cols[0] == 'user'
         @users[cols[1]].set_info(parse_user(cols))
       end
     end
+
+    @unique_browsers.uniq!
   end
 
   def parse_user(user)

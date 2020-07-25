@@ -1,13 +1,17 @@
 require_relative './user'
 require 'json'
+require 'ruby-progressbar'
 
 class Worker
-  def initialize(file_path)
+  def initialize(file_path, progress_bar = false)
+    @is_progress_bar = progress_bar
     @file_path = file_path
     @users = {}
 
     @unique_browsers = []
     @sessions_count = 0
+
+    init_progress_bar if @is_progress_bar
   end
 
   def run
@@ -16,6 +20,15 @@ class Worker
   end
 
   private
+
+  def init_progress_bar
+    @progress_bar = ProgressBar.create(
+      total: nil,
+      throttle_rate: 0.25,
+      length: 80,
+      format: '%t: |%W| %a'
+    )
+  end
 
   def report_build
     # Отчёт в json
@@ -32,9 +45,17 @@ class Worker
     #     - Хоть раз использовал IE? +
     #     - Всегда использовал только Хром? +
     #     - даты сессий в порядке убывания через запятую +
+    #
 
     report = {}
     report[:totalUsers] = @users.count
+
+    if @is_progress_bar
+      @progress_bar.progress = 0
+      @progress_bar.title = 'Формирование отчета..'
+      @progress_bar.total = report[:totalUsers] + 1
+    end
+
     report['uniqueBrowsersCount'] = @unique_browsers.count
     report['totalSessions'] = @sessions_count
     report['allBrowsers'] = @unique_browsers.sort.join(',')
@@ -50,14 +71,20 @@ class Worker
         alwaysUsedChrome: user.used_only_chrome?,
         dates: user.last_session_dates,
       }
+      @progress_bar.increment if @is_progress_bar
     end
 
     File.write('result.json', "#{report.to_json}\n")
   end
 
-  def parsing_file
-    file_lines = File.read(@file_path).split("\n")
+  def read_file
+    IO.readlines(@file_path)
+  end
 
+  def parsing_file
+    file_lines = read_file
+
+    @progress_bar.title = 'Загрузка файла...' if @is_progress_bar
     file_lines.each do |line|
       cols = line.split(',')
 
@@ -65,35 +92,17 @@ class Worker
 
       if cols[0] == 'session'
         @sessions_count += 1
-        session = parse_session(cols)
 
-        @users[cols[1]].add_session(session)
+        browser = cols[3].upcase
 
-        @unique_browsers << session['browser']
+        @users[cols[1]].add_session(browser, cols[4].to_i, cols[5].strip)
+        @unique_browsers << browser
       elsif cols[0] == 'user'
-        @users[cols[1]].set_info(parse_user(cols))
+        @users[cols[1]].set_info(cols[2], cols[3])
+        @progress_bar.increment if @is_progress_bar
       end
     end
 
     @unique_browsers.uniq!
-  end
-
-  def parse_user(user)
-    {
-      'id' => user[1],
-      'first_name' => user[2],
-      'last_name' => user[3],
-      'age' => user[4],
-    }
-  end
-
-  def parse_session(session)
-    {
-      'user_id' => session[1],
-      'session_id' => session[2],
-      'browser' => session[3].upcase,
-      'time' => session[4],
-      'date' => session[5],
-    }
   end
 end

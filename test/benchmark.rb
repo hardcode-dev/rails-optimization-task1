@@ -1,24 +1,24 @@
 require 'benchmark'
 require_relative '../lib/worker'
 
-Benchmark.bm do |x|
-  x.report('1536-rows:') do
-    worker = Worker.new("#{__dir__}/../data/data_x1.txt")
+Benchmark.bmbm do |x|
+  x.report('20000-rows:') do
+    worker = Worker.new("#{__dir__}/../data/data1.txt")
     worker.run
   end
 
-  x.report('3072-rows:') do
-    worker = Worker.new("#{__dir__}/../data/data_x2.txt")
+  x.report('40000-rows:') do
+    worker = Worker.new("#{__dir__}/../data/data2.txt")
     worker.run
   end
 
-  x.report('6144-rows:') do
-    worker = Worker.new("#{__dir__}/../data/data_x4.txt")
+  x.report('80000-rows:') do
+    worker = Worker.new("#{__dir__}/../data/data3.txt")
     worker.run
   end
-  #
-  # x.report('     real:') do
-  #   worker = Worker.new("#{__dir__}/../tmp/data_large.txt")
-  #   worker.run
-  # end
+
+  x.report('120000-rows:') do
+    worker = Worker.new("#{__dir__}/../data/data4.txt")
+    worker.run
+  end
 end

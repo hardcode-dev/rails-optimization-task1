@@ -7,7 +7,7 @@ RubyProf.measure_mode = RubyProf::WALL_TIME
 GC.disable
 
 result = RubyProf.profile do
-  worker = Worker.new("#{__dir__}/../data/data_x4.txt")
+  worker = Worker.new("#{__dir__}/../data/data4.txt")
   worker.run
 end
 

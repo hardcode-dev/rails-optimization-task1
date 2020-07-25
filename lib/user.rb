@@ -3,7 +3,8 @@ class User
 
   def initialize(id)
     @id = id
-    @info = {}
+    @first_name = ''
+    @last_name = ''
 
     @sessions_count = 0
     @times = []
@@ -11,17 +12,18 @@ class User
     @dates = []
   end
 
-  def set_info(info)
-    @info = info
+  def set_info(first_name, last_name)
+    @first_name = first_name
+    @last_name = last_name
   end
 
-  def add_session(session)
+  def add_session(browser, time, date)
     # Собираем количество сессий по пользователям
     @sessions_count += 1
 
-    @times << session['time'].to_i
-    @browsers << session['browser']
-    @dates << session['date']
+    @times << time
+    @browsers << browser
+    @dates << date
   end
 
   # Собираем количество времени по пользователям
@@ -50,7 +52,7 @@ class User
   end
 
   def key
-    "#{@info['first_name']} #{@info['last_name']}"
+    "#{@first_name} #{@last_name}"
   end
 end
 

@@ -38,14 +38,14 @@ class Worker
     report[:totalUsers] = @users.count
     report['uniqueBrowsersCount'] = @unique_browsers.count
     report['totalSessions'] = @sessions_count
-    report['allBrowsers'] = @unique_browsers
+    report['allBrowsers'] = @unique_browsers.sort.join(',')
     report['usersStats'] = {}
 
     @users.each do |_user_id, user|
-      report['usersStats'][user.key] ||= {
+      report['usersStats'][user.key] = {
         sessionsCount: user.sessions_count,
-        totalTime: user.total_time,
-        longestSession: user.longest_session,
+        totalTime: "#{user.total_time} min.",
+        longestSession: "#{user.longest_session} min.",
         browsers: user.browsers.sort.join(', '),
         usedIE: user.used_ie?,
         alwaysUsedChrome: user.used_only_chrome?,

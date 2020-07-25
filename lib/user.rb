@@ -21,7 +21,7 @@ class User
 
     @times << session['time'].to_i
     @browsers << session['browser']
-    @dates << Date.parse(session['date'])
+    @dates << session['date']
   end
 
   # Собираем количество времени по пользователям
@@ -46,7 +46,7 @@ class User
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
   def last_session_dates
-    @dates.sort.reverse.map { |d| d.iso8601 }
+    @dates.sort.reverse
   end
 
   def key

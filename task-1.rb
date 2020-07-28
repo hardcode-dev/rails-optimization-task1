@@ -1,6 +1,6 @@
 # Deoptimized version of homework task
 
-require 'json'
+require 'oj'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
@@ -38,21 +38,20 @@ def work(data_path = 'data.txt')
   #     - даты сессий в порядке убывания через запятую +
   report = generate_report(users, sessions)
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report)}\n")
 end
 
 def parse_file_lines(file_lines)
   users = []
-  sessions = {}
+  sessions = Hash.new { |h, k| h[k] = [] }
 
   file_lines.each do |line|
-    cols = line.split(',')
+    cols = line.chomp.split(',')
 
-    users = users + [parse_user(line)] if cols[0] == 'user'
+    users = users + [parse_user(cols)] if cols[0] == 'user'
 
     if cols[0] == 'session'
-      session = parse_session(line)
-      sessions[session['user_id']] ||= []
+      session = parse_session(cols)
       sessions[session['user_id']] << session
     end
   end
@@ -60,9 +59,8 @@ def parse_file_lines(file_lines)
   return [users, sessions]
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -70,9 +68,8 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -84,7 +81,7 @@ end
 def generate_report(users, sessions)
   report = {}
 
-  report[:totalUsers] = users.count
+  report['totalUsers'] = users.count
 
   session_values = sessions.values.flatten
 
@@ -141,7 +138,7 @@ end
 
 
 def get_file_lines(path)
-  File.read(path).split("\n")
+  IO.readlines(path)
 end
 
 def measure(profile_name = "report_#{Time.now.to_i}")
@@ -218,8 +215,10 @@ class PerformanceTest < Minitest::Test
   end
 end
 
-time = Benchmark.measure do
-  work('data_large.txt')
-end
-
-puts "The large dataset processed in: #{time}"
+#time = Benchmark.measure do
+#  work('data_50k')
+#end
+#
+#puts "The large dataset processed in: #{time}"
+#
+# measure { work('data_50k') }

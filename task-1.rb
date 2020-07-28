@@ -7,15 +7,6 @@ require 'minitest/autorun'
 require 'ruby-prof'
 require 'benchmark'
 
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
-
 def work(data_path = 'data.txt')
   file_lines = get_file_lines(data_path)
 
@@ -47,10 +38,10 @@ def parse_file_lines(file_lines)
 
   file_lines.each do |line|
     cols = line.chomp.split(',')
-
-    users = users + [parse_user(cols)] if cols[0] == 'user'
-
-    if cols[0] == 'session'
+    
+    if cols[0] == 'user'
+      users << parse_user(cols) 
+    else
       session = parse_session(cols)
       sessions[session['user_id']] << session
     end
@@ -62,9 +53,7 @@ end
 def parse_user(fields)
   {
     'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    'user_key' => fields[2..3].join(' ')
   }
 end
 
@@ -96,43 +85,35 @@ def generate_report(users, sessions)
 
   report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
 
-  # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
-
   report['usersStats'] = {}
 
-  collect_stats_from_users(report, users_objects) do |user|
+  collect_stats_from_users(report, users, sessions) do |user|
     # not an optimization, just a little refactor to make it more readable
     # at least there is no performance regression
-    sessions_times = user.sessions.map { |s| s['time'].to_i }
-    session_browsers = user.sessions.map { |s| s['browser'].upcase }
+    user_sessions = sessions[user['id']]
+    sessions_times = user_sessions.map { |s| s['time'].to_i }
+    session_browsers = user_sessions.map { |s| s['browser'].upcase }
+    uniq_browsers = session_browsers.uniq
 
     {
-      'sessionsCount' => user.sessions.count,
+      'sessionsCount' => user_sessions.count,
       'totalTime' => sessions_times.sum.to_s + ' min.',
       'longestSession' => sessions_times.max.to_s + ' min.',
       'browsers' => session_browsers.sort.join(', '),
-      'usedIE' => session_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => session_browsers.all? { |b| b =~ /CHROME/ },
-      'dates' => user.sessions.map{ |s| s['date'] }.sort.reverse
+      'usedIE' => uniq_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => uniq_browsers.all? { |b| b =~ /CHROME/ },
+      'dates' => user_sessions.map{ |s| s['date'] }.sort.reverse
     }
   end
 
   report
 end
 
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+def collect_stats_from_users(report, users, sessions, &block)
+  users.each do |user|
+    user_key = user['user_key'] 
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 end
 
@@ -190,8 +171,8 @@ class PerformanceTest < Minitest::Test
 
   def test_result
     file_path = 'data_perf.txt'
-    start_time = 0.06
-    target_time = 0.06
+    start_time = 1
+    target_time = 1
 
     real_times = []
     10.times do
@@ -215,10 +196,18 @@ class PerformanceTest < Minitest::Test
   end
 end
 
-#time = Benchmark.measure do
-#  work('data_50k')
-#end
-#
-#puts "The large dataset processed in: #{time}"
-#
-# measure { work('data_50k') }
+class AcceptanceTest < Minitest::Test
+  def test_result
+    target_time = 30
+    file_path = 'data_large.txt'
+
+
+    time = Benchmark.measure do
+      work(file_path)
+    end
+    time = time.real
+
+    puts "Acceptance test time: #{time}"
+    assert(time <= target_time)
+  end
+end

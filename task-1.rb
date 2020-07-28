@@ -89,11 +89,10 @@ def generate_report(users, sessions)
   session_values = sessions.values.flatten
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = {}
+  uniqueBrowsers = Set.new
   session_values.each do |session|
-    uniqueBrowsers[session['browser']] = true
+    uniqueBrowsers.add session['browser']
   end
-  uniqueBrowsers = uniqueBrowsers.keys
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
   report['totalSessions'] = session_values.count
@@ -125,7 +124,7 @@ def generate_report(users, sessions)
       'browsers' => session_browsers.sort.join(', '),
       'usedIE' => session_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
       'alwaysUsedChrome' => session_browsers.all? { |b| b =~ /CHROME/ },
-      'dates' => user.sessions.map{ |s| Date.parse(s['date']) }.sort.reverse.map { |d| d.iso8601 }
+      'dates' => user.sessions.map{ |s| s['date'] }.sort.reverse
     }
   end
 
@@ -143,6 +142,15 @@ end
 
 def get_file_lines(path)
   File.read(path).split("\n")
+end
+
+def measure(profile_name = "report_#{Time.now.to_i}")
+  RubyProf.measure_mode = RubyProf::WALL_TIME
+  result = RubyProf.profile do
+    yield
+  end
+  printer = RubyProf::CallTreePrinter.new(result)
+  printer.print(profile: profile_name)
 end
 
 class CorrectnessTest < Minitest::Test
@@ -176,17 +184,6 @@ session,2,3,Chrome 20,84,2016-11-25
     expected_result = '{"totalUsers":3,"uniqueBrowsersCount":14,"totalSessions":15,"allBrowsers":"CHROME 13,CHROME 20,CHROME 35,CHROME 6,FIREFOX 12,FIREFOX 32,FIREFOX 47,INTERNET EXPLORER 10,INTERNET EXPLORER 28,INTERNET EXPLORER 35,SAFARI 17,SAFARI 29,SAFARI 39,SAFARI 49","usersStats":{"Leida Cira":{"sessionsCount":6,"totalTime":"455 min.","longestSession":"118 min.","browsers":"FIREFOX 12, INTERNET EXPLORER 28, INTERNET EXPLORER 28, INTERNET EXPLORER 35, SAFARI 29, SAFARI 39","usedIE":true,"alwaysUsedChrome":false,"dates":["2017-09-27","2017-03-28","2017-02-27","2016-10-23","2016-09-15","2016-09-01"]},"Palmer Katrina":{"sessionsCount":5,"totalTime":"218 min.","longestSession":"116 min.","browsers":"CHROME 13, CHROME 6, FIREFOX 32, INTERNET EXPLORER 10, SAFARI 17","usedIE":true,"alwaysUsedChrome":false,"dates":["2017-04-29","2016-12-28","2016-12-20","2016-11-11","2016-10-21"]},"Gregory Santos":{"sessionsCount":4,"totalTime":"192 min.","longestSession":"85 min.","browsers":"CHROME 20, CHROME 35, FIREFOX 47, SAFARI 49","usedIE":false,"alwaysUsedChrome":false,"dates":["2018-09-21","2018-02-02","2017-05-22","2016-11-25"]}}}' + "\n"
     assert_equal expected_result, File.read('result.json')
   end
-
-  private
-
-  def measure(profile_name = "report_#{Time.now.to_i}")
-    RubyProf.measure_mode = RubyProf::WALL_TIME
-    result = RubyProf.profile do
-      yield
-    end
-    printer = RubyProf::CallTreePrinter.new(result)
-    printer.print(profile: profile_name)
-  end
 end
 
 class PerformanceTest < Minitest::Test
@@ -196,8 +193,8 @@ class PerformanceTest < Minitest::Test
 
   def test_result
     file_path = 'data_perf.txt'
-    start_time = 5.6
-    target_time = 1
+    start_time = 0.06
+    target_time = 0.06
 
     real_times = []
     10.times do
@@ -220,3 +217,9 @@ class PerformanceTest < Minitest::Test
     assert(slowest_sample <= target_time)
   end
 end
+
+time = Benchmark.measure do
+  work('data_large.txt')
+end
+
+puts "The large dataset processed in: #{time}"

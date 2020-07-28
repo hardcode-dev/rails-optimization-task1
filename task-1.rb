@@ -43,12 +43,10 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def parse_file(filename)
-  file_lines = File.read(filename).split("\n")
-
   users = []
   sessions = []
 
-  file_lines.each do |line|
+  File.readlines(filename).each do |line|
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'

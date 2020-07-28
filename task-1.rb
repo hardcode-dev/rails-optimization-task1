@@ -96,10 +96,11 @@ def work(filename: 'data.txt', gc: true)
 
   # Статистика по пользователям
   users_objects = []
+  users_sessions = sessions.group_by { |session| session['user_id'] }
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = Array(users_sessions[user['id']])
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

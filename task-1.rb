@@ -42,9 +42,7 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(filename: 'data.txt', gc: true)
-  GC.disable unless gc
-
+def parse_file(filename)
   file_lines = File.read(filename).split("\n")
 
   users = []
@@ -56,6 +54,13 @@ def work(filename: 'data.txt', gc: true)
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
   end
 
+  [users, sessions]
+end
+
+def work(filename: 'data.txt', gc: true)
+  GC.disable unless gc
+
+  users, sessions = parse_file(filename)
   # Отчёт в json
   #   - Сколько всего юзеров +
   #   - Сколько всего уникальных браузеров +

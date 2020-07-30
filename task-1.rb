@@ -40,12 +40,22 @@ def work(path)
   file_lines = File.read("#{path}.txt").split("\n")
 
   users = []
-  sessions = []
+  browsers = []
+  sessions = {}
+  sessions_count = 0
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users << parse_user(line) if cols[0] == 'user'
+
+    next unless cols[0] == 'session'
+
+    session = parse_session(line)
+    sessions_count += 1
+    sessions[session['user_id']] ||= []
+    sessions[session['user_id']] << session
+
+    browsers << session['browser'].upcase
   end
 
   # Отчёт в json
@@ -68,32 +78,19 @@ def work(path)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  filtered_browsers = browsers.sort.uniq
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['uniqueBrowsersCount'] = filtered_browsers.length
+  report['totalSessions'] = sessions_count
+  report['allBrowsers'] = filtered_browsers.join(',')
 
   # Статистика по пользователям
   users_objects = []
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    user_object = User.new(attributes: attributes, sessions: sessions[user['id']] || [])
+    users_objects << user_object
   end
 
   report['usersStats'] = {}

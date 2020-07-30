@@ -8,21 +8,33 @@ RSpec.configure do |config|
 end
 
 describe 'Performance' do
-  context 'with 1k string perform under 40 ms' do
+  context 'with 1k string perform under 13 ms' do
     let(:file_path) { 'files/data-1k' }
 
-    it { expect { work(file_path) }.to perform_under(40).ms.warmup(2).times.sample(5).times }
+    it { expect { work(file_path) }.to perform_under(13).ms.warmup(2).times.sample(10).times }
   end
 
-  context 'with 10k string perform under 1.8 sec' do
+  context 'with 10k string perform under 140 ms' do
     let(:file_path) { 'files/data-10k' }
 
-    it { expect { work(file_path) }.to perform_under(1.8).sec.warmup(2).times.sample(5).times }
+    it { expect { work(file_path) }.to perform_under(140).ms.warmup(2).times.sample(10).times }
   end
 
-  context 'with 20k string perform under 10 sec' do
+  context 'with 20k string perform under 310 ms' do
     let(:file_path) { 'files/data-20k' }
 
-    it { expect { work(file_path) }.to perform_under(10).sec.warmup(2).times.sample(5).times }
+    it { expect { work(file_path) }.to perform_under(310).ms.warmup(2).times.sample(10).times }
+  end
+
+  context 'with 100k string perform under 1.9 sec' do
+    let(:file_path) { 'files/data-100k' }
+
+    it { expect { work(file_path) }.to perform_under(1.9).sec.warmup(2).times.sample(10).times }
+  end
+
+  context 'with 300k string(~10%) perform under 6 sec' do
+    let(:file_path) { 'files/data-300k' }
+
+    it { expect { work(file_path) }.to perform_under(6).sec.warmup(2).times.sample(10).times }
   end
 end

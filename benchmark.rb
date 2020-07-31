@@ -2,7 +2,7 @@
 
 require_relative 'task-1'
 
-ROWS_COUNT = 25000
+ROWS_COUNT = 100000
 FILENAME = "data#{ROWS_COUNT}.txt"
 
 `head -n #{ROWS_COUNT} data_large.txt > #{FILENAME}`

@@ -5,10 +5,10 @@ require_relative '../task-1.rb'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
-`head -n 12500 data_large.txt > data_large12500.txt`
+`head -n 25000 data_large.txt > data_large25000.txt`
 
 result = RubyProf.profile do
-  work(filename: 'data_large12500.txt', gc: false)
+  work(filename: 'data_large25000.txt', gc: false)
 end
 
 RubyProf::FlatPrinter.new(result).print(File.open('reports/rubyprof_flat.txt', 'w+'))
@@ -16,4 +16,4 @@ RubyProf::GraphHtmlPrinter.new(result).print(File.open('reports/rubyprof_graph.h
 RubyProf::CallStackPrinter.new(result).print(File.open('reports/rubyprof_callstack.html', 'w+'))
 RubyProf::CallTreePrinter.new(result).print(path: 'reports', profile: 'callgrind')
 
-`rm data_large12500.txt`
+`rm data_large25000.txt`

@@ -16,6 +16,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'oj'
 
 class ReportGenerator
   attr_reader :sessions, :report, :uniq_browsers
@@ -48,10 +49,11 @@ class ReportGenerator
 
   def build_user_stat(user_sessions)
     user_browsers = user_sessions.map { |s| s['browser'] }
+    session_times = user_sessions.map {|s| s['time']}
     {
       'sessionsCount' => user_sessions.count, # количество сессий по пользователям
-      'totalTime' => "#{user_sessions.inject(0) {|sum, s| sum + s['time']}} min.", # количество времени по пользователям
-      'longestSession' => "#{user_sessions.map {|s| s['time']}.max} min.", # самая длинная сессию пользователя
+      'totalTime' => "#{session_times.sum} min.", # количество времени по пользователям
+      'longestSession' => "#{session_times.max} min.", # самая длинная сессию пользователя
       'browsers' => user_browsers.sort.join(', '), # браузеры пользователя через запятую
       'usedIE' => user_browsers.any?{|b| b.include?('INTERNET EXPLORER')}, # Хоть раз использовал IE?
       'alwaysUsedChrome' => user_browsers.all? { |b| b.include?('CHROME') }, # Всегда использовал только Chrome?
@@ -69,7 +71,7 @@ class ReportGenerator
   end
 
   def fetch_total_users
-    report[:totalUsers] = sessions.size
+    report['totalUsers'] = sessions.size
   end
 
   def fetch_total_sessions
@@ -97,7 +99,7 @@ class ReportGenerator
   end
 
   def save_output(output)
-    File.write(output, "#{report.to_json}\n")
+    File.write(output, "#{Oj.dump(report)}\n")
   end
 
   def work(input: 'data_large.txt', output: 'result_large.json', disable_gc: false)

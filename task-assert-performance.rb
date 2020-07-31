@@ -6,10 +6,10 @@ RSpec.configure do |config|
 end
 
 describe 'Performance' do
-  it 'works under 1s' do
+  it 'works under 0.8s' do
     expect {
       ReportGenerator.new.work(input: 'data_160000.txt', output: 'test_output/result_test.json', disable_gc: true)
-    }.to perform_under(1000).ms.warmup(2).times.sample(5).times
+    }.to perform_under(800).ms.warmup(2).times.sample(5).times
   end
 
   it 'performs linear' do

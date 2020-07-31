@@ -35,8 +35,7 @@ end
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = yield(user)
   end
 end
 
@@ -106,14 +105,16 @@ def work(filename: 'data.txt', gc: true)
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
+    times = user.sessions.map { |s| s['time'].to_i }
+    browsers = user.sessions.map { |s| s['browser'].upcase }.sort
     {
       'sessionsCount' => user.sessions.count,
-      'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.', # Собираем количество времени по пользователям
-      'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.', # Выбираем самую длинную сессию пользователя
-      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '), # Браузеры пользователя через запятую
-      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ }, # Хоть раз использовал IE?
-      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ }, # Всегда использовал только Chrome?
-      'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } # Даты сессий через запятую в обратном порядке в формате iso8601
+      'totalTime' => times.sum.to_s + ' min.', # Собираем количество времени по пользователям
+      'longestSession' => times.max.to_s + ' min.', # Выбираем самую длинную сессию пользователя
+      'browsers' => browsers.join(', '), # Браузеры пользователя через запятую
+      'usedIE' => browsers.any? { |b| b =~ /INTERNET EXPLORER/ }, # Хоть раз использовал IE?
+      'alwaysUsedChrome' => browsers.all? { |b| b =~ /CHROME/ }, # Всегда использовал только Chrome?
+      'dates' => user.sessions.map{|s| s['date'].strip }.sort.reverse # Даты сессий через запятую в обратном порядке в формате iso8601
     }
   end
 

@@ -3,38 +3,37 @@
 # Deoptimized version of homework task
 
 require 'oj'
-require 'json'
 require_relative 'lib/user'
 
 def parse_user(fields)
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    id: fields[1],
+    first_name: fields[2].capitalize,
+    last_name: fields[3].capitalize,
+    age: fields[4]
   }
 end
 
 def parse_session(fields)
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+    user_id: fields[1],
+    session_id: fields[2],
+    browser: fields[3],
+    time: fields[4].to_i,
+    date: fields[5]
   }
 end
 
 def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
-    user_key = user.attributes['first_name'].to_s + ' ' + user.attributes['last_name'].to_s
+    user_key = user.attributes[:first_name] + ' ' + user.attributes[:last_name]
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 end
 
 def work(path)
-  file_lines = File.read("#{path}.txt").split("\n")
+  file_lines = File.read("#{path}.txt").upcase.split("\n")
 
   users = []
   browsers = []
@@ -43,16 +42,16 @@ def work(path)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users << parse_user(cols) if cols[0] == 'user'
+    users << parse_user(cols) if cols[0] == 'USER'
 
-    next unless cols[0] == 'session'
+    next unless cols[0] == 'SESSION'
 
     session = parse_session(cols)
     sessions_count += 1
-    sessions[session['user_id']] ||= []
-    sessions[session['user_id']] << session
+    sessions[session[:user_id]] ||= []
+    sessions[session[:user_id]] << session
 
-    browsers << session['browser'].upcase
+    browsers << session[:browser]
   end
 
   # Отчёт в json
@@ -82,13 +81,7 @@ def work(path)
   report['allBrowsers'] = filtered_browsers.join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_object = User.new(attributes: attributes, sessions: sessions[user['id']] || [])
-    users_objects << user_object
-  end
+  users_objects = users.map { |user| User.new(attributes: user, sessions: sessions[user[:id]] || []) }
 
   report['usersStats'] = {}
 
@@ -104,8 +97,8 @@ def work(path)
   # }
 
   collect_stats_from_users(report, users_objects) do |user|
-    sessions_times = user.sessions.map { |s| s['time'].to_i }
-    sessions_browsers = user.sessions.map { |s| s['browser'].upcase }
+    sessions_times = user.sessions.map { |s| s[:time] }
+    sessions_browsers = user.sessions.map { |s| s[:browser] }
 
     {
       'sessionsCount' => user.sessions.length,
@@ -114,7 +107,7 @@ def work(path)
       'browsers' => sessions_browsers.sort.join(', '),
       'usedIE' => sessions_browsers.any? { |b| b.start_with?('INTERNET EXPLORER') },
       'alwaysUsedChrome' => sessions_browsers.all? { |b| b.start_with?('CHROME') },
-      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse
+      'dates' => user.sessions.map { |s| s[:date] }.sort.reverse
     }
   end
 

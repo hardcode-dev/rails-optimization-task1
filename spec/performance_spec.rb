@@ -9,7 +9,7 @@ RSpec.configure do |config|
 end
 
 RSpec.describe 'Performance' do
-  ROWS_COUNT = 65000
+  ROWS_COUNT = 70000
   FILENAME = "data#{ROWS_COUNT}.txt"
 
   before { `head -n #{ROWS_COUNT} data_large.txt > #{FILENAME}` }

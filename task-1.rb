@@ -2,14 +2,12 @@
 
 # Deoptimized version of homework task
 
+require 'oj'
 require 'json'
-require 'pry'
-require 'date'
 require_relative 'lib/user'
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -17,9 +15,8 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -46,11 +43,11 @@ def work(path)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users << parse_user(line) if cols[0] == 'user'
+    users << parse_user(cols) if cols[0] == 'user'
 
     next unless cols[0] == 'session'
 
-    session = parse_session(line)
+    session = parse_session(cols)
     sessions_count += 1
     sessions[session['user_id']] ||= []
     sessions[session['user_id']] << session
@@ -75,7 +72,7 @@ def work(path)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report['totalUsers'] = users.count
 
   # Подсчёт количества уникальных браузеров
   filtered_browsers = browsers.sort.uniq
@@ -121,5 +118,5 @@ def work(path)
     }
   end
 
-  File.write("#{path}.json", "#{report.to_json}\n")
+  File.write("#{path}.json", "#{Oj.dump(report)}\n")
 end

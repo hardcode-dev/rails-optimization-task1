@@ -13,6 +13,8 @@ Dir.chdir(File.dirname(__FILE__))
 
 RubyProf::FlatPrinter.new(result).print(File.open('reports/flat.txt', 'w+'))
 
-#RubyProf::GraphHtmlPrinter.new(result).print(File.open('reports/graph.html', 'w+'))
+RubyProf::GraphHtmlPrinter.new(result).print(File.open('reports/graph.html', 'w+'))
 
-#RubyProf::CallStackPrinter.new(result).print(File.open('reports/callstack.html', 'w+'))
+RubyProf::CallStackPrinter.new(result).print(File.open('reports/callstack.html', 'w+'))
+
+RubyProf::CallTreePrinter.new(result).print(path: 'reports', profile: 'callgrind')

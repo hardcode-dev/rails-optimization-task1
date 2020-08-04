@@ -83,7 +83,7 @@ def work(file, disable_gc: false)
   users_objects.each do |user|
     user.sessions.each do |session|
       browser = session['browser']
-      uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+      uniqueBrowsers += [browser] unless uniqueBrowsers.include?(browser)
     end
   end
 

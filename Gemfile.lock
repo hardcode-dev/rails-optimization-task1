@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    benchmark-ips (2.8.2)
     benchmark-malloc (0.2.0)
     benchmark-perf (0.6.0)
     benchmark-trend (0.4.0)
@@ -9,16 +8,11 @@ GEM
     date (3.0.0)
     diff-lcs (1.4.4)
     json (2.3.0)
-    kalibera (0.1)
-      memoist (~> 0.11.0)
-      rbzip2 (~> 0.2.0)
-    memoist (0.11.0)
     method_source (1.0.0)
     minitest (5.14.1)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    rbzip2 (0.2.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -38,20 +32,20 @@ GEM
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
     ruby-prof (1.4.1)
+    stackprof (0.2.15)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  benchmark-ips
   date
   json
-  kalibera
   minitest
   pry
   rspec
   rspec-benchmark
   ruby-prof
+  stackprof
 
 BUNDLED WITH
    2.1.4

@@ -13,24 +13,6 @@ class User
   end
 end
 
-def collect_stats_from_users(report, users_objects)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    sessions = user.sessions
-    browsers = sessions.map {|s| s['browser'].upcase}.sort
-    time = sessions.map {|s| s['time'].to_i}
-    report['usersStats'][user_key] = {
-      'sessionsCount' => sessions.count,
-      'totalTime' => time.sum.to_s + ' min.',
-      'longestSession' => time.max.to_s + ' min.',
-      'browsers' => browsers.join(', '),
-      'usedIE' => browsers.any? { |b| b.start_with?('INTERNET EXPLORER') },
-      'alwaysUsedChrome' => browsers.all? { |b| b.start_with?('CHROME') },
-      'dates' => sessions.map{|s| s['date']}.sort.reverse
-    }
-  end
-end
-
 def collect_stats_from_user(report, user)
   user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
   sessions = user.sessions

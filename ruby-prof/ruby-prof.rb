@@ -6,7 +6,7 @@ require_relative '../task-1.rb'
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
-  work('data_10000.txt', disable_gc: true)
+  work('data_100000.txt', disable_gc: true)
 end
 
 Dir.chdir(File.dirname(__FILE__))

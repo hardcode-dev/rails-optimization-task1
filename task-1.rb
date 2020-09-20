@@ -78,10 +78,10 @@ def work
   uniqueBrowsers = []
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    uniqueBrowsers += [browser]
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = uniqueBrowsers.uniq.count
 
   report['totalSessions'] = sessions.count
 
@@ -95,11 +95,10 @@ def work
 
   # Статистика по пользователям
   users_objects = []
-
+  sessions = sessions.group_by { |session| session['user_id'] }
   users.each do |user|
     attributes = user
-    user_sessions = sessions.find { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    user_object = User.new(attributes: attributes, sessions: sessions[attributes["id"]])
     users_objects = users_objects + [user_object]
   end
 

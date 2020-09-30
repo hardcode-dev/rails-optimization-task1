@@ -77,6 +77,7 @@ def work
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = []
   sessions.each do |session|
+    binding.pry
     browser = session['browser']
     uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
   end

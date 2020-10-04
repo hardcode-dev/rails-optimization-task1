@@ -1,2 +1,4 @@
 /samples/*
 !/samples/.keep
+/tmp/*
+!/tmp/.keep

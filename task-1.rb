@@ -3,19 +3,25 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'set'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_reader :attributes
 
   def initialize(attributes:, sessions:)
     @attributes = attributes
-    @sessions = sessions
+    @all_sessions = sessions
+  end
+
+  def sessions
+    @sessions ||= @all_sessions[attributes['id']]
   end
 end
 
 def parse_user(user)
   fields = user.split(',')
-  parsed_result = {
+
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -25,7 +31,8 @@ end
 
 def parse_session(session)
   fields = session.split(',')
-  parsed_result = {
+
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -45,13 +52,31 @@ end
 def work(src:, dest:)
   file_lines = File.read(src).split("\n")
 
-  users = []
-  sessions = []
+  report = {}
+
+  totalUsers = 0
+  totalSessions = 0
+  uniqueBrowsers = Set.new
+
+  users_objects = []
+  sessions = Hash.new { |hash, user_id| hash[user_id] = [] }
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    case cols[0]
+    when 'user'
+      user = parse_user(line)
+      users_objects << User.new(attributes: user, sessions: sessions)
+
+      totalUsers += 1
+    when 'session'
+      session = parse_session(line)
+      sessions[session['user_id']] << session
+
+      totalSessions += 1
+      uniqueBrowsers << session['browser'].upcase
+    end
   end
 
   # Отчёт в json
@@ -69,39 +94,10 @@ def work(src:, dest:)
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
-  report[:totalUsers] = users.count
-
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
+  report['totalUsers'] = totalUsers
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
-
-  # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
-
+  report['totalSessions'] = totalSessions
+  report['allBrowsers'] = uniqueBrowsers.to_a.sort.join(',')
   report['usersStats'] = {}
 
   # Собираем количество сессий по пользователям

@@ -114,7 +114,7 @@ def work(src:, dest:)
       # Всегда использовал только Chrome?
       'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+      'dates' => user.sessions.map{|s| s['date']}.sort { |a, b| b <=> a }
     }
   end
 

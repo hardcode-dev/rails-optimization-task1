@@ -18,9 +18,7 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-
+def parse_user(fields)
   {
     'id' => fields[1],
     'first_name' => fields[2],
@@ -29,9 +27,7 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-
+def parse_session(fields)
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
@@ -66,12 +62,12 @@ def work(src:, dest:)
 
     case cols[0]
     when 'user'
-      user = parse_user(line)
+      user = parse_user(cols)
       users_objects << User.new(attributes: user, sessions: sessions)
 
       totalUsers += 1
     when 'session'
-      session = parse_session(line)
+      session = parse_session(cols)
       sessions[session['user_id']] << session
 
       totalSessions += 1

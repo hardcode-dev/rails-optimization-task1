@@ -40,15 +40,19 @@ def fill_user_key(user)
   "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
 end
 
-def collect_stats_from_single_user(block, report, user)
+def merge_report_in_col_st_fr_s_u(report, user, user_key, &block)
+  report['usersStats'][user_key].merge(block.call(user))
+end
+
+def collect_stats_from_single_user(report, user, &block)
   user_key = fill_user_key(user)
   report['usersStats'][user_key] ||= {}
-  report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+  report['usersStats'][user_key] = merge_report_in_col_st_fr_s_u(report, user, user_key, &block)
 end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    collect_stats_from_single_user(block, report, user)
+    collect_stats_from_single_user(report, user, &block)
   end
 end
 

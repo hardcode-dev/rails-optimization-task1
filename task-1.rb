@@ -43,17 +43,22 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
-  file_lines = File.read('data.txt').split("\n")
-
-  users = []
-  sessions = []
-
+def file_lines_iteration(file_lines, sessions, users)
   file_lines.each do |line|
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
   end
+  return sessions, users
+end
+
+def work
+  file_lines = File.read('data_large.txt').split("\n")
+
+  users = []
+  sessions = []
+
+  sessions, users = file_lines_iteration(file_lines, sessions, users)
 
   # Отчёт в json
   #   - Сколько всего юзеров +

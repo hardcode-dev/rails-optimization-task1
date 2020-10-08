@@ -1,5 +1,4 @@
 require_relative '../task-1'
-require 'pry'
 require 'minitest/autorun'
 
 class TestMe < Minitest::Test

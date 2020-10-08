@@ -110,12 +110,13 @@ end
 
 def fill_all_browsers(report, sessions)
   report['allBrowsers'] =
-    sessions
-    .map { |s| s['browser'] }
-    .map(&:upcase)
-    .sort
-    .uniq
-    .join(',')
+    @all_browsers ||=
+      sessions
+      .map { |s| s['browser'] }
+      .map(&:upcase)
+      .sort
+      .uniq
+      .join(',')
 end
 
 def work
@@ -153,7 +154,7 @@ def work
   uniqueBrowsers = []
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if browser_uniq?(browser, uniqueBrowsers)
+    uniqueBrowsers << browser if browser_uniq?(browser, uniqueBrowsers)
   end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.length

@@ -4,7 +4,6 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
-require 'byebug'
 
 class User
   attr_reader :attributes, :sessions
@@ -88,8 +87,18 @@ def always_used_chrome?(user)
   user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ }
 end
 
+def map_sessions(user)
+  user.sessions.map { |s| s['date'] }
+end
+
+def convert_dates(sessions)
+  sessions.map { |d| Date.iso8601(d.chomp) }
+end
+
 def dates(user)
-  user.sessions.map { |s| s['date'] }.map { |d| Date.iso8601(d) }.sort.reverse
+  sessions = map_sessions(user)
+  dates = convert_dates(sessions)
+  dates.sort.reverse
 end
 
 def collect_all_stats(report, users_objects)

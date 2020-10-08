@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
-# Deoptimized version of homework task
-
 require 'json'
-
-require 'time'
+require 'date'
 require_relative 'models/user'
 
 def parse_user(user)
   fields = user.split(',')
-  parsed_result = {
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -19,7 +16,7 @@ end
 
 def parse_session(session)
   fields = session.split(',')
-  parsed_result = {
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -32,14 +29,14 @@ def fill_user_key(user)
   user.attributes['first_name'].to_s + ' ' + user.attributes['last_name'].to_s
 end
 
-def fill_usersStats(block, report, user, user_key)
+def fill_users_stats(block, report, user, user_key)
   report['usersStats'][user_key].merge(block.call(user))
 end
 
 def collect_stats_from_single_user(block, report, user)
   user_key = fill_user_key(user)
   report['usersStats'][user_key] ||= {}
-  report['usersStats'][user_key] = fill_usersStats(block, report, user, user_key)
+  report['usersStats'][user_key] = fill_users_stats(block, report, user, user_key)
 end
 
 def collect_stats_from_users(report, users_objects, &block)
@@ -114,11 +111,11 @@ end
 def fill_all_browsers(report, sessions)
   report['allBrowsers'] =
     sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+    .map { |s| s['browser'] }
+    .map(&:upcase)
+    .sort
+    .uniq
+    .join(',')
 end
 
 def work
@@ -181,4 +178,3 @@ def work
 
   File.write('result.json', "#{report.to_json}\n")
 end
-

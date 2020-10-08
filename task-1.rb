@@ -54,7 +54,7 @@ def fill_user_object(attributes, user_sessions)
 end
 
 def sessions_count(user)
-  user.sessions.count
+  user.sessions.length
 end
 
 def total_time(user)
@@ -126,8 +126,8 @@ def work
 
   file_lines.each do |line|
     cols = line.split(',')
-    users += [parse_user(line)] if cols[0] == 'user'
-    sessions += [parse_session(line)] if cols[0] == 'session'
+    users << parse_user(line) if cols[0] == 'user'
+    sessions << parse_session(line) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -147,7 +147,7 @@ def work
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = users.length
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = []
@@ -156,9 +156,9 @@ def work
     uniqueBrowsers += [browser] if browser_uniq?(browser, uniqueBrowsers)
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = uniqueBrowsers.length
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions.length
 
   fill_all_browsers(report, sessions)
 

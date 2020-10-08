@@ -63,16 +63,16 @@ def longest_session(user)
   user.sessions.map { |s| s['time'] }.max.to_s + ' min.'
 end
 
-def browsers(user)
-  user.sessions.map { |s| s['browser'] }.sort.join(', ')
+def browsers(browsers)
+  browsers.sort.join(', ')
 end
 
-def used_ie?(user)
-  user.sessions.map { |s| s['browser'] }.any? { |b| b =~ /INTERNET EXPLORER/ }
+def used_ie?(browsers)
+  browsers.any? { |b| b =~ /INTERNET EXPLORER/ }
 end
 
-def always_used_chrome?(user)
-  user.sessions.map { |s| s['browser'] }.all? { |b| b =~ /CHROME/ }
+def always_used_chrome?(browsers)
+  browsers.all? { |b| b =~ /CHROME/ }
 end
 
 def map_sessions(user)
@@ -87,30 +87,26 @@ end
 def collect_all_stats(report, users_objects)
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
+
+    user_browsers = user.sessions.map { |s| s['browser'] }
+
     { 'sessionsCount' => sessions_count(user),
       'totalTime' => total_time(user),
       'longestSession' => longest_session(user),
-      'browsers' => browsers(user),
-      'usedIE' => used_ie?(user),
-      'alwaysUsedChrome' => always_used_chrome?(user),
+      'browsers' => browsers(user_browsers),
+      'usedIE' => used_ie?(user_browsers),
+      'alwaysUsedChrome' => always_used_chrome?(user_browsers),
       'dates' => dates(user) }
   end
 end
 
-def browser_uniq?(browser, uniqueBrowsers)
-  uniqueBrowsers.all? { |b| b != browser }
-end
-
-def fill_all_browsers(report, sessions)
-  report['allBrowsers'] =
-    @all_browsers ||=
-      sessions
-      .map { |s| s['browser'] }
-      .map(&:upcase)
-      .sort
-      .uniq
-      .join(',')
-end
+# def fill_all_browsers(report, sessions)
+#   sessions
+#     .map { |s| s['browser'] }
+#     .sort
+#     .uniq
+#     .join(',')
+# end
 
 def work
   file_lines = File.read('data.txt').split("\n")
@@ -142,19 +138,19 @@ def work
   report = {}
 
   report[:totalUsers] = users.length
-
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = []
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers << browser if browser_uniq?(browser, uniqueBrowsers)
+    uniqueBrowsers << browser unless uniqueBrowsers.include? browser
   end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.length
 
   report['totalSessions'] = sessions.length
 
-  fill_all_browsers(report, sessions)
+  report['allBrowsers'] = uniqueBrowsers.sort
+                                        .join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -172,4 +168,5 @@ def work
 
   File.write('result.json', "#{report.to_json}\n")
 end
+
 work

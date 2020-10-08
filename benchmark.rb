@@ -27,7 +27,7 @@ session,2,3,Chrome 20,84,2016-11-25
 ' * user_count)
 end
 
-user_counts = [1, 5, 10, 50, 100, 500]
+user_counts = [1, 5, 10, 50, 100]
 user_counts.each do |count|
   prepare_data_file(count)
   user_time = Benchmark.realtime do
@@ -43,6 +43,8 @@ result = RubyProf.profile do
 end
 
 printer = RubyProf::CallTreePrinter.new(result)
+printer2 = RubyProf::GraphHtmlPrinter.new(result)
 
 printer.print(path: 'ruby_prof_report', profile: 'callgrid')
+printer2.print(File.open('ruby_prof_report/graph.html', 'w+'))
 

@@ -89,7 +89,7 @@ def always_used_chrome?(user)
 end
 
 def dates(user)
-  user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map { |d| d.iso8601 }
+  user.sessions.map { |s| s['date'] }.map { |d| Date.iso8601(d) }.sort.reverse
 end
 
 def collect_all_stats(report, users_objects)

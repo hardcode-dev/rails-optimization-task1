@@ -1,5 +1,6 @@
 require 'benchmark'
 require 'ruby-prof'
+require 'stackprof'
 require_relative 'task-1'
 
 File.write('result.json', '')
@@ -27,13 +28,18 @@ session,2,3,Chrome 20,84,2016-11-25
 ' * user_count)
 end
 
-user_counts = [1, 5, 10, 50, 100]
+user_counts = [1, 5, 10, 50, 100, 500]
+# GC.disable
 user_counts.each do |count|
   prepare_data_file(count)
   user_time = Benchmark.realtime do
     work
   end
   puts "finished #{count} user(s) in #{user_time}"
+end
+
+StackProf.run(mode: :wall, out: 'stackprof_reports/sp.dump', interval: 1200) do
+  work
 end
 
 RubyProf.measure_mode = RubyProf::WALL_TIME

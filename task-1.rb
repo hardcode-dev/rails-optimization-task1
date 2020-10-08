@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'date'
+require 'byebug'
 require_relative 'models/user'
 
-def parse_user(user)
-  fields = user.split(',')
+def parse_user(fields)
   {
     'id' => fields[1],
     'first_name' => fields[2],
@@ -14,13 +13,12 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
+def parse_session(fields)
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
+    'browser' => fields[3].upcase,
+    'time' => fields[4].to_i,
     'date' => fields[5]
   }
 end
@@ -58,37 +56,32 @@ def sessions_count(user)
 end
 
 def total_time(user)
-  user.sessions.map { |s| s['time'] }.map(&:to_i).sum.to_s + ' min.'
+  user.sessions.map { |s| s['time'] }.sum.to_s + ' min.'
 end
 
 def longest_session(user)
-  user.sessions.map { |s| s['time'] }.map(&:to_i).max.to_s + ' min.'
+  user.sessions.map { |s| s['time'] }.max.to_s + ' min.'
 end
 
 def browsers(user)
-  user.sessions.map { |s| s['browser'] }.map(&:upcase).sort.join(', ')
+  user.sessions.map { |s| s['browser'] }.sort.join(', ')
 end
 
 def used_ie?(user)
-  user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ }
+  user.sessions.map { |s| s['browser'] }.any? { |b| b =~ /INTERNET EXPLORER/ }
 end
 
 def always_used_chrome?(user)
-  user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ }
+  user.sessions.map { |s| s['browser'] }.all? { |b| b =~ /CHROME/ }
 end
 
 def map_sessions(user)
   user.sessions.map { |s| s['date'] }
 end
 
-def convert_dates(sessions)
-  sessions.map { |d| Date.iso8601(d.chomp) }
-end
-
 def dates(user)
   sessions = map_sessions(user)
-  dates = convert_dates(sessions)
-  dates.sort.reverse
+  sessions.sort.reverse
 end
 
 def collect_all_stats(report, users_objects)
@@ -126,9 +119,9 @@ def work
   sessions = []
 
   file_lines.each do |line|
-    cols = line.split(',')
-    users << parse_user(line) if cols[0] == 'user'
-    sessions << parse_session(line) if cols[0] == 'session'
+    fields = line.split(',')
+    users << parse_user(fields) if fields[0] == 'user'
+    sessions << parse_session(fields) if fields[0] == 'session'
   end
 
   # Отчёт в json
@@ -179,3 +172,4 @@ def work
 
   File.write('result.json', "#{report.to_json}\n")
 end
+work

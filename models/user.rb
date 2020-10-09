@@ -48,14 +48,13 @@ class User
       'browsers' => browsers,
       'usedIE' => used_ie?,
       'alwaysUsedChrome' => chrome_fan?,
-      'dates' => session_dates.sort.reverse
-    }
+      'dates' => session_dates.sort.reverse }
   end
 
   private
 
   def init_session_stats
-    sessions.each do |s|
+    sessions&.each do |s|
       @browsers << s['browser']
       @used_ie = true if s['browser'] =~ /INTERNET EXPLORER/
       @chrome_fan = false if s['browser'] !~ /CHROME/

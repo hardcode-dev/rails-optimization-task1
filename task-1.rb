@@ -2,6 +2,7 @@
 
 require 'json'
 require 'byebug'
+require 'ruby-progressbar'
 require_relative 'models/user'
 
 def parse_user(fields)
@@ -24,15 +25,20 @@ def parse_session(fields)
 end
 
 
-def work
-  file_lines = File.read('data.txt').split("\n")
-
+def work(file_path = 'data_large.txt')
+  file_lines = File.read(file_path).split("\n")
   users = []
   sessions = {}
+  parsing_progressbar = ProgressBar.create(:format => "%a %e %b\u{15E7}%i %p%% %t",
+                                           :progress_mark => ' ',
+                                           :remainder_mark => "\u{FF65}",
+                                           :title => "Reading file",
+                                           :total => file_lines.length)
   file_lines.each do |line|
     fields = line.split(',')
     users << parse_user(fields) if fields[0] == 'user'
     (sessions[fields[1]] ||= []) << parse_session(fields) if fields[0] == 'session'
+    parsing_progressbar.increment
   end
 
   # Отчёт в json
@@ -63,8 +69,15 @@ def work
   # Статистика по пользователям
   users_objects = []
   report['usersStats'] = {}
+  report_progress_bar = ProgressBar.create(:format => "%a %e %b\u{15E7}%i %p%% %t",
+                                           :progress_mark => ' ',
+                                           :remainder_mark => "\u{FF65}",
+                                           :title => "making report...",
+                                           :total => users.length)
 
   users.each do |user|
+    report_progress_bar.increment
+
     attributes = user
     user_sessions = sessions[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)

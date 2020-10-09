@@ -6,6 +6,7 @@ GEM
     json (2.3.1)
     minitest (5.14.2)
     ruby-prof (1.4.1)
+    ruby-progressbar (1.10.1)
     stackprof (0.2.15)
 
 PLATFORMS
@@ -17,6 +18,7 @@ DEPENDENCIES
   json (= 2.3.1)
   minitest (= 5.14.2)
   ruby-prof (= 1.4.1)
+  ruby-progressbar (~> 1.10, >= 1.10.1)
   stackprof (= 0.2.15)
 
 RUBY VERSION

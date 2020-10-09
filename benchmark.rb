@@ -28,14 +28,14 @@ session,2,3,Chrome 20,84,2016-11-25
 ' * user_count)
 end
 
-user_counts = [1, 5, 10, 50, 100, 500]
+user_counts = [1, 5, 10, 50, 100, 500, 1000]
 # GC.disable
 user_counts.each do |count|
   prepare_data_file(count)
   user_time = Benchmark.realtime do
     work
   end
-  puts "finished #{count} user(s) in #{user_time}"
+  puts "finished #{count} in #{user_time}"
 end
 
 StackProf.run(mode: :wall, out: 'stackprof_reports/sp.dump', interval: 1200) do
@@ -43,14 +43,18 @@ StackProf.run(mode: :wall, out: 'stackprof_reports/sp.dump', interval: 1200) do
 end
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
-prepare_data_file
+prepare_data_file(200)
 result = RubyProf.profile do
   work
 end
 
 printer = RubyProf::CallTreePrinter.new(result)
-printer2 = RubyProf::GraphHtmlPrinter.new(result)
+# printer2 = RubyProf::CallStackPrinter.new(result)
+printer3 = RubyProf::GraphHtmlPrinter.new(result)
 
 printer.print(path: 'ruby_prof_report', profile: 'callgrid')
-printer2.print(File.open('ruby_prof_report/graph.html', 'w+'))
+# printer2.print(File.open('ruby_prof_report/callstack.html', 'w+'))
+printer3.print(File.open('ruby_prof_report/graph.html', 'w+'))
+printer4 = RubyProf::FlatPrinter.new(result)
+printer4.print(STDOUT)
 

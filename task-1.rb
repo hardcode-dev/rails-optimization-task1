@@ -27,21 +27,14 @@ def fill_user_key(user)
   user.attributes['first_name'].to_s + ' ' + user.attributes['last_name'].to_s
 end
 
-def fill_users_stats(block, report, user, user_key)
-  report['usersStats'][user_key].merge(block.call(user))
-end
-
-def collect_stats_from_single_user(report, user, &block)
-  user_key = fill_user_key(user)
-  report['usersStats'][user_key] ||= {}
-  report['usersStats'][user_key] = fill_users_stats(block, report, user, user_key)
-end
-
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    collect_stats_from_single_user(report, user, &block)
-  end
-end
+# def collect_stats_from_users(report, users_objects, &block)
+#   users_objects.each do |user|
+#     byebug
+#     user_key = fill_user_key(user)
+#     report['usersStats'][user_key] ||= {}
+#     report['usersStats'][user_key] =   report['usersStats'][user_key].merge(block.call(user))
+#   end
+# end
 
 def sessions_count(user)
   user.sessions.length
@@ -67,30 +60,17 @@ def always_used_chrome?(browsers)
   browsers.all? { |b| b =~ /CHROME/ }
 end
 
-# def map_dates_from_sessions(user)
-#   user.sessions.map { |s| s['date'] }
-# end
-#
-# def dates(user)
-#   dates = map_dates_from_sessions(user)
-#   dates.sort!.reverse
-# end
+def user_stats(user)
+  user_browsers = user.sessions.map { |s| s['browser'] }
+  user_times = user.sessions.map { |s| s['time'] }
 
-def collect_all_stats(report, users_objects)
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-
-    user_browsers = user.sessions.map { |s| s['browser'] }
-    user_times = user.sessions.map { |s| s['time'] }
-
-    { 'sessionsCount' => sessions_count(user),
-      'totalTime' => total_time(user_times),
-      'longestSession' => longest_session(user_times),
-      'browsers' => browsers(user_browsers),
-      'usedIE' => used_ie?(user_browsers),
-      'alwaysUsedChrome' => always_used_chrome?(user_browsers),
-      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse }
-  end
+  { 'sessionsCount' => sessions_count(user),
+    'totalTime' => total_time(user_times),
+    'longestSession' => longest_session(user_times),
+    'browsers' => browsers(user_browsers),
+    'usedIE' => used_ie?(user_browsers),
+    'alwaysUsedChrome' => always_used_chrome?(user_browsers),
+    'dates' => user.sessions.map { |s| s['date'] }.sort.reverse }
 end
 
 def work
@@ -99,7 +79,7 @@ def work
   users = []
   sessions = []
 
-  file_lines[0..10000].each do |line|
+  file_lines.each do |line|
     fields = line.split(',')
     users << parse_user(fields) if fields[0] == 'user'
     sessions << parse_session(fields) if fields[0] == 'session'
@@ -125,10 +105,6 @@ def work
   report[:totalUsers] = users.length
   # Подсчёт количества уникальных браузеров
   unique_browsers = sessions.map { |session| session['browser'] }.uniq
-  # sessions.each do |session|
-  #   browser = session['browser']
-  #   unique_browsers << browser unless unique_browsers.include? browser
-  # end
 
   report['uniqueBrowsersCount'] = unique_browsers.length
   report['totalSessions'] = sessions.length
@@ -136,18 +112,17 @@ def work
 
   # Статистика по пользователям
   users_objects = []
+  report['usersStats'] = {}
 
   users.each do |user|
     attributes = user
     user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects += [user_object]
-    # collect_stats_from_single_user(block, report, user_object)
+    user_key = fill_user_key(user_object)
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(user_stats(user_object))
   end
-
-  report['usersStats'] = {}
-
-  collect_all_stats(report, users_objects)
 
   File.write('result.json', "#{report.to_json}\n")
 end

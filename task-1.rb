@@ -3,6 +3,7 @@
 require 'json'
 require 'byebug'
 require 'ruby-progressbar'
+require 'set'
 require_relative 'models/user'
 
 def parse_user(fields)
@@ -24,22 +25,19 @@ def parse_session(fields)
   }
 end
 
+def report_user(prev_user, users_stats)
+  users_stats[prev_user.key] ||= {}
+  users_stats[prev_user.key] = users_stats[prev_user.key].merge(prev_user.user_stats)
+end
 
-def work(file_path = 'data_large.txt')
+def work(file_path = 'files/data.txt')
+  puts 'Started'
+
   file_lines = File.read(file_path).split("\n")
-  users = []
-  sessions = {}
-  parsing_progressbar = ProgressBar.create(:format => "%a %e %b\u{15E7}%i %p%% %t",
-                                           :progress_mark => ' ',
-                                           :remainder_mark => "\u{FF65}",
-                                           :title => "Reading file",
-                                           :total => file_lines.length)
-  file_lines.each do |line|
-    fields = line.split(',')
-    users << parse_user(fields) if fields[0] == 'user'
-    (sessions[fields[1]] ||= []) << parse_session(fields) if fields[0] == 'session'
-    parsing_progressbar.increment
-  end
+  sessions_count = 0
+  users_count = 0
+  browsers = SortedSet.new
+  browsers_count = 0
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -57,36 +55,54 @@ def work(file_path = 'data_large.txt')
   #     - даты сессий в порядке убывания через запятую +
 
   report = {}
+  users = {}
+  users_stats = {}
+  progressbar = ProgressBar.create(format: "%a %e %b\u{15E7}%i %p%% %t",
+                                   progress_mark: ' ',
+                                   remainder_mark: "\u{FF65}",
+                                   title: 'Importing data',
+                                   total: file_lines.length)
+  prev_user = nil
+  file_lines.each do |line|
+    fields = line.split(',')
+    if fields[0] == 'user'
+      user = User.new(attributes: parse_user(fields), sessions: [])
+      users[fields[1]] = user
+      users_count += 1
+      unless prev_user.eql?(user)
+        # form report for previously imported user
+        if prev_user
+          report_user(prev_user, users_stats)
+        end
+        prev_user = user
+      end
+    end
+
+    if fields[0] == 'session'
+      user = users[fields[1]]
+      user.sessions << parse_session(fields)
+      user.browsers << fields[3].upcase
+      browsers << fields[3].upcase
+      browsers_count += 1
+      user.session_durations << fields[4].to_i
+      user.session_dates << fields[5]
+      sessions_count += 1
+    end
+
+    progressbar.increment
+  end
+  # reporting last user
+  report_user(prev_user, users_stats)
 
   report[:totalUsers] = users.length
   # Подсчёт количества уникальных браузеров
-  unique_browsers = sessions.values.flatten.map { |session| session['browser'] }.uniq
-
-  report['uniqueBrowsersCount'] = unique_browsers.length
-  report['totalSessions'] = sessions.values.flatten.length
-  report['allBrowsers'] = unique_browsers.sort.join(',')
-
+  report['uniqueBrowsersCount'] = browsers.length
+  report['totalSessions'] = sessions_count
+  report['allBrowsers'] = browsers.to_a.join(',')
   # Статистика по пользователям
-  users_objects = []
-  report['usersStats'] = {}
-  report_progress_bar = ProgressBar.create(:format => "%a %e %b\u{15E7}%i %p%% %t",
-                                           :progress_mark => ' ',
-                                           :remainder_mark => "\u{FF65}",
-                                           :title => "making report...",
-                                           :total => users.length)
-
-  users.each do |user|
-    report_progress_bar.increment
-
-    attributes = user
-    user_sessions = sessions[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects += [user_object]
-    report['usersStats'][user_object.key] ||= {}
-    report['usersStats'][user_object.key] = report['usersStats'][user_object.key].merge(user_object.user_stats)
-  end
-
+  report['usersStats'] = users_stats
   File.write('result.json', "#{report.to_json}\n")
+  puts 'Finished!'
 end
 
-work
+# work

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'json'
-require 'byebug'
 require 'ruby-progressbar'
 require 'set'
+require 'oj'
 require_relative 'models/user'
 
 def parse_user(fields)
@@ -30,7 +29,7 @@ def report_user(prev_user, users_stats)
   users_stats[prev_user.key] = users_stats[prev_user.key].merge(prev_user.user_stats)
 end
 
-def work(file_path = 'files/data.txt')
+def work(file_path = 'files/data_large.txt')
   puts 'Started'
 
   file_lines = File.read(file_path).split("\n")
@@ -71,9 +70,7 @@ def work(file_path = 'files/data.txt')
       users_count += 1
       unless prev_user.eql?(user)
         # form report for previously imported user
-        if prev_user
-          report_user(prev_user, users_stats)
-        end
+        report_user(prev_user, users_stats) if prev_user
         prev_user = user
       end
     end
@@ -94,15 +91,15 @@ def work(file_path = 'files/data.txt')
   # reporting last user
   report_user(prev_user, users_stats)
 
-  report[:totalUsers] = users.length
+  report['totalUsers'] = users.length
   # Подсчёт количества уникальных браузеров
   report['uniqueBrowsersCount'] = browsers.length
   report['totalSessions'] = sessions_count
   report['allBrowsers'] = browsers.to_a.join(',')
   # Статистика по пользователям
   report['usersStats'] = users_stats
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report)}\n")
   puts 'Finished!'
 end
 
-# work
+work

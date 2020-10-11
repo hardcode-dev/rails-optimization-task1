@@ -31,7 +31,6 @@ class User
   end
 
   def browsers
-    # byebug
     @browsers
   end
 
@@ -44,7 +43,7 @@ class User
   end
 
   def sessions_count
-    @sessions.count
+    @sessions.length
   end
 
   def user_stats

@@ -29,7 +29,7 @@ def report_user(prev_user, users_stats)
   users_stats[prev_user.key] = users_stats[prev_user.key].merge(prev_user.user_stats)
 end
 
-def work(file_path = 'files/data_large.txt')
+def work(file_path = 'files/data.txt')
   puts 'Started'
 
   file_lines = File.read(file_path).split("\n")

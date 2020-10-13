@@ -5,9 +5,12 @@ require 'ruby-prof'
 require 'stackprof'
 require_relative 'task-1'
 
-user_counts = [10, 50, 100, 500, 1000]
+user_counts = [10, 50, 100, 500, 1000, '_large']
+
 GC.disable
 user_counts.each do |count|
+  next unless File.exist?("files/data#{count}.txt")
+
   user_time = Benchmark.realtime do
     work("files/data#{count}.txt")
   end

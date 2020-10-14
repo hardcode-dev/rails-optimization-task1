@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'set'
 
 class User
   attr_reader :attributes, :sessions

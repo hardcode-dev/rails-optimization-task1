@@ -1,14 +1,14 @@
 Measure Mode: wall_time
-Thread ID: 80
-Fiber ID: 60
-Total: 0.000042
+Thread ID: 260
+Fiber ID: 240
+Total: 0.000027
 Sort by: self_time
 
  %self      total      self      wait     child     calls  name                           location
- 71.97      0.000     0.000     0.000     0.000        1   [global]#                      playground.rb:10
- 21.68      0.000     0.000     0.000     0.000        1   BasicObject#method_missing     
-  3.29      0.000     0.000     0.000     0.000        1   Exception#backtrace            
-  3.06      0.000     0.000     0.000     0.000        1   Exception#exception            
+ 64.94      0.000     0.000     0.000     0.000        1   [global]#                      playground.rb:10
+ 25.61      0.000     0.000     0.000     0.000        1   BasicObject#method_missing     
+  4.97      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+  4.48      0.000     0.000     0.000     0.000        1   Exception#exception            
 
 * recursively called methods
 

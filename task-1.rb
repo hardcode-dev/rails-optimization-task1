@@ -6,7 +6,7 @@ require 'date'
 require 'benchmark/ips'
 
 require_relative 'user'
-# require_relative 'test_me'
+require_relative 'test_me'
 
 class Report
 
@@ -43,12 +43,28 @@ class Report
     end
   end
 
-def work(file_name)
-  file_lines = File.read(file_name).split("\n")
+  def uniq_browsers_fast(browsers_dict)
+    result = browsers_dict.keys
+    result.sort!
+  end
+
+  def uniq_browsers_slow(sessions)
+    result = []
+    sessions.each do |session|
+      browser = session['browser']
+      result += [browser] if result.all? { |b| b != browser }
+    end
+    result
+  end
+
+  def work(file_name)
+    file_lines = File.read(file_name).split("\n")
 
     users = []
     sessions = []
     sessions_by_user = {}
+    uniq_browsers_dict = {}
+
 
     file_lines.each do |line|
       # user,76,Jerome,Corene,46
@@ -66,6 +82,9 @@ def work(file_name)
         user_id = session_obj['user_id']
         sessions_by_user[user_id] = [] unless sessions_by_user[user_id]
         sessions_by_user[user_id] << session_obj
+
+        browser = session_obj['browser']
+        uniq_browsers_dict[browser] = true
       end
     end
 
@@ -89,11 +108,8 @@ def work(file_name)
     report[:totalUsers] = users.count
 
     # Подсчёт количества уникальных браузеров
-    uniqueBrowsers = []
-    sessions.each do |session|
-      browser = session['browser']
-      uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-    end
+    # uniqueBrowsers = uniq_browsers_slow(sessions)
+    uniqueBrowsers = uniq_browsers_fast(uniq_browsers_dict)
 
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
 

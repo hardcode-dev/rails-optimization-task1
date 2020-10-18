@@ -19,10 +19,18 @@ class Playground
     simple_time_measurement
     # ruby_prof_flat
     ruby_prof_graph
+    ruby_prof_callstack
     # asymptomatic_stats
   end
 
   private
+
+  def ruby_prof_callstack
+    result = ruby_prof_result
+    printer = RubyProf::CallStackPrinter.new(result)
+    printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
+    puts "CallStack Generated"
+  end
 
   def ruby_prof_graph
     result = ruby_prof_result

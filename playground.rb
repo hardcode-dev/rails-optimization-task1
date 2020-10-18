@@ -56,10 +56,10 @@ class Playground
 
   def asymptomatic_stats
     Benchmark.ips do |generate_report|
-      generate_report.report('lines1000') {Report.new.call('data_1000.txt')}
-      generate_report.report('lines2000') {Report.new.call('data_2000.txt')}
-      generate_report.report('lines4000') {Report.new.call('data_4000.txt')}
       generate_report.report('lines8000') {Report.new.call('data_8000.txt')}
+      generate_report.report('lines16000') {Report.new.call('data_16000.txt')}
+      generate_report.report('lines32000') {Report.new.call('data_32000.txt')}
+      generate_report.report('lines64000') {Report.new.call('data_64000.txt')}
       generate_report.compare!
     end
   end

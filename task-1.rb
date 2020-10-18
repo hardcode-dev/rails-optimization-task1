@@ -34,10 +34,13 @@ class Report
   end
 
   def collect_stats_from_users(report, users_objects, &block)
+    # TODO: rewrite this method to be called once for user.
     users_objects.each do |user|
       user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
       report['usersStats'][user_key] ||= {}
-      report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+
+      new_info = block.call(user)
+      report['usersStats'][user_key] = report['usersStats'][user_key].merge(new_info)
     end
   end
 
@@ -239,7 +242,19 @@ class Report
 
   def report_session_dates(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+      # dates = user.sessions
+      #           .map {|s| s['date']}
+      #           .map {|d| Date.parse(d)}
+      #           .sort
+      #           .reverse
+      #           .map { |d| d.iso8601 }
+
+      # Looks like dates are already on format we want to be in report
+      # No need to parse it.
+      # Revise later if needed.
+      dates = user.sessions.map{|s| s['date']}.sort.reverse
+
+      { 'dates' => dates }
     end
   end
 

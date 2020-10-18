@@ -10,33 +10,33 @@ require_relative 'test_me'
 
 class Report
 
-  def call(file_name = 'data_64000.txt')
+  def call(file_name = 'data_256000.txt')
     work(file_name)
   end
 
   def parse_user(fields)
-    parsed_result = {
-        'id' => fields[1],
-        'first_name' => fields[2],
-        'last_name' => fields[3],
-        'age' => fields[4],
+    {
+        :id => fields[1],
+        :first_name => fields[2],
+        :last_name => fields[3],
+        :age => fields[4],
     }
   end
 
   def parse_session(fields)
-    parsed_result = {
-        'user_id' => fields[1],
-        'session_id' => fields[2],
-        'browser' => fields[3],
-        'time' => fields[4],
-        'date' => fields[5],
+    {
+        :user_id => fields[1],
+        :session_id => fields[2],
+        :browser => fields[3],
+        :time => fields[4],
+        :date => fields[5],
     }
   end
 
   # def collect_stats_from_users(report, users_objects, &block)
   #   # TODO: rewrite this method to be called once for user.
   #   users_objects.each do |user|
-  #     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+  #     user_key = "#{user.attributes[:first_name]}" + ' ' + "#{user.attributes[:last_name]}"
   #     report['usersStats'][user_key] ||= {}
   #
   #     new_info = block.call(user)
@@ -52,7 +52,7 @@ class Report
   def uniq_browsers_slow(sessions)
     result = []
     sessions.each do |session|
-      browser = session['browser']
+      browser = session[:browser]
       result += [browser] if result.all? { |b| b != browser }
     end
     result
@@ -83,11 +83,11 @@ class Report
         session_obj = parse_session(fields)
         sessions << session_obj
 
-        user_id = session_obj['user_id']
+        user_id = session_obj[:user_id]
         sessions_by_user[user_id] = [] unless sessions_by_user[user_id]
         sessions_by_user[user_id] << session_obj
 
-        browser = session_obj['browser']
+        browser = session_obj[:browser]
         uniq_browsers_dict[browser] = true
       end
     end
@@ -105,7 +105,7 @@ class Report
     users_arr.each do |user|
       attributes = user
 
-      user_id = user['id']
+      user_id = user[:id]
       user_sessions = sessions_by_user[user_id]
 
       user_object = User.new(attributes: attributes, sessions: user_sessions)
@@ -124,7 +124,7 @@ class Report
 
   def all_browsers_list(sessions)
     sessions
-      .map { |s| s['browser'] }
+      .map { |s| s[:browser] }
       .map { |b| b.upcase }
       .sort
       .uniq
@@ -243,8 +243,8 @@ class Report
     dates_arr = []
 
     sessions.each do |s|
-      time = s['time'].to_i
-      browser = s['browser'].upcase
+      time = s[:time].to_i
+      browser = s[:browser].upcase
 
       total_time += time
       longest_session = time if time > longest_session
@@ -262,21 +262,21 @@ class Report
         always_chrome = false unless bool_chrome
       end
 
-      dates_arr << s['date']
+      dates_arr << s[:date]
       browsers_arr << browser
     end
 
     # {
     #   'sessionsCount' => user.sessions.count
     #
-    #   { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
-    #   { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
+    #   { 'totalTime' => user.sessions.map {|s| s[:time]}.map {|t| t.to_i}.sum.to_s + ' min.' }
+    #   { 'longestSession' => user.sessions.map {|s| s[:time]}.map {|t| t.to_i}.max.to_s + ' min.' }
     #
-    #   { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
-    #   { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-    #   { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+    #   { 'browsers' => user.sessions.map {|s| s[:browser]}.map {|b| b.upcase}.sort.join(', ') }
+    #   { 'usedIE' => user.sessions.map{|s| s[:browser]}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
+    #   { 'alwaysUsedChrome' => user.sessions.map{|s| s[:browser]}.all? { |b| b.upcase =~ /CHROME/ } }
     #
-    #   { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
+    #   { 'dates' => user.sessions.map{|s| s[:date]}.sort.reverse }
     # }
 
     {
@@ -294,7 +294,7 @@ class Report
     users_stats = {}
 
     users_objects.each do |user|
-      user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+      user_key = "#{user.attributes[:first_name]}" + ' ' + "#{user.attributes[:last_name]}"
 
       # users_stats[user_key] ||= {}
 
@@ -313,38 +313,38 @@ class Report
 
   def report_user_time(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
+      { 'totalTime' => user.sessions.map {|s| s[:time]}.map {|t| t.to_i}.sum.to_s + ' min.' }
     end
   end
 
   def report_longest_session(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
+      { 'longestSession' => user.sessions.map {|s| s[:time]}.map {|t| t.to_i}.max.to_s + ' min.' }
     end
   end
 
   def report_user_browsers(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
+      { 'browsers' => user.sessions.map {|s| s[:browser]}.map {|b| b.upcase}.sort.join(', ') }
     end
   end
 
   def report_did_use_ie(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
+      { 'usedIE' => user.sessions.map{|s| s[:browser]}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
     end
   end
 
   def report_always_chrome(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+      { 'alwaysUsedChrome' => user.sessions.map{|s| s[:browser]}.all? { |b| b.upcase =~ /CHROME/ } }
     end
   end
 
   def report_session_dates(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
       # dates = user.sessions
-      #           .map {|s| s['date']}
+      #           .map {|s| s[:date]}
       #           .map {|d| Date.parse(d)}
       #           .sort
       #           .reverse
@@ -353,7 +353,7 @@ class Report
       # Looks like dates are already on format we want to be in report
       # No need to parse it.
       # Revise later if needed.
-      dates = user.sessions.map{|s| s['date']}.sort.reverse
+      dates = user.sessions.map{|s| s[:date]}.sort.reverse
 
       { 'dates' => dates }
     end

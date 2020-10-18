@@ -4,14 +4,6 @@ require 'ruby-prof'
 require_relative 'task-1'
 
 
-RubyProf.measure_mode = RubyProf::WALL_TIME
-
-result = RubyProf.profile do
-  work('data_small.txt', disable_gc: true)
-end
-printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open("ruby_prof_reports/flat.txt", "w+"))
-
 class Playground
   def call
     puts "### Playground start"
@@ -66,8 +58,8 @@ class Playground
 
   def simple_time_measurement
     time = Benchmark.realtime do
-      Report.new.call
-      # Report.new.call('data_large.txt')
+      # Report.new.call
+      Report.new.call('data_large.txt')
     end
 
     puts "Report finished in #{time.round(3)} seconds"

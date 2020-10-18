@@ -48,11 +48,25 @@ def work(file_name)
 
     users = []
     sessions = []
+    sessions_by_user = {}
 
     file_lines.each do |line|
+      # user,76,Jerome,Corene,46
+      # session,76,0,Chrome 23,42,2017-05-03
       cols = line.split(',')
-      users = users + [parse_user(line)] if cols[0] == 'user'
-      sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+      if cols[0] == 'user'
+        users = users + [parse_user(line)]
+      end
+
+      if cols[0] == 'session'
+        session_obj = parse_session(line)
+        sessions = sessions + [session_obj]
+
+        user_id = session_obj['user_id']
+        sessions_by_user[user_id] = [] unless sessions_by_user[user_id]
+        sessions_by_user[user_id] << session_obj
+      end
     end
 
     # Отчёт в json
@@ -98,7 +112,13 @@ def work(file_name)
 
     users.each do |user|
       attributes = user
-      user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+
+      # user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+      # user_sessions = sessions_by_user
+
+      user_id = user['id']
+      user_sessions = sessions_by_user[user_id]
+
       user_object = User.new(attributes: attributes, sessions: user_sessions)
       users_objects = users_objects + [user_object]
     end

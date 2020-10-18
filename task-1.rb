@@ -14,8 +14,7 @@ class Report
     work(file_name)
   end
 
-  def parse_user(user)
-    fields = user.split(',')
+  def parse_user(fields)
     parsed_result = {
         'id' => fields[1],
         'first_name' => fields[2],
@@ -24,8 +23,7 @@ class Report
     }
   end
 
-  def parse_session(session)
-    fields = session.split(',')
+  def parse_session(fields)
     parsed_result = {
         'user_id' => fields[1],
         'session_id' => fields[2],
@@ -71,15 +69,16 @@ class Report
     file_lines.each do |line|
       # user,76,Jerome,Corene,46
       # session,76,0,Chrome 23,42,2017-05-03
-      cols = line.split(',')
+      fields = line.split(',')
 
-      if cols[0] == 'user'
-        users = users + [parse_user(line)]
+      if fields[0] == 'user'
+        user_obj = parse_user(fields)
+        users << user_obj
       end
 
-      if cols[0] == 'session'
-        session_obj = parse_session(line)
-        sessions = sessions + [session_obj]
+      if fields[0] == 'session'
+        session_obj = parse_session(fields)
+        sessions << session_obj
 
         user_id = session_obj['user_id']
         sessions_by_user[user_id] = [] unless sessions_by_user[user_id]

@@ -6,7 +6,7 @@ require 'date'
 require 'benchmark/ips'
 
 require_relative 'user'
-require_relative 'test_me'
+# require_relative 'test_me'
 
 class Report
 

@@ -4,34 +4,14 @@ require 'json'
 require 'pry'
 require 'date'
 require 'benchmark/ips'
-require 'benchmark'
 
 require_relative 'user'
 # require_relative 'test_me'
 
 class Report
 
-  def call(file_name)
-    file_name = 'data_8000.txt' if file_name.nil?
-
-    time = Benchmark.realtime do
-      work(file_name)
-    end
-
-    puts "Report finished in #{time.round(3)} seconds"
-
-    # asymptomatic_stats
-
-  end
-
-  def asymptomatic_stats
-    Benchmark.ips do |generate_report|
-      generate_report.report('lines1000') {work('data_1000.txt')}
-      generate_report.report('lines2000') {work('data_2000.txt')}
-      generate_report.report('lines4000') {work('data_4000.txt')}
-      generate_report.report('lines8000') {work('data_8000.txt')}
-      generate_report.compare!
-    end
+  def call(file_name = 'data_8000.txt')
+    work(file_name)
   end
 
   def parse_user(user)
@@ -166,5 +146,6 @@ def work(file_name)
 
 end
 
-
-Report.new.call(nil)
+#
+#
+# Report.new.call(nil)

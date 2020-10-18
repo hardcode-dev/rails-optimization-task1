@@ -10,7 +10,7 @@ require_relative 'test_me'
 
 class Report
 
-  def call(file_name = 'data_8000.txt')
+  def call(file_name = 'data_64000.txt')
     work(file_name)
   end
 
@@ -177,31 +177,110 @@ class Report
     # users_objects = []
     users_objects = users_to_objects(users, sessions_by_user)
 
+    # report['usersStats'] = generate_report_old(nil, users_objects)
+    report['usersStats'] = generate_report_fast(users_objects)
+
+    # puts "### Completed, write to file"
+    File.write('result.json', "#{report.to_json}\n")
+  end
+
+
+
+  def generate_report_old(full_report, users_objects)
+    report = {}
     report['usersStats'] = {}
 
     # Собираем количество сессий по пользователям
     report_sessions_count(report, users_objects)
-
     # Собираем количество времени по пользователям
     report_user_time(report, users_objects)
-
     # Выбираем самую длинную сессию пользователя
     report_longest_session(report, users_objects)
-
     # Браузеры пользователя через запятую
     report_user_browsers(report, users_objects)
-
     # Хоть раз использовал IE?
     report_did_use_ie(report, users_objects)
-
     # Всегда использовал только Chrome?
     report_always_chrome(report, users_objects)
-
     # Даты сессий через запятую в обратном порядке в формате iso8601
     report_session_dates(report, users_objects)
 
-    # puts "### Completed, write to file"
-    File.write('result.json', "#{report.to_json}\n")
+    report['usersStats']
+  end
+
+  def generate_single_user_info(sessions)
+    sessions_count = sessions.count
+
+    total_time = 0
+    longest_session = 0
+
+    browsers_arr = []
+    used_ie = false
+    always_chrome = true
+
+    dates_arr = []
+
+    sessions.each do |s|
+      time = s['time'].to_i
+      browser = s['browser'].upcase
+
+      total_time += time
+      longest_session = time if time > longest_session
+
+      unless used_ie
+        bool_ie = browser.upcase =~ /INTERNET EXPLORER/
+        if bool_ie
+          used_ie = true
+          always_chrome = false
+        end
+      end
+
+      if always_chrome
+        bool_chrome = browser.upcase =~ /CHROME/
+        always_chrome = false unless bool_chrome
+      end
+
+      dates_arr << s['date']
+      browsers_arr << browser
+    end
+
+    # {
+    #   'sessionsCount' => user.sessions.count
+    #
+    #   { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
+    #   { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
+    #
+    #   { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
+    #   { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
+    #   { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+    #
+    #   { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
+    # }
+
+    {
+      'sessionsCount' => sessions_count,
+      'totalTime' => total_time.to_s + ' min.'.freeze,
+      'longestSession' => longest_session.to_s + ' min.'.freeze,
+      'browsers' => browsers_arr.sort.join(', '),
+      'usedIE' => used_ie,
+      'alwaysUsedChrome' => always_chrome,
+      'dates' => dates_arr.sort.reverse
+    }
+  end
+
+  def generate_report_fast(users_objects)
+    users_stats = {}
+
+    users_objects.each do |user|
+      user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+
+      # users_stats[user_key] ||= {}
+
+      user_info = generate_single_user_info(user.sessions)
+      users_stats[user_key] = user_info
+    end
+
+    users_stats
   end
 
   def report_sessions_count(report, users_objects)

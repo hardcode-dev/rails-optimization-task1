@@ -18,8 +18,8 @@ class Playground
 
     simple_time_measurement
     # ruby_prof_flat
-    ruby_prof_graph
-    ruby_prof_callstack
+    # ruby_prof_graph
+    # ruby_prof_callstack
     # asymptomatic_stats
   end
 

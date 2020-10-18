@@ -33,16 +33,16 @@ class Report
     }
   end
 
-  def collect_stats_from_users(report, users_objects, &block)
-    # TODO: rewrite this method to be called once for user.
-    users_objects.each do |user|
-      user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-      report['usersStats'][user_key] ||= {}
-
-      new_info = block.call(user)
-      report['usersStats'][user_key] = report['usersStats'][user_key].merge(new_info)
-    end
-  end
+  # def collect_stats_from_users(report, users_objects, &block)
+  #   # TODO: rewrite this method to be called once for user.
+  #   users_objects.each do |user|
+  #     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+  #     report['usersStats'][user_key] ||= {}
+  #
+  #     new_info = block.call(user)
+  #     report['usersStats'][user_key] = report['usersStats'][user_key].merge(new_info)
+  #   end
+  # end
 
   def uniq_browsers_fast(browsers_dict)
     result = browsers_dict.keys
@@ -98,17 +98,25 @@ class Report
 
   def users_to_objects(users_arr, sessions_by_user)
     result = []
+
+    counter = 0
+    chunk_size = 10000
+
     users_arr.each do |user|
       attributes = user
-
-      # user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-      # user_sessions = sessions_by_user
 
       user_id = user['id']
       user_sessions = sessions_by_user[user_id]
 
       user_object = User.new(attributes: attributes, sessions: user_sessions)
-      result = result + [user_object]
+      result << user_object
+      # result = result + [user_object] # this line is bad, mkay. Very slow.
+      #
+      # counter += 1
+      #
+      # if counter % chunk_size == 0
+      #   puts "#{counter} Objects created"
+      # end
     end
 
     result
@@ -132,6 +140,9 @@ class Report
   end
 
   def work(file_name)
+
+    with_logging = (file_name == 'data_large.txt')
+    puts " Start" if with_logging
     file_lines = file_lines_arr(file_name)
 
     users = []
@@ -139,8 +150,10 @@ class Report
     sessions_by_user = {}
     uniq_browsers_dict = {}
 
+    puts " collect_info_from_file" if with_logging
     users, sessions, sessions_by_user, uniq_browsers_dict = collect_info_from_file(file_lines)
 
+    puts " collect_info_from_file END" if with_logging
 
     # Отчёт в json
     #   - Сколько всего юзеров +
@@ -163,7 +176,10 @@ class Report
 
     # Подсчёт количества уникальных браузеров
     # uniqueBrowsers = uniq_browsers_slow(sessions)
+
+    puts " uniq_browsers_fast" if with_logging
     uniqueBrowsers = uniq_browsers_fast(uniq_browsers_dict)
+    puts " uniq_browsers_fast END" if with_logging
 
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
@@ -175,10 +191,16 @@ class Report
 
     # Статистика по пользователям
     # users_objects = []
+
+    puts " users_to_objects" if with_logging
     users_objects = users_to_objects(users, sessions_by_user)
+    puts " users_to_objects END" if with_logging
 
     # report['usersStats'] = generate_report_old(nil, users_objects)
+
+    puts " generate_report_fast" if with_logging
     report['usersStats'] = generate_report_fast(users_objects)
+    puts " generate_report_fast END" if with_logging
 
     # puts "### Completed, write to file"
     File.write('result.json', "#{report.to_json}\n")

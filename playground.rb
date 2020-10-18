@@ -67,6 +67,7 @@ class Playground
   def simple_time_measurement
     time = Benchmark.realtime do
       Report.new.call
+      # Report.new.call('data_large.txt')
     end
 
     puts "Report finished in #{time.round(3)} seconds"

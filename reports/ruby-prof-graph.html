@@ -1,0 +1,4253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style media="all" type="text/css">
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      background-color: #F5F7FB;
+      margin: 0;
+      padding: 0;
+      font-size: 16px;
+    }
+
+    table {
+      border-collapse: collapse;
+      /* border: 1px solid #E1E3E7; */
+      border: 1px solid #F3F9FE;
+      font-size: 14px;
+      line-height: normal;
+      width: 100%;
+    }
+
+    table:empty {
+      display: none;
+    }
+
+    th:first-child {
+      border-left: 0;
+    }
+
+    th {
+      text-align: center;
+      background: #F3F9FE;
+      padding: 1rem;
+      /* border-left: 1px solid #E1E3E7; */
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    tr.break td {
+      border: 0;
+      border-top: 1px solid #BDC3DD;
+      padding: 0;
+      margin: 0;
+    }
+
+    tr.method td {
+      font-weight: bold;
+    }
+
+    td {
+      padding: 0.5em;
+    }
+
+    td:first-child {
+      width: 190px;
+    }
+
+    tr > td > table {
+      box-shadow: 0px -2px 1px #F9FAFB, 0px 1px 1px #E4EEEE, 0px 1px 2px #EEF3F8;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    tr.break + tr > td.method_name {
+      font-weight: bold;
+    }
+
+    td {
+      /* I'm removing this border because I think it looks way cleaner without it but feel free to add it if you feel it's necessary */
+      /* border-left: 1px solid #E1E3E7; */
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .method_name {
+      text-align: left;
+    }
+
+    tfoot td {
+      text-align: left;
+    }
+
+    .report-header {
+      background-color: #0D2483;
+      color: white;
+      padding: 1.5rem 2rem;
+    }
+
+    .report-header > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .report-header h1 {
+      margin-bottom: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    h6 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .table-header {
+      padding: 3rem 0 1rem;
+    }
+
+    .table-wrapper {
+      margin: 1rem auto;
+      max-width: 1440px;
+      padding: 4rem 5rem;
+      background: white;
+      border-radius: 0.5rem;
+    }
+
+    .center {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .layout-right {
+      margin-left: auto;
+    }
+
+    .text-right {
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .logo {
+      width: 140px;
+      height: 30px;
+      opacity: 0.5;
+      background-repeat: no-repeat;
+      background-image: url("data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 190 41'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23fff%7D%3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M63.49 16.74c0-1.37-.91-2-2.26-2h-3.38v3.93h3.58c1.24.01 2.06-.56 2.06-1.93zM110.43 14.75h-3.6v5h3.6a2.32 2.32 0 0 0 2.5-2.49 2.34 2.34 0 0 0-2.5-2.51zM128.77 14.75h-3.53v4.94h3.53a2.28 2.28 0 0 0 2.47-2.45 2.3 2.3 0 0 0-2.47-2.49zM61.81 21.83h-4v4.32h3.91c1.44 0 2.45-.62 2.45-2.14s-.99-2.18-2.36-2.18zM21 14.75h-3.57v4.94H21a2.28 2.28 0 0 0 2.47-2.45A2.3 2.3 0 0 0 21 14.75z'/%3E%3Cpath class='cls-1' d='M184 .44H5.87A4.93 4.93 0 0 0 .94 5.37V35.5a4.94 4.94 0 0 0 4.93 4.94H184a4.94 4.94 0 0 0 4.94-4.94V5.37A4.94 4.94 0 0 0 184 .44zm-34.38 10.78c4.79 0 8.46 2.89 9.18 7.54h-3.86a5.48 5.48 0 0 0-10.68 0h-3.83c.71-4.65 4.36-7.54 9.19-7.54zM24 29.44L20.46 23h-3v6.46h-3.72v-18h7.68c3.41 0 5.78 2.07 5.78 5.76a5.34 5.34 0 0 1-2.88 5.14l3.82 7.06zm24.31-7.3c0 4.8-2.92 7.56-7.63 7.56S33 26.94 33 22.14V11.48h3.69v10.61c0 2.81 1.37 4.32 4 4.32s3.94-1.51 3.94-4.32V11.48h3.69zm13.92 7.3h-8v-18h7.52c3.24 0 5.59 1.61 5.59 5A4 4 0 0 1 65.51 20 4.22 4.22 0 0 1 68 24.21c0 3.43-2.4 5.23-5.81 5.23zm19.66-6.92v6.92h-3.7v-6.92l-6.81-11h4.29L80 18.85l4.34-7.37h4.32zm16-.5h-7.62v-3.26h7.59zm13 1h-4v6.39h-3.72v-18h7.77c3.41 0 5.79 2.09 5.79 5.79s-2.41 5.85-5.82 5.85zm20.86 6.39L128.26 23h-3v6.46h-3.72v-18h7.69c3.4 0 5.78 2.07 5.78 5.76a5.34 5.34 0 0 1-2.88 5.14l3.87 7.08zm17.85.26c-4.88 0-8.55-2.95-9.21-7.68h3.81A5.49 5.49 0 0 0 155 22h3.84c-.69 4.75-4.38 7.7-9.22 7.7zm18.4-.23h-3.72v-3.7H168zm6.36-7.54h-10.05v-3.26h10.08zm1.44-7.16h-11.49v-3.26h11.52z'/%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body>
+<div class="report-header">
+  <div class="center">
+    <div class="layout-left">
+      <h6>Profile Report</h6>
+      <h1>Wall_time</h1>
+    </div>
+    <div class="layout-right text-right">
+      <div class="timestamp">Thursday, April 15 at 10:53:07 PM (MSK)</div>
+      <div class="logo"></div>
+    </div>
+  </div>
+</div>
+<div class="table-wrapper">
+  <table>
+    <tr>
+      <th>Thread ID</th>
+      <th>Fiber ID</th>
+      <th>Total</th>
+    </tr>
+    
+      <tr>
+        <td>70109196656700</td>
+        <td><a href="#70109322078540">70109322078540</a></td>
+        <td>0.009824567008763552</td>
+      </tr>
+    
+  </table>
+
+  <!-- Methods Tables -->
+  
+    <h2><a name="70109322078540">Thread 70109196656700, Fiber: 70109322078540</a></h2>
+    <table>
+      <thead>
+      <tr>
+        <th>%Total</th>
+        <th>%Self</th>
+        <th>Total</th>
+        <th>Self</th>
+        <th>Wait</th>
+        <th>Child</th>
+        <th>Calls</th>
+        <th class="method_name">Name</th>
+        
+          <th>Allocations</th>
+        
+        <th>Line</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+
+        <!-- Parents -->
+        
+        <tr class="method">
+          <td>100.00%</td>
+          <td>0.29%</td>
+          <td>0.01</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.01</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="[global]__70109322078540">
+               [global]#
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb#16" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb:16">16</a></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="[global]__70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.01</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.01</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb#16" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb:16">16</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.01</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.01</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#[global]__70109322078540">[global]#</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb#16" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb:16">16</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>99.71%</td>
+          <td>0.35%</td>
+          <td>0.01</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.01</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="_Class__ParserOptimized__work_70109322078540">
+               &lt;Class::ParserOptimized&gt;#work
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                <a class="allocations" href="#_Class__ParserOptimized__work_70109322078540_allocations" %>5327</a>
+              
+            </td>
+          
+
+          <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#45" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:45">45</a></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__ParserOptimized__work_70109322078540_allocations" class="allocations" style="display: none">
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:48
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:49
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      2918 (116720 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:52
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      500 (20000 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:53
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      499 (19960 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:52
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      422 (16880 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:54
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      1 (232 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:72
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      422 (16880 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:91
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:92
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      [global]
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:92
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      1 (232 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:93
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:93
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      2 (80 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:94
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:97
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      1 (232 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:99
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      77 (3080 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:99
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      78 (3120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:99
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      156 (36192 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:104
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      User
+                    </td>
+                    <td>
+                      78 (3120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:104
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      156 (6240 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:105
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:103
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      1 (232 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:108
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      JSON::Ext::Generator::State
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      3 (120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      1 (232 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      File
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      [global]
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Thread::Mutex
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129
+                    </td>
+                  </tr>
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__collect_stats_from_users_70109322078540">&lt;Class::ParserOptimized&gt;#collect_stats_from_users</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#110" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:110">110</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>2/4</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#51" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:51">51</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>3/705</td>
+            <td class="method_name"><a href="#Array_map_70109322078540">Array#map</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#77" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:77">77</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__IO__write_70109322078540">&lt;Class::IO&gt;#write</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#129" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129">129</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__read_file_70109322078540">&lt;Class::ParserOptimized&gt;#read_file</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#51" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:51">51</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#Enumerable_group_by_70109322078540">Enumerable#group_by</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#99" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:99">99</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70109322078540">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#129" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129">129</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/157</td>
+            <td class="method_name"><a href="#Array_sort_70109322078540">Array#sort</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#88" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:88">88</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>2/2</td>
+            <td class="method_name"><a href="#Array_uniq_70109322078540">Array#uniq</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#77" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:77">77</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/79</td>
+            <td class="method_name"><a href="#Array_join_70109322078540">Array#join</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#88" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:88">88</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>3/81</td>
+            <td class="method_name"><a href="#Array_count_70109322078540">Array#count</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#74" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:74">74</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Module__GC__disable_70109322078540">&lt;Module::GC&gt;#disable</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#46" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:46">46</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/4</td>
+            <td class="method_name"><a href="#Enumerable_group_by_70109322078540">Enumerable#group_by</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>2/4</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#51" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:51">51</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/4</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__collect_stats_from_users_70109322078540">&lt;Class::ParserOptimized&gt;#collect_stats_from_users</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#33" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:33">33</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>87.72%</td>
+          <td>19.53%</td>
+          <td>0.01</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.01</td>
+          <td>4</td>
+          <td class="method_name">
+            <a name="Array_each_70109322078540">
+               Array#each
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_each_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>702/705</td>
+            <td class="method_name"><a href="#Array_map_70109322078540">Array#map</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>500/1001</td>
+            <td class="method_name"><a href="#String_split_70109322078540">String#split</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#52" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:52">52</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__parse_session_70109322078540">&lt;Class::ParserOptimized&gt;#parse_session</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#54" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:54">54</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>156/157</td>
+            <td class="method_name"><a href="#Array_sort_70109322078540">Array#sort</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_any__70109322078540">Array#any?</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_sum_70109322078540">Array#sum</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__parse_user_70109322078540">&lt;Class::ParserOptimized&gt;#parse_user</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#53" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:53">53</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_all__70109322078540">Array#all?</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Class_new_70109322078540">Class#new</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#104" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:104">104</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/79</td>
+            <td class="method_name"><a href="#Array_join_70109322078540">Array#join</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Hash_merge_70109322078540">Hash#merge</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>155/155</td>
+            <td class="method_name"><a href="#Integer_to_s_70109322078540">Integer#to_s</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_reverse_70109322078540">Array#reverse</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_max_70109322078540">Array#max</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/81</td>
+            <td class="method_name"><a href="#Array_count_70109322078540">Array#count</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#NilClass_to_s_70109322078540">NilClass#to_s</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#113" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:113">113</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#110" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:110">110</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>47.22%</td>
+          <td>0.03%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="_Class__ParserOptimized__collect_stats_from_users_70109322078540">
+               &lt;Class::ParserOptimized&gt;#collect_stats_from_users
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                <a class="allocations" href="#_Class__ParserOptimized__collect_stats_from_users_70109322078540_allocations" %>4951</a>
+              
+            </td>
+          
+
+          <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#32" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:32">32</a></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__ParserOptimized__collect_stats_from_users_70109322078540_allocations" class="allocations" style="display: none">
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      390 (15600 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:34
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      78 (18096 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:35
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      79 (3160 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:35
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Proc
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:36
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      156 (6240 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:115
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      234 (9360 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:117
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      156 (6240 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:117
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      648 (25920 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:119
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      250 (10000 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:119
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      [global]
+                    </td>
+                    <td>
+                      53 (2120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:119
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      78 (3120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:121
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      MatchData
+                    </td>
+                    <td>
+                      52 (2080 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:121
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      256 (10240 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:121
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      78 (3120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:123
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      406 (16240 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:125
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      844 (33760 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:125
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Date
+                    </td>
+                    <td>
+                      422 (16880 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:125
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      421 (97672 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:125
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      [global]
+                    </td>
+                    <td>
+                      53 (2120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:125
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      78 (18096 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:110
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      78 (18096 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:36
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      128 (5120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:123
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      MatchData
+                    </td>
+                    <td>
+                      11 (440 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:123
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129
+                    </td>
+                  </tr>
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/4</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#33" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:33">33</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>3/705</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#77" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:77">77</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>702/705</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>30.51%</td>
+          <td>15.93%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>705</td>
+          <td class="method_name">
+            <a name="Array_map_70109322078540">
+               Array#map
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_map_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#_Class__Date__strptime_70109322078540">&lt;Class::Date&gt;#strptime</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#125" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:125">125</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>844/1150</td>
+            <td class="method_name"><a href="#String_upcase_70109322078540">String#upcase</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#91" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:91">91</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#Date_iso8601_70109322078540">Date#iso8601</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#125" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:125">125</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/844</td>
+            <td class="method_name"><a href="#String_to_i_70109322078540">String#to_i</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#117" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:117">117</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/1001</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__parse_user_70109322078540">&lt;Class::ParserOptimized&gt;#parse_user</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#12" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:12">12</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1001</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__read_file_70109322078540">&lt;Class::ParserOptimized&gt;#read_file</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#42" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:42">42</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/1001</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__parse_session_70109322078540">&lt;Class::ParserOptimized&gt;#parse_session</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#22" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:22">22</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>500/1001</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>21.67%</td>
+          <td>21.67%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1001</td>
+          <td class="method_name">
+            <a name="String_split_70109322078540">
+               String#split
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="String_split_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>10.58%</td>
+          <td>4.94%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>422</td>
+          <td class="method_name">
+            <a name="_Class__ParserOptimized__parse_session_70109322078540">
+               &lt;Class::ParserOptimized&gt;#parse_session
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                <a class="allocations" href="#_Class__ParserOptimized__parse_session_70109322078540_allocations" %>2110</a>
+              
+            </td>
+          
+
+          <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#21" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:21">21</a></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__ParserOptimized__parse_session_70109322078540_allocations" class="allocations" style="display: none">
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      422 (16880 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:22
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      422 (97904 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:23
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      844 (33760 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:54
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      422 (16880 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:52
+                    </td>
+                  </tr>
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/1001</td>
+            <td class="method_name"><a href="#String_split_70109322078540">String#split</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#22" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:22">22</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#Array_map_70109322078540">Array#map</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>7.42%</td>
+          <td>6.79%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>422</td>
+          <td class="method_name">
+            <a name="_Class__Date__strptime_70109322078540">
+               &lt;Class::Date&gt;#strptime
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__Date__strptime_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#Integer_div_70109322078540">Integer#div</a></td>
+            
+              <td>-</td>
+            
+            <td>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/157</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#88" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:88">88</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>156/157</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>5.24%</td>
+          <td>3.89%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>157</td>
+          <td class="method_name">
+            <a name="Array_sort_70109322078540">
+               Array#sort
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_sort_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>855/855</td>
+            <td class="method_name"><a href="#Date_____70109322078540">Date#&lt;=&gt;</a></td>
+            
+              <td>-</td>
+            
+            <td>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>102/1150</td>
+            <td class="method_name"><a href="#Array_all__70109322078540">Array#all?</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>204/1150</td>
+            <td class="method_name"><a href="#Array_any__70109322078540">Array#any?</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>844/1150</td>
+            <td class="method_name"><a href="#Array_map_70109322078540">Array#map</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>4.88%</td>
+          <td>4.88%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1150</td>
+          <td class="method_name">
+            <a name="String_upcase_70109322078540">
+               String#upcase
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="String_upcase_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#Array_map_70109322078540">Array#map</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>3.11%</td>
+          <td>3.11%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>422</td>
+          <td class="method_name">
+            <a name="Date_iso8601_70109322078540">
+               Date#iso8601
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Date_iso8601_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>3.03%</td>
+          <td>2.06%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="Array_any__70109322078540">
+               Array#any?
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_any__70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>204/1150</td>
+            <td class="method_name"><a href="#String_upcase_70109322078540">String#upcase</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#121" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:121">121</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>2.50%</td>
+          <td>1.77%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="Array_sum_70109322078540">
+               Array#sum
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_sum_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/844</td>
+            <td class="method_name"><a href="#String_to_i_70109322078540">String#to_i</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#115" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:115">115</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#129" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129">129</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>2.43%</td>
+          <td>2.43%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="_Class__IO__write_70109322078540">
+               &lt;Class::IO&gt;#write
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__IO__write_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#51" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:51">51</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>2.05%</td>
+          <td>0.04%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="_Class__ParserOptimized__read_file_70109322078540">
+               &lt;Class::ParserOptimized&gt;#read_file
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                <a class="allocations" href="#_Class__ParserOptimized__read_file_70109322078540_allocations" %>1</a>
+              
+            </td>
+          
+
+          <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#40" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:40">40</a></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__ParserOptimized__read_file_70109322078540_allocations" class="allocations" style="display: none">
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:42
+                    </td>
+                  </tr>
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1001</td>
+            <td class="method_name"><a href="#String_split_70109322078540">String#split</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#42" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:42">42</a>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__IO__read_70109322078540">&lt;Class::IO&gt;#read</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#42" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:42">42</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>1.93%</td>
+          <td>0.96%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="_Class__ParserOptimized__parse_user_70109322078540">
+               &lt;Class::ParserOptimized&gt;#parse_user
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                <a class="allocations" href="#_Class__ParserOptimized__parse_user_70109322078540_allocations" %>471</a>
+              
+            </td>
+          
+
+          <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#11" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:11">11</a></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__ParserOptimized__parse_user_70109322078540_allocations" class="allocations" style="display: none">
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      78 (18096 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:13
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      156 (6240 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:53
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      78 (3120 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:54
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      77 (3080 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:52
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      String
+                    </td>
+                    <td>
+                      77 (3080 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:12
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      2 (80 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:77
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Hash
+                    </td>
+                    <td>
+                      1 (232 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:77
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:90
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td>
+                      Array
+                    </td>
+                    <td>
+                      1 (40 Bytes)
+                    </td>
+                    <td>
+                      /Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:91
+                    </td>
+                  </tr>
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/1001</td>
+            <td class="method_name"><a href="#String_split_70109322078540">String#split</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#12" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:12">12</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#99" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:99">99</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>1.77%</td>
+          <td>0.04%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="Enumerable_group_by_70109322078540">
+               Enumerable#group_by
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Enumerable_group_by_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/4</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/844</td>
+            <td class="method_name"><a href="#Array_map_70109322078540">Array#map</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/844</td>
+            <td class="method_name"><a href="#Array_sum_70109322078540">Array#sum</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>1.39%</td>
+          <td>1.39%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>844</td>
+          <td class="method_name">
+            <a name="String_to_i_70109322078540">
+               String#to_i
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="String_to_i_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>855/855</td>
+            <td class="method_name"><a href="#Array_sort_70109322078540">Array#sort</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>1.35%</td>
+          <td>1.35%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>855</td>
+          <td class="method_name">
+            <a name="Date_____70109322078540">
+               Date#&lt;=&gt;
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Date_____70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>1.32%</td>
+          <td>0.80%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="Array_all__70109322078540">
+               Array#all?
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_all__70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>102/1150</td>
+            <td class="method_name"><a href="#String_upcase_70109322078540">String#upcase</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#123" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:123">123</a>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>1.27%</td>
+          <td>0.94%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="Class_new_70109322078540">
+               Class#new
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Class_new_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#User_initialize_70109322078540">User#initialize</a></td>
+            
+              <td>-</td>
+            
+            <td>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#129" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:129">129</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>1.26%</td>
+          <td>1.19%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70109322078540">
+               JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#Kernel_dup_70109322078540">Kernel#dup</a></td>
+            
+              <td>-</td>
+            
+            <td>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/79</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#88" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:88">88</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/79</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.94%</td>
+          <td>0.94%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>79</td>
+          <td class="method_name">
+            <a name="Array_join_70109322078540">
+               Array#join
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_join_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__read_file_70109322078540">&lt;Class::ParserOptimized&gt;#read_file</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#42" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:42">42</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.80%</td>
+          <td>0.80%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="_Class__IO__read_70109322078540">
+               &lt;Class::IO&gt;#read
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Class__IO__read_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.79%</td>
+          <td>0.79%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="Hash_merge_70109322078540">
+               Hash#merge
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Hash_merge_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>155/155</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.71%</td>
+          <td>0.71%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>155</td>
+          <td class="method_name">
+            <a name="Integer_to_s_70109322078540">
+               Integer#to_s
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Integer_to_s_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>422/422</td>
+            <td class="method_name"><a href="#_Class__Date__strptime_70109322078540">&lt;Class::Date&gt;#strptime</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.62%</td>
+          <td>0.62%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>422</td>
+          <td class="method_name">
+            <a name="Integer_div_70109322078540">
+               Integer#div
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Integer_div_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>2/2</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#77" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:77">77</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.59%</td>
+          <td>0.59%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>2</td>
+          <td class="method_name">
+            <a name="Array_uniq_70109322078540">
+               Array#uniq
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_uniq_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.38%</td>
+          <td>0.38%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="Array_reverse_70109322078540">
+               Array#reverse
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_reverse_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Class_new_70109322078540">Class#new</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.33%</td>
+          <td>0.33%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="User_initialize_70109322078540">
+               User#initialize
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/user.rb#4" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/user.rb:4">4</a></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="User_initialize_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/78</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.18%</td>
+          <td>0.18%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>78</td>
+          <td class="method_name">
+            <a name="Array_max_70109322078540">
+               Array#max
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_max_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>3/81</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#74" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:74">74</a></td>
+          </tr>
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>78/81</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.16%</td>
+          <td>0.16%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>81</td>
+          <td class="method_name">
+            <a name="Array_count_70109322078540">
+               Array#count
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Array_count_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#JSON__Ext__Generator__GeneratorMethods__Hash_to_json_70109322078540">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.07%</td>
+          <td>0.04%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="Kernel_dup_70109322078540">
+               Kernel#dup
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Kernel_dup_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#Kernel_initialize_dup_70109322078540">Kernel#initialize_dup</a></td>
+            
+              <td>-</td>
+            
+            <td>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#Kernel_dup_70109322078540">Kernel#dup</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.03%</td>
+          <td>0.02%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="Kernel_initialize_dup_70109322078540">
+               Kernel#initialize_dup
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="Kernel_initialize_dup_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#JSON__Ext__Generator__State_initialize_copy_70109322078540">JSON::Ext::Generator::State#initialize_copy</a></td>
+            
+              <td>-</td>
+            
+            <td>
+          </tr>
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#Array_each_70109322078540">Array#each</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.03%</td>
+          <td>0.03%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="NilClass_to_s_70109322078540">
+               NilClass#to_s
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="NilClass_to_s_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#_Class__ParserOptimized__work_70109322078540">&lt;Class::ParserOptimized&gt;#work</a></td>
+            
+              <td>-</td>
+            
+            <td><a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#46" title="/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb:46">46</a></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.02%</td>
+          <td>0.02%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="_Module__GC__disable_70109322078540">
+               &lt;Module::GC&gt;#disable
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="_Module__GC__disable_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+
+        <!-- Parents -->
+        
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>1/1</td>
+            <td class="method_name"><a href="#Kernel_initialize_dup_70109322078540">Kernel#initialize_dup</a></td>
+            
+              <td>-</td>
+            
+            <td></td>
+          </tr>
+        
+        <tr class="method">
+          <td>0.02%</td>
+          <td>0.02%</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>1</td>
+          <td class="method_name">
+            <a name="JSON__Ext__Generator__State_initialize_copy_70109322078540">
+               JSON::Ext::Generator::State#initialize_copy
+            </a>
+          </td>
+
+          
+            <td>
+              
+              
+                0
+              
+            </td>
+          
+
+          <td></td>
+        </tr>
+
+        
+          <tr>
+            <td colspan="10">
+              <table id="JSON__Ext__Generator__State_initialize_copy_70109322078540_allocations" class="allocations" style="display: none">
+                
+              </table>
+
+            </td>
+          </tr>
+        
+
+        <!-- Children -->
+        
+
+        <!-- Create divider row -->
+        <tr class="break">
+          <td colspan="10"></td>
+        </tr>
+      
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="9">* indicates recursively called methods</td>
+      </tr>
+      </tfoot>
+    </table>
+  
+</div>
+
+<script type="application/javascript">
+  function toggleAllocations(element)
+  {
+    if (element.style.display == 'none')
+      element.style.display = 'block'
+    else
+      element.style.display = 'none'
+  }
+
+  function onClick(event)
+  {
+    if (event.target.tagName == 'A' && event.target.classList.contains('allocations'))
+    {
+      var url = new URL(event.target.href)
+      var element = document.querySelector(url.hash)
+      toggleAllocations(element)
+      event.preventDefault()
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', function(event)
+  {
+    document.addEventListener('click', onClick)
+  })
+
+</script>
+</body>
+</html>

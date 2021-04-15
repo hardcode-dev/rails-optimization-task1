@@ -8,9 +8,8 @@ require_relative 'user'
 
 class ParserOptimized
   class << ParserOptimized
-    def parse_user(user)
-      fields = user.split(',')
-      parsed_result = {
+    def parse_user(fields)
+      {
         'id' => fields[1],
         'first_name' => fields[2],
         'last_name' => fields[3],
@@ -18,9 +17,8 @@ class ParserOptimized
       }
     end
 
-    def parse_session(session)
-      fields = session.split(',')
-      parsed_result = {
+    def parse_session(fields)
+      {
         'user_id' => fields[1],
         'session_id' => fields[2],
         'browser' => fields[3],
@@ -37,21 +35,16 @@ class ParserOptimized
       end
     end
 
-    def read_file(filename)
-      # File.open(filename).readlines.map(&:chomp)
-      File.read(filename).split("\n")
-    end
-
     def work(filename = 'data_large.txt', gc_disabled: false)
       GC.disable if gc_disabled
 
       users = []
       sessions = []
 
-      read_file(filename).each do |line|
+      File.read(filename).split("\n") do |line|
         cols = line.split(',')
-        users = users + [parse_user(line)] if cols[0] == 'user'
-        sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+        users = users + [parse_user(cols)] if cols[0] == 'user'
+        sessions = sessions + [parse_session(cols)] if cols[0] == 'session'
       end
 
       # Отчёт в json

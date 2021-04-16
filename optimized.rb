@@ -8,6 +8,12 @@ require_relative 'user'
 
 class ParserOptimized
   class << ParserOptimized
+    DATES_CACHE = {}
+
+    def parse_date(date)
+      DATES_CACHE[date] ||= Date.strptime(date, '%Y-%m-%d').iso8601
+    end
+
     def parse_user(fields)
       {
         'id' => fields[1],
@@ -22,8 +28,8 @@ class ParserOptimized
         'user_id' => fields[1],
         'session_id' => fields[2],
         'browser' => fields[3],
-        'time' => fields[4],
-        'date' => fields[5],
+        'time' => fields[4].to_i,
+        'date' => parse_date(fields[5]),
       }
     end
 
@@ -64,14 +70,14 @@ class ParserOptimized
 
       report = {}
 
-      report[:totalUsers] = users.count
+      report[:totalUsers] = users.length
 
       # Подсчёт количества уникальных браузеров
       uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
 
-      report['uniqueBrowsersCount'] = uniqueBrowsers.count
+      report['uniqueBrowsersCount'] = uniqueBrowsers.length
 
-      report['totalSessions'] = sessions.count
+      report['totalSessions'] = sessions.length
 
       report['allBrowsers'] =
         sessions
@@ -96,10 +102,10 @@ class ParserOptimized
 
       collect_stats_from_users(report, users_objects) do |user|
         user_browsers = user.sessions.map { |s| s['browser'].upcase }
-        session_times = user.sessions.map { |s| s['time'].to_i }
+        session_times = user.sessions.map { |s| s['time'] }
         {
           # Собираем количество сессий по пользователям
-          'sessionsCount' => user.sessions.count,
+          'sessionsCount' => user.sessions.length,
           # Собираем количество времени по пользователям
           'totalTime' => session_times.sum.to_s + ' min.',
           # Выбираем самую длинную сессию пользователя
@@ -111,7 +117,7 @@ class ParserOptimized
           # Всегда использовал только Chrome?
           'alwaysUsedChrome' => user_browsers.all? { |b| b.start_with? 'CHROME' },
           # Даты сессий через запятую в обратном порядке в формате iso8601
-          'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.strptime(d, '%Y-%m-%d') }.sort.reverse.map { |d| d.iso8601 }
+          'dates' => user.sessions.map {|s| s['date']}.sort.reverse
         }
       end
 

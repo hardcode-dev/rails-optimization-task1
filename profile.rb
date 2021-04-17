@@ -24,16 +24,24 @@ TIMES = 100
 #     puts time.to_s
 #   # end
 # end
+#
+time = Benchmark.realtime do
+  ParserOptimized.work('data_large.txt', gc_disabled: true)
+end
+
+puts time.to_s
+
+return
 
 Benchmark.bmbm(10) do |b|
-  b.report("work") { TIMES.times { Parser.work('data/data_500.txt', gc_disabled: true) } }
-  b.report("optimized") { TIMES.times { ParserOptimized.work('data/data_500.txt', gc_disabled: true) } }
+  b.report("work") { Parser.work('data/data_10000.txt', gc_disabled: true) }
+  b.report("optimized") { ParserOptimized.work('data/data_10000.txt', gc_disabled: true) }
 end
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile(track_allocations: true) do
-  ParserOptimized.work('data/data_1000.txt', gc_disabled: true)
+  ParserOptimized.work('data/data_10000.txt', gc_disabled: true)
 end
 
 printer = RubyProf::CallStackPrinter.new(result)

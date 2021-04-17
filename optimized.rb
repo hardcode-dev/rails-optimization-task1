@@ -46,11 +46,16 @@ class ParserOptimized
 
       users = []
       sessions = []
+      unique_browsers = {}
 
       File.foreach(filename) do |line|
         cols = line.split(',')
-        users = users + [parse_user(cols)] if cols[0] == 'user'
-        sessions = sessions + [parse_session(cols)] if cols[0] == 'session'
+        users << parse_user(cols) if cols[0] == 'user'
+        if cols[0] == 'session'
+          session = parse_session(cols)
+          sessions << session
+          unique_browsers[session['browser']] = 1
+        end
       end
 
       # Отчёт в json
@@ -72,10 +77,10 @@ class ParserOptimized
 
       report[:totalUsers] = users.length
 
-      # Подсчёт количества уникальных браузеров
-      uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
+      # # Подсчёт количества уникальных браузеров
+      # uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
 
-      report['uniqueBrowsersCount'] = uniqueBrowsers.length
+      report['uniqueBrowsersCount'] = unique_browsers.keys.length
 
       report['totalSessions'] = sessions.length
 
@@ -95,7 +100,7 @@ class ParserOptimized
         attributes = user
         user_sessions = sessions_by_user[user['id']] || []
         user_object = User.new(attributes: attributes, sessions: user_sessions)
-        users_objects = users_objects + [user_object]
+        users_objects << user_object
       end
 
       report['usersStats'] = {}

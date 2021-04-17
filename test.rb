@@ -1,4 +1,5 @@
 require_relative 'task-1.rb'
+require 'minitest/autorun'
 
 class TestMe < Minitest::Test
   def setup

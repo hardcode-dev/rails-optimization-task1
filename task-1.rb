@@ -5,7 +5,6 @@
 require 'json'
 require 'pry'
 require 'date'
-require 'minitest/autorun'
 
 class User
   attr_reader :attributes, :sessions
@@ -98,10 +97,17 @@ def work(file_name)
   # Статистика по пользователям
   users_objects = []
 
+  users_sessions = []
+  sessions.each do |session|
+    id = session['user_id'].to_i
+    users_sessions[id] = users_sessions[id] || []
+    users_sessions[id].push(session)
+  end
+
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    #user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_object = User.new(attributes: attributes, sessions: users_sessions[user['id'].to_i])
     users_objects += [user_object]
   end
 

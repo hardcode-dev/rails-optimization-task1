@@ -19,16 +19,17 @@ printer = RubyProf::CallStackPrinter.new(result)
 printer.print(File.open('ruby_prof_reports_callstack.html', 'w+'))
 puts "Finish"
 
-# Benchmark.ips do |x|
-#   x.config(
-#     stats: :bootstrap,
-#     confidence: 95
-#   )
-#
-#   x.report("parse sessions") do
-#     work('data1000.txt')
-#   end
-# end
+GC.enable
+Benchmark.ips do |x|
+  x.config(
+    stats: :bootstrap,
+    confidence: 95
+  )
+
+  x.report("parse sessions") do
+    work('data1000.txt')
+  end
+end
 
 # time = Benchmark.realtime do
 #   work('data1000.txt')

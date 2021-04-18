@@ -38,7 +38,7 @@ def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
     user_key = "#{user.attributes[:first_name]} #{user.attributes[:last_name]}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key].merge!(block.call(user))
   end
 end
 
@@ -93,10 +93,9 @@ def work(file_name)
 
   report[:allBrowsers] =
     sessions
-    .map { |s| s[:browser] }
-    .map(&:upcase)
-    .sort
+    .map { |s| s[:browser].upcase }
     .uniq
+    .sort
     .join(',')
 
   # Статистика по пользователям
@@ -105,7 +104,7 @@ def work(file_name)
   users_sessions = []
   sessions.each do |session|
     id = session[:user_id].to_i
-    users_sessions[id] = users_sessions[id] || []
+    users_sessions[id] ||= []
     users_sessions[id].push(session)
   end
 
@@ -117,13 +116,21 @@ def work(file_name)
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
+    sessions_time_to_i = []
+    sessions_browser = []
+    sessions_dates = []
+    user.sessions.each do |s|
+      sessions_time_to_i << s[:time].to_i
+      sessions_browser << s[:browser].upcase
+      sessions_dates << s[:date]
+    end
     { 'sessionsCount' => user.sessions.count,
-      'totalTime' => user.sessions.map { |s| s[:time].to_i }.sum.to_s + ' min.',
-      'longestSession' => user.sessions.map { |s| s[:time].to_i }.max.to_s + ' min.',
-      'browsers' => user.sessions.map { |s| s[:browser].upcase }.sort.join(', '),
-      'usedIE' => user.sessions.map { |s| s[:browser] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user.sessions.map { |s| s[:browser] }.all? { |b| b.upcase =~ /CHROME/ },
-      'dates' => user.sessions.map { |s| Date.parse(s[:date]) }.sort.reverse.map(&:iso8601) }
+      'totalTime' => sessions_time_to_i.sum.to_s + ' min.',
+      'longestSession' => sessions_time_to_i.max.to_s + ' min.',
+      'browsers' => sessions_browser.sort.join(', '),
+      'usedIE' => sessions_browser.any? { |b| b =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => sessions_browser.all? { |b| b =~ /CHROME/ },
+      'dates' => sessions_dates.sort.reverse  }
   end
 
   File.write('result.json', "#{report.to_json}\n")

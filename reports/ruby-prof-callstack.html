@@ -662,7 +662,7 @@
   <body>
     <div style="display: inline-block;">
       <div id="titlebar">
-        Call tree for application <strong>/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb </strong><br/> Generated on 2021-04-17 12:55:38 +0300
+        Call tree for application <strong>/Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb </strong><br/> Generated on 2021-04-18 09:26:24 +0300
         with options {}<br/>
       </div>
       <div id="commands">
@@ -692,114 +692,112 @@
       
         
         <div class="thread">
-          <span>Thread: 70112665346140, Fiber: 70112746231120 (100.00% ~ 0.11846461100503802)</span>
+          <span>Thread: 70171398185020, Fiber: 70171482701400 (100.00% ~ 1.2650541189941578)</span>
           <ul name="thread">
             
             <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>100.00% (100.00%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb#39">[global]#</a> [1 calls, 1 total]</span>
+<span>100.00% (100.00%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/profile.rb#43">[global]#</a> [1 calls, 1 total]</span>
 <ul>
 <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>99.98% (99.98%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#44">&lt;Class::ParserOptimized&gt;#work</a> [1 calls, 1 total]</span>
+<span>100.00% (100.00%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#43">&lt;Class::ParserOptimized&gt;#work</a> [1 calls, 1 total]</span>
 <ul>
-<li class="color4" style="display:block">
+<li class="color6" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>49.72% (49.74%) &lt;Class::IO&gt;#foreach [1 calls, 1 total]</span>
+<span>63.27% (63.27%) &lt;Class::IO&gt;#foreach [1 calls, 1 total]</span>
 <ul>
 <li class="color1" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>14.87% (29.91%) String#split [10000 calls, 10000 total]</span>
+<span>16.75% (26.47%) String#split [100000 calls, 100000 total]</span>
 </li>
 <li class="color1" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>12.58% (25.31%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#26">&lt;Class::ParserOptimized&gt;#parse_session</a> [8464 calls, 8464 total]</span>
+<span>13.80% (21.81%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#25">&lt;Class::ParserOptimized&gt;#parse_session</a> [84569 calls, 84569 total]</span>
 <ul>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>4.49% (35.69%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#13">&lt;Class::ParserOptimized&gt;#parse_date</a> [8464 calls, 8464 total]</span>
+<span>3.64% (26.35%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#13">&lt;Class::ParserOptimized&gt;#parse_date</a> [84569 calls, 84569 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.54% (12.27%) String#to_i [8464 calls, 8464 total]</span>
+<span>2.04% (14.81%) String#upcase [84569 calls, 169138 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.23% (8.93%) String#to_i [84569 calls, 84569 total]</span>
 </li>
 </ul>
 </li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>2.12% (3.35%) String#upcase [84569 calls, 169138 total]</span>
+</li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.89% (1.78%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#17">&lt;Class::ParserOptimized&gt;#parse_user</a> [1536 calls, 1536 total]</span>
+<span>0.75% (1.19%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#17">&lt;Class::ParserOptimized&gt;#parse_user</a> [15431 calls, 15431 total]</span>
 </li>
 </ul>
 </li>
 <li class="color3" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>34.46% (34.47%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#36">&lt;Class::ParserOptimized&gt;#collect_stats_from_users</a> [1 calls, 1 total]</span>
+<span>31.01% (31.01%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/optimized.rb#35">&lt;Class::ParserOptimized&gt;#collect_stats_from_users</a> [1 calls, 1 total]</span>
 <ul>
 <li class="color3" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>34.45% (99.98%) Array#each [1 calls, 3 total]</span>
+<span>31.00% (100.00%) Array#each [1 calls, 2 total]</span>
 <ul>
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>9.45% (27.42%) Array#map [4608 calls, 4609 total]</span>
-<ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.90% (20.06%) String#upcase [8464 calls, 16928 total]</span>
+<span>5.97% (19.24%) Array#map [46293 calls, 46293 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>4.23% (13.63%) Array#any? [15431 calls, 15431 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.55% (13.10%) String#start_with? [44327 calls, 64115 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>4.23% (12.28%) Array#sort [3072 calls, 3073 total]</span>
+<span>4.11% (13.25%) Array#sort [30862 calls, 30863 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>3.01% (8.74%) Array#any? [1536 calls, 1536 total]</span>
+<span>2.98% (9.62%) Integer#to_s [30862 calls, 30862 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.42% (4.59%) Array#join [15431 calls, 15432 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.32% (4.25%) Array#all? [15431 calls, 15431 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.61% (20.41%) String#start_with? [4492 calls, 6471 total]</span>
+<span>0.25% (18.98%) String#start_with? [19788 calls, 64115 total]</span>
 </li>
 </ul>
 </li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.67% (4.85%) Array#join [1536 calls, 1537 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.43% (4.14%) Array#all? [1536 calls, 1536 total]</span>
-<ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.25% (17.55%) String#start_with? [1979 calls, 6471 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.30% (3.77%) Hash#merge [1536 calls, 1536 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.28% (3.73%) Integer#to_s [3072 calls, 3072 total]</span>
+<span>0.71% (2.29%) Hash#merge! [15431 calls, 15431 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.70% (2.03%) Array#reverse [1536 calls, 1536 total]</span>
+<span>0.56% (1.81%) Array#reverse [15431 calls, 15431 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.37% (1.08%) String#to_s [3072 calls, 3072 total]</span>
+<span>0.26% (0.82%) Array#max [15431 calls, 15431 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.28% (0.82%) Array#max [1536 calls, 1536 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.27% (0.79%) Array#sum [1536 calls, 1536 total]</span>
+<span>0.25% (0.79%) Array#sum [15431 calls, 15431 total]</span>
 </li>
 </ul>
 </li>
@@ -807,55 +805,29 @@
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>5.22% (5.22%) Array#map [1 calls, 4609 total]</span>
+<span>2.98% (2.98%) Enumerable#group_by [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.26% (43.36%) String#upcase [8464 calls, 16928 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>3.48% (3.48%) Array#each [1 calls, 3 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.83% (52.51%) Class#new [1536 calls, 1536 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.50% (27.34%) <a href="file:///Users/c_project/projects/rails-optimization-course/rails-optimization-task1/user.rb#4">User#initialize</a> [1536 calls, 1536 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>2.77% (2.77%) Enumerable#group_by [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>2.77% (99.81%) Array#each [1 calls, 3 total]</span>
+<span>2.98% (99.98%) Array#each [1 calls, 2 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.08% (2.08%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
+<span>2.42% (2.42%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.01% (0.46%) Kernel#dup [1 calls, 1 total]</span>
+<span>0.00% (0.03%) Kernel#dup [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (42.94%) Kernel#initialize_dup [1 calls, 1 total]</span>
+<span>0.00% (37.23%) Kernel#initialize_dup [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (62.84%) JSON::Ext::Generator::State#initialize_copy [1 calls, 1 total]</span>
+<span>0.00% (47.45%) JSON::Ext::Generator::State#initialize_copy [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>
@@ -863,29 +835,21 @@
 </li>
 </ul>
 </li>
-<li class="color01" style="display:block">
+<li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>1.27% (1.27%) Array#sort [1 calls, 3073 total]</span>
+<span>0.11% (0.11%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.52% (0.52%) Array#uniq [1 calls, 1 total]</span>
+<span>0.00% (0.00%) Array#sort [1 calls, 30863 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.35% (0.35%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
+<span>0.00% (0.00%) Array#join [1 calls, 15432 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.02% (0.02%) Array#join [1 calls, 1537 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Hash#keys [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) &lt;Module::GC&gt;#disable [1 calls, 1 total]</span>
+<span>0.00% (0.00%) Hash#keys [2 calls, 2 total]</span>
 </li>
 </ul>
 </li>

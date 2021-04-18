@@ -5,6 +5,7 @@ require 'pry'
 require 'date'
 require 'benchmark'
 require_relative 'user'
+
 class Parser
   class << Parser
     def parse_user(user)
@@ -37,13 +38,10 @@ class Parser
     end
 
     def read_file(filename)
-      # File.open(filename).readlines.map(&:chomp)
       File.read(filename).split("\n")
     end
 
-    def work(filename = 'data_large.txt', gc_disabled: false)
-      GC.disable if gc_disabled
-
+    def work(filename = 'data_large.txt')
       users = []
       sessions = []
 

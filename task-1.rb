@@ -46,7 +46,7 @@ def work(from_file, to_file)
   file_lines = File.read(from_file).split("\n")
 
   users = []
-  sessions = {uniqueBrowsers: [], totalSessions: 0}
+  sessions = {uniqueBrowsers: {}, totalSessions: 0}
 
   file_lines.each do |line|
     cols = line.split(',')
@@ -59,7 +59,7 @@ def work(from_file, to_file)
 
       sessions[user_id] ||= []
       sessions[user_id] << session
-      sessions[:uniqueBrowsers] += [browser] if sessions[:uniqueBrowsers].all? { |b| b != browser }
+      sessions[:uniqueBrowsers][browser] ||= true
       sessions[:totalSessions] += 1
     end
   end
@@ -84,12 +84,13 @@ def work(from_file, to_file)
   report[:totalUsers] = users.count
   # Подсчёт количества уникальных браузеров
 
-  report['uniqueBrowsersCount'] = sessions[:uniqueBrowsers].count
+  report['uniqueBrowsersCount'] = sessions[:uniqueBrowsers].keys.count
 
   report['totalSessions'] = sessions[:totalSessions]
 
   report['allBrowsers'] =
     sessions[:uniqueBrowsers]
+      .keys
       .sort
       .map { |b| b.upcase }
       .join(',')

@@ -28,7 +28,7 @@ RSpec.describe 'Task1' do
     it 'works faster than 100 ips' do
       expect do
         work(filename)
-      end.to perform_at_least(140).within(measurement_time_seconds).warmup(warmup_seconds).ips
+      end.to perform_at_least(190).within(measurement_time_seconds).warmup(warmup_seconds).ips
     end
   end
 end

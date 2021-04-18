@@ -46,6 +46,7 @@ USER = 'user'
 SESSION = 'session'
 
 def work(file_name)
+
   file_lines = File.read(file_name).split("\n")
 
   users = []
@@ -80,33 +81,24 @@ def work(file_name)
 
   report[:totalUsers] = users.count
 
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session[:browser]
-    uniqueBrowsers << browser unless uniqueBrowsers.include? browser
-  end
-
-  report[:uniqueBrowsersCount] = uniqueBrowsers.count
-
-  report[:totalSessions] = sessions.count
-
-  report[:allBrowsers] =
-    sessions
-    .map { |s| s[:browser].upcase }
-    .uniq
-    .sort
-    .join(',')
-
-  # Статистика по пользователям
+  # Статистика по пользователям и браузерам
   users_objects = []
 
+  sessionsBrowsers = []
   users_sessions = []
   sessions.each do |session|
     id = session[:user_id].to_i
     users_sessions[id] ||= []
-    users_sessions[id].push(session)
+    users_sessions[id] << session
+
+    sessionsBrowsers << session[:browser].upcase
   end
+
+  # Подсчёт количества уникальных браузеров
+  uniqueBrowsers = sessionsBrowsers.uniq
+  report[:uniqueBrowsersCount] = uniqueBrowsers.count
+  report[:totalSessions] = sessions.count
+  report[:allBrowsers] = uniqueBrowsers.sort.join(',')
 
   users.each do |user|
     users_objects.push(User.new(attributes: user, sessions: users_sessions[user[:id].to_i]))

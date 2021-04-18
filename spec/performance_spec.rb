@@ -27,7 +27,7 @@ RSpec.describe 'Performance' do
   it '2000.txt works under 15 ms' do
     expect {
       work('samples/2000.txt')
-    }.to perform_under(125).ms.warmup(2).times.sample(10).times
+    }.to perform_under(150).ms.warmup(2).times.sample(10).times
   end
 
   it '4000.txt works under 15 ms' do

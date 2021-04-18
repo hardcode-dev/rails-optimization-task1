@@ -12,34 +12,34 @@ RSpec::Benchmark.configure do |config|
 end
 
 RSpec.describe 'Performance' do
-  it 'data.txt works under 1.5 ms' do
+  it 'data.txt works under 1.2 ms' do
     expect {
       work
-    }.to perform_under(1.5).ms.warmup(2).times.sample(10).times
+    }.to perform_under(1.2).ms.warmup(2).times.sample(10).times
   end
 
-  it '1000.txt works under 15 ms' do
+  it '1000.txt works under 35 ms' do
     expect {
       work('samples/1000.txt')
-    }.to perform_under(65).ms.warmup(2).times.sample(10).times
+    }.to perform_under(35).ms.warmup(2).times.sample(10).times
   end
 
-  it '2000.txt works under 15 ms' do
+  it '2000.txt works under 70 ms' do
     expect {
       work('samples/2000.txt')
-    }.to perform_under(150).ms.warmup(2).times.sample(10).times
+    }.to perform_under(70).ms.warmup(2).times.sample(10).times
   end
 
-  it '4000.txt works under 15 ms' do
+  it '4000.txt works under 140 ms' do
     expect {
       work('samples/4000.txt')
-    }.to perform_under(250).ms.warmup(2).times.sample(10).times
+    }.to perform_under(140).ms.warmup(2).times.sample(10).times
   end
 
-  it '8000.txt works under 15 ms' do
+  it '8000.txt works under 300 ms' do
     expect {
       work('samples/8000.txt')
-    }.to perform_under(500).ms.warmup(2).times.sample(10).times
+    }.to perform_under(330).ms.warmup(2).times.sample(10).times
   end
 
   it 'performs power' do

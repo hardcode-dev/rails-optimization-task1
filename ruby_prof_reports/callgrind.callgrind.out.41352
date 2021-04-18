@@ -1,0 +1,242 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 259
+
+fl=
+fn=Oj::dump^
+0 1090
+
+fl=
+fn=File::basename^
+0 3
+
+fl=
+fn=File::extname^
+0 6
+
+fl=
+fn=Array::reverse!
+0 152
+
+fl=
+fn=Array::sort!
+0 511
+
+fl=
+fn=Array::max
+0 193
+
+fl=
+fn=Integer::to_s
+0 360
+
+fl=
+fn=Array::sum
+0 176
+
+fl=
+fn=Hash::each_key
+0 2851
+cfl=
+cfn=Array::sum
+calls=774 86
+86 176
+cfl=
+cfn=Integer::to_s
+calls=1548 86
+86 360
+cfl=
+cfn=Array::max
+calls=774 87
+87 193
+cfl=
+cfn=Array::sort
+calls=774 88
+88 591
+cfl=
+cfn=Array::join
+calls=774 88
+88 598
+cfl=
+cfn=Array::sort!
+calls=774 89
+89 511
+cfl=
+cfn=Array::reverse!
+calls=774 89
+89 152
+
+fl=
+fn=Array::join
+0 615
+
+fl=
+fn=Array::sort
+0 624
+
+fl=
+fn=Hash::keys
+0 2
+
+fl=
+fn=Hash::each
+0 10
+
+fl=
+fn=Enumerable::count
+0 4
+cfl=
+cfn=Hash::each
+calls=1 0
+0 10
+
+fl=
+fn=Regexp::match?
+0 1014
+
+fl=
+fn=String::to_i
+0 2196
+
+fl=
+fn=String::upcase
+0 1666
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+22 3410
+cfl=
+cfn=String::upcase
+calls=4226 24
+24 1666
+
+fl=
+fn=Array::initialize_copy
+0 572
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+13 419
+
+fl=
+fn=String::split
+0 7018
+
+fl=
+fn=IO::foreach^
+0 30653
+cfl=
+cfn=String::split
+calls=5000 43
+43 7018
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=774 45
+45 419
+cfl=
+cfn=Kernel::dup
+calls=3870 49
+49 3606
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=4226 62
+62 5075
+cfl=
+cfn=String::to_i
+calls=8452 70
+70 2196
+cfl=
+cfn=Regexp::match?
+calls=3255 74
+74 1014
+
+fl=
+fn=Hash::initialize_copy
+0 166
+
+fl=
+fn=Kernel::initialize_dup
+0 1220
+cfl=
+cfn=Hash::initialize_copy
+calls=779 0
+0 166
+cfl=
+cfn=Array::initialize_copy
+calls=3096 0
+0 572
+
+fl=
+fn=Kernel::dup
+0 1663
+cfl=
+cfn=Kernel::initialize_dup
+calls=3875 0
+0 1958
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::parse_file
+33 17
+cfl=
+cfn=Kernel::dup
+calls=5 34
+34 15
+cfl=
+cfn=IO::foreach^
+calls=1 42
+42 49981
+cfl=
+cfn=Enumerable::count
+calls=1 82
+82 14
+cfl=
+cfn=Hash::keys
+calls=1 83
+83 2
+cfl=
+cfn=Array::sort
+calls=1 83
+83 33
+cfl=
+cfn=Array::join
+calls=1 83
+83 17
+cfl=
+cfn=Hash::each_key
+calls=1 85
+85 5432
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::work
+95 28
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::parse_file
+calls=1 96
+96 55510
+cfl=
+cfn=File::extname^
+calls=1 98
+98 6
+cfl=
+cfn=File::basename^
+calls=1 98
+98 3
+cfl=
+cfn=Oj::dump^
+calls=1 100
+100 1090
+cfl=
+cfn=IO::write^
+calls=1 100
+100 259
+
+fl=/home/islam/Documents/rails-optimization-task1/report_generators/ruby-prof-callgrind.rb
+fn=[global]::
+9 26
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 56897
+

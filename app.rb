@@ -32,7 +32,7 @@ Benchmark.ips do |x|
 end
 
 # time = Benchmark.realtime do
-#   work('data1000.txt')
+#   work('data_large.txt')
 # end
 # puts "Finish in #{time.round(2)}"
 

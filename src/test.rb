@@ -5,11 +5,11 @@ require 'minitest/autorun'
 require_relative 'work.rb'
 
 class TestMe < Minitest::Test
-  def setup
+  def setup1
     File.write('result.json', '')
   end
 
-  def setup0
+  def setup
     File.write('result.json', '')
     File.write('data.txt',
       'user,0,Leida,Cira,0

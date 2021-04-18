@@ -44,14 +44,17 @@ def work(limit: 5000, file_name: FILE_NAME)
   ap "start"
   file_lines = File.read(file_name).split("\n")
 
-  users = []
+  users = {}
   sessions = []
 
   pb = ProgressBar.new([file_lines.count, limit].min)
   file_lines.each_with_index do |line, ix|
     break if ix >= limit
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
+    if cols[0] == 'user'
+      user_attrs = parse_user(line)
+      users[user_attrs['id']] = user_attrs
+    end
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
     pb.increment!
   end
@@ -96,13 +99,22 @@ def work(limit: 5000, file_name: FILE_NAME)
 
   # Статистика по пользователям
   users_objects = []
+  users_objects_hash = {}
 
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+  sessions.each do |session|
+    user_id = session['user_id']
+    attributes = users[user_id]
+    users_objects_hash[user_id] ||= User.new(attributes: attributes)
+    users_objects_hash[user_id].add_session session
   end
+  users_objects = users_objects_hash.values
+
+  # users.each do |user|
+  #   attributes = user
+  #   user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+  #   user_object = User.new(attributes: attributes, sessions: user_sessions)
+  #   users_objects = users_objects + [user_object]
+  # end
 
   report['usersStats'] = {}
 

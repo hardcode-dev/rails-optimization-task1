@@ -15,35 +15,35 @@ RSpec.describe 'Performance' do
   it 'data.txt works under 1.2 ms' do
     expect {
       work
-    }.to perform_under(1.2).ms.warmup(2).times.sample(10).times
+    }.to perform_under(1).ms.warmup(2).times.sample(10).times
   end
 
   it '1000.txt works under 35 ms' do
     expect {
       work('samples/1000.txt')
-    }.to perform_under(35).ms.warmup(2).times.sample(10).times
+    }.to perform_under(25).ms.warmup(2).times.sample(10).times
   end
 
   it '2000.txt works under 70 ms' do
     expect {
       work('samples/2000.txt')
-    }.to perform_under(70).ms.warmup(2).times.sample(10).times
+    }.to perform_under(50).ms.warmup(2).times.sample(10).times
   end
 
   it '4000.txt works under 140 ms' do
     expect {
       work('samples/4000.txt')
-    }.to perform_under(140).ms.warmup(2).times.sample(10).times
+    }.to perform_under(100).ms.warmup(2).times.sample(10).times
   end
 
   it '8000.txt works under 300 ms' do
     expect {
       work('samples/8000.txt')
-    }.to perform_under(330).ms.warmup(2).times.sample(10).times
+    }.to perform_under(200).ms.warmup(2).times.sample(10).times
   end
 
-  it 'performs power' do
-    expect { |n, i| work_lines(n, i) }.to perform_power.in_range(1000, 8000).ratio(2)
+  it 'performs linear' do
+    expect { |n, i| work_lines(n, i) }.to perform_linear.in_range(1000, 8000).ratio(2)
   end
 
   # describe 'data_large.txt' do

@@ -4,7 +4,7 @@ require_relative 'task-1.rb'
 GC.disable
 
 StackProf.run(mode: :wall, out: 'reports/stackprof.dump', interval: 1000) do
-  work('samples/1000.txt')
+  work('samples/16000.txt')
 end
 
 # require 'json'

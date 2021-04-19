@@ -5,7 +5,7 @@ GC.disable
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
-  work('samples/1000.txt')
+  work('samples/16000.txt')
 end
 
 printer = RubyProf::CallTreePrinter.new(result)

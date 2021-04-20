@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
+require 'set'
 
 class User
   attr_reader :attributes, :sessions
@@ -75,10 +76,10 @@ def work(file_name)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  uniqueBrowsers = Set.new
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    uniqueBrowsers << browser unless uniqueBrowsers.include? browser
   end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
@@ -133,7 +134,7 @@ def work(file_name)
 
   # Всегда использовал только Chrome?
   collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+    { 'alwaysUsedChrome' => !(user.sessions.map{|s| s['browser']}.any? { |b| b.upcase !=~ /CHROME/ }) }
   end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601

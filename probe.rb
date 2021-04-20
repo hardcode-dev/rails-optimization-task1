@@ -4,6 +4,8 @@ FILE_NAME_LARGE = 'data_large.txt'
 REPORT_PATH = './report'
 LIMIT = 10_000
 
+OPEN_CMD = RUBY_PLATFORM =~ /darwin/ ? 'open' : 'xdg-open'
+
 require 'awesome_print'
 require 'benchmark'
 require 'ruby-prof'
@@ -43,7 +45,7 @@ def profile_using_ruby_prof(printer_class, report: nil, profile: nil)
     `qcachegrind #{REPORT_PATH}`
   else
     printer.print File.open(report_file_name, 'w')
-    `open #{report_file_name}`
+    `#{OPEN_CMD} #{report_file_name}`
   end
 end
 
@@ -84,8 +86,8 @@ end
 # puts "=" * 99
 
 # profile_flat
-profile_graph
-# profile_callstack
+# profile_graph
+profile_callstack
 # profile_calltree
 
 # profile_stackprof

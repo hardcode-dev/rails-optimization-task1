@@ -42,13 +42,10 @@ end
 
 def work(limit: 5000, file_name: FILE_NAME)
   ap "start"
-  file_lines = File.read(file_name).split("\n")
-
   users = {}
   sessions = []
-
-  pb = ProgressBar.new([file_lines.count, limit].min)
-  file_lines.each_with_index do |line, ix|
+  pb = ProgressBar.new([`wc -l #{file_name}`.to_i, limit].min) if defined? ProgressBar
+  File.open(file_name).each.with_index do |line, ix|
     break if ix >= limit
     cols = line.split(',')
     if cols[0] == 'user'
@@ -56,7 +53,7 @@ def work(limit: 5000, file_name: FILE_NAME)
       users[user_attrs['id']] = user_attrs
     end
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
-    pb.increment!
+    pb.increment! if defined? ProgressBar
   end
 
   # Отчёт в json

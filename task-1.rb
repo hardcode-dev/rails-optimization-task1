@@ -1,8 +1,8 @@
 # Deoptimized version of homework task
 
-require 'json'
 require 'pry'
 require 'date'
+require 'oj'
 
 class User
   attr_reader :attributes, :sessions
@@ -113,5 +113,5 @@ def work(from_file, to_file)
       .sort
       .join(',')
 
-  File.write(to_file, "#{report.to_json}\n")
+  File.write(to_file, "#{Oj.dump(report, mode: :compat)}\n")
 end

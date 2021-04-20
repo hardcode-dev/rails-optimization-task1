@@ -79,15 +79,15 @@ def profile_stackprof_json
   File.write("#{REPORT_PATH}/stackprof.json", JSON.generate(profile))
 end
 
-puts Benchmark.measure { do_work }
+5.times { puts Benchmark.measure { do_work } }
 
 # puts "-" * 99
 # puts benchmark_on_limit
 # puts "=" * 99
 
-# profile_flat
-# profile_graph
-# profile_callstack
+profile_flat
+profile_graph
+profile_callstack
 # profile_calltree
 
 # profile_stackprof

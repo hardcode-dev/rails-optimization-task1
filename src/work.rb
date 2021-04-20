@@ -7,7 +7,7 @@ require 'pry'
 require 'date'
 
 require 'awesome_print'
-require 'progress_bar'
+# require 'progress_bar'
 
 require_relative 'user.rb'
 

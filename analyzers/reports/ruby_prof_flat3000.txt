@@ -1,0 +1,63 @@
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 0.300901
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 70.58      0.212     0.212     0.000     0.000      470   Array#select                   
+ 10.65      0.032     0.032     0.000     0.000     3000   Array#all?                     
+  5.47      0.297     0.016     0.000     0.281       10   Array#each                     
+  2.70      0.008     0.008     0.000     0.000     6001   String#split                   
+  2.44      0.022     0.007     0.000     0.015     5172   Array#map                      
+  1.85      0.012     0.006     0.000     0.006     2530   <Class::Date>#parse            
+  0.99      0.006     0.003     0.000     0.003     2530   Object#parse_session           /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:27
+  0.92      0.003     0.003     0.000     0.000     5060   Regexp#match                   
+  0.62      0.002     0.002     0.000     0.000     7030   String#upcase                  
+  0.50      0.001     0.001     0.000     0.000     2530   String#gsub!                   
+  0.46      0.002     0.001     0.000     0.001      941   Array#sort                     
+  0.37      0.001     0.001     0.000     0.000     2530   MatchData#begin                
+  0.26      0.001     0.001     0.000     0.000     3290   Hash#merge                     
+  0.26      0.001     0.001     0.000     0.000     2530   Date#iso8601                   
+  0.22      0.001     0.001     0.000     0.000      470   Array#any?                     
+  0.20      0.001     0.001     0.000     0.000     5060   String#to_i                    
+  0.20      0.001     0.001     0.000     0.000      470   Class#new                      
+  0.19      0.001     0.001     0.000     0.000     5085   Date#<=>                       
+  0.15      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  0.15      0.000     0.000     0.000     0.000     2530   String#[]=                     
+  0.11      0.003     0.000     0.000     0.003      470   Object#parse_user              /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:17
+  0.10      0.000     0.000     0.000     0.000      471   Array#join                     
+  0.09      0.000     0.000     0.000     0.000     2530   Integer#div                    
+  0.08      0.000     0.000     0.000     0.000     2530   MatchData#end                  
+  0.08      0.000     0.000     0.000     0.000      470   User#initialize                /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:11
+  0.06      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
+  0.05      0.000     0.000     0.000     0.000      940   Integer#to_s                   
+  0.04      0.000     0.000     0.000     0.000      940   String#+                       
+  0.04      0.000     0.000     0.000     0.000        1   Array#uniq                     
+  0.03      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
+  0.03      0.000     0.000     0.000     0.000      473   Array#count                    
+  0.02      0.000     0.000     0.000     0.000      470   Array#sum                      
+  0.02      0.000     0.000     0.000     0.000      470   Array#max                      
+  0.02      0.000     0.000     0.000     0.000      470   Array#reverse                  
+  0.02      0.301     0.000     0.000     0.301        1   Object#work                    /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:46
+  0.00      0.031     0.000     0.000     0.031        7   Object#collect_stats_from_users /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:38
+  0.00      0.301     0.000     0.000     0.301        1   [global]#                      analyzers/ruby_prof_flat.rb:10
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

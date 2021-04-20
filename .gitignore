@@ -1,2 +1,4 @@
 .DS_Store
 analyzers/demo_data/*.txt
+result.json
+.idea

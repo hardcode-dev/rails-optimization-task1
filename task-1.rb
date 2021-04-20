@@ -73,11 +73,9 @@ def work(file_name = 'data.txt')
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  uniqueBrowsers = {}
+  sessions.each { |s| uniqueBrowsers[s['browser']] = nil }
+  uniqueBrowsers = uniqueBrowsers.keys
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
@@ -85,8 +83,7 @@ def work(file_name = 'data.txt')
 
   report['allBrowsers'] =
     sessions
-    .map { |s| s['browser'] }
-    .map { |b| b.upcase }
+    .map { |s| s['browser'].upcase }
     .sort
     .uniq
     .join(',')

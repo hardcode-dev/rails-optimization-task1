@@ -36,7 +36,7 @@ def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
     user_key = user.key
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key].merge!(block.call(user))
   end
 end
 
@@ -44,6 +44,7 @@ def work(limit: 5000, file_name: FILE_NAME)
   ap "start"
   users = {}
   sessions = []
+  unique_browsers = []
   pb = ProgressBar.new([`wc -l #{file_name}`.to_i, limit].min) if defined? ProgressBar
   File.open(file_name).each.with_index do |line, ix|
     break if ix >= limit
@@ -51,9 +52,15 @@ def work(limit: 5000, file_name: FILE_NAME)
     if cols[0] == 'user'
       user_attrs = parse_user(line)
       users[user_attrs['id']] = user_attrs
+    else
+      session = parse_session(line)
+      sessions.push session
+
+      # Подсчёт количества уникальных браузеров
+      browser = session['browser']
+      unique_browsers.push browser unless unique_browsers.include?(browser)
     end
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
-    pb.increment! if defined? ProgressBar
+    pb&.increment!
   end
 
   # Отчёт в json
@@ -75,14 +82,7 @@ def work(limit: 5000, file_name: FILE_NAME)
 
   report[:totalUsers] = users.count
 
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = unique_browsers.count
 
   report['totalSessions'] = sessions.count
 
@@ -95,7 +95,6 @@ def work(limit: 5000, file_name: FILE_NAME)
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
   users_objects_hash = {}
 
   sessions.each do |session|

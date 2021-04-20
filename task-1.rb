@@ -94,13 +94,10 @@ def work(file_name = 'data.txt')
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
+  sessions_by_user_id = sessions.group_by { |f| f['user_id'] }
 
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+  users_objects = users.map do |user|
+    User.new(attributes: user, sessions: sessions_by_user_id[user['id']])
   end
 
   report['usersStats'] = {}

@@ -4,13 +4,12 @@ require 'ruby-prof'
 require_relative '../task-1'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
+DEMO_DATA = Dir['analyzers/demo_data/demo_data_*.txt'].freeze
 
-%w[1000 2000 3000].each do |n|
+DEMO_DATA.each do |data_path|
   result = RubyProf.profile do
-    work("analyzers/demo_data/data#{n}.txt")
+    work(data_path)
   end
   printer = RubyProf::FlatPrinter.new(result)
-  printer.print(File.open("analyzers/reports/ruby_prof_flat#{n}.txt", 'w+'))
+  printer.print(File.open("analyzers/reports/ruby_prof_flat_#{data_path.split('_').last}", 'w+'))
 end
-
-

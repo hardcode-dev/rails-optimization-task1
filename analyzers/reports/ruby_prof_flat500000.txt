@@ -1,0 +1,30 @@
+Measure Mode: wall_time
+Thread ID: 70176754333600
+Fiber ID: 70176620373820
+Total: 0.000025
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 48.40      0.000     0.000     0.000     0.000        1   [global]#                      analyzers/ruby_prof_flat.rb:10
+ 29.65      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+ 13.08      0.000     0.000     0.000     0.000        1   Class#new                      
+  5.31      0.000     0.000     0.000     0.000        1   Exception#initialize           
+  3.56      0.000     0.000     0.000     0.000        1   Exception#exception            
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

@@ -4,15 +4,6 @@ require 'pry'
 require 'date'
 require 'oj'
 
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
-
 def parse_user(fields)
   {
     id: fields[1],
@@ -32,12 +23,6 @@ def parse_session(fields)
   }
 end
 
-def collect_stats_from_user(report, user, &block)
-  user_key = "#{user.attributes[:first_name]}" + ' ' + "#{user.attributes[:last_name]}"
-  report[:usersStats][user_key] ||= {}
-  report[:usersStats][user_key] = report[:usersStats][user_key].merge(block.call(user))
-end
-
 def work(from_file, to_file)
   file_lines = File.read(from_file).split("\n").sort
 
@@ -53,27 +38,24 @@ def work(from_file, to_file)
     if cols[0] == 'user'
       attributes = parse_user(cols)
       user_sessions = sessions[attributes[:id]]
-      user = User.new(attributes: attributes, sessions: user_sessions)
       report[:totalUsers] += 1
 
-      collect_stats_from_user(report, user) do |user|
-        user_sessions = user.sessions
-
+      user_key = "#{attributes[:first_name]} #{attributes[:last_name]}"
+      report[:usersStats][user_key] = 
         if user_sessions
-          times = user_sessions.map {|s| s[:time]}&.map {|t| t.to_i}
+          times = user_sessions.map {|s| s[:time]}.map {|t| t.to_i}
           browsers = user_sessions.map {|s| s[:browser]}
 
           { sessionsCount: user_sessions.count,
-            totalTime: times.sum.to_s + ' min.',
-            longestSession: times.max.to_s + ' min.',
+            totalTime: "#{times.sum.to_s} min.",
+            longestSession: "#{times.max.to_s} min.",
             browsers: browsers.sort.join(', '),
-            usedIE: browsers.any? { |b| b.start_with?('INTERNET EXPLORER') },
-            alwaysUsedChrome: browsers.all? { |b| b.start_with?('CHROME') },
+            usedIE: browsers.any? { |b| b.start_with?('I') },
+            alwaysUsedChrome: browsers.all? { |b| b.start_with?('C') },
             dates: user_sessions.map{|s| s[:date]}.sort.reverse }
         else
           {}
         end
-      end
     else
       session = parse_session(cols)
       user_id = session[:user_id]

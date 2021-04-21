@@ -7,5 +7,3 @@ gem 'pry'
 gem 'ruby-prof'
 gem 'stackprof'
 
-gem 'awesome_print'
-

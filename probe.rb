@@ -3,10 +3,10 @@
 FILE_NAME_LARGE = 'data_large.txt'
 REPORT_PATH = './report'
 LIMIT = 10_000
+NO_LIMIT = nil
 
 OPEN_CMD = RUBY_PLATFORM =~ /darwin/ ? 'open' : 'xdg-open'
 
-require 'awesome_print'
 require 'benchmark'
 require 'ruby-prof'
 require 'stackprof'
@@ -21,9 +21,9 @@ LIMITS = [
   100_000, 200_000
 ]
 
-def do_work(limit: LIMIT, gc: false)
+def do_work(limit: LIMIT, gc: nil, progress_bar: nil)
   gc_disabled = GC.disable unless gc
-  work(limit: limit, file_name: FILE_NAME_LARGE)
+  work(limit: limit, file_name: FILE_NAME_LARGE, progress_bar: progress_bar)
   GC.enable if gc_disabled
 end
 
@@ -79,15 +79,24 @@ def profile_stackprof_json
   File.write("#{REPORT_PATH}/stackprof.json", JSON.generate(profile))
 end
 
-5.times { puts Benchmark.measure { do_work } }
+def benchmark
+  Benchmark.benchmark('', 4, nil, 'AVG:') do |bm|
+    res = 10.times.map { |ix| bm.report(ix) { do_work } }
+    [res.reduce(:+) / res.size]
+  end
+end
+
+# puts Benchmark.measure { do_work(limit: NO_LIMIT, progress_bar: true) }
+
+benchmark
 
 # puts "-" * 99
 # puts benchmark_on_limit
 # puts "=" * 99
 
-profile_flat
-profile_graph
-profile_callstack
+# profile_flat
+# profile_graph
+# profile_callstack
 # profile_calltree
 
 # profile_stackprof

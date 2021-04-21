@@ -1,0 +1,274 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 767
+
+fl=
+fn=JSON/Ext/Generator/State::initialize_copy
+0 1
+
+fl=
+fn=Kernel::initialize_dup
+0 1
+cfl=
+cfn=JSON/Ext/Generator/State::initialize_copy
+calls=1 0
+0 1
+
+fl=
+fn=Kernel::dup
+0 3
+cfl=
+cfn=Kernel::initialize_dup
+calls=1 0
+0 2
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 1441
+cfl=
+cfn=Kernel::dup
+calls=1 0
+0 6
+
+fl=
+fn=Hash::merge
+0 425
+
+fl=
+fn=Array::reverse
+0 208
+
+fl=
+fn=Array::all?
+0 942
+
+fl=
+fn=Array::any?
+0 1431
+
+fl=
+fn=Array::max
+0 198
+
+fl=
+fn=Integer::to_s
+0 391
+
+fl=
+fn=Array::sum
+0 172
+
+fl=
+fn=String::to_i
+0 1007
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+37 3
+cfl=
+cfn=Array::each
+calls=1 38
+38 17402
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=User::initialize
+12 382
+
+fl=
+fn=Class::new
+0 534
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=774 0
+0 382
+
+fl=
+fn=Enumerable::group_by
+0 3
+cfl=
+cfn=Array::each
+calls=1 0
+0 1841
+
+fl=
+fn=Array::join
+0 815
+
+fl=
+fn=Array::sort
+0 2049
+
+fl=
+fn=String::upcase
+0 2228
+
+fl=
+fn=Array::map
+0 7151
+cfl=
+cfn=String::upcase
+calls=8452 0
+0 2228
+cfl=
+cfn=String::to_i
+calls=4226 106
+106 1007
+
+fl=
+fn=Array::uniq
+0 1721
+
+fl=
+fn=Array::count
+0 163
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+27 3230
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+18 572
+
+fl=
+fn=Array::each
+0 34639
+cfl=
+cfn=String::split
+calls=5000 53
+53 6319
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=774 55
+55 572
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=4226 56
+56 3230
+cfl=
+cfn=Class::new
+calls=774 99
+99 915
+cfl=
+cfn=Array::map
+calls=2322 106
+106 7440
+cfl=
+cfn=Array::sort
+calls=1548 107
+107 1178
+cfl=
+cfn=Array::count
+calls=774 111
+111 155
+cfl=
+cfn=Array::sum
+calls=774 111
+111 172
+cfl=
+cfn=Integer::to_s
+calls=1548 111
+111 391
+cfl=
+cfn=Array::max
+calls=774 111
+111 198
+cfl=
+cfn=Array::join
+calls=774 111
+111 792
+cfl=
+cfn=Array::any?
+calls=774 111
+111 1431
+cfl=
+cfn=Array::all?
+calls=774 111
+111 942
+cfl=
+cfn=Array::reverse
+calls=774 111
+111 208
+cfl=
+cfn=Hash::merge
+calls=774 111
+111 425
+
+fl=
+fn=String::split
+0 7052
+
+fl=
+fn=IO::read^
+0 176
+
+fl=/home/islam/Documents/rails-optimization-task1/<internal:gc>
+fn=GC::disable^
+63 5
+
+fl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+fn=Object::work
+45 88
+cfl=/home/islam/Documents/rails-optimization-task1/<internal:gc>
+cfn=GC::disable^
+calls=1 46
+46 5
+cfl=
+cfn=IO::read^
+calls=1 47
+47 176
+cfl=
+cfn=String::split
+calls=1 47
+47 733
+cfl=
+cfn=Array::each
+calls=2 52
+52 39766
+cfl=
+cfn=Array::count
+calls=3 76
+76 8
+cfl=
+cfn=Array::uniq
+calls=2 79
+79 1721
+cfl=
+cfn=Array::map
+calls=2 85
+85 2946
+cfl=
+cfn=Array::sort
+calls=1 85
+85 871
+cfl=
+cfn=Array::join
+calls=1 85
+85 23
+cfl=
+cfn=Enumerable::group_by
+calls=1 95
+95 1844
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 105
+105 17404
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 127
+127 1447
+cfl=
+cfn=IO::write^
+calls=1 127
+127 767
+
+fl=/home/islam/Documents/rails-optimization-task1/report_generators/ruby-prof-callgrind.rb
+fn=[global]::
+7 28
+cfl=/home/islam/Documents/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 7
+7 67799
+

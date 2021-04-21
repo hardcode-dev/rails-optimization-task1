@@ -1,0 +1,54 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 0.057765
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 51.42      0.050     0.030     0.000     0.020        1   <Class::IO>#foreach            
+ 14.83      0.009     0.009     0.000     0.000     5000   String#split                   
+  7.45      0.007     0.004     0.000     0.002     4226   Object#parse_session           /home/islam/Documents/rails-optimization-task1/task-1.rb:21
+  4.83      0.005     0.003     0.000     0.003        1   Hash#each_key                  
+  2.88      0.004     0.002     0.000     0.002     3875   Kernel#dup                     
+  2.27      0.001     0.001     0.000     0.000     4226   String#upcase                  
+  2.11      0.002     0.001     0.000     0.001     3875   Kernel#initialize_dup          
+  2.10      0.001     0.001     0.000     0.000        1   <Module::Oj>#dump              
+  2.03      0.001     0.001     0.000     0.000     4226   String#to_i                    
+  1.88      0.001     0.001     0.000     0.000     3255   Regexp#match?                  
+  1.29      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
+  1.10      0.001     0.001     0.000     0.000      775   Array#join                     
+  1.07      0.001     0.001     0.000     0.000      775   Array#sort                     
+  0.98      0.001     0.001     0.000     0.000     3096   Array#initialize_copy          
+  0.91      0.001     0.001     0.000     0.000      774   Array#sort!                    
+  0.74      0.000     0.000     0.000     0.000      774   Object#parse_user              /home/islam/Documents/rails-optimization-task1/task-1.rb:12
+  0.63      0.000     0.000     0.000     0.000     1548   Integer#to_s                   
+  0.39      0.000     0.000     0.000     0.000      774   Array#sum                      
+  0.34      0.000     0.000     0.000     0.000      774   Array#max                      
+  0.30      0.000     0.000     0.000     0.000      779   Hash#initialize_copy           
+  0.28      0.000     0.000     0.000     0.000      774   Array#reverse!                 
+  0.08      0.058     0.000     0.000     0.058        1   Object#work                    /home/islam/Documents/rails-optimization-task1/task-1.rb:94
+  0.04      0.058     0.000     0.000     0.058        1   [global]#                      report_generators/ruby_prof_flat.rb:9
+  0.02      0.056     0.000     0.000     0.056        1   Object#parse_file              /home/islam/Documents/rails-optimization-task1/task-1.rb:32
+  0.02      0.000     0.000     0.000     0.000        1   Hash#each                      
+  0.01      0.000     0.000     0.000     0.000        1   <Class::File>#extname          
+  0.01      0.000     0.000     0.000     0.000        1   <Class::File>#basename         
+  0.01      0.000     0.000     0.000     0.000        1   Enumerable#count               
+  0.00      0.000     0.000     0.000     0.000        1   Hash#keys                      
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

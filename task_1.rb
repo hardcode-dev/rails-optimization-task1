@@ -72,15 +72,20 @@ def work(file_name = 'data.txt')
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions_by_user_id = sessions.group_by { |f| f['user_id'] }
+  unique_browsers = {}
+  sessions_by_user_id = {}
 
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    user_id = session['user_id']
+    sessions_by_user_id[user_id] ||= [] << session
+    sessions_by_user_id[user_id] << session
+    unique_browsers[browser] = nil
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  unique_browsers = unique_browsers.keys
+
+  report['unique_browsersCount'] = unique_browsers.count
 
   report['totalSessions'] = sessions.count
 

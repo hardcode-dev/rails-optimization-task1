@@ -7,20 +7,20 @@ Sort by: self_time
  %self      total      self      wait     child     calls  name                           location
  46.38      0.109     0.053     0.000     0.056     3047  *Array#each                     
  23.42      0.027     0.027     0.000     0.000    20001   String#split                   
- 10.74      0.017     0.012     0.000     0.005    16954   Object#parse_session           /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task_1.rb:12
+ 10.74      0.017     0.012     0.000     0.005    16954   Object#parse_session           /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:12
   3.47      0.004     0.004     0.000     0.000     6091   Array#sort!                    
   2.51      0.004     0.003     0.000     0.001     3045   Array#any?                     
   2.24      0.003     0.003     0.000     0.000    16954   String#upcase!                 
   2.16      0.002     0.002     0.000     0.000    16954   String#to_i                    
   1.84      0.002     0.002     0.000     0.000    18788   String#start_with?             
   1.79      0.002     0.002     0.000     0.000     3046   Array#join                     
-  1.77      0.002     0.002     0.000     0.000     3046   Object#parse_user              /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task_1.rb:5
+  1.77      0.002     0.002     0.000     0.000     3046   Object#parse_user              /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:5
   1.61      0.003     0.002     0.000     0.001     3045   Array#all?                     
   1.18      0.001     0.001     0.000     0.000     6090   Integer#to_s                   
   0.36      0.000     0.000     0.000     0.000     3046   Array#count                    
   0.34      0.000     0.000     0.000     0.000     3045   Array#reverse!                 
   0.16      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
-  0.01      0.114     0.000     0.000     0.114        1   Object#work                    /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task_1.rb:20
+  0.01      0.114     0.000     0.000     0.114        1   Object#work                    /Users/kgoryachev/projects/ruby/hardcode/rails-optimization-task1/task-1.rb:20
   0.01      0.000     0.000     0.000     0.000        1   BasicObject#method_missing     
   0.00      0.000     0.000     0.000     0.000        1   Hash#keys                      
   0.00      0.114     0.000     0.000     0.114        1   [global]#                      analyzers/ruby_prof_flat.rb:12

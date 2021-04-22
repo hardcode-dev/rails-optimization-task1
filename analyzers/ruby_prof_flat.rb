@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'ruby-prof'
-require_relative '../task_1'
+require_relative '../task-1'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
 DEMO_DATA = Dir['analyzers/demo_data/*.txt'].freeze

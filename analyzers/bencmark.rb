@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec-benchmark'
-require_relative '../task_1'
+require_relative '../task-1'
 
 DEMO_DATA_PATH = "#{__dir__}/demo_data/data_large.txt"
 

@@ -1,6 +1,7 @@
 .DS_Store
 analyzers/demo_data/*.txt
 analyzers/reports/*.txt
+analyzers/reports/*.html
 analyzers/reports/callgrind.callgrind.out.*
 result.json
 .idea

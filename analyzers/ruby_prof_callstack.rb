@@ -9,5 +9,5 @@ result = RubyProf.profile do
   work('analyzers/demo_data/data_large.txt')
 end
 
-printer = RubyProf::CallTreePrinter.new(result)
-printer.print(path: 'analyzers/reports/', profile: 'callgrind')
+printer = RubyProf::CallStackPrinter.new(result)
+printer.print(File.open('analyzers/reports/callstack.html', 'w+'))

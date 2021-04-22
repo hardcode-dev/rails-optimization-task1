@@ -4,7 +4,9 @@ require 'ruby-prof'
 require_relative '../task_1'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
-DEMO_DATA = Dir['analyzers/demo_data/demo_data_*.txt'].freeze
+DEMO_DATA = Dir['analyzers/demo_data/*.txt'].freeze
+
+GC.disable
 
 DEMO_DATA.each do |data_path|
   result = RubyProf.profile do

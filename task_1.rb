@@ -1,22 +1,18 @@
 # frozen_string_literal: true
 
-require 'json'
+require 'oj'
 
 def parse_user(fields)
   {
     'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4]
+    'user_key' => "#{fields[2]} #{fields[3]}"
   }
 end
 
 def parse_session(fields)
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3].upcase,
-    'time' => fields[4],
+    'browser' => fields[3].upcase!,
+    'time' => fields[4].to_i,
     'date' => fields[5]
   }
 end
@@ -41,7 +37,7 @@ def work(file_name = 'data.txt')
       session = parse_session(cols)
       sessions << session
       browser = session['browser']
-      user_id = session['user_id']
+      user_id = cols[1]
       sessions_by_user_id[user_id] ||= []
       sessions_by_user_id[user_id] << session
       unique_browsers[browser] = nil
@@ -56,7 +52,6 @@ def work(file_name = 'data.txt')
 
   # Статистика по пользователям
   users.each do |user|
-    user_key = "#{user['first_name']} #{user['last_name']}"
     user_sessions = sessions_by_user_id[user['id']]
 
     time_sum = 0
@@ -65,7 +60,7 @@ def work(file_name = 'data.txt')
     dates = []
 
     user_sessions.each do |s|
-      time = s['time'].to_i
+      time = s['time']
       browser = s['browser']
       time_sum += time
       longest_session = time if longest_session < time
@@ -74,18 +69,17 @@ def work(file_name = 'data.txt')
     end
 
     browsers.sort!
-    dates.sort!.reverse!
 
-    report[:usersStats][user_key] = {
+    report[:usersStats][user['user_key']] = {
       sessionsCount: user_sessions.count,
       totalTime: "#{time_sum} min.",
       longestSession: "#{longest_session} min.",
       browsers: browsers.join(', '),
       usedIE: browsers.any? { |b| b.start_with?('I') },
       alwaysUsedChrome: browsers.all? { |b| b.start_with?('C') },
-      dates: dates
+      dates: dates.sort!.reverse!
     }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report, mode: :compat)}\n")
 end

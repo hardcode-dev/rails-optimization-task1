@@ -127,7 +127,7 @@ def work(file_name)
       h['usedIE'] = browsers.any? { |b| b =~ /INTERNET EXPLORER/ }
       # Всегда использовал только Chrome?
       h['alwaysUsedChrome'] = !(browsers.any? { |b| b !=~ /CHROME/ })
-      h['dates'] = user.sessions.map{|s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
+      h['dates'] = user.sessions.map{|s| s['date']}.sort.reverse
     end
   end
 

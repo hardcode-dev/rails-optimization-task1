@@ -5,6 +5,7 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 require 'set'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions
@@ -35,8 +36,12 @@ def parse_session(fields)
 end
 
 def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+  progressbar = ProgressBar.create(total:  users_objects.size)
+  progressbar.title = 'Process collect stats from users:'
+
+  users_objects.each.with_index do |user, i|
+    progressbar.progress = (i + 1)
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key].merge!(yield user)
   end
@@ -47,8 +52,13 @@ def work(file_name)
 
   users = []
   sessions = []
+  
+  progressbar = ProgressBar.create(total: file_lines.size)
+  progressbar.title = 'Process file parsing:'
 
-  file_lines.each do |line|
+  file_lines.each.with_index do |line, i|
+    progressbar.progress = (i + 1)
+
     cols = line.split(',')
     if cols[0] == 'user'
       users << parse_user(cols)

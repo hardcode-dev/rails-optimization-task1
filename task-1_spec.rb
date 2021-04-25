@@ -25,10 +25,10 @@ RSpec.describe 'Task1' do
     let(:measurement_time_seconds) { 1 }
     let(:warmup_seconds) { 0.2 }
 
-    it 'works faster than 100 ips' do
-      expect do
+    it 'works under 5 ms' do
+      expect {
         work(filename)
-      end.to perform_at_least(210).within(measurement_time_seconds).warmup(warmup_seconds).ips
+      }.to perform_under(5).ms.warmup(2).times.sample(10).times
     end
   end
 end

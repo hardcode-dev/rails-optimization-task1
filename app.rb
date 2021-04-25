@@ -7,6 +7,7 @@ require 'ruby-prof'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
+
 GC.disable
 result = RubyProf.profile do
   work('data10000.txt')
@@ -17,7 +18,7 @@ printer.print(File.open("ruby_prof_reports_graph.html", "w+"))
 
 printer = RubyProf::CallStackPrinter.new(result)
 printer.print(File.open('ruby_prof_reports_callstack.html', 'w+'))
-puts "Finish"
+puts "Finish profile"
 
 GC.enable
 Benchmark.ips do |x|
@@ -31,8 +32,14 @@ Benchmark.ips do |x|
   end
 end
 
-# time = Benchmark.realtime do
-#   work('data_large.txt')
-# end
-# puts "Finish in #{time.round(2)}"
+time = Benchmark.realtime do
+  work('data10000.txt')
+end
+
+puts "Finish 10000 in #{time.round(2)}"
+
+time = Benchmark.realtime do
+  work('data100000.txt')
+end
+puts "Finish 100_000 in #{time.round(2)}"
 

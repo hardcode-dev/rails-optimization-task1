@@ -25,10 +25,10 @@ RSpec.describe 'Task1' do
     let(:measurement_time_seconds) { 1 }
     let(:warmup_seconds) { 0.2 }
 
-    it 'works under 5 ms' do
+    it 'works under 4 ms' do
       expect {
         work(filename)
-      }.to perform_under(5).ms.warmup(2).times.sample(10).times
+      }.to perform_under(4).ms.warmup(2).times.sample(10).times
     end
   end
 end

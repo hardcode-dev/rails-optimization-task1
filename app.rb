@@ -48,8 +48,8 @@ time = Benchmark.realtime do
 end
 puts "Finish 1_000_000 in #{time.round(2)}"
 
-# time = Benchmark.realtime do
-#   work('data_large.txt')
-# end
-# puts "Finish large in #{time.round(2)}"
+time = Benchmark.realtime do
+  work('data_large.txt')
+end
+puts "Finish large in #{time.round(2)}"
 

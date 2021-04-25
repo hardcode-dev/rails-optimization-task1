@@ -112,34 +112,23 @@ def work(file_name)
     { 'sessionsCount' => user.sessions.count }
   end
 
-  # Собираем количество времени по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
-  end
+    time = user.sessions.map {|s| s['time'].to_i}
+    browsers = user.sessions.map {|s| s['browser'].upcase}
 
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
-  end
-
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
-  end
-
-  # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-  end
-
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => !(user.sessions.map{|s| s['browser']}.any? { |b| b.upcase !=~ /CHROME/ }) }
-  end
-
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 } }
+    {}.tap do |h|
+      # Собираем количество времени по пользователям
+      h['totalTime'] = time.sum.to_s + ' min.'
+      # Выбираем самую длинную сессию пользователя
+      h['longestSession'] = time.max.to_s + ' min.'
+      # Браузеры пользователя через запятую
+      h['browsers'] = browsers.sort.join(', ')
+      # Хоть раз использовал IE?
+      h['usedIE'] = browsers.any? { |b| b =~ /INTERNET EXPLORER/ }
+      # Всегда использовал только Chrome?
+      h['alwaysUsedChrome'] = !(browsers.any? { |b| b !=~ /CHROME/ })
+      h['dates'] = user.sessions.map{|s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
+    end
   end
 
   File.write('result.json', "#{report.to_json}\n")

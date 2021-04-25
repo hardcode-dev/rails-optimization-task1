@@ -8,6 +8,6 @@ end
 
 describe '#work' do
   it 'works under 1 ms' do
-    expect { work('data.txt') }.to perform_under(250).ms.warmup(2).times.sample(10).times
+    expect { work('data.txt') }.to perform_under(0.7).ms.warmup(2).times.sample(10).times
   end
 end

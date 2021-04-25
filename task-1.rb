@@ -108,16 +108,13 @@ def work(file_name)
 
   report['usersStats'] = {}
 
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
-  end
-
   collect_stats_from_users(report, users_objects) do |user|
     time = user.sessions.map {|s| s['time'].to_i}
     browsers = user.sessions.map {|s| s['browser'].upcase}
 
     {}.tap do |h|
+      # Собираем количество сессий по пользователям
+      h['sessionsCount'] = user.sessions.count
       # Собираем количество времени по пользователям
       h['totalTime'] = time.sum.to_s + ' min.'
       # Выбираем самую длинную сессию пользователя

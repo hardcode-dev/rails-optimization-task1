@@ -14,13 +14,17 @@ class Parser
     GC.disable if disable_gc
   end
 
+  def parse_date(date)
+    Date.strptime(date, '%Y-%m-%d').iso8601
+  end
+
   def parse_user(user)
     fields = user.split(',')
     parsed_result = {
       'id' => fields[1],
       'first_name' => fields[2],
       'last_name' => fields[3],
-      'age' => fields[4],
+      'age' => fields[4]
     }
   end
 
@@ -31,38 +35,41 @@ class Parser
       'session_id' => fields[2],
       'browser' => fields[3],
       'time' => fields[4],
-      'date' => fields[5],
+      'date' => parse_date(fields[5])
     }
   end
 
   def collect_stats_from_users(report, users_objects)
     users_objects.each do |user|
       user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
-      # report['usersStats'][user_key] ||= {}
 
       report_by_user_key = report['usersStats'][user_key] ||= {}
+
+      user_sessions = user.sessions
+
+      time_sessions = user_sessions.map { |session| session['time'].to_i }
+      browsers_sessions = user_sessions.map { |session| session['browser'].upcase }
 
       # Собираем количество сессий по пользователям
       report_by_user_key['sessionsCount'] = user.sessions.count
 
       # Собираем количество времени по пользователям
-      report_by_user_key['totalTime'] = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.'
+      report_by_user_key['totalTime'] = time_sessions.sum.to_s + ' min.'
 
       # Выбираем самую длинную сессию пользователя
-      report_by_user_key['longestSession'] = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.'
+      report_by_user_key['longestSession'] = time_sessions.max.to_s + ' min.'
 
-      # Браузеры пользователя через запятую
-      report_by_user_key['browsers'] = user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ')
+      # # Браузеры пользователя через запятую
+      report_by_user_key['browsers'] = browsers_sessions.sort.join(', ')
 
       # Хоть раз использовал IE?
-      report_by_user_key['usedIE'] = user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ }
+      report_by_user_key['usedIE'] = browsers_sessions.any? { |b| b =~ /INTERNET EXPLORER/ }
 
       # Всегда использовал только Chrome?
-      report_by_user_key['alwaysUsedChrome'] = user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ }
+      report_by_user_key['alwaysUsedChrome'] = browsers_sessions.all? { |b| b =~ /CHROME/ }
 
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      # report_by_user_key['dates'] = user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
-      report_by_user_key['dates'] = user.sessions.map{|s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse
+      report_by_user_key['dates'] = user_sessions.map { |s| s['date'] }.sort.reverse
     end
   end
 
@@ -106,13 +113,7 @@ class Parser
 
     report['totalSessions'] = sessions.count
 
-    report['allBrowsers'] =
-      sessions
-        .map { |s| s['browser'] }
-        .map { |b| b.upcase }
-        .sort
-        .uniq
-        .join(',')
+    report['allBrowsers'] = unique_browsers.sort.join(',').upcase
 
     # Статистика по пользователям
     users_objects = []

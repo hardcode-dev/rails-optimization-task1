@@ -95,7 +95,7 @@
 **Изменение метрики**
 * новое значение  0.028920sec
 * улучшение ~1.5 раза
-  **Изменение в отчете профилировщика**
+**Изменение в отчете профилировщика**
 * Изменилась точка роста. След заняться map и заглянуть в parse_session
 ```bigquery
 35.88% (35.90%) Parser#collect_stats_from_users [1 calls, 1 total]
@@ -104,6 +104,26 @@
 5.46% (26.80%) <Class::Date>#strptime [2742 calls, 2742 total]
 35.60% (35.61%) Array#each [2 calls, 4 total]
 7.70% (21.63%) Parser#parse_session [2742 calls, 2742 total]
+```
+### Ваша находка №4
+**Точка роста**
+* воспользовался ruby-prof-callstack, из итогов п.3 решил заняться цепочками map в collect_stats_from_users
+**Решение**
+* убрал цепочки map
+  **Изменение метрики**
+* новое значение  0.027069sec
+* улучшение незначительно :(
+**Изменение в отчете профилировщика**
+* 
+```bigquery
+59.96% (59.99%) Array#each [2 calls, 4 total]
+25.42% (42.39%) Parser#parse_session [2742 calls, 2742 total]
+15.12% (59.49%) Parser#parse_date [2742 calls, 2742 total]
+8.55% (56.54%) <Class::Date>#strptime [2742 calls, 2742 total]
+5.80% (9.67%) String#split [3250 calls, 6501 total]
+20.06% (20.07%) Parser#collect_stats_from_users [1 calls, 1 total]
+20.06% (99.96%) Array#each [1 calls, 4 total]
+8.15% (40.62%) Array#map [1524 calls, 1525 total]
 ```
 
 ## Результаты

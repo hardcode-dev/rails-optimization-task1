@@ -6,10 +6,10 @@ describe 'Performance' do
     let(:data) { 'data/data3250.txt' }
     let(:result) { 'data/result.json' }
     # let(:budget) { 30_000 }
-    let(:budget) { 58 }
+    let(:budget) { 45 }
 
     # it 'works under 30_000 ms' do
-    it 'works under 30_000 ms' do
+    it 'works under _ms' do
       expect { Parser.new(data: data, result: result, disable_gc: true).work }
         .to perform_under(budget).ms.warmup(2).times.sample(10).times
     end

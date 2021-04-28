@@ -6,7 +6,7 @@ describe 'Performance' do
     let(:data) { 'data/data3250.txt' }
     let(:result) { 'data/result.json' }
     # let(:budget) { 30_000 }
-    let(:budget) { 45 }
+    let(:budget) { 30 }
 
     # it 'works under 30_000 ms' do
     it 'works under _ms' do

@@ -61,7 +61,8 @@ class Parser
       report_by_user_key['alwaysUsedChrome'] = user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ }
 
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      report_by_user_key['dates'] = user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+      # report_by_user_key['dates'] = user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+      report_by_user_key['dates'] = user.sessions.map{|s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse
     end
   end
 
@@ -131,4 +132,4 @@ class Parser
   end
 end
 
-# Parser.new(data: 'data/data3250.txt', result: 'data/result.json', disable_gc: true).work
+Parser.new(data: 'data/data3250.txt', result: 'data/result.json', disable_gc: true).work

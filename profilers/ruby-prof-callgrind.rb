@@ -1,6 +1,3 @@
-# RubyProf Flat report
-# ruby 12-ruby-prof-flat.rb
-# cat ruby_prof_reports/flat.txt
 require 'ruby-prof'
 require_relative '../parser.rb'
 

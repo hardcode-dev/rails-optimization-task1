@@ -2,9 +2,8 @@
 require_relative 'user'
 
 require 'json'
-require 'pry'
+# require 'pry'
 require 'date'
-require 'minitest/autorun'
 
 class Parser
   def initialize(data:, result:, disable_gc: true)

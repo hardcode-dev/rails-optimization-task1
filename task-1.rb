@@ -101,7 +101,8 @@ def work filename = 'data.txt'
   uniqueBrowsers = []
   sessions.values().flatten.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    #uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    uniqueBrowsers += [browser] unless uniqueBrowsers.include?(browser)
     progressbar.increment if ProgressBarEnabler.show?
   end
 

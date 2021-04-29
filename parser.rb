@@ -4,6 +4,7 @@ require 'json'
 # require 'pry'
 require 'date'
 # require 'byebug'
+require 'ruby-progressbar'
 
 class Parser
   def initialize(data:, result:, disable_gc: true)
@@ -24,7 +25,7 @@ class Parser
     sessions = []
     report = {}
 
-    File.foreach(@data).each do |line|
+    File.foreach(@data) do |line|
       cols = line.split(',')
 
       case cols[0]
@@ -64,12 +65,21 @@ class Parser
     report['allBrowsers'] = unique_browsers.sort.join(',')
     report['usersStats'] = {}
 
+    # ProgressBar
+    # parts_of_work = report['totalUsers']
+    #
+    # progressbar = ProgressBar.create(
+    #   total: parts_of_work,
+    #   format: '%a, %J, %E %B' # elapsed time, percent complete, estimate, bar
+    # # output: File.open(File::NULL, 'w') # IN TEST ENV
+    # )
+
     # Статистика по пользователям
     collect_stats_from_users(report, users) do |user|
       user_sessions = sessions_by_user_id[user['id']] || []
       time_sessions = user_sessions.map { |session| session['time'] }
       browsers_sessions = user_sessions.map { |session| session['browser'] }
-
+      # progressbar.increment
       {
         # Собираем количество сессий по пользователям
         'sessionsCount' => user_sessions.count,

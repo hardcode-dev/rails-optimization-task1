@@ -11,14 +11,14 @@ describe 'Performance' do
     describe 'protect metric' do
       it 'works under _ms' do
         expect { Parser.new(data: test_data, result: result, disable_gc: true).work }
-          .to perform_under(metric_budget).ms.warmup(1).times.sample(5).times
+          .to perform_under(metric_budget).ms.warmup(1).times.sample(10).times
       end
     end
 
     describe 'task_1(parsing large file)' do
-      it 'works under 30ms' do
+      it 'works under 30sec' do
         expect { Parser.new(data: data, result: result, disable_gc: true).work }
-          .to perform_under(budget).ms.warmup(1).times.sample(5).times
+          .to perform_under(budget).ms.warmup(1).times.sample(2).times
       end
     end
   end

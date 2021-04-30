@@ -6,14 +6,15 @@ require 'ruby-progressbar'
 #require 'awesome_print'
 #require 'ruby-prof'
 
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
+#Deprecated
+#class User
+#  attr_reader :attributes, :sessions
+#
+#  def initialize(attributes:, sessions:)
+#    @attributes = attributes
+#    @sessions = sessions
+#  end
+#end
 
 def parse_user(user)
   fields = user.split(',')
@@ -129,11 +130,7 @@ def work filename = 'data.txt'
 
   report['usersStats'] = {}
   users.each do |user|
-    attributes = user
     user_sessions = sessions[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-
     user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
     report['usersStats'][user_key] ||= {}
     date_a = browser_a = time_a = []

@@ -29,7 +29,7 @@ def parse_session(fields)
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
+    'browser' => fields[3].upcase,
     'time' => fields[4],
     'date' => fields[5],
   }
@@ -55,23 +55,25 @@ def work filename = 'data.txt'
 
   users = []
   sessions = {}
-
+  allBrowsers = []
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(cols)] if cols[0] == 'user'
+    if cols[0] == 'user'
+      sessions[cols[1]] = {
+        "user_id" =>  "#{cols[2]}" + ' ' + "#{cols[3]}",
+        "sessions" => []
+      }
+    end
     if cols[0] == 'session'
       ses = parse_session(cols)
-      ses['user_id']
-      if sessions[ses['user_id']]
-        sessions[ses['user_id']] << ses
-      else
-        sessions[ses['user_id']] = [ses]
-      end
+      sessions[ses['user_id']]['sessions'] << ses
+      allBrowsers << ses['browser']
     end
       #sessions = sessions + [] 
     progressbar.increment if ProgressBarEnabler.show?
   end
-  all_sessions = sessions.flat_map{|e|e[1]}
+  all_sessions = sessions.values().map{|s|s['sessions']}.flatten
+
   # Отчёт в json
   #   - Сколько всего юзеров +
   #   - Сколько всего уникальных браузеров +
@@ -89,7 +91,7 @@ def work filename = 'data.txt'
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = sessions.keys().count
 
   
   progressbar = ProgressBar.create(
@@ -98,38 +100,37 @@ def work filename = 'data.txt'
   ) if ProgressBarEnabler.show?
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  all_sessions.each do |session|
-    browser = session['browser']
-    #uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-    uniqueBrowsers += [browser] unless uniqueBrowsers.include?(browser)
-    progressbar.increment if ProgressBarEnabler.show?
-  end
+  #uniqueBrowsers = []
+  #all_sessions.each do |session|
+  #  browser = session['browser']
+  #  #uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+  #  uniqueBrowsers += [browser] unless uniqueBrowsers.include?(browser)
+  #  progressbar.increment if ProgressBarEnabler.show?
+  #end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+
+
+  report['uniqueBrowsersCount'] = allBrowsers.uniq.count#uniqueBrowsers.count
 
   report['totalSessions'] = all_sessions.count
 
   report['allBrowsers'] =
-    all_sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
-
+    allBrowsers
+    .sort
+    .uniq
+    .join(',')
   # Статистика по пользователям
   users_objects = []
 
   progressbar = ProgressBar.create(
-    total: users.size,
+    total: sessions.keys().size,
     format: '%a, %J, %E, %B'
   ) if ProgressBarEnabler.show?
 
   report['usersStats'] = {}
-  users.each do |user|
-    user_sessions = sessions[user['id']]
-    user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
+  sessions.each do |user_id, sessions_info|
+    user_sessions = sessions_info['sessions']
+    user_key = sessions_info['user_id']
     report['usersStats'][user_key] ||= {}
     date_a = browser_a = time_a = []
     user_sessions.map do |s| 
@@ -168,4 +169,5 @@ class ProgressBarEnabler
   end
 end
 #ProgressBarEnabler.disable!
-#work('data/data1000.txt')
+#work('data/data100000.txt')
+#work('data/data_large.txt')

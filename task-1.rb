@@ -73,7 +73,7 @@ def work filename = 'data.txt'
       #sessions = sessions + [] 
     progressbar.increment if ProgressBarEnabler.show?
   end
-  
+  all_sessions = sessions.flat_map{|e|e[1]}
   # Отчёт в json
   #   - Сколько всего юзеров +
   #   - Сколько всего уникальных браузеров +
@@ -95,13 +95,13 @@ def work filename = 'data.txt'
 
   
   progressbar = ProgressBar.create(
-    total: sessions.values().flatten.size,
+    total: all_sessions.size,
     format: '%a, %J, %E, %B'
   ) if ProgressBarEnabler.show?
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = []
-  sessions.values().flatten.each do |session|
+  all_sessions.each do |session|
     browser = session['browser']
     #uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
     uniqueBrowsers += [browser] unless uniqueBrowsers.include?(browser)
@@ -110,10 +110,10 @@ def work filename = 'data.txt'
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
-  report['totalSessions'] = sessions.values().flatten.count
+  report['totalSessions'] = all_sessions.count
 
   report['allBrowsers'] =
-    sessions.values().flatten
+    all_sessions
       .map { |s| s['browser'] }
       .map { |b| b.upcase }
       .sort

@@ -135,8 +135,8 @@ def work filename = 'data.txt'
     date_a = browser_a = time_a = []
     user_sessions.map do |s| 
       time_a = time_a + [s['time'].to_i]
-      browser_a = browser_a + [s['browser'].upcase]
-      date_a = date_a + [Date.strptime(s['date'], '%Y-%m-%d')]
+      browser_a = browser_a + [s['browser']]
+      date_a = date_a + [s['date']]
     end
 
     reports = {
@@ -146,7 +146,7 @@ def work filename = 'data.txt'
         'browsers' => browser_a.sort.join(', '),
         'usedIE' => browser_a.any? { |b| b =~ /INTERNET EXPLORER/ },
         'alwaysUsedChrome' => browser_a.all? { |b| b =~ /CHROME/ },
-        'dates' => date_a.sort.reverse.map { |d| d.iso8601 }
+        'dates' => date_a.sort.reverse
     }
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(reports)
 

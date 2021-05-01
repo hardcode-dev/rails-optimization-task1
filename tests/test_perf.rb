@@ -1,22 +1,20 @@
 require 'rspec-benchmark'
-
 require_relative '../task-1'
-#require_relative '../task-old'
 
 RSpec.configure do |config|
     config.include RSpec::Benchmark::Matchers
 end
 
+ProgressBarEnabler.disable!
 describe 'Perfomance' do
-    let(:size) { 100000 }
-    it 'works under 20s' do
+    let(:size) { 250000 }
+    it 'works under 2s' do
         expect{
             work("data/data#{size}.txt")
-        }.to perform_under(10).sec#.sample(0).times
+        }.to perform_under(2).sec.sample(10).times
     end
 
-
     it 'perform linear' do
-        expect { |n, _i| print("AND NOW WE WORK WITH #{n}"); work("data/data#{n}.txt") }.to perform_linear.in_range([100, 1000, 10000, 100000])
+        expect { |n, _i| work("data/data#{n}.txt") }.to perform_linear.in_range([10000, 20000, 30000, 40000, 50000, 60000])
     end
 end

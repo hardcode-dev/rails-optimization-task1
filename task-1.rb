@@ -168,9 +168,13 @@ class ProgressBarEnabler
     @@flag
   end
 end
+
 ProgressBarEnabler.disable!
+=begin
 require 'benchmark'
 t = Benchmark.realtime do 
-  work('data/data_large.txt')
+  #work('data/data_large.txt')
+  work('data/data30000.txt')
 end
 p t
+=end

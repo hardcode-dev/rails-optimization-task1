@@ -56,6 +56,7 @@ def work filename = 'data.txt'
   users = []
   sessions = {}
   allBrowsers = []
+  allSessionCount = 0
   file_lines.each do |line|
     cols = line.split(',')
     if cols[0] == 'user'
@@ -65,14 +66,13 @@ def work filename = 'data.txt'
       }
     end
     if cols[0] == 'session'
+      allSessionCount += 1
       ses = parse_session(cols)
       sessions[ses['user_id']]['sessions'] << ses
       allBrowsers << ses['browser']
     end
-      #sessions = sessions + [] 
     progressbar.increment if ProgressBarEnabler.show?
   end
-  all_sessions = sessions.values().map{|s|s['sessions']}.flatten
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -95,7 +95,7 @@ def work filename = 'data.txt'
 
   
   progressbar = ProgressBar.create(
-    total: all_sessions.size,
+    total: allSessionCount,
     format: '%a, %J, %E, %B'
   ) if ProgressBarEnabler.show?
 
@@ -110,9 +110,9 @@ def work filename = 'data.txt'
 
 
 
-  report['uniqueBrowsersCount'] = allBrowsers.uniq.count#uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = allBrowsers.uniq.count
 
-  report['totalSessions'] = all_sessions.count
+  report['totalSessions'] = allSessionCount
 
   report['allBrowsers'] =
     allBrowsers
@@ -168,6 +168,9 @@ class ProgressBarEnabler
     @@flag
   end
 end
-#ProgressBarEnabler.disable!
-#work('data/data100000.txt')
-#work('data/data_large.txt')
+ProgressBarEnabler.disable!
+require 'benchmark'
+t = Benchmark.realtime do 
+  work('data/data_large.txt')
+end
+p t

@@ -3,19 +3,6 @@ require 'json'
 require 'date'
 require 'ruby-progressbar'
 
-#require 'awesome_print'
-#require 'ruby-prof'
-
-#Deprecated
-#class User
-#  attr_reader :attributes, :sessions
-#
-#  def initialize(attributes:, sessions:)
-#    @attributes = attributes
-#    @sessions = sessions
-#  end
-#end
-
 def parse_user(fields)
   parsed_result = {
     'id' => fields[1],
@@ -33,15 +20,6 @@ def parse_session(fields)
     'time' => fields[4],
     'date' => fields[5],
   }
-end
-
-#Deprecated
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
-  end
 end
 
 def work filename = 'data.txt'
@@ -99,17 +77,6 @@ def work filename = 'data.txt'
     format: '%a, %J, %E, %B'
   ) if ProgressBarEnabler.show?
 
-  # Подсчёт количества уникальных браузеров
-  #uniqueBrowsers = []
-  #all_sessions.each do |session|
-  #  browser = session['browser']
-  #  #uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  #  uniqueBrowsers += [browser] unless uniqueBrowsers.include?(browser)
-  #  progressbar.increment if ProgressBarEnabler.show?
-  #end
-
-
-
   report['uniqueBrowsersCount'] = allBrowsers.uniq.count
 
   report['totalSessions'] = allSessionCount
@@ -119,7 +86,7 @@ def work filename = 'data.txt'
     .sort
     .uniq
     .join(',')
-  # Статистика по пользователям
+  
   users_objects = []
 
   progressbar = ProgressBar.create(
@@ -127,6 +94,7 @@ def work filename = 'data.txt'
     format: '%a, %J, %E, %B'
   ) if ProgressBarEnabler.show?
 
+  # Статистика по пользователям
   report['usersStats'] = {}
   sessions.each do |user_id, sessions_info|
     user_sessions = sessions_info['sessions']

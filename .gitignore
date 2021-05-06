@@ -2,3 +2,5 @@
 .ruby-gemset
 data_*.txt
 result.json
+reports
+profilers/result.json

@@ -1,3 +1,4 @@
 .idea
 .ruby-gemset
 data_*.txt
+result.json

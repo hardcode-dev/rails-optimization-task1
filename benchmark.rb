@@ -5,6 +5,10 @@ LINES_COUNTS = [1000, 2000, 4000, 8000, 16_000].freeze
 
 Benchmark.bmbm do |x|
   LINES_COUNTS.each do |lines|
-    x.report("Lines: #{lines}") { work('data_large.txt', lines, true) }
+    x.report("Lines: #{lines}") { work('data_16000.txt', nil, true) }
   end
+  # LINES_COUNTS.each do |lines|
+  #   x.report("Lines: #{lines}") { work('data_large.txt', lines, true) }
+  # end
+  # x.report("Lines: #{16_000}") { work('data_16000.txt', nil, true) }
 end

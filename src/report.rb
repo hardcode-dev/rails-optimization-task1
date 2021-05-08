@@ -6,24 +6,22 @@ require 'date'
 require 'ruby-progressbar'
 require_relative 'user'
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
-    'age' => fields[4],
+    'age' => fields[4]
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+    'browser' => fields[3].upcase,
+    'time' => fields[4].to_i,
+    'date' => Date.strptime(fields[5], '%Y-%m-%d').iso8601
   }
 end
 
@@ -36,21 +34,23 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work(file_name, lines_count = nil, progressbar_enabled = false)
-  file_lines = File.read(file_name).split("\n")
+  file_lines = File.read(file_name).split("\n") if progressbar_enabled
 
   users = []
   sessions = []
 
   progressbar = ProgressBar.create(total: file_lines.count, format: '%a, %J, %E %B') if progressbar_enabled
 
-  file_lines.each_with_index do |line, i|
+  i = 0
+  File.foreach(file_name) do |line|
+    i += 1
     break if lines_count && i == lines_count
 
     progressbar.increment if progressbar_enabled
 
     cols = line.split(',')
-    users += [parse_user(line)] if cols[0] == 'user'
-    sessions += [parse_session(line)] if cols[0] == 'session'
+    users += [parse_user(cols)] if cols[0] == 'user'
+    sessions += [parse_session(cols)] if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -78,13 +78,7 @@ def work(file_name, lines_count = nil, progressbar_enabled = false)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -100,8 +94,8 @@ def work(file_name, lines_count = nil, progressbar_enabled = false)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    times = user.sessions.map { |s| s['time'].to_i }
-    browsers = user.sessions.map { |s| s['browser'].upcase }
+    times = user.sessions.map { |s| s['time'] }
+    browsers = user.sessions.map { |s| s['browser'] }
     {
       # Собираем количество сессий по пользователям
       'sessionsCount' => user.sessions.count,
@@ -112,11 +106,11 @@ def work(file_name, lines_count = nil, progressbar_enabled = false)
       # Браузеры пользователя через запятую
       'browsers' => browsers.sort.join(', '),
       # Хоть раз использовал IE?
-      'usedIE' => browsers.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      'usedIE' => browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
       # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => browsers.all? { |b| b.upcase =~ /CHROME/ },
+      'alwaysUsedChrome' => browsers.all? { |b| b =~ /CHROME/ },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+      'dates' => user.sessions.map{ |s| s['date'] }.sort.reverse
     }
   end
 

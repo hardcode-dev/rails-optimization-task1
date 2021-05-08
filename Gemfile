@@ -8,6 +8,7 @@ gem 'ruby-progressbar'
 gem 'pry'
 
 gem 'minitest'
+gem 'rspec-benchmark'
 
 gem 'ruby-prof'
 gem 'stackprof'

@@ -94,29 +94,28 @@ def work(file_name, lines_count = nil, progressbar_enabled = false)
     attributes = user
     user_sessions = sessions_by_user[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)
+    user_object.calculate_parameters
     users_objects.push(user_object)
   end
 
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    times = user.sessions.map { |s| s['time'] }
-    browsers = user.sessions.map { |s| s['browser'] }
     {
       # Собираем количество сессий по пользователям
-      'sessionsCount' => user.sessions.count,
+      'sessionsCount' => user.sessions_count,
       # Собираем количество времени по пользователям
-      'totalTime' => times.sum.to_s + ' min.',
+      'totalTime' => user.total_time.to_s + ' min.',
       # Выбираем самую длинную сессию пользователя
-      'longestSession' => times.max.to_s + ' min.',
+      'longestSession' => user.longest_session.to_s + ' min.',
       # Браузеры пользователя через запятую
-      'browsers' => browsers.sort.join(', '),
+      'browsers' => user.browsers.sort.join(', '),
       # Хоть раз использовал IE?
-      'usedIE' => browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
+      'usedIE' => user.used_ie,
       # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => browsers.all? { |b| b =~ /CHROME/ },
+      'alwaysUsedChrome' => user.always_used_chrome,
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map{ |s| s['date'] }.sort.reverse
+      'dates' => user.dates.sort.reverse
     }
   end
 

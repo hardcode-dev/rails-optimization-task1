@@ -6,6 +6,12 @@ require 'date'
 require 'ruby-progressbar'
 require_relative 'user'
 
+DATES = {}
+
+def parse_date(date)
+  DATES[date] ||= Date.strptime(date, '%Y-%m-%d').iso8601
+end
+
 def parse_user(fields)
   {
     'id' => fields[1],
@@ -21,7 +27,7 @@ def parse_session(fields)
     'session_id' => fields[2],
     'browser' => fields[3].upcase,
     'time' => fields[4].to_i,
-    'date' => Date.strptime(fields[5], '%Y-%m-%d').iso8601
+    'date' => parse_date(fields[5])
   }
 end
 
@@ -49,8 +55,8 @@ def work(file_name, lines_count = nil, progressbar_enabled = false)
     progressbar.increment if progressbar_enabled
 
     cols = line.split(',')
-    users += [parse_user(cols)] if cols[0] == 'user'
-    sessions += [parse_session(cols)] if cols[0] == 'session'
+    users.push(parse_user(cols)) if cols[0] == 'user'
+    sessions.push(parse_session(cols)) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -88,7 +94,7 @@ def work(file_name, lines_count = nil, progressbar_enabled = false)
     attributes = user
     user_sessions = sessions_by_user[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects += [user_object]
+    users_objects.push(user_object)
   end
 
   report['usersStats'] = {}

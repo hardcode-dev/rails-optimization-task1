@@ -32,10 +32,10 @@ RSpec.describe 'Task №1' do
     end
 
     context 'check execution speed' do
-      it_behaves_like 'check speed', 1500, 0.5
-      it_behaves_like 'check speed', 3000, 1
-      it_behaves_like 'check speed', 6000, 2
-      it_behaves_like 'check speed', 12000, 6
+      it_behaves_like 'check speed', 1500, 0.1
+      it_behaves_like 'check speed', 3000, 0.25
+      it_behaves_like 'check speed', 6000, 0.5
+      it_behaves_like 'check speed', 12000, 1
     end
   end
 end

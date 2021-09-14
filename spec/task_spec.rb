@@ -7,19 +7,19 @@ RSpec.describe 'Task №1' do
   include RSpec::Benchmark::Matchers
 
   describe '#work' do
-    let(:data) { File.read('spec/fixtures/data.txt') }
-    let(:result_data) { File.read('spec/fixtures/result.json') }
+    before do
+      File.write('result.json', '')
+      File.write('data.txt', data)
+    end
+
+    after do
+      File.delete('result.json')
+      File.delete('data.txt')
+    end
 
     context 'health check' do
-      before do
-        File.write('result.json', '')
-        File.write('data.txt', data)
-      end
-
-      after do
-        File.delete('result.json')
-        File.delete('data.txt')
-      end
+      let(:data) { File.read('spec/fixtures/data.txt') }
+      let(:result_data) { File.read('spec/fixtures/result.json') }
 
       it 'returns users data(in json)' do
         work

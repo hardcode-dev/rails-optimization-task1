@@ -2,8 +2,15 @@
 
 source 'https://rubygems.org'
 
-gem 'json'
-gem 'pry'
 gem 'date'
+gem 'json'
+
+# Debug
+gem 'pry'
+
+# Profiling
+gem 'benchmark'
+
+# Tests
 gem 'rspec'
 gem 'rspec-benchmark'

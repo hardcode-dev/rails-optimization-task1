@@ -2,20 +2,15 @@
 
 require 'rspec-benchmark'
 require_relative '../task-1'
+require_relative '../data_manager'
 
 RSpec.describe 'Task №1' do
   include RSpec::Benchmark::Matchers
 
   describe '#work' do
-    before do
-      File.write('result.json', '')
-      File.write('data.txt', data)
-    end
+    before { DataManager.setup_data }
 
-    after do
-      File.delete('result.json')
-      File.delete('data.txt')
-    end
+    after { DataManager.clear_data }
 
     context 'health check' do
       let(:data) { File.read('spec/fixtures/data.txt') }

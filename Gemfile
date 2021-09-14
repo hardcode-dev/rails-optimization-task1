@@ -10,6 +10,7 @@ gem 'pry'
 
 # Profiling
 gem 'benchmark'
+gem 'ruby-prof'
 
 # Tests
 gem 'rspec'

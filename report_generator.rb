@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'benchmark'
-require_relative './task-1'
+require_relative 'task-1'
+require_relative 'data_manager'
 
 SIZES = [1500, 3000, 6000, 12000].freeze
 
@@ -10,10 +11,10 @@ class ReportGenerator
     puts '| Объём | Время |'
     puts '| ------ | ------ |'
     SIZES.each do |size|
-      setup_data(size)
+      DataManager.setup_data(size)
       time = Benchmark.realtime { work }
       puts "| #{size} | #{time.round(2)} |"
-      clear_data
+      DataManager.clear_data
     end
     puts '| ... | ... |'
     puts '|  N  | O(---) |'

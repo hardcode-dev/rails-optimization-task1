@@ -53,6 +53,8 @@ def work
     sessions = sessions + [parse_session(cols)] if cols[0] == 'session'
   end
 
+  sessions = sessions.sort_by { |s| s['browser'] }
+
   # Отчёт в json
   #   - Сколько всего юзеров +
   #   - Сколько всего уникальных браузеров +
@@ -82,7 +84,6 @@ def work
   report['allBrowsers'] =
     sessions
       .map { |s| s['browser'] }
-      .sort
       .uniq
       .join(',')
 
@@ -115,7 +116,7 @@ def work
 
   # Браузеры пользователя через запятую
   collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.sort.join(', ') }
+    { 'browsers' => user.sessions.map {|s| s['browser']}.join(', ') }
   end
 
   # Хоть раз использовал IE?

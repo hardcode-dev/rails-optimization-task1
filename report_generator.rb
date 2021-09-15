@@ -13,7 +13,7 @@ class ReportGenerator
     SIZES.each do |size|
       DataManager.setup_data(size)
       time = Benchmark.realtime { work }
-      puts "| #{size} | #{time.round(2)} |"
+      puts "| #{size} | #{time.round(3)} |"
       DataManager.clear_data
     end
     puts '| ... | ... |'

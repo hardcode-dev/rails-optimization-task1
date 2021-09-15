@@ -24,9 +24,8 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -52,7 +51,7 @@ def work
   file_lines.each do |line|
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    sessions = sessions + [parse_session(cols)] if cols[0] == 'session'
   end
 
   # Отчёт в json

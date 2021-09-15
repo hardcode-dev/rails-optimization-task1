@@ -13,6 +13,7 @@ result = RubyProf.profile do
 end
 GC.enable
 
-printer = RubyProf::FlatPrinter.new(result)
-printer.print
+RubyProf::FlatPrinter.new(result).print
+RubyProf::CallStackPrinter.new(result).print(File.open('report.html', 'w+'))
 DataManager.clear_data
+#parse_session [5071 calls, 5071 total]

@@ -121,7 +121,7 @@ def work
 
   # Хоть раз использовал IE?
   collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b =~ /INTERNET EXPLORER/ } }
+    { 'usedIE' => !user.sessions.detect { |s| s['browser'] =~ /INTERNET EXPLORER/ }.nil? }
   end
 
   # Всегда использовал только Chrome?

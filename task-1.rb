@@ -75,7 +75,7 @@ def work
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = sessions.map { |s| s['browser'] }.compact
+  uniqueBrowsers = sessions.map { |s| s['browser'] }.uniq
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 

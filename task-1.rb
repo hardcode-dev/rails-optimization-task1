@@ -27,7 +27,7 @@ def parse_session(fields)
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
+    'browser' => fields[3].upcase,
     'time' => fields[4],
     'date' => fields[5],
   }
@@ -82,7 +82,6 @@ def work
   report['allBrowsers'] =
     sessions
       .map { |s| s['browser'] }
-      .map { |b| b.upcase }
       .sort
       .uniq
       .join(',')
@@ -116,17 +115,17 @@ def work
 
   # Браузеры пользователя через запятую
   collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
+    { 'browsers' => user.sessions.map {|s| s['browser']}.sort.join(', ') }
   end
 
   # Хоть раз использовал IE?
   collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
+    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b =~ /INTERNET EXPLORER/ } }
   end
 
   # Всегда использовал только Chrome?
   collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b =~ /CHROME/ } }
   end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601

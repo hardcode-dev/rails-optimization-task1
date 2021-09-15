@@ -14,6 +14,6 @@ end
 GC.enable
 
 RubyProf::FlatPrinter.new(result).print
-RubyProf::CallStackPrinter.new(result).print(File.open('report.html', 'w+'))
+RubyProf::GraphHtmlPrinter.new(result).print(File.open('report.html', 'w+'))
 DataManager.clear_data
 #parse_session [5071 calls, 5071 total]

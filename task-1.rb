@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # Deoptimized version of homework task
 
-require 'json'
+require 'oj'
 require 'pry'
 require 'date'
 
@@ -37,7 +37,7 @@ def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key].merge!(block.call(user))
   end
 end
 
@@ -134,5 +134,5 @@ def work
     { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report, mode: :compat)}\n")
 end

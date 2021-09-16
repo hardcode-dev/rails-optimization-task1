@@ -27,7 +27,7 @@ def parse_session(fields)
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
+    'browser' => fields[3].upcase,
     'time' => fields[4],
     'date' => fields[5],
   }
@@ -79,13 +79,7 @@ def work
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -104,7 +98,7 @@ def work
     dates = []
     user.sessions.each do |s|
       times << s['time'].to_i
-      browsers << s['browser'].upcase
+      browsers << s['browser']
       dates << s['date']
     end
     {

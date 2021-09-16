@@ -120,3 +120,34 @@ user.sessions.map{|s| s['date']}.sort.reverse
   Сложность O(log N)
 - метрики немного улучшились
 - исправленная проблема перестала быть главной точкой роста
+
+### Ваша находка №4
+- Array#each(52.90%), парсинг данных из файла
+
+```
+file_lines.each do |line|
+    cols = line.split(',')
+    users = users + [parse_user(line)] if cols[0] == 'user'
+    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+  end
+```
+- Убрал многократный вызов метода split, изменил метод записи в массив 
+```
+file_lines.each do |line|
+    cols = line.split(',')
+    users << parse_user(cols) if cols[0] == 'user'
+    sessions << parse_session(cols) if cols[0] == 'session'
+  end
+``` 
+
+- | Объём | Время |
+    | ------ | ------ |
+  | 1500 | 0.017 |
+  | 3000 | 0.024 |
+  | 6000 | 0.049 |
+  | 12000 | 0.089 |
+  | ... | ... |
+  |  N  | ... |
+  Сложность O(N)
+- метрики улучшились, O(log N) => O(log N)
+- исправленная проблема перестала быть главной точкой роста

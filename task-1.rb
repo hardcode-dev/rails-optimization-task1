@@ -99,14 +99,22 @@ def work
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
+    times = []
+    browsers = []
+    dates = []
+    user.sessions.each do |s|
+      times << s['time'].to_i
+      browsers << s['browser'].upcase
+      dates << s['date']
+    end
     {
       'sessionsCount' => user.sessions.count,
-      'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
-      'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
-      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
-      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
-      'dates' => user.sessions.map{|s| s['date']}.sort.reverse
+      'totalTime' => times.sum.to_s + ' min.',
+      'longestSession' => times.max.to_s + ' min.',
+      'browsers' => browsers.sort.join(', '),
+      'usedIE' => browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => browsers.all? { |b| b =~ /CHROME/ },
+      'dates' => dates.sort.reverse
     }
   end
 

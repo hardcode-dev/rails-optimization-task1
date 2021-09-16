@@ -18,7 +18,7 @@
 Программа поставлялась с тестом. Выполнение этого теста в фидбек-лупе позволяет не допустить изменения логики программы при оптимизации.
 
 ## Feedback-Loop
-Для того, чтобы иметь возможность быстро проверять гипотезы я выстроил эффективный `feedback-loop`, который позволил мне получать обратную связь по эффективности сделанных изменений за 45 секунд
+Для того, чтобы иметь возможность быстро проверять гипотезы я выстроил эффективный `feedback-loop`, который позволил мне получать обратную связь по эффективности сделанных изменений за 15 секунд
 
 Вот как я построил `feedback_loop`:
 
@@ -167,3 +167,37 @@ file_lines.each do |line|
 - метрики немного улучшились
 - исправленная проблема перестала быть главной точкой роста
 
+### Ваша находка №6
+- Array#map 26.49% [8361 calls, 8364 total]
+
+```
+   {
+      'sessionsCount' => user.sessions.count,
+      'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
+      'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
+      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
+      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
+      'dates' => user.sessions.map{|s| s['date']}.sort.reverse
+    }
+```  
+- Убрал многократный вызов метода map
+
+```
+file_lines.each do |line|
+    cols = line.split(',')
+    users << parse_user(cols) if cols[0] == 'user'
+    sessions << parse_session(cols) if cols[0] == 'session'
+  end
+```  
+- | Объём | Время |
+    | ------ | ------ |
+  | 1500 | 0.014 |
+  | 3000 | 0.019 |
+  | 6000 | 0.041 |
+  | 12000 | 0.077 |
+  | ... | ... |
+  |  N  | ... |
+  Сложность O(N)
+- метрики улучшились
+- исправленная проблема перестала быть главной точкой роста

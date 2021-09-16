@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'date'
+gem 'json'
 gem 'oj'
 
 # Debug

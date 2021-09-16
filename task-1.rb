@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # Deoptimized version of homework task
 
-require 'json'
+require 'oj'
 require 'pry'
 require 'date'
 
@@ -112,5 +112,5 @@ def work
     }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report, mode: :compat)}\n")
 end

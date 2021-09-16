@@ -8,3 +8,5 @@ gem 'minitest'
 
 gem 'ruby-prof'
 gem 'stackprof'
+
+gem 'rubocop', require: false

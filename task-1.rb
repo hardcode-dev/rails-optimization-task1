@@ -44,7 +44,10 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work
-  file_lines = File.read('data.txt').split("\n")
+  puts 'Start work'
+  GC.disable if disable_gc
+
+  file_lines = File.read(filename).split("\n")
 
   users = []
   sessions = []
@@ -99,6 +102,7 @@ def work
   users.each do |user|
     attributes = user
     user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end
@@ -141,6 +145,7 @@ def work
   end
 
   File.write('result.json', "#{report.to_json}\n")
+  puts 'Finish work'
 end
 
 class TestMe < Minitest::Test

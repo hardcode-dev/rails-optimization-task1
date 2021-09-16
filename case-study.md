@@ -48,19 +48,26 @@
 Кол-во строк в файле: 3250940
 
 ### Ваша находка №1
-- Array#select (80%) ```sessions.select { |session| session['user_id'] == user['id'] }```
+- Array#select (80%) 
+
+```sessions.select { |session| session['user_id'] == user['id'] }```
 - Предварительно сгруппировать сессии по user_id
 ```
-
+user_sessions = sessions.group_by { |session| session['user_id'] }
+users.each do |user|
+  users_objects << User.new(attributes: user, sessions: user_sessions[user['id']])
+end
 ``` 
  
 - | Объём | Время |
   | ------ | ------ |
-  | 1500 | 0.03 |
+  | 1500 | 0.034 |
   | 3000 | 0.06 |
-  | 6000 | 0.12 |
-  | 12000 | 0.43 |
+  | 6000 | 0.118 |
+  | 12000 | 0.303 |
   | ... | ... |
-  |  N  | O(N) |
-- переписал тесты под новые значения
+  |  N  | ... |
+  Сложность O(log N)
+- метрики улучшились, сложность O(N^2) => O(log N)
 - исправленная проблема перестала быть главной точкой роста
+

@@ -232,3 +232,29 @@ file_lines.each do |line|
 - метрики улучшились
 - исправленная проблема перестала быть главной точкой роста
 
+## Результаты
+В результате проделанной оптимизации наконец удалось обработать файл с данными.
+Удалось улучшить метрику системы до 26секунд и уложиться в заданный бюджет.
+(3250940 / 1500) * 0.12 = ~26,00сек.
+
+## Защита от регрессии производительности
+Для защиты от потери достигнутого прогресса при дальнейших изменениях программы были написыны тесты:
+
+```
+RSpec.shared_examples 'check speed' do |size, time|
+  context "when size == #{size}" do
+    let(:size) { size }
+
+    it 'works under 0.5 s' do
+      expect { work }.to perform_under(time)
+    end
+  end
+end
+
+context 'check execution speed' do
+  it_behaves_like 'check speed', 1500, 0.15
+  it_behaves_like 'check speed', 3000, 0.3
+  it_behaves_like 'check speed', 6000, 0.6
+  it_behaves_like 'check speed', 12000, 0.12
+end
+```

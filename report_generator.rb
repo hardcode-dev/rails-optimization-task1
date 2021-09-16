@@ -19,7 +19,8 @@ class ReportGenerator
       DataManager.clear_data
     end
     puts '| ... | ... |'
-    puts '|  N  | O(---) |'
+    puts '|  N  | ... |'
+    puts 'Сложность O(N)'
   end
 
   private

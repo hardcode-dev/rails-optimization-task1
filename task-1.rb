@@ -3,21 +3,11 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 
-def parse_user(fields)
+def parse_user(cols)
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3]
-  }
-end
-
-def parse_session(fields)
-  {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5]
+    'id' => cols[1],
+    'first_name' => cols[2],
+    'last_name' => cols[3]
   }
 end
 
@@ -26,13 +16,20 @@ def work(file_name, disable_gc: false)
 
   file_lines = File.read(file_name).split("\n")
 
-  users = file_lines.map { |l| parse_user(l.split(',')) if l.start_with? 'user' }.compact
+  users = file_lines.select {|l| l.start_with?('user') }.map { |l| parse_user(l.split(',')) }
 
   sessions = {}.tap do |s|
-    file_lines.select {|l| l.start_with?('session') }.each do |line|
-      cols = line.split(',')
-      s[cols[1]] ||= []
-      s[cols[1]] << parse_session(cols)
+    file_lines.select {|l| l.start_with?('session') }.map {|l| l.split(',')}.each do |cols|
+      s[cols[1]] ||= {
+        'total' => 0,
+        'browsers' => [],
+        'time' => [],
+        'dates' => []
+      }
+      s[cols[1]]['total'] += 1
+      s[cols[1]]['browsers'] << cols[3].upcase
+      s[cols[1]]['time'] << cols[4].to_i
+      s[cols[1]]['dates'] << cols[5]
     end
   end
 
@@ -53,13 +50,15 @@ def work(file_name, disable_gc: false)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report['totalUsers'] = users.count
 
   # Подсчёт количества уникальных браузеров
   all_sessions = sessions.values.flatten
-  report['uniqueBrowsersCount'] = all_sessions.map{|s| s['browser']}.uniq.size
-  report['totalSessions'] = all_sessions.size
-  report['allBrowsers'] = all_sessions.map { |s| s['browser'].upcase }.sort.uniq.join(',')
+  all_browsers = all_sessions.flat_map { |s| s['browsers'] }.uniq.sort
+
+  report['uniqueBrowsersCount'] = all_browsers.count
+  report['totalSessions'] = all_sessions.flat_map { |s| s['total'] }.sum
+  report['allBrowsers'] = all_browsers.join(',')
 
   # Статистика по пользователям
   users_objects = Hash[
@@ -72,19 +71,17 @@ def work(file_name, disable_gc: false)
   report['usersStats'] = {}
 
   users_objects.each do |user_key, sess|
-    browsers = sess.map {|s| s['browser'].upcase}
-
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(
-      [
-        { 'sessionsCount' => sess.count },
-        { 'totalTime' => sess.map {|s| s['time'].to_i}.sum.to_s + ' min.' },
-        { 'longestSession' => sess.map {|s| s['time'].to_i}.max.to_s + ' min.' },
-        { 'browsers' => browsers.sort.join(', ') },
-        { 'usedIE' => browsers.any? { |b| b =~ /INTERNET EXPLORER/ } },
-        { 'alwaysUsedChrome' => browsers.all? { |b| b =~ /CHROME/ } },
-        { 'dates' => sess.map{ |s| s['date'] }.sort.reverse }
-      ].inject(:merge)
+      {
+        'sessionsCount' => sess['total'],
+        'totalTime' => sess['time'].sum.to_s + ' min.',
+        'longestSession' => sess['time'].max.to_s + ' min.',
+        'browsers' => sess['browsers'].sort.join(', '),
+        'usedIE' => sess['browsers'].any? { |b| b =~ /INTERNET EXPLORER/ },
+        'alwaysUsedChrome' => sess['browsers'].all?("CHROME"),
+        'dates' => sess['dates'].sort.reverse
+      }
     )
   end
 

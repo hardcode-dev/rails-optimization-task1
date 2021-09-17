@@ -1,48 +1,46 @@
 Measure Mode: wall_time
-Thread ID: 47411198081380
-Fiber ID: 47411202322840
-Total: 0.101254
+Thread ID: 47076000913780
+Fiber ID: 47076005059020
+Total: 0.077527
 Sort by: self_time
 
  %self      total      self      wait     child     calls  name                           location
- 20.92      0.031     0.021     0.000     0.010     6148   Array#map                      
- 10.27      0.018     0.010     0.000     0.008        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
-  9.56      0.010     0.010     0.000     0.000    10001   String#split                   
-  7.57      0.039     0.008     0.000     0.031        1   Hash#each                      
-  7.00      0.019     0.007     0.000     0.012        1   Array#each                     
-  5.70      0.006     0.006     0.000     0.000    25366   String#encode                  
-  4.67      0.005     0.005     0.000     0.000     8464   Object#parse_session           /home/kirill/work/rails-optimization-task1/task-1.rb:14
-  4.38      0.004     0.004     0.000     0.000     3073   Array#sort                     
-  3.96      0.004     0.004     0.000     0.000    10752   Hash#merge                     
-  3.33      0.003     0.003     0.000     0.000    16928   String#upcase                  
-  3.03      0.003     0.003     0.000     0.000    20000   String#start_with?             
-  2.99      0.003     0.003     0.000     0.000    16928   String#to_i                    
-  2.69      0.004     0.003     0.000     0.002        1   Array#select                   
-  2.12      0.002     0.002     0.000     0.000     1536   Array#any?                     
-  1.72      0.002     0.002     0.000     0.000    12292   String#to_s                    
-  1.67      0.005     0.002     0.000     0.003     1536   Enumerable#inject              
-  1.36      0.001     0.001     0.000     0.000     1537   Array#join                     
-  1.03      0.001     0.001     0.000     0.000        2   Array#uniq                     
-  0.94      0.001     0.001     0.000     0.000     1536   Array#all?                     
-  0.75      0.001     0.001     0.000     0.000        1   Array#flatten                  
-  0.72      0.001     0.001     0.000     0.000     1536   Object#parse_user              /home/kirill/work/rails-optimization-task1/task-1.rb:6
-  0.68      0.001     0.001     0.000     0.000     3072   Integer#to_s                   
-  0.52      0.001     0.001     0.000     0.000     1538   Hash#keys                      
-  0.38      0.000     0.000     0.000     0.000     1536   Array#max                      
-  0.35      0.000     0.000     0.000     0.000     1536   Array#reverse                  
-  0.35      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
-  0.32      0.000     0.000     0.000     0.000     1536   Array#sum                      
-  0.28      0.000     0.000     0.000     0.000     1537   Array#count                    
-  0.23      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
-  0.21      0.000     0.000     0.000     0.000        1   <Class::Hash>#[]               
-  0.21      0.101     0.000     0.000     0.101        1   Object#work                    /home/kirill/work/rails-optimization-task1/task-1.rb:24
-  0.05      0.000     0.000     0.000     0.000        1   Array#compact                  
-  0.02      0.101     0.000     0.000     0.101        1   [global]#                      ruby_prof.rb:7
-  0.00      0.023     0.000     0.000     0.023        1   Kernel#tap                     
-  0.00      0.000     0.000     0.000     0.000        1   Hash#values                    
-  0.00      0.000     0.000     0.000     0.000        1   Kernel#dup                     
+ 19.66      0.019     0.015     0.000     0.004        3   Array#each                     
+ 13.38      0.019     0.010     0.000     0.008        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+ 12.00      0.009     0.009     0.000     0.000    10001   String#split                   
+  7.92      0.006     0.006     0.000     0.000    25366   String#encode                  
+  7.39      0.009     0.006     0.000     0.003        2   Array#select                   
+  7.09      0.015     0.005     0.000     0.009        1   Hash#each                      
+  5.63      0.013     0.004     0.000     0.009        3   Array#map                      
+  4.22      0.003     0.003     0.000     0.000    20000   String#start_with?             
+  3.16      0.002     0.002     0.000     0.000     3073   Array#sort                     
+  2.43      0.002     0.002     0.000     0.000    12293   String#to_s                    
+  2.41      0.002     0.002     0.000     0.000     8464   String#upcase                  
+  2.39      0.002     0.002     0.000     0.000     1536   Array#any?                     
+  2.35      0.002     0.002     0.000     0.000     8464   String#to_i                    
+  1.65      0.001     0.001     0.000     0.000     1537   Array#join                     
+  1.35      0.001     0.001     0.000     0.000     1536   Hash#merge                     
+  0.96      0.001     0.001     0.000     0.000     1536   Object#parse_user              /home/kirill/work/rails-optimization-task1/task-1.rb:6
+  0.93      0.001     0.001     0.000     0.000     3072   Integer#to_s                   
+  0.73      0.001     0.001     0.000     0.000     1536   Array#all?                     
+  0.61      0.000     0.000     0.000     0.000        1   Array#uniq                     
+  0.51      0.000     0.000     0.000     0.000     1538   Hash#keys                      
+  0.50      0.000     0.000     0.000     0.000     1536   Array#max                      
+  0.48      0.000     0.000     0.000     0.000     1537   Array#sum                      
+  0.47      0.000     0.000     0.000     0.000     1536   Array#reverse                  
+  0.43      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
+  0.32      0.000     0.000     0.000     0.000     1536   String#===                     
+  0.31      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
+  0.29      0.000     0.000     0.000     0.000        1   <Class::Hash>#[]               
+  0.25      0.078     0.000     0.000     0.077        1   Object#work                    /home/kirill/work/rails-optimization-task1/task-1.rb:23
+  0.12      0.000     0.000     0.000     0.000        1   Array#flatten                  
+  0.03      0.078     0.000     0.000     0.078        1   [global]#                      ruby_prof.rb:7
+  0.01      0.000     0.000     0.000     0.000        1   Hash#values                    
+  0.01      0.001     0.000     0.000     0.001        2   Enumerable#flat_map            
+  0.01      0.032     0.000     0.000     0.032        1   Kernel#tap                     
   0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           
-  0.00      0.000     0.000     0.000     0.000        1   Symbol#to_s                    
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#dup                     
+  0.00      0.000     0.000     0.000     0.000        2   Array#count                    
   0.00      0.000     0.000     0.000     0.000        1   Kernel#initialize_dup          
   0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize_copy 
 

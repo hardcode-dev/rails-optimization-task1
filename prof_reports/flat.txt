@@ -1,38 +1,30 @@
 Measure Mode: wall_time
-Thread ID: 70258232880640
-Fiber ID: 70258264075260
-Total: 1.177883
+Thread ID: 70170710339120
+Fiber ID: 70170736406280
+Total: 0.704690
 Sort by: self_time
 
  %self      total      self      wait     child     calls  name                           location
- 21.92      1.080     0.258     0.000     0.822    15433  *Array#each                     
- 17.37      0.432     0.205     0.000     0.227    84322   <Class::Date>#parse            
-  8.46      0.100     0.100     0.000     0.000   168644   Regexp#match                   
-  7.73      0.091     0.091     0.000     0.000   100001   String#split                   
-  7.52      0.585     0.089     0.000     0.497    46295   Array#map                      
-  7.06      0.083     0.083     0.000     0.000   100001   Array#uniq                     
-  4.38      0.052     0.052     0.000     0.000    84322   String#gsub!                   
-  3.42      0.040     0.040     0.000     0.000    84322   MatchData#begin                
-  3.27      0.059     0.038     0.000     0.020    30863   Array#sort                     
-  2.71      0.032     0.032     0.000     0.000    84322   Date#iso8601                   
-  2.53      0.037     0.030     0.000     0.007    15431   Array#any?                     
-  2.08      0.024     0.024     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
-  2.04      0.024     0.024     0.000     0.000   148884   String#upcase                  
-  1.71      0.020     0.020     0.000     0.000   170483   Date#<=>                       
-  1.36      0.016     0.016     0.000     0.000    84322   String#[]=                     
-  1.03      0.012     0.012     0.000     0.000    84569   String#to_i                    
-  0.94      0.011     0.011     0.000     0.000        1   Array#flatten                  
-  0.90      0.011     0.011     0.000     0.000    15432   Array#join                     
-  0.85      0.010     0.010     0.000     0.000    84322   Integer#div                    
-  0.84      0.010     0.010     0.000     0.000    84322   MatchData#end                  
-  0.52      0.006     0.006     0.000     0.000    30862   Integer#to_s                   
-  0.52      0.021     0.006     0.000     0.015    15431   Enumerable#all?                
-  0.27      1.178     0.003     0.000     1.175        1   Object#work                    /Users/georgegavrilchik/development/rails-optimization-course/rails-optimization-task1/task-1.rb:45
-  0.25      0.003     0.003     0.000     0.000        1   <Class::IO>#read               
-  0.25      0.003     0.003     0.000     0.000    15431   Array#reverse                  
-  0.09      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
-  0.00      0.000     0.000     0.000     0.000        2   Hash#values                    
-  0.00      1.178     0.000     0.000     1.178        1   [global]#                      profilers/ruby-prof-flat.rb:11
+ 33.69      0.399     0.237     0.000     0.161    15432   Array#each                     
+ 14.24      0.100     0.100     0.000     0.000   100001   String#split                   
+ 12.47      0.088     0.088     0.000     0.000   100001   Array#uniq                     
+  8.43      0.079     0.059     0.000     0.020    30863   Array#sort                     
+  5.04      0.067     0.036     0.000     0.032    15433   Array#map                      
+  4.99      0.229     0.035     0.000     0.194        1   Hash#each                      
+  4.23      0.037     0.030     0.000     0.007    15431   Array#any?                     
+  3.82      0.027     0.027     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  3.35      0.024     0.024     0.000     0.000   148884   String#upcase                  
+  2.82      0.020     0.020     0.000     0.000   170258   String#<=>                     
+  1.95      0.014     0.014     0.000     0.000    84569   String#to_i                    
+  1.52      0.011     0.011     0.000     0.000    15432   Array#join                     
+  1.41      0.010     0.010     0.000     0.000        1   Array#flatten                  
+  0.78      0.020     0.005     0.000     0.015    15431   Enumerable#all?                
+  0.78      0.005     0.005     0.000     0.000    30862   Integer#to_s                   
+  0.25      0.002     0.002     0.000     0.000        1   <Class::IO>#read               
+  0.13      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
+  0.09      0.705     0.001     0.000     0.704        1   Object#work                    /Users/georgegavrilchik/development/rails-optimization-course/rails-optimization-task1/task-1.rb:8
+  0.00      0.000     0.000     0.000     0.000        1   Hash#values                    
+  0.00      0.705     0.000     0.000     0.705        1   [global]#                      profilers/ruby-prof-flat.rb:11
   0.00      0.000     0.000     0.000     0.000        1   Array#count                    
   0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
 

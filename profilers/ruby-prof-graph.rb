@@ -8,7 +8,7 @@ RubyProf.measure_mode = RubyProf::WALL_TIME
 
 GC.disable
 result = RubyProf.profile do
-  work('data_medium.txt')
+  work('data_big.txt')
 end
 GC.enable
 

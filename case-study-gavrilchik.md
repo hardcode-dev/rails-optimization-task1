@@ -36,6 +36,7 @@ medium finished in 1.76
 
 ### Ваша находка №1
 - какой отчёт показал главную точку роста
+
 - как вы решили её оптимизировать
   use better data structure, do not store sessions and aggregate data in initial loop, 
 - small finished in 0.01
@@ -49,9 +50,24 @@ medium finished in 1.76
 
 ### Ваша находка №2
 - какой отчёт показал главную точку роста
+  18.21      0.460     0.219     0.000     0.240    84322   <Class::Date>#parse    
 - как вы решили её оптимизировать
+  -remove Date>#parse in general
+  "dates": user[:dates].map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+
+  "dates": user[:dates].sort{|a,b| b <=> a }
 - как изменилась метрика
+small finished in 0.0
+medium finished in 0.04
+big finished in 0.43
+large finished in 15.64
+
 - как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
+    33.69      0.399     0.237     0.000     0.161    15432   Array#each                     
+    14.24      0.100     0.100     0.000     0.000   100001   String#split                   
+    12.47      0.088     0.088     0.000     0.000   100001   Array#uniq                     
+      8.43      0.079     0.059     0.000     0.020    30863   Array#sort  
+
 
 ### Ваша находка №X
 - какой отчёт показал главную точку роста

@@ -16,28 +16,28 @@ end
 
 def parse_user(user)
   fields = user.split(',')
-  parsed_result = {
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
-    'age' => fields[4],
+    'age' => fields[4]
   }
 end
 
 def parse_session(session)
   fields = session.split(',')
-  parsed_result = {
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
     'time' => fields[4],
-    'date' => fields[5],
+    'date' => fields[5]
   }
 end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
@@ -45,6 +45,7 @@ end
 
 def work(filename = '', disable_gc: true)
   puts 'Start work'
+
   GC.disable if disable_gc
 
   file_lines = File.read(filename).split("\n")
@@ -54,8 +55,8 @@ def work(filename = '', disable_gc: true)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users.push(parse_user(line)) if cols[0] == 'user'
+    sessions.push(parse_session(line)) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -78,13 +79,13 @@ def work(filename = '', disable_gc: true)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  unique_browsers = []
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    unique_browsers += [browser] if unique_browsers.all? { |b| b != browser }
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = unique_browsers.count
 
   report['totalSessions'] = sessions.count
 

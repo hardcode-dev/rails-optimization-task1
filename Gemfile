@@ -10,3 +10,4 @@ gem 'ruby-prof'
 gem 'stackprof'
 
 gem 'rubocop', require: false
+gem 'rubocop-performance', require: false

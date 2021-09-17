@@ -79,18 +79,13 @@ def work(filename = '', disable_gc: true)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  unique_browsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    unique_browsers += [browser] if unique_browsers.all? { |b| b != browser }
-  end
+  unique_browsers = sessions.map { |s| s['browser'] }.uniq
 
   report['uniqueBrowsersCount'] = unique_browsers.count
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions.map { |s| s['browser'] }.map { |b| b.upcase }.sort.uniq.join(',')
+  report['allBrowsers'] = unique_browsers.map { |b| b.upcase }.sort.uniq.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -99,10 +94,9 @@ def work(filename = '', disable_gc: true)
 
   users.each do |user|
     attributes = user
-    # user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
     user_sessions = sessions_by_user[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    users_objects.push(user_object)
   end
 
   report['usersStats'] = {}

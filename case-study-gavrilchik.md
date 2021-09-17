@@ -37,6 +37,7 @@ medium finished in 1.76
 ### Ваша находка №1
 - какой отчёт показал главную точку роста
 - как вы решили её оптимизировать
+  use better data structure, do not store sessions and aggregate data in initial loop, 
 - small finished in 0.01
   medium finished in 0.09
   big finished in 0.78

@@ -108,10 +108,13 @@ def work(filename = '', disable_gc: true)
   # Всегда использовал только Chrome?
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
+
     time = user.sessions.map { |s| s['time'] }
     browsers = user.sessions.map { |s| s['browser'] }
-    dates = user.sessions.map { |s| s['date'] }
-    dates_iso8601 = dates.map { |d| Date.iso8601(d) }
+    dates = user.sessions.map! { |s| s['date'] }
+
+    dates_array = []
+    dates_iso8601 = dates.each { |d| dates_array << Date.iso8601(d) }
 
     {
       'sessionsCount' => user.sessions.count,

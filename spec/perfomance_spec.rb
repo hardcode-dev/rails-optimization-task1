@@ -7,10 +7,16 @@ end
 
 describe 'Perfomance' do
   describe 'work' do
-    it 'works under 340 ms for 10_000 lines' do
+    it 'works under 310 ms for 10_000 lines' do
       expect {
         work(filename: 'files/data_10_000.txt')
-      }.to perform_under(340).ms.warmup(2).times.sample(10).times
+      }.to perform_under(310).ms.warmup(2).times.sample(10).times
+    end
+
+    it 'works under 5 sec for 50_000 lines' do
+      expect {
+        work(filename: 'files/data_50_000.txt')
+      }.to perform_under(5000).ms.warmup(2).times.sample(10).times
     end
   end
 end

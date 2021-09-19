@@ -1,0 +1,382 @@
+events: wall_time
+
+fl=
+fn=IO::write
+0 17
+
+fl=
+fn=IO::puts
+0 8
+cfl=
+cfn=IO::write
+calls=1 0
+0 17
+
+fl=
+fn=Kernel::puts
+0 8
+cfl=
+cfn=IO::puts
+calls=1 0
+0 25
+
+fl=
+fn=Float::to_s
+0 8
+
+fl=
+fn=Float::round
+0 22
+
+fl=
+fn=IO::write^
+0 487
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 2
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 2607
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 2
+
+fl=
+fn=Array::reverse
+0 2100
+
+fl=
+fn=Array::all?
+0 10594
+cfl=
+cfn=String::include?
+calls=3568 75
+75 4628
+
+fl=
+fn=String::include?
+0 12322
+
+fl=
+fn=Array::any?
+0 16490
+cfl=
+cfn=String::include?
+calls=5839 73
+73 7694
+
+fl=
+fn=Array::max
+0 2014
+
+fl=
+fn=String::+
+0 4226
+
+fl=
+fn=Integer::to_s
+0 3940
+
+fl=
+fn=Array::sum
+0 2061
+
+fl=
+fn=Array::sort!
+0 3037
+
+fl=
+fn=Date::to_s
+0 14672
+
+fl=
+fn=Integer::div
+0 10466
+
+fl=
+fn=Date::strptime^
+0 29729
+cfl=
+cfn=Integer::div
+calls=8464 0
+0 10466
+
+fl=
+fn=String::chomp
+0 11623
+
+fl=
+fn=String::to_s
+0 10483
+
+fl=
+fn=String::to_i
+0 11068
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+fn=Object::calcum_data_from_user
+50 40929
+cfl=
+cfn=Array::map
+calls=1536 55
+55 199943
+cfl=
+cfn=Array::sort!
+calls=1536 61
+61 3037
+cfl=
+cfn=Array::count
+calls=1536 65
+65 1884
+cfl=
+cfn=Array::sum
+calls=1536 65
+65 2061
+cfl=
+cfn=Integer::to_s
+calls=3072 65
+65 3940
+cfl=
+cfn=String::+
+calls=3072 65
+65 4226
+cfl=
+cfn=Array::max
+calls=1536 65
+65 2014
+cfl=
+cfn=Array::join
+calls=1536 65
+65 3379
+cfl=
+cfn=Array::any?
+calls=1536 65
+65 24185
+cfl=
+cfn=Array::all?
+calls=1536 65
+65 15222
+cfl=
+cfn=Array::sort
+calls=1536 65
+65 3144
+cfl=
+cfn=Array::reverse
+calls=1536 65
+65 2100
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+fn=Object::record_users_statistics
+81 101
+cfl=
+cfn=Enumerable::group_by
+calls=1 85
+85 12363
+cfl=
+cfn=Array::each
+calls=1 90
+90 318595
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 98
+98 2609
+cfl=
+cfn=IO::write^
+calls=1 98
+98 487
+
+fl=
+fn=Array::join
+0 3400
+
+fl=
+fn=Array::sort
+0 3181
+
+fl=
+fn=String::upcase
+0 11331
+
+fl=
+fn=Hash::each
+0 719
+cfl=
+cfn=String::upcase
+calls=200 38
+38 268
+
+fl=
+fn=Enumerable::map
+0 8
+cfl=
+cfn=Hash::each
+calls=1 0
+0 986
+
+fl=
+fn=Array::each
+0 36825
+cfl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+cfn=Object::calcum_data_from_user
+calls=1536 95
+95 306063
+
+fl=
+fn=Enumerable::group_by
+0 17
+cfl=
+cfn=Array::each
+calls=2 0
+0 24294
+
+fl=
+fn=Array::count
+0 1889
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+fn=Object::json_report
+10 46
+cfl=
+cfn=Array::count
+calls=3 28
+28 5
+cfl=
+cfn=Enumerable::group_by
+calls=1 30
+30 11948
+cfl=
+cfn=Enumerable::map
+calls=1 36
+36 995
+cfl=
+cfn=Array::sort
+calls=1 45
+45 37
+cfl=
+cfn=Array::join
+calls=1 45
+45 21
+cfl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+cfn=Object::record_users_statistics
+calls=1 47
+47 334155
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+110 22601
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+101 4186
+
+fl=
+fn=String::split
+0 19266
+
+fl=
+fn=Array::map
+0 161745
+cfl=
+cfn=String::split
+calls=10000 128
+128 19266
+cfl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=1536 129
+129 4186
+cfl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=8464 130
+130 22601
+cfl=
+cfn=String::to_i
+calls=8464 56
+56 11068
+cfl=
+cfn=String::upcase
+calls=8464 57
+57 11063
+cfl=
+cfn=String::to_s
+calls=8464 58
+58 10483
+cfl=
+cfn=String::chomp
+calls=8464 58
+58 11623
+cfl=
+cfn=Date::strptime^
+calls=8464 58
+58 40195
+cfl=
+cfn=Date::to_s
+calls=8464 58
+58 14672
+
+fl=
+fn=IO::readlines^
+0 1399
+
+fl=
+fn=Process::clock_gettime^
+0 14
+
+fl=/home/olegphenomenon/.rbenv/versions/3.0.2/lib/ruby/3.0.0/benchmark.rb
+fn=Benchmark::realtime^
+306 51
+cfl=
+cfn=Process::clock_gettime^
+calls=2 307
+307 14
+cfl=
+cfn=IO::readlines^
+calls=1 127
+127 1399
+cfl=
+cfn=Array::map
+calls=1 127
+127 106960
+cfl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+cfn=Object::json_report
+calls=1 133
+133 347207
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/<internal:gc>
+fn=GC::disable^
+84 7
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+fn=Object::work
+120 26
+cfl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/<internal:gc>
+cfn=GC::disable^
+calls=1 121
+121 7
+cfl=/home/olegphenomenon/.rbenv/versions/3.0.2/lib/ruby/3.0.0/benchmark.rb
+cfn=Benchmark::realtime^
+calls=1 123
+123 455631
+cfl=
+cfn=Float::round
+calls=1 136
+136 22
+cfl=
+cfn=Float::to_s
+calls=1 136
+136 8
+cfl=
+cfn=Kernel::puts
+calls=1 136
+136 33
+
+fl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1_ruby-prof_callgrind.rb
+fn=[global]::
+7 28
+cfl=/home/olegphenomenon/Документы/optiomization course/lessons/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 7
+7 455726
+

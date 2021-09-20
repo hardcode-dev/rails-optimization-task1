@@ -1,0 +1,378 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 1029
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 1
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 8115
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 1
+
+fl=
+fn=NilClass::to_s
+0 2
+
+fl=
+fn=Date::iso8601
+0 8977
+
+fl=
+fn=Array::reverse
+0 946
+
+fl=
+fn=Date::<=>
+0 6234
+
+fl=
+fn=Integer::div
+0 3336
+
+fl=
+fn=String::[]=
+0 5845
+
+fl=
+fn=MatchData::end
+0 2968
+
+fl=
+fn=MatchData::begin
+0 9693
+
+fl=
+fn=Regexp::match
+0 19477
+
+fl=
+fn=String::gsub!
+0 37201
+
+fl=
+fn=Date::parse^
+0 58481
+cfl=
+cfn=String::gsub!
+calls=16954 0
+0 37201
+cfl=
+cfn=Regexp::match
+calls=33908 0
+0 19477
+cfl=
+cfn=MatchData::begin
+calls=16954 0
+0 9693
+cfl=
+cfn=MatchData::end
+calls=16954 0
+0 2968
+cfl=
+cfn=String::[]=
+calls=16954 0
+0 5845
+cfl=
+cfn=Integer::div
+calls=16954 0
+0 3336
+
+fl=
+fn=Array::all?
+0 3169
+cfl=
+cfn=String::upcase
+calls=3929 112
+112 954
+
+fl=
+fn=Array::any?
+0 7323
+cfl=
+cfn=String::upcase
+calls=8845 111
+111 2116
+
+fl=
+fn=String::inspect
+0 11459
+
+fl=
+fn=Hash::to_s
+0 12670
+cfl=
+cfn=String::inspect
+calls=30450 0
+0 11459
+
+fl=
+fn=Integer::<=>
+0 2337
+
+fl=
+fn=Array::max
+0 9866
+cfl=
+cfn=String::to_i
+calls=27818 109
+109 5166
+cfl=
+cfn=Integer::<=>
+calls=13909 109
+109 2337
+
+fl=
+fn=Integer::to_s
+0 900
+
+fl=
+fn=String::to_i
+0 8921
+
+fl=
+fn=Array::sum
+0 8643
+cfl=
+cfn=String::to_i
+calls=16954 108
+108 3755
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+52 8
+cfl=
+cfn=Array::each
+calls=1 53
+53 288210
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+fn=User::initialize
+10 1209
+
+fl=
+fn=Class::new
+0 1773
+cfl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=3046 0
+0 1209
+
+fl=
+fn=Array::each
+0 44524
+cfl=
+cfn=Class::new
+calls=3046 98
+98 2982
+cfl=
+cfn=Array::count
+calls=3046 107
+107 695
+cfl=
+cfn=Array::sum
+calls=3046 107
+107 12398
+cfl=
+cfn=Integer::to_s
+calls=3046 107
+107 900
+cfl=
+cfn=Array::max
+calls=3046 107
+107 17369
+cfl=
+cfn=Hash::to_s
+calls=3045 107
+107 24129
+cfl=
+cfn=Array::map
+calls=15230 107
+107 179623
+cfl=
+cfn=Array::sort
+calls=6092 107
+107 16424
+cfl=
+cfn=Array::join
+calls=3046 107
+107 3250
+cfl=
+cfn=Array::any?
+calls=3046 107
+107 9439
+cfl=
+cfn=Array::all?
+calls=3046 107
+107 4123
+cfl=
+cfn=Array::reverse
+calls=3046 107
+107 946
+cfl=
+cfn=NilClass::to_s
+calls=1 107
+107 2
+
+fl=
+fn=Enumerable::group_by
+0 4
+cfl=
+cfn=Array::each
+calls=1 0
+0 7550
+
+fl=
+fn=Array::join
+0 3272
+
+fl=
+fn=Array::sort
+0 14819
+cfl=
+cfn=Date::<=>
+calls=29721 0
+0 6234
+
+fl=
+fn=String::upcase
+0 10788
+
+fl=
+fn=Array::uniq
+0 2687
+
+fl=
+fn=Array::map
+0 41829
+cfl=
+cfn=String::upcase
+calls=33908 0
+0 7717
+cfl=
+cfn=Date::parse^
+calls=16954 113
+113 137000
+cfl=
+cfn=Date::iso8601
+calls=16954 0
+0 8977
+
+fl=
+fn=Array::count
+0 699
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+25 10209
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+16 1719
+
+fl=
+fn=String::split
+0 16788
+
+fl=
+fn=String::each_line
+0 19397
+cfl=
+cfn=String::split
+calls=20000 40
+40 16788
+cfl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=3046 43
+43 1719
+cfl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=16954 45
+45 10209
+
+fl=
+fn=IO::read^
+0 998
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+fn=Object::collect_data
+35 8
+cfl=
+cfn=IO::read^
+calls=1 39
+39 998
+cfl=
+cfn=String::each_line
+calls=1 39
+39 48112
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/<internal:gc>
+fn=GC::disable^
+84 7
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+fn=Object::work
+59 597
+cfl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/<internal:gc>
+cfn=GC::disable^
+calls=1 60
+60 7
+cfl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+cfn=Object::collect_data
+calls=1 62
+62 49118
+cfl=
+cfn=Array::count
+calls=3 81
+81 4
+cfl=
+cfn=Array::map
+calls=3 84
+84 15901
+cfl=
+cfn=Array::uniq
+calls=2 84
+84 2687
+cfl=
+cfn=Array::sort
+calls=1 90
+90 4629
+cfl=
+cfn=Array::join
+calls=1 90
+90 22
+cfl=
+cfn=Enumerable::group_by
+calls=1 95
+95 7554
+cfl=
+cfn=Array::each
+calls=1 96
+96 21045
+cfl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 105
+105 288218
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 117
+117 8116
+cfl=
+cfn=IO::write^
+calls=1 117
+117 1029
+
+fl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/profiler.rb
+fn=[global]::
+8 30
+cfl=/home/kirill/Рабочий стол/rb-optimization/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 8
+8 398925
+

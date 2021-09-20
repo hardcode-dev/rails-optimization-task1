@@ -1,7 +1,7 @@
 require 'rspec/core/rake_task'
 require 'rake/testtask'
 require 'benchmark'
-#require_relative 'benchmark/ruby-prof'
+# require_relative 'benchmark/ruby-prof'
 
 task default: %i[benchmark_spec test ruby_prof stackprof processing_time]
 
@@ -21,7 +21,7 @@ end
 
 task :stackprof do
   ruby 'benchmark/stackprof.rb'
-  system "stackprof benchmark/reports/stackprof.dump"
+  system 'stackprof benchmark/reports/stackprof.dump'
 end
 
 task :processing_time do

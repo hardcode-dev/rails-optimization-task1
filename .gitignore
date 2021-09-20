@@ -1,5 +1,4 @@
 .idea/
-data_large.txt
-data_10000.txt
+data/
 result.json
 benchmark/reports/

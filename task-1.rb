@@ -36,7 +36,7 @@ def collect_data(filename)
   users = []
   sessions = []
 
-  File.read(filename).each_line do |line|
+  File.read(filename).split("\n").each do |line|
     cols = line.split(',')
     case cols[0]
     when 'user'
@@ -87,7 +87,7 @@ def work(filename = 'data_large.txt', disable_gc: false)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] = sessions.map { |s| s['browser'] }.map(&:upcase).sort.uniq.join(',')
+  report['allBrowsers'] = sessions.map { |s| s['browser'].upcase }.uniq.sort.join(',')
 
   grouped_sessions = sessions.group_by { |session| session['user_id'] }
 
@@ -109,7 +109,7 @@ def work(filename = 'data_large.txt', disable_gc: false)
       'browsers' => browsers_upcased.sort.join(', '),
       'usedIE' => browsers_upcased.any? { |b| b =~ /INTERNET EXPLORER/ },
       'alwaysUsedChrome' => browsers_upcased.all? { |b| b =~ /CHROME/ },
-      'dates' => user.sessions.map { |s| s['date'].strip }.sort.reverse
+      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse
     }
   end
 

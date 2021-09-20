@@ -13,8 +13,7 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
+def parse_user(fields)
   {
     'id' => fields[1],
     'first_name' => fields[2],
@@ -23,8 +22,7 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
+def parse_session(fields)
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
@@ -32,6 +30,23 @@ def parse_session(session)
     'time' => fields[4],
     'date' => fields[5]
   }
+end
+
+def collect_data(filename)
+  users = []
+  sessions = []
+
+  File.read(filename).each_line do |line|
+    cols = line.split(',')
+    case cols[0]
+    when 'user'
+      users += [parse_user(cols)]
+    when 'session'
+      sessions += [parse_session(cols)]
+    end
+  end
+
+  [users, sessions]
 end
 
 def collect_stats_from_users(report, users_objects, &block)
@@ -42,19 +57,10 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(filename = 'data.txt', disable_gc: false)
+def work(filename = 'data_large.txt', disable_gc: false)
   GC.disable if disable_gc
 
-  file_lines = File.read(filename).split("\n")
-
-  users = []
-  sessions = []
-
-  file_lines.each do |line|
-    cols = line.split(',')
-    users += [parse_user(line)] if cols[0] == 'user'
-    sessions += [parse_session(line)] if cols[0] == 'session'
-  end
+  users, sessions = collect_data(filename)
 
   # Отчёт в json
   #   - Сколько всего юзеров +

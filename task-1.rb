@@ -40,9 +40,9 @@ def collect_data(filename)
     cols = line.split(',')
     case cols[0]
     when 'user'
-      users += [parse_user(cols)]
+      users << parse_user(cols)
     when 'session'
-      sessions += [parse_session(cols)]
+      sessions << parse_session(cols)
     end
   end
 

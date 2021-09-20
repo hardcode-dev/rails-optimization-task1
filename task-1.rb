@@ -100,14 +100,16 @@ def work(filename = 'data_large.txt', disable_gc: false)
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
+    browsers_upcased = user.sessions.map { |s| s['browser'].upcase }
+    sessions_time = user.sessions.map { |s| s['time'].to_i }
     {
       'sessionsCount' => user.sessions.count,
-      'totalTime' => "#{user.sessions.sum { |s| s['time'].to_i }} min.",
-      'longestSession' => "#{user.sessions.map { |s| s['time'].to_i }.max} min.",
-      'browsers' => user.sessions.map { |s| s['browser'].upcase }.sort.join(', '),
-      'usedIE' => user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ },
-      'dates' => user.sessions.map { |s| Date.parse(s['date']) }.sort.reverse.map(&:iso8601)
+      'totalTime' => "#{sessions_time.sum} min.",
+      'longestSession' => "#{sessions_time.max} min.",
+      'browsers' => browsers_upcased.sort.join(', '),
+      'usedIE' => browsers_upcased.any? { |b| b =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => browsers_upcased.all? { |b| b =~ /CHROME/ },
+      'dates' => user.sessions.map { |s| s['date'].strip }.sort.reverse
     }
   end
 

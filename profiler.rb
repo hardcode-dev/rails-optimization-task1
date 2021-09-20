@@ -10,3 +10,6 @@ end
 
 printer4 = RubyProf::CallTreePrinter.new(result)
 printer4.print(:profile => 'callgrind')
+
+printer = RubyProf::GraphHtmlPrinter.new(result)
+printer.print(File.open("graph.html", "w+"))

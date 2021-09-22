@@ -50,8 +50,8 @@ def work(filepath:)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users << parse_user(line) if cols[0] == 'user'
+    sessions << parse_session(line) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -74,11 +74,7 @@ def work(filepath:)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  uniqueBrowsers = sessions.uniq { |session| session['browser'] }
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
@@ -93,13 +89,11 @@ def work(filepath:)
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
+  grouped_sessions = sessions.group_by { |session| session['user_id'] }
 
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+  users_objects = users.map do |user|
+    user_sessions = grouped_sessions[user['id']]
+    User.new(attributes: user, sessions: user_sessions)
   end
 
   report['usersStats'] = {}

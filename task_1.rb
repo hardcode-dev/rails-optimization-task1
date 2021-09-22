@@ -1,4 +1,4 @@
-# Deoptimized version of homework task
+# frozen_string_literal: true
 
 require 'json'
 require 'pry'
@@ -84,7 +84,7 @@ def work(filename = '', disable_gc: true)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] = unique_browsers.map!(&:upcase).sort.uniq.join(',')
+  report['allBrowsers'] = unique_browsers.map!(&:upcase).sort.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -116,6 +116,8 @@ def work(filename = '', disable_gc: true)
     dates_array = []
     dates_iso8601 = dates.each { |d| dates_array << Date.iso8601(d) }
 
+    # dates_iso8601 = dates.map { |d| Date.iso8601(d) }
+
     {
       'sessionsCount' => user.sessions.count,
       'totalTime' => "#{time.map!(&:to_i).sum} min.",
@@ -128,6 +130,7 @@ def work(filename = '', disable_gc: true)
   end
 
   File.write('result.json', "#{report.to_json}\n")
+
   puts 'Finish work'
 end
 

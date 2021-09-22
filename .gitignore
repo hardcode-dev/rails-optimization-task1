@@ -1,0 +1,4 @@
+.idea
+data_*.txt
+result.json
+ruby_prof_reports

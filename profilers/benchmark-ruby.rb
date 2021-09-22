@@ -2,7 +2,7 @@
 require 'benchmark'
 require_relative '../task-1.rb'
 
-GC.disable
+# GC.disable
 
 puts "Start"
 

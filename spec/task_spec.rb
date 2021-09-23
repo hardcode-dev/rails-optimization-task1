@@ -4,7 +4,7 @@ require_relative 'spec_helper'
 require_relative '../task-1'
 require_relative '../data_manager'
 
-RSpec.shared_examples 'check speed' do |size, time|
+RSpec.shared_examples 'fast program' do |size, time|
   context "when size == #{size}" do
     let(:size) { size }
 
@@ -32,10 +32,10 @@ RSpec.describe 'Task №1' do
     end
 
     context 'check execution speed' do
-      it_behaves_like 'check speed', 1500, 0.15
-      it_behaves_like 'check speed', 3000, 0.3
-      it_behaves_like 'check speed', 6000, 0.6
-      it_behaves_like 'check speed', 12000, 0.12
+      it_behaves_like 'fast program', 1500, 0.15
+      it_behaves_like 'fast program', 3000, 0.3
+      it_behaves_like 'fast program', 6000, 0.6
+      it_behaves_like 'fast program', 12000, 1.2
     end
   end
 end

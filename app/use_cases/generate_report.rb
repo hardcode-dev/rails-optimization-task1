@@ -3,7 +3,7 @@ require 'date'
 
 class GenerateReport
   def work(path)
-    file_lines = File.read(path).split("\n")
+    file_lines = File.foreach(path).first(16000).join.split("\n")
   
     users = []
     sessions = []

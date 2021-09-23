@@ -6,16 +6,16 @@ RubyProf.measure_mode = RubyProf::WALL_TIME
 GC.disable
 
 result = RubyProf.profile do
-  GenerateReport.new.work('data.txt')
+  GenerateReport.new.work('spec/support/fixtures/data_large.txt')
 end
 
 GC.enable
 
 File.open(
-  "/home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/profiler_reports/ruby-prof_html_graph_report.html",
+  "/home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/profiler_reports/flat_16000.html",
   'w+'
 ) do |file|
-  RubyProf::GraphHtmlPrinter.new(result).print(file)
+  RubyProf::FlatPrinter.new(result).print(file)
 end
 # ---RUBYPROF END---
 

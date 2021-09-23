@@ -1,0 +1,71 @@
+Measure Mode: wall_time
+Thread ID: 47438361876840
+Fiber ID: 47438368856120
+Total: 0.072944
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 47.62      0.035     0.035     0.000     0.000      154   Array#select                   
+ 16.63      0.012     0.012     0.000     0.000     1000   Array#all?                     
+  8.19      0.069     0.006     0.000     0.063       10   Array#each                     
+  5.18      0.011     0.004     0.000     0.007     1696   Array#map                      
+  3.97      0.006     0.003     0.000     0.003      846   <Class::Date>#parse            
+  3.05      0.002     0.002     0.000     0.000     2001   String#split                   
+  1.66      0.002     0.001     0.000     0.001        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  1.58      0.001     0.001     0.000     0.000     1692   Regexp#match                   
+  1.24      0.002     0.001     0.000     0.001      846   GenerateReport#parse_session   /home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/app/use_cases/generate_report.rb:117
+  1.17      0.001     0.001     0.000     0.000     2546   String#encode                  
+  0.90      0.001     0.001     0.000     0.000      309   Array#sort                     
+  0.84      0.001     0.001     0.000     0.000      846   String#gsub!                   
+  0.83      0.001     0.001     0.000     0.000     2328   String#upcase                  
+  0.77      0.001     0.001     0.000     0.000      846   MatchData#begin                
+  0.75      0.001     0.001     0.000     0.000     1078   Hash#merge                     
+  0.72      0.001     0.001     0.000     0.000      846   Date#iso8601                   
+  0.56      0.000     0.000     0.000     0.000     1692   String#to_i                    
+  0.48      0.000     0.000     0.000     0.000      846   String#[]=                     
+  0.45      0.000     0.000     0.000     0.000     1467   Date#<=>                       
+  0.42      0.000     0.000     0.000     0.000      154   Array#any?                     
+  0.41      0.000     0.000     0.000     0.000        2   <Class::IO>#foreach            
+  0.33      0.000     0.000     0.000     0.000     1236   String#to_s                    
+  0.31      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
+  0.30      0.000     0.000     0.000     0.000      156   Array#join                     
+  0.26      0.000     0.000     0.000     0.000      846   Integer#div                    
+  0.23      0.000     0.000     0.000     0.000      846   MatchData#end                  
+  0.21      0.000     0.000     0.000     0.000      154   GenerateReport#parse_user      /home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/app/use_cases/generate_report.rb:107
+  0.21      0.000     0.000     0.000     0.000      155   Class#new                      
+  0.12      0.000     0.000     0.000     0.000      308   Integer#to_s                   
+  0.11      0.000     0.000     0.000     0.000      154   User#initialize                /home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/app/models/user.rb:4
+  0.07      0.000     0.000     0.000     0.000        1   Array#uniq                     
+  0.07      0.000     0.000     0.000     0.000      154   Array#reverse                  
+  0.06      0.000     0.000     0.000     0.000      156   Hash#keys                      
+  0.06      0.000     0.000     0.000     0.000      154   Array#max                      
+  0.05      0.073     0.000     0.000     0.073        1   [global]#                      application.rb:9
+  0.05      0.000     0.000     0.000     0.000      157   Array#count                    
+  0.05      0.073     0.000     0.000     0.073        1   GenerateReport#work            /home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/app/use_cases/generate_report.rb:5
+  0.05      0.000     0.000     0.000     0.000      154   Array#sum                      
+  0.01      0.000     0.000     0.000     0.000        1   Enumerable#first               
+  0.01      0.016     0.000     0.000     0.016        7   GenerateReport#collect_stats_from_users /home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/app/use_cases/generate_report.rb:128
+  0.01      0.000     0.000     0.000     0.000        1   Kernel#dup                     
+  0.00      0.000     0.000     0.000     0.000        1   Enumerator#each                
+  0.00      0.000     0.000     0.000     0.000        1   Symbol#to_s                    
+  0.00      0.000     0.000     0.000     0.000        1   Kernel#initialize_dup          
+  0.00      0.000     0.000     0.000     0.000        1   BasicObject#initialize         
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize_copy 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

@@ -7,8 +7,8 @@ RSpec.describe GenerateReport do
   #   expect { subject.work(path) }.to perform_under(30).sec.warmup(2).sample(5)
   # end
 
-  context 'data_16000' do
-    let(:path) { 'spec/support/fixtures/data_16000.txt' }
+  context 'data_64000' do
+    let(:path) { 'spec/support/fixtures/data_64000.txt' }
 
     before { File.write('result.json', '') }
 

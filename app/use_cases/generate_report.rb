@@ -89,12 +89,9 @@ class GenerateReport
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = []
     @sessions.each_slice(BANCH_SIZE) do |sessions|
-      sessions.each do |session|
-        browser = session['browser']
-        uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-      end
+      uniqueBrowsers << sessions.map { |session| session['browser'] }.uniq
     end
-    uniqueBrowsers
+    uniqueBrowsers.flatten.uniq
   end
 
   def all_browsers

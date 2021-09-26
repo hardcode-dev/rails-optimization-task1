@@ -17,10 +17,15 @@ require 'date'
 #     - даты сессий в порядке убывания через запятую +
 
 class GenerateReport
+  BANCH_SIZE = 1_000
+
   def work(path)  
     @users = []
     @sessions = []
-  
+
+    # file_lines = File.foreach(path).first(64000).join
+    # File.write('spec/support/fixtures/data_64000.txt', file_lines)
+
     fill_users_sessions(path)
     report = prepare_report
  
@@ -32,10 +37,16 @@ class GenerateReport
   def fill_users_sessions(path)
     file_lines = File.read(path).split("\n")
 
-    file_lines.each do |line|
-      cols = line.split(',')
-      @users = @users + [parse_user(line)] if cols[0] == 'user'
-      @sessions = @sessions + [parse_session(line)] if cols[0] == 'session'
+    file_lines.each_slice(BANCH_SIZE) do |lines|
+      grouped_lines = lines.group_by { |l| l[0] }
+
+      grouped_lines['u'].each do |user|
+        @users << parse_user(user)
+      end
+
+      grouped_lines['s'].each do |session|
+        @sessions << parse_session(session)
+      end
     end
   end
 
@@ -77,9 +88,11 @@ class GenerateReport
   def uniq_browsers
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = []
-    @sessions.each do |session|
-      browser = session['browser']
-      uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    @sessions.each_slice(BANCH_SIZE) do |sessions|
+      sessions.each do |session|
+        browser = session['browser']
+        uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+      end
     end
     uniqueBrowsers
   end
@@ -94,11 +107,13 @@ class GenerateReport
 
     sessions_by_user = @sessions.group_by { |s| s['user_id']}
 
-    @users.each do |user|
-      attributes = user
-      user_sessions = sessions_by_user[user['id']]
-      user_object = User.new(attributes: attributes, sessions: user_sessions)
-      users_objects = users_objects + [user_object]
+    @users.each_slice(BANCH_SIZE) do |users|
+      users.each do |user|
+        attributes = user
+        user_sessions = sessions_by_user[user['id']]
+        user_object = User.new(attributes: attributes, sessions: user_sessions)
+        users_objects = users_objects + [user_object]
+      end
     end
 
     # Собираем количество сессий по пользователям
@@ -138,10 +153,12 @@ class GenerateReport
   end
 
   def collect_stats_from_users(report, users_objects, &block)
-    users_objects.each do |user|
-      user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-      report['usersStats'][user_key] ||= {}
-      report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    users_objects.each_slice(BANCH_SIZE) do |users|
+      users.each do |user|
+        user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+        report['usersStats'][user_key] ||= {}
+        report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+      end
     end
   end
 end

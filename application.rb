@@ -1,22 +1,24 @@
 require_relative 'config/environment'
 
+GenerateReport.new.work('spec/support/fixtures/data_large.txt')
+
 # ---RUBYPROF START---
-RubyProf.measure_mode = RubyProf::WALL_TIME
+# RubyProf.measure_mode = RubyProf::WALL_TIME
 
-GC.disable
+# GC.disable
 
-result = RubyProf.profile do
-  GenerateReport.new.work('spec/support/fixtures/data_large.txt')
-end
+# result = RubyProf.profile do
+#   GenerateReport.new.work('spec/support/fixtures/data_large.txt')
+# end
 
-GC.enable
+# GC.enable
 
-File.open(
-  "/home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/profiler_reports/flat_16000.html",
-  'w+'
-) do |file|
-  RubyProf::FlatPrinter.new(result).print(file)
-end
+# File.open(
+#   "/home/artur/Thinknetica/optimization/lesson-01/rails-optimization-task1/profiler_reports/flat_16000.html",
+#   'w+'
+# ) do |file|
+#   RubyProf::FlatPrinter.new(result).print(file)
+# end
 # ---RUBYPROF END---
 
 # ---STACKPROF START---

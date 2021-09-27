@@ -3,6 +3,7 @@
 require 'json'
 require 'byebug'
 require 'date'
+require 'benchmark'
 
 class User
   attr_reader :attributes, :sessions
@@ -144,4 +145,4 @@ def work(filename, disable_gc = false)
   File.write('result.json', "#{report.to_json}\n")
 end
 
-# work(ENV['DATA_FILE'] || 'data.txt')
+puts(Benchmark.realtime { work(ENV['DATA_FILE'] || 'data.txt') })

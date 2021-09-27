@@ -14,24 +14,22 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
-    'age' => fields[4],
+    'age' => fields[4]
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
     'time' => fields[4],
-    'date' => fields[5],
+    'date' => fields[5]
   }
 end
 
@@ -50,11 +48,20 @@ def work(filename, disable_gc = false)
 
   users = []
   sessions = []
+  sessions_by_user_id = {}
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users += [parse_user(cols)] if cols[0] == 'user'
+
+    next unless cols[0] == 'session'
+
+    parsed_session = parse_session(cols)
+    sessions += [parsed_session]
+
+    user_id = parsed_session['user_id']
+    sessions_by_user_id[user_id] ||= []
+    sessions_by_user_id[user_id] << parsed_session
   end
 
   # Отчёт в json
@@ -100,9 +107,9 @@ def work(filename, disable_gc = false)
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = sessions_by_user_id[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    users_objects += [user_object]
   end
 
   report['usersStats'] = {}

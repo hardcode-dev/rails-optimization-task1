@@ -23,8 +23,8 @@ class GenerateReport
     @users = []
     @sessions = []
 
-    # file_lines = File.foreach(path).first(64000).join
-    # File.write('spec/support/fixtures/data_64000.txt', file_lines)
+    # file_lines = File.foreach(path).first(128000).join
+    # File.write('spec/support/fixtures/data_128000.txt', file_lines)
 
     fill_users_sessions(path)
     report = prepare_report
@@ -56,7 +56,7 @@ class GenerateReport
       'id' => fields[1],
       'first_name' => fields[2],
       'last_name' => fields[3],
-      'age' => fields[4],
+      'age' => fields[4]
     }
   end
 
@@ -67,7 +67,7 @@ class GenerateReport
       'session_id' => fields[2],
       'browser' => fields[3],
       'time' => fields[4],
-      'date' => fields[5],
+      'date' => fields[5]
     }
   end
 
@@ -104,29 +104,19 @@ class GenerateReport
 
   def fill_users_stats(report)
     # Статистика по пользователям
-    users_objects = []
+    sessions_by_user = @sessions.group_by { |s| s['user_id'] }
 
-    sessions_by_user = @sessions.group_by { |s| s['user_id']}
+    process_users_objects(report, sessions_by_user)
+  end
 
+  def process_users_objects(report, sessions_by_user)
     @users.each_slice(BANCH_SIZE) do |users|
       users.each do |user|
         attributes = user
-        user_sessions = sessions_by_user[user['id']]
-        user_object = User.new(attributes: attributes, sessions: user_sessions)
-        users_objects << user_object
-      end
-    end
-
-    process_users_objects(report, users_objects)
-  end
-
-  def process_users_objects(report, users_objects)
-    users_objects.each_slice(BANCH_SIZE) do |users|
-      users.each do |user|
-        user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+        user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
         report['usersStats'][user_key] ||= {}
 
-        sessions = user.sessions
+        sessions = sessions_by_user[user['id']]
         time = sessions.map { |s| s['time'].to_i }
         browsers = sessions.map { |s| s['browser'].upcase }.sort
 

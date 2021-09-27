@@ -5,7 +5,7 @@ RubyProf.measure_mode = RubyProf::WALL_TIME
 GC.disable
 
 result = RubyProf.profile do
-  GenerateReport.new.work('spec/support/fixtures/data_64000.txt')
+  GenerateReport.new.work('spec/support/fixtures/data_128000.txt')
 end
 
 GC.enable

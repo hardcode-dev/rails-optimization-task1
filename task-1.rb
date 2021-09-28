@@ -1,4 +1,4 @@
-# Deoptimized version of homework task
+# Optimized version of homework task
 
 require 'json'
 require 'pry'
@@ -9,41 +9,7 @@ require 'minitest/benchmark' if ENV['RACK_ENV'] == 'test'
 require 'ruby-prof' if ENV['RACK_ENV'] == 'benchmark'
 require 'stackprof' if ENV['RACK_ENV'] == 'benchmark'
 require 'set'
-
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
-
-def parse_user(fields)
-  {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
-  }
-end
-
-def parse_session(fields)
-  {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
-  }
-end
-
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
-    report['usersStats'][user_key] = block.call(user)
-  end
-end
+require 'oj'
 
 def work
   t0 = Time.now
@@ -51,38 +17,37 @@ def work
   file_name = 'data.txt' if ENV['RACK_ENV'] == 'test'
   file_lines = File.read(file_name).split("\n")
 
-  users = []
+  users_names_by_id = {}
   sessions_by_user_id = {}
   browsers = Set.new
   sessions_count = 0
 
   # user_record:
-  #   - 0 - type
-  #   - 1 - id
-  #   - 2 - first_name
-  #   - 3 - last_name
-  #   - 4 - age
+  # 0 - type
+  # 1 - id
+  # 2 - first_name
+  # 3 - last_name
+  # 4 - age
 
   # session_record:
-  #   - 0 - type
-  #   - 1 - user_id
-  #   - 2 - session_id
-  #   - 3 - browser
-  #   - 4 - time
-  #   - 5 - date
+  # 0 - type
+  # 1 - user_id
+  # 2 - session_id
+  # 3 - browser
+  # 4 - time
+  # 5 - date
 
   file_lines.each do |line|
     cols = line.split(',')
-    users << parse_user(cols) if cols[0] == 'user'
-    if cols[0] == 'session'
-      session = parse_session(cols)
-
+    if cols[0] == 'user'
+      users_names_by_id[cols[1].to_i] = "#{cols[2]} #{cols[3]}"
+    elsif cols[0] == 'session'
       sessions_count += 1
 
-      browsers.add(session['browser']) 
+      browsers.add(cols[3]) 
 
-      sessions_by_user_id[session['user_id']] ||= []
-      sessions_by_user_id[session['user_id']] << session
+      sessions_by_user_id[cols[1].to_i] ||= []
+      sessions_by_user_id[cols[1].to_i] << cols
     end
   end
 
@@ -103,7 +68,7 @@ def work
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = sessions_by_user_id.count
 
   # Подсчёт количества уникальных браузеров
   report['uniqueBrowsersCount'] = browsers.count
@@ -117,24 +82,17 @@ def work
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions_by_user_id[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects << user_object
-  end
-
   report['usersStats'] = {}
-  
-  collect_stats_from_users(report, users_objects) do |user|
-    user_sessions = user.sessions
-    sessions_times = user_sessions.map { |s| s['time'].to_i }
-    user_browsers = user_sessions.map { |s| s['browser'].upcase }
-    user_dates = user_sessions.map { |s| Date.strptime(s['date'], '%Y-%m-%d') }
 
-    {
+  sessions_by_user_id.each do |user_id, user_sessions|
+
+    user_key = users_names_by_id[user_id]
+
+    sessions_times = user_sessions.map { |s| s[4].to_i }
+    user_browsers = user_sessions.map { |s| s[3].upcase }
+    user_dates = user_sessions.map { |s| s[5] }
+
+    report['usersStats'][user_key] = {
       # Собираем количество сессий по пользователям
       'sessionsCount' => user_sessions.count,
 
@@ -154,11 +112,11 @@ def work
       'alwaysUsedChrome' => user_browsers.all? { |b| b =~ /CHROME/ },
 
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user_dates.sort.reverse.map { |d| d.iso8601 }
+      'dates' => user_dates.sort.reverse
     }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.to_json(report, mode: :compat)}\n")
 
   puts "total: #{Time.now - t0}"
 end

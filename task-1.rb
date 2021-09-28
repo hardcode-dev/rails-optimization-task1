@@ -8,6 +8,7 @@ require 'minitest/autorun' if ENV['RACK_ENV'] == 'test'
 require 'minitest/benchmark' if ENV['RACK_ENV'] == 'test'
 require 'ruby-prof' if ENV['RACK_ENV'] == 'benchmark'
 require 'stackprof' if ENV['RACK_ENV'] == 'benchmark'
+require 'set'
 
 class User
   attr_reader :attributes, :sessions
@@ -56,6 +57,7 @@ def work
   users = []
   sessions = []
   sessions_by_user_id = {}
+  browsers = Set.new
 
   # user_record:
   #   - 0 - type
@@ -78,7 +80,9 @@ def work
     if cols[0] == 'session'
       session = parse_session(line)
 
-      sessions = sessions + [parse_session(line)]
+      sessions = sessions + [session]
+
+      browsers.add(session['browser']) 
 
       sessions_by_user_id[session['user_id']] ||= []
       sessions_by_user_id[session['user_id']] << session
@@ -105,22 +109,14 @@ def work
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = browsers.count
 
   report['totalSessions'] = sessions.count
 
   report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
+    browsers
       .map { |b| b.upcase }
       .sort
-      .uniq
       .join(',')
 
   # Статистика по пользователям
@@ -128,6 +124,7 @@ def work
 
   users.each do |user|
     attributes = user
+    # user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
     user_sessions = sessions_by_user_id[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]

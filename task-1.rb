@@ -121,7 +121,7 @@ def work(filename, disable_gc = false)
 
   # Собираем количество времени по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
+    { 'totalTime' => user.sessions.sum { |s| s['time'].to_i }.to_s + ' min.' }
   end
 
   # Выбираем самую длинную сессию пользователя
@@ -131,7 +131,7 @@ def work(filename, disable_gc = false)
 
   # Браузеры пользователя через запятую
   collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
+    { 'browsers' => user.sessions.map { |s| s['browser'].upcase }.sort.join(', ') }
   end
 
   # Хоть раз использовал IE?

@@ -3,6 +3,7 @@
 require 'json'
 require 'byebug'
 require 'date'
+require 'set'
 require 'benchmark'
 
 class User
@@ -49,13 +50,20 @@ def work(filename, disable_gc = false)
   users = []
   sessions = []
   sessions_by_user_id = {}
+  users_count = 0
+  sessions_count = 0
 
   file_lines.each do |line|
     cols = line.split(',')
-    users << parse_user(cols) if cols[0] == 'user'
+
+    if cols[0] == 'user'
+      users_count += 1
+      users << parse_user(cols)
+    end
 
     next unless cols[0] == 'session'
 
+    sessions_count += 1
     parsed_session = parse_session(cols)
     sessions << parsed_session
 
@@ -79,28 +87,20 @@ def work(filename, disable_gc = false)
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
-  report[:totalUsers] = users.count
-
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  unique_browsers = Set.new
+  unique_browsers_count = 0
+
   sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    unique_browsers_count += 1 if unique_browsers.add?(session['browser'].upcase)
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report = {
+    totalUsers: users_count,
+    uniqueBrowsersCount: unique_browsers_count,
+    totalSessions: sessions_count,
+    allBrowsers: unique_browsers.sort.join(',')
+  }
 
   # Статистика по пользователям
   users_objects = []
@@ -146,10 +146,10 @@ def work(filename, disable_gc = false)
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+    { 'dates' => user.sessions.map { |s| s['date'] }.sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")
 end
 
-puts(Benchmark.realtime { work(ENV['DATA_FILE'] || 'data.txt') })
+# puts(Benchmark.realtime { work(ENV['DATA_FILE'] || 'data.txt') })

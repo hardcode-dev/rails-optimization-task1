@@ -58,6 +58,7 @@ def work
   sessions = []
   sessions_by_user_id = {}
   browsers = Set.new
+  sessions_count = 0
 
   # user_record:
   #   - 0 - type
@@ -80,7 +81,7 @@ def work
     if cols[0] == 'session'
       session = parse_session(line)
 
-      sessions = sessions + [session]
+      sessions_count += 1
 
       browsers.add(session['browser']) 
 
@@ -111,7 +112,7 @@ def work
   # Подсчёт количества уникальных браузеров
   report['uniqueBrowsersCount'] = browsers.count
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions_count
 
   report['allBrowsers'] =
     browsers

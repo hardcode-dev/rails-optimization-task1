@@ -1,4 +1,3 @@
-# 4
 # Deoptimized version of homework task
 
 require 'json'
@@ -20,8 +19,7 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
+def parse_user(fields)
   parsed_result = {
     'id' => fields[1],
     'first_name' => fields[2],
@@ -30,8 +28,7 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
+def parse_session(fields)
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
@@ -78,9 +75,9 @@ def work
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
+    users = users + [parse_user(cols)] if cols[0] == 'user'
     if cols[0] == 'session'
-      session = parse_session(line)
+      session = parse_session(cols)
 
       sessions_count += 1
 
@@ -211,16 +208,16 @@ elsif ENV['RACK_ENV'] == 'benchmark'
     work
   end
   printer = RubyProf::FlatPrinter.new(result)
-  printer.print(File.open("ruby_prof_reports/flat.txt", "w+"))
+  printer.print(File.open('ruby_prof_reports/flat.txt', 'w+'))
 
   printer = RubyProf::GraphHtmlPrinter.new(result)
-  printer.print(File.open("ruby_prof_reports/graph.html", "w+"))
+  printer.print(File.open('ruby_prof_reports/graph.html', 'w+'))
 
   printer = RubyProf::CallStackPrinter.new(result)
   printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
 
   printer = RubyProf::CallTreePrinter.new(result)
-  printer.print(:path => "ruby_prof_reports", :profile => 'callgrind')
+  printer.print(path: 'ruby_prof_reports', profile: 'callgrind')
 
   StackProf.run(mode: :wall, out: 'stackprof_reports/stackprof.dump', interval: 1000) do
     work

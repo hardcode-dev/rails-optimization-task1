@@ -1,0 +1,10 @@
+/ruby_prof_reports/*
+/stackprof_reports/*
+!/ruby_prof_reports/.keep
+!/stackprof_reports/.keep
+
+**/.DS_Store
+
+data_large.txt
+dataN.txt
+result.json

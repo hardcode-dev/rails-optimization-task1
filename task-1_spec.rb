@@ -1,5 +1,13 @@
+# frozen_string_literal: true
+
+ENV['APP_ENV'] = 'test'
+
 require 'rspec-benchmark'
 require_relative './task-1'
+
+RSpec.configure do |config|
+  config.include RSpec::Benchmark::Matchers
+end
 
 RSpec.describe do
   describe 'functionality' do
@@ -11,5 +19,9 @@ RSpec.describe do
     end
   end
 
-  describe 'performance'
+  describe 'performance' do
+    it 'process 25_000 file for under 70 ms' do
+      expect { work('data25000.txt') }.to perform_under(70).ms.warmup(2).times.sample(10).times
+    end
+  end
 end

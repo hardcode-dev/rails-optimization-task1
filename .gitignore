@@ -1,8 +1,6 @@
 .byebug_history
 
 /reports
-/backups
-/data_files
 
 result.json
 data_large.txt

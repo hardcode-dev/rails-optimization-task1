@@ -52,12 +52,12 @@ def work(filename, disable_gc = false)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users += [parse_user(cols)] if cols[0] == 'user'
+    users << parse_user(cols) if cols[0] == 'user'
 
     next unless cols[0] == 'session'
 
     parsed_session = parse_session(cols)
-    sessions += [parsed_session]
+    sessions << parsed_session
 
     user_id = parsed_session['user_id']
     sessions_by_user_id[user_id] ||= []

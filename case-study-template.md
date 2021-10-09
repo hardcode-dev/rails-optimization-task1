@@ -27,10 +27,28 @@
 
 Вот какие проблемы удалось найти и решить
 
-### Ваша находка №1
-- какой отчёт показал главную точку роста
-- как вы решили её оптимизировать
-- как изменилась метрика
+### Сall select method for sessions per each user
+- С помощью RubyProf обноружил, что 85% времени тратится на select method
+   (все виды отчетов об этом сообщают)
+- Stackprof в cli режиме сразу обноружил проблемный код со сложностью O(n^2)
+   ```ruby
+    users.each do |user|
+      # ...
+      user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+      # ...
+    end
+   ```
+- Я решил предварительно сгруппировать sessions по user_id
+  ```ruby
+    user_sessions_groups = sessions.group_by { |session| session['user_id'] }
+    users.each do |user|
+      # ...
+      user_sessions = user_sessions_groups[user['id']]
+      # ...
+    end
+  ```
+- метрика уменьшилась с ~4.4s до 0.6s
+  асимптотика все еще нелинейная 
 - как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
 
 ### Ваша находка №2

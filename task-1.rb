@@ -50,6 +50,8 @@ def work
   sessions = []
 
   file_lines.each do |line|
+    yield if block_given?
+
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
@@ -96,9 +98,10 @@ def work
   # Статистика по пользователям
   users_objects = []
 
+  user_sessions_groups = sessions.group_by { |session| session['user_id'] }
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = user_sessions_groups[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

@@ -91,7 +91,7 @@ def work
   user_sessions_groups = sessions.group_by { |session| session['user_id'] }
   users.each do |user|
     attributes = user
-    user_sessions = user_sessions_groups[user['id']]
+    user_sessions = user_sessions_groups[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

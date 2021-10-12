@@ -66,11 +66,11 @@ def collect_stats_from_users(users_objects)
   end
 end
 
-def work
+def work(file_name: 'data.txt')
   users = []
   sessions = []
 
-  File.new('data.txt').each_line do |line|
+  File.new(file_name).each_line do |line|
     cols = line.split(',')
     users << parse_user(cols) if cols[0] == 'user'
     sessions << parse_session(cols) if cols[0] == 'session'

@@ -10,7 +10,6 @@ require 'oj'
 class Parser
   def initialize(file_name )
     @file_name = file_name
-    @users_lines = []
     @users = []
     @sessions_counter = 0
     @browsers = []
@@ -21,7 +20,6 @@ class Parser
 
   def work
     parse_file
-    add_sessions_to_user
     prefill_report
     process_user_sessions_stats
     save_report
@@ -62,23 +60,17 @@ class Parser
     @user_sessions[session[:user_id]] << session
   end
 
-  def add_sessions_to_user
-    @users.each do |user|
-      user[:sessions] = @user_sessions[user[:id]]
-    end
-  end
-
   def process_user_sessions_stats
     @users.each do |user|
       user_key = user[:full_name]
-      @report['usersStats'][user_key] = parse_sessions_params(user)
+      @report['usersStats'][user_key] = parse_sessions_params(@user_sessions[user[:id]])
     end
   end
 
-  def parse_sessions_params(user)
-    parsed_sessions = parse_user_sessions(user[:sessions])
+  def parse_sessions_params(user_sessions)
+    parsed_sessions = parse_user_sessions(user_sessions)
     {
-      sessionsCount: user[:sessions].length,
+      sessionsCount: user_sessions.length,
       totalTime: "#{parsed_sessions[0].sum} min.",
       longestSession: "#{parsed_sessions[0].max} min.",
       browsers: parsed_sessions[1].join(', '),

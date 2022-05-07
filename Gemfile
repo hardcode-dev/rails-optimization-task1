@@ -10,5 +10,4 @@ gem 'rspec-benchmark'
 gem 'rubocop-performance', require: false
 gem 'ruby-prof'
 gem 'stackprof'
-gem 'benchmark-ips'
 

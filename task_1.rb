@@ -4,6 +4,7 @@
 
 require 'json'
 require 'pry'
+require 'oj'
 
 # Parse file and collect all information
 class Parser
@@ -102,7 +103,8 @@ class Parser
   end
 
   def save_report
-    File.write('result.json', "#{@report.to_json}\n")
+    # File.write('result.json', "#{@report.to_json}\n")
+    File.write('result.json', "#{Oj.dump(@report, mode: :compat)}\n")
   end
 end
 

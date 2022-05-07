@@ -16,11 +16,11 @@ class Parser
     @browsers = []
     @report = {}
     @user_sessions = Hash.new { |h, k| h[k] = [] }
-    work(@file_name)
+    work
   end
 
-  def work(file_name)
-    parse_file(file_name)
+  def work
+    parse_file
     add_sessions_to_user
     prefill_report
     process_user_sessions_stats
@@ -36,8 +36,8 @@ class Parser
     @report['usersStats'] = {}
   end
 
-  def parse_file(file_name)
-    File.foreach(file_name) do |line|
+  def parse_file
+    File.foreach(@file_name) do |line|
       parse_line(line.chomp)
     end
   end
@@ -103,7 +103,6 @@ class Parser
   end
 
   def save_report
-    # File.write('result.json', "#{@report.to_json}\n")
     File.write('result.json', "#{Oj.dump(@report, mode: :compat)}\n")
   end
 end

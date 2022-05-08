@@ -1,4 +1,5 @@
 .DS_Store
+result.json
 old
 data/data_large.txt
 ruby_prof_reports

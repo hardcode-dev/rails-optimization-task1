@@ -84,15 +84,6 @@ def write_report_to_file(report)
   File.write('result.json', "#{Oj.dump(report)}\n")
 end
 
-def add_session(sessions_by_user, session)
-  sessions_by_user[session['user_id']] ||= { times: [], browsers: [], dates: [] }
-  s = sessions_by_user[session['user_id']]
-
-  s[:times] << session['time'].to_i
-  s[:browsers] << session['browser'].upcase
-  s[:dates] << session['date'].strip
-end
-
 def parse_session_line(fields, sessions_by_user, unique_browsers)
   user_id = fields[1]
   session_id = fields[2]
@@ -100,7 +91,6 @@ def parse_session_line(fields, sessions_by_user, unique_browsers)
   time = fields[4]
   date = fields[5]
 
-  # session = parse_session(line)
   sessions_by_user[user_id] ||= { times: [], browsers: [], dates: [] }
   s = sessions_by_user[user_id]
 
@@ -108,15 +98,17 @@ def parse_session_line(fields, sessions_by_user, unique_browsers)
   s[:browsers] << browser.upcase
   s[:dates] << date.strip
 
-  # add_session(sessions_by_user, session)
   unique_browsers[browser] = true
 end
 
 def read_file(filename)
   line_count = `wc -l "#{filename}"`.strip.split(' ')[0].to_i
 
+  step = line_count / 100
+  step = 1 if step == 0
+
   progressbar = ProgressBar.create(
-    total: line_count,
+    total: 100,
     format: '%a, %J, %E %B' # elapsed time, % complete, estimate, bar
   )
 
@@ -125,7 +117,7 @@ def read_file(filename)
   sessions_by_user = {}
   unique_browsers = {}
 
-  File.foreach(filename) do |line|
+  File.foreach(filename).with_index do |line, i|
     cols = line.split(',')
 
     type = cols[0]
@@ -137,7 +129,9 @@ def read_file(filename)
       users << parse_user(cols)
     end
 
-    # progressbar.increment
+    if (i > 0) && (i % step == 0)
+      progressbar.increment
+    end
   end
 
   [users, sessions_count, sessions_by_user, unique_browsers.keys]

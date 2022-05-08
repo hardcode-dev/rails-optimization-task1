@@ -87,15 +87,29 @@ end
 def add_session(sessions_by_user, session)
   sessions_by_user[session['user_id']] ||= { times: [], browsers: [], dates: [] }
   s = sessions_by_user[session['user_id']]
+
   s[:times] << session['time'].to_i
   s[:browsers] << session['browser'].upcase
   s[:dates] << session['date'].strip
 end
 
-def parse_session_line(line, sessions_by_user, unique_browsers)
-  session = parse_session(line)
-  add_session(sessions_by_user, session)
-  unique_browsers[session['browser']] = true
+def parse_session_line(fields, sessions_by_user, unique_browsers)
+  user_id = fields[1]
+  session_id = fields[2]
+  browser = fields[3]
+  time = fields[4]
+  date = fields[5]
+
+  # session = parse_session(line)
+  sessions_by_user[user_id] ||= { times: [], browsers: [], dates: [] }
+  s = sessions_by_user[user_id]
+
+  s[:times] << time.to_i
+  s[:browsers] << browser.upcase
+  s[:dates] << date.strip
+
+  # add_session(sessions_by_user, session)
+  unique_browsers[browser] = true
 end
 
 def read_file(filename)

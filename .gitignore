@@ -1,0 +1,10 @@
+.DS_Store
+result.json
+old
+data/data_large.txt
+data/data_524288.txt
+data/data_1048576.txt
+data/data_2097152.txt
+data/data_4194304.txt
+ruby_prof_reports
+stackprof_reports

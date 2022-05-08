@@ -1,0 +1,5 @@
+.DS_Store
+old
+data/data_large.txt
+ruby_prof_reports
+stackprof_reports

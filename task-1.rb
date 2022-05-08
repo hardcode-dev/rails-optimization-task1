@@ -105,13 +105,12 @@ def prepare_users_objects(users, sessions_by_user)
   users_objects 
 end
 
-def parse_session_line(line, sessions, sessions_by_user, unique_browsers)
+def parse_session_line(line, sessions_by_user, unique_browsers)
   session = parse_session(line)
+
   sessions_by_user[session['user_id']] ||= []
   sessions_by_user[session['user_id']] << session
   unique_browsers[session['browser']] = true
-
-  session
 end
 
 def read_file(filename)
@@ -123,7 +122,7 @@ def read_file(filename)
   )
 
   users = []
-  sessions = []
+  sessions_count = 0
   sessions_by_user = {}
   unique_browsers = {}
 
@@ -135,20 +134,21 @@ def read_file(filename)
     end
 
     if cols[0] == 'session'
-      sessions << parse_session_line(cols, sessions, sessions_by_user, unique_browsers)
+      sessions_count += 1
+      parse_session_line(cols, sessions_by_user, unique_browsers)
     end
 
     # progressbar.increment
   end
 
-  [users, sessions, sessions_by_user, unique_browsers]
+  [users, sessions_count, sessions_by_user, unique_browsers.keys]
 end
 
 def work(filename)
-  users, sessions, sessions_by_user, unique_browsers = read_file(filename)
+  users, sessions_count, sessions_by_user, unique_browsers = read_file(filename)
 
   # Подсчёт количества уникальных браузеров
-  unique_browsers_count = unique_browsers.keys.count
+  unique_browsers_count = unique_browsers.count
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -171,14 +171,12 @@ def work(filename)
 
   report['uniqueBrowsersCount'] = unique_browsers_count
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions_count
 
   report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
+    unique_browsers
       .map { |b| b.upcase }
       .sort
-      .uniq
       .join(',')
 
   # Статистика по пользователям

@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'oj'
 require 'ruby-progressbar'
 
 class User
@@ -89,7 +90,8 @@ def collect_stats(report, users_objects)
 end
 
 def write_report_to_file(report)
-  File.write('result.json', "#{report.to_json}\n")
+  Oj.mimic_JSON
+  File.write('result.json', "#{Oj.dump(report)}\n")
 end
 
 def prepare_users_objects(users, sessions_by_user)

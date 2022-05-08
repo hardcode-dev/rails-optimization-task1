@@ -34,9 +34,6 @@ def parse_session(fields)
   }
 end
 
-def collect_stats_from_users(report, users_objects, &block)
-end
-
 # def select_sessions_for_user(sessions, user)
 #   sessions.select { |session| session['user_id'] == user['id'] }
 # end
@@ -52,27 +49,18 @@ end
 #
 
 def collect_stats(report, users, sessions_by_user)
-  users_objects = []
-
   users.each do |user|
-    attributes = user
-    user_sessions = sessions_by_user[user['id']] || []
+    user_sessions = sessions_by_user[user['id']] || { times: [], browsers: [], dates: [] }
 
-    user_key = "#{attributes['first_name']}" + ' ' + "#{attributes['last_name']}"
+    user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
 
-    times = []
-    browsers = []
-    dates = []
-
-    user_sessions.each do |session|
-      times << session['time'].to_i
-      browsers << session['browser'].upcase
-      dates << session['date'].strip
-    end
+    times = user_sessions[:times]
+    browsers = user_sessions[:browsers]
+    dates = user_sessions[:dates]
 
     data = {
       # Собираем количество сессий по пользователям
-      'sessionsCount' => user_sessions.count,
+      'sessionsCount' => times.count,
       # Собираем количество времени по пользователям
       'totalTime' => times.sum.to_s + ' min.',
       # Выбираем самую длинную сессию пользователя
@@ -87,8 +75,7 @@ def collect_stats(report, users, sessions_by_user)
       'dates' => dates.sort.reverse
     }
 
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(data)
+    report['usersStats'][user_key] = data
   end
 end
 
@@ -97,14 +84,17 @@ def write_report_to_file(report)
   File.write('result.json', "#{Oj.dump(report)}\n")
 end
 
-def prepare_users_objects(users, sessions_by_user)
+def add_session(sessions_by_user, session)
+  sessions_by_user[session['user_id']] ||= { times: [], browsers: [], dates: [] }
+  s = sessions_by_user[session['user_id']]
+  s[:times] << session['time'].to_i
+  s[:browsers] << session['browser'].upcase
+  s[:dates] << session['date'].strip
 end
 
 def parse_session_line(line, sessions_by_user, unique_browsers)
   session = parse_session(line)
-
-  sessions_by_user[session['user_id']] ||= []
-  sessions_by_user[session['user_id']] << session
+  add_session(sessions_by_user, session)
   unique_browsers[session['browser']] = true
 end
 
@@ -124,13 +114,13 @@ def read_file(filename)
   File.foreach(filename) do |line|
     cols = line.split(',')
 
-    if cols[0] == 'user'
-      users << parse_user(cols)
-    end
+    type = cols[0]
 
-    if cols[0] == 'session'
+    if type == 'session'
       sessions_count += 1
       parse_session_line(cols, sessions_by_user, unique_browsers)
+    elsif type == 'user'
+      users << parse_user(cols)
     end
 
     # progressbar.increment

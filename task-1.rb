@@ -15,24 +15,22 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
-    'age' => fields[4],
+    'age' => fields[4]
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
     'time' => fields[4],
-    'date' => fields[5],
+    'date' => fields[5]
   }
 end
 
@@ -133,11 +131,11 @@ def read_file(filename)
     cols = line.split(',')
 
     if cols[0] == 'user'
-      users << parse_user(line)
+      users << parse_user(cols)
     end
 
     if cols[0] == 'session'
-      sessions << parse_session_line(line, sessions, sessions_by_user, unique_browsers)
+      sessions << parse_session_line(cols, sessions, sessions_by_user, unique_browsers)
     end
 
     # progressbar.increment

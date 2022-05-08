@@ -3,7 +3,7 @@ require_relative 'task-1.rb'
 
 def benchmarked_work
   # GC.disable
-  i = 512
+  i = 8192
 
   while File.exists?("data/data_#{i}.txt")
     filename = "data/data_#{i}.txt"

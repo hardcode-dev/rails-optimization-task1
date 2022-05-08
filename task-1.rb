@@ -35,11 +35,6 @@ def parse_session(fields)
 end
 
 def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
-  end
 end
 
 # def select_sessions_for_user(sessions, user)
@@ -56,21 +51,28 @@ end
 # end
 #
 
-def collect_stats(report, users_objects)
-  collect_stats_from_users(report, users_objects) do |user|
+def collect_stats(report, users, sessions_by_user)
+  users_objects = []
+
+  users.each do |user|
+    attributes = user
+    user_sessions = sessions_by_user[user['id']] || []
+
+    user_key = "#{attributes['first_name']}" + ' ' + "#{attributes['last_name']}"
+
     times = []
     browsers = []
     dates = []
 
-    user.sessions.each do |session|
+    user_sessions.each do |session|
       times << session['time'].to_i
       browsers << session['browser'].upcase
       dates << session['date'].strip
     end
 
-    {
+    data = {
       # Собираем количество сессий по пользователям
-      'sessionsCount' => user.sessions.count,
+      'sessionsCount' => user_sessions.count,
       # Собираем количество времени по пользователям
       'totalTime' => times.sum.to_s + ' min.',
       # Выбираем самую длинную сессию пользователя
@@ -84,6 +86,9 @@ def collect_stats(report, users_objects)
       # Даты сессий через запятую в обратном порядке в формате iso8601
       'dates' => dates.sort.reverse
     }
+
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(data)
   end
 end
 
@@ -93,16 +98,6 @@ def write_report_to_file(report)
 end
 
 def prepare_users_objects(users, sessions_by_user)
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions_by_user[user['id']] || []
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects << user_object
-  end
-
-  users_objects 
 end
 
 def parse_session_line(line, sessions_by_user, unique_browsers)
@@ -179,12 +174,9 @@ def work(filename)
       .sort
       .join(',')
 
-  # Статистика по пользователям
-  users_objects = prepare_users_objects(users, sessions_by_user)
-
   report['usersStats'] = {}
 
-  collect_stats(report, users_objects)
+  collect_stats(report, users, sessions_by_user)
 
   write_report_to_file(report)
 

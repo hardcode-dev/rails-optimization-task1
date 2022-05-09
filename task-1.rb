@@ -68,7 +68,7 @@ def work(filename, disable_gc: true)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  browsers = uniq_browsers(sessions)
+  browsers = unique_browsers(sessions)
 
   report['uniqueBrowsersCount'] = browsers.count
 
@@ -111,13 +111,8 @@ def work(filename, disable_gc: true)
   GC.enable if disable_gc
 end
 
-def uniq_browsers(sessions)
-  unique_browsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    unique_browsers += [browser] if unique_browsers.all? { |b| b != browser }
-  end
-  unique_browsers
+def unique_browsers(sessions)
+  @unique_browsers ||= sessions.values.flatten.map { |session| session['browser'] }.uniq
 end
 
 def generate_users_objects(users, sessions)

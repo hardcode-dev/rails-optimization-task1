@@ -180,7 +180,7 @@ end
 
 def user_sessions_dates(report, users_objects)
   collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+    { 'dates' => user.sessions.map { |s| Date.strptime(s['date']).iso8601 }.sort.reverse }
   end
 end
 

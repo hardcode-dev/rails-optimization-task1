@@ -14,24 +14,22 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
+def parse_user(cols)
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    'id' => cols[1],
+    'first_name' => cols[2],
+    'last_name' => cols[3],
+    'age' => cols[4]
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
+def parse_session(cols)
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+    'user_id' => cols[1],
+    'session_id' => cols[2],
+    'browser' => cols[3],
+    'time' => cols[4],
+    'date' => cols[5]
   }
 end
 
@@ -89,10 +87,10 @@ def collect_data(file)
     cols = line.split(',')
     case cols[0]
     when 'user'
-      users << parse_user(line)
+      users << parse_user(cols)
     when 'session'
       sessions["user_#{cols[1]}"] ||= []
-      sessions["user_#{cols[1]}"] << parse_session(line)
+      sessions["user_#{cols[1]}"] << parse_session(cols)
     end
   end
   [users, sessions]

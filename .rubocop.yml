@@ -1,0 +1,84 @@
+# Common configuration.
+
+require:
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  # SuggestExtensions: false
+  RubyInterpreters:
+    - ruby
+  # Include common Ruby source files.
+  Include:
+    - '**/*.rb'
+  Exclude:
+    - '.git/**/*'
+    - 'bin/*'
+    - 'db/schema.rb'
+    # Default formatter will be used if no `-f/--format` option is given.
+  DefaultFormatter: progress
+  # Cop names are displayed in offense messages by default. Change behavior
+  # by overriding DisplayCopNames, or by giving the `--no-display-cop-names`
+  # option.
+  DisplayCopNames: true
+  # Style guide URLs are not displayed in offense messages by default. Change
+  # behavior by overriding `DisplayStyleGuide`, or by giving the
+  # `-S/--display-style-guide` option.
+  DisplayStyleGuide: false
+  # When specifying style guide URLs, any paths and/or fragments will be
+  # evaluated relative to the base URL.
+  StyleGuideBaseURL: https://rubystyle.guide
+  # Extra details are not displayed in offense messages by default. Change
+  # behavior by overriding ExtraDetails, or by giving the
+  # `-E/--extra-details` option.
+  ExtraDetails: false
+  # Additional cops that do not reference a style guide rule may be enabled by
+  # default. Change behavior by overriding `StyleGuideCopsOnly`, or by giving
+  # the `--only-guide-cops` option.
+  StyleGuideCopsOnly: false
+
+  # All cops except the ones configured `Enabled: false` in this file are enabled by default.
+  # Change this behavior by overriding either `DisabledByDefault` or `EnabledByDefault`.
+  # When `DisabledByDefault` is `true`, all cops in the default configuration
+  # are disabled, and only cops in user configuration are enabled. This makes
+  # cops opt-in instead of opt-out. Note that when `DisabledByDefault` is `true`,
+  # cops in user configuration will be enabled even if they don't set the
+  # Enabled parameter.
+  # When `EnabledByDefault` is `true`, all cops, even those configured `Enabled: false`
+  # in this file are enabled by default. Cops can still be disabled in user configuration.
+  # Note that it is invalid to set both EnabledByDefault and DisabledByDefault
+  # to true in the same configuration.
+  EnabledByDefault: false
+  DisabledByDefault: false
+  # Enables the result cache if `true`. Can be overridden by the `--cache` command
+  # line option.
+  UseCache: true
+  # Threshold for how many files can be stored in the result cache before some
+  # of the files are automatically removed.
+  MaxFilesInCache: 20000
+  # The cache will be stored in "rubocop_cache" under this directory. If
+  # CacheRootDirectory is ~ (nil), which it is by default, the root will be
+  # taken from the environment variable `$XDG_CACHE_HOME` if it is set, or if
+  # `$XDG_CACHE_HOME` is not set, it will be `$HOME/.cache/`.
+  CacheRootDirectory: ~
+  # It is possible for a malicious user to know the location of RuboCop's cache
+  # directory by looking at CacheRootDirectory, and create a symlink in its
+  # place that could cause RuboCop to overwrite unintended files, or read
+  # malicious input. If you are certain that your cache location is secure from
+  # this kind of attack, and wish to use a symlinked cache location, set this
+  # value to "true".
+  AllowSymlinksInCacheRootDirectory: false
+  # What MRI version of the Ruby interpreter is the inspected code intended to
+  # run on? (If there is more than one, set this to the lowest version.)
+  # If a value is specified for TargetRubyVersion then it is used. Acceptable
+  # values are specificed as a float (i.e. 2.5); the teeny version of Ruby
+  # should not be included. If the project specifies a Ruby version in the
+  # .ruby-version file, Gemfile or gems.rb file, RuboCop will try to determine
+  # the desired version of Ruby by inspecting the .ruby-version file first,
+  # followed by the Gemfile.lock or gems.locked file. (Although the Ruby version
+  # is specified in the Gemfile or gems.rb file, RuboCop reads the final value
+  # from the lock file.) If the Ruby version is still unresolved, RuboCop will
+  # use the oldest officially supported Ruby version (currently Ruby 2.3).
+  TargetRubyVersion: ~
+

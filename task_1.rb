@@ -154,5 +154,5 @@ def always_used_chrome?(user)
 end
 
 def user_sessions_dates(user)
-  user.sessions.map { |s| Date.strptime(s['date']).iso8601 }.sort.reverse
+  user.sessions.map { |s| s['date'] }.sort.reverse
 end

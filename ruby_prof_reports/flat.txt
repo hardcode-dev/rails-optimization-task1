@@ -1,0 +1,47 @@
+Measure Mode: wall_time
+Thread ID: 70100229234720
+Fiber ID: 70100229827940
+Total: 1.265148
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 67.51      1.235     0.854     0.000     0.381        5   Array#each                     
+ 23.97      0.303     0.303     0.000     0.000    27527   Array#all?                     
+  4.42      0.056     0.056     0.000     0.000    65019   String#split                   
+  1.50      0.040     0.019     0.000     0.021    27527   Object#parse_session           /Users/farid/projects/rails-optimization-task1/task-1.rb:27
+  1.13      0.018     0.014     0.000     0.004        2   Array#map                      
+  0.39      0.005     0.005     0.000     0.000        1   Array#sort                     
+  0.32      0.004     0.004     0.000     0.000    27527   String#upcase                  
+  0.27      0.007     0.003     0.000     0.004     4982   Object#parse_user              /Users/farid/projects/rails-optimization-task1/task-1.rb:17
+  0.21      0.004     0.003     0.000     0.001     4982   Class#new                      
+  0.12      0.001     0.001     0.000     0.000     4982   User#initialize                /Users/farid/projects/rails-optimization-task1/task-1.rb:11
+  0.11      0.001     0.001     0.000     0.000        1   Array#uniq                     
+  0.03      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
+  0.02      1.265     0.000     0.000     1.265        1   [global]#                      prof-flat.rb:7
+  0.00      1.265     0.000     0.000     1.265        1   Object#work                    /Users/farid/projects/rails-optimization-task1/task-1.rb:46
+  0.00      0.000     0.000     0.000     0.000        1   Array#join                     
+  0.00      0.000     0.000     0.000     0.000        1   Object#collect_stats_from_users /Users/farid/projects/rails-optimization-task1/task-1.rb:38
+  0.00      0.000     0.000     0.000     0.000        3   Array#count                    
+  0.00      0.000     0.000     0.000     0.000        1   BasicObject#method_missing     
+  0.00      0.006     0.000     0.000     0.006        1   Enumerable#group_by            
+  0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           
+  0.00      0.000     0.000     0.000     0.000        1   Exception#exception            
+  0.00      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

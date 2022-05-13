@@ -1,46 +1,51 @@
 # Optimized version of homework task
 
-require 'json'
+require 'oj'
 require 'pry'
-require 'date'
-require 'minitest/autorun'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_reader :attributes, :sessions, :times, :browsers, :dates, :full_name
 
   def initialize(attributes:, sessions:)
     @attributes = attributes
     @sessions = sessions
+    @times = []
+    @browsers = []
+    @dates = []
+    @full_name = "#{attributes['first_name']} #{attributes['last_name']}"
+    fill_fields
+  end
+
+  def fill_fields
+    sessions.each do |session|
+      @times << session['time']
+      @browsers << session['browser'].upcase
+      @dates << session['date']
+    end
   end
 end
 
 def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+  {
+    'id' => user[1],
+    'first_name' => user[2],
+    'last_name' => user[3],
+    'age' => user[4]
   }
 end
 
 def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+  {
+    'user_id' => session[1],
+    'session_id' => session[2],
+    'browser' => session[3],
+    'time' => session[4].to_i,
+    'date' => session[5]
   }
 end
 
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
-  end
+def collect_stats_from_users(report, user, &block)
+  report['usersStats'][user.full_name] = block.call(user)
 end
 
 def work(file_name:, disable_gc: false)
@@ -53,8 +58,8 @@ def work(file_name:, disable_gc: false)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users << parse_user(cols) if cols.first == 'user'
+    sessions << parse_session(cols) if cols.first == 'session'
   end
 
   # Отчёт в json
@@ -72,77 +77,43 @@ def work(file_name:, disable_gc: false)
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-  report = {}
-
-  report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  unique_browsers = sessions.map { |s| s['browser'].upcase }.uniq
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
-
-  # Статистика по пользователям
-  users_objects = []
+  report = {
+    'totalUsers' => users.size,
+    'uniqueBrowsersCount' => unique_browsers.size,
+    'totalSessions' => sessions.size,
+    'allBrowsers' => unique_browsers.sort.join(','),
+    'usersStats' => {}
+  }
 
   session_by_user = sessions.group_by { |s| s['user_id'] }
 
   users.each do |user|
-    attributes = user
     user_sessions = session_by_user[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    user_object = User.new(attributes: user, sessions: user_sessions)
+
+    collect_stats_from_users(report, user_object) do |user|
+      {
+        # Собираем количество сессий по пользователям
+        'sessionsCount' => user.sessions.size,
+        # Собираем количество времени по пользователям
+        'totalTime' => "#{user.times.sum} min.",
+        # Выбираем самую длинную сессию пользователя
+        'longestSession' => "#{user.times.max} min.",
+        # Браузеры пользователя через запятую
+        'browsers' => user.browsers.sort.join(', '),
+        # Хоть раз использовал IE?
+        'usedIE' => user.browsers.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+        # Всегда использовал только Chrome?
+        'alwaysUsedChrome' => user.browsers.all? { |b| b.upcase =~ /CHROME/ },
+        # Даты сессий через запятую в обратном порядке в формате iso8601
+        'dates' => user.dates.sort.reverse
+      }
+    end
   end
 
-  report['usersStats'] = {}
-
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
-  end
-
-  # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
-  end
-
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
-  end
-
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
-  end
-
-  # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-  end
-
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
-  end
-
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
-  end
-
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump report}\n")
 end

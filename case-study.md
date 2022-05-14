@@ -135,6 +135,31 @@ Finished in 0.254995s, 3.9216 runs/s, 3.9216 assertions/s.
 Finished in 0.182723s, 5.4728 runs/s, 5.4728 assertions/s.
 ```
 
+### Array#each
+Отчеты `ruby-prof#CallStack` и `stackproof` показали, что главной точкой роста снова стал парсинг исходных данных:
+```ruby
+file_lines.each do |line|
+  record = line.split(',')
+  case record[0]
+  when 'user' then users << parse_user(record)
+  when 'session' then sessions << parse_session(record)
+  end
+end
+```
+Я решил отказаться от хэшей в ущерб читаемости кода (хотя он прокомментирован и сложностей при понимании не возникнет), а также устранить метод .split, использовав для парсинга гем `ccsv`.
+```ruby
+Ccsv.foreach(filename) do |record|
+  case record[0]
+  when 'user' then users << record
+  when 'session' then sessions << record
+  end
+end
+```
+Скорость обработки данных выросла на 20%, метод перестал быть главной точкой роста.
+```
+Finished in 0.152527s, 6.5562 runs/s, 6.5562 assertions/s.
+```
+
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.
 Удалось улучшить метрику системы с *того, что у вас было в начале, до того, что получилось в конце* и уложиться в заданный бюджет.

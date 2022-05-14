@@ -5,6 +5,7 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 require 'benchmark'
+require 'ccsv'
 
 class User
   attr_reader :attributes, :sessions
@@ -15,27 +16,8 @@ class User
   end
 end
 
-def parse_user(user)
-  {
-    'id' => user[1],
-    'first_name' => user[2],
-    'last_name' => user[3],
-    'age' => user[4]
-  }
-end
-
-def parse_session(session)
-  {
-    'user_id' => session[1],
-    'session_id' => session[2],
-    'browser' => session[3],
-    'time' => session[4],
-    'date' => session[5]
-  }
-end
-
 def collect_stats_from_users(report, users_objects)
-  users_objects.each { |user| report['usersStats']["#{user.attributes['first_name']} #{user.attributes['last_name']}"] ||= yield(user) }
+  users_objects.each { |user| report['usersStats']["#{user.attributes[2]} #{user.attributes[3]}"] ||= yield(user) }
 end
 
 def work(filename = 'data.txt', disable_gc: false)
@@ -45,12 +27,11 @@ def work(filename = 'data.txt', disable_gc: false)
   users = []
   sessions = []
 
-  file_lines = File.readlines(filename, chomp: true)
-  file_lines.each do |line|
-    record = line.split(',')
+  # Finished in 0.152527s, 6.5562 runs/s, 6.5562 assertions/s.
+  Ccsv.foreach(filename) do |record|
     case record[0]
-    when 'user' then users << parse_user(record)
-    when 'session' then sessions << parse_session(record)
+    when 'user' then users << record
+    when 'session' then sessions << record
     end
   end
 
@@ -70,7 +51,7 @@ def work(filename = 'data.txt', disable_gc: false)
   #     - даты сессий в порядке убывания через запятую +
 
   # Подсчёт количества уникальных браузеров
-  unique_browsers = sessions.group_by { |k| k['browser'] }.keys
+  unique_browsers = sessions.group_by { |k| k[3] }.keys
 
   report = {
     'totalUsers' => users.count,
@@ -81,8 +62,8 @@ def work(filename = 'data.txt', disable_gc: false)
 
   # Статистика по пользователям
   users_objects = []
-  sessions_by_user = sessions.group_by { |k| k['user_id'] }
-  users.each { |user| users_objects << User.new(attributes: user, sessions: sessions_by_user[user['id']] || []) }
+  sessions_by_user = sessions.group_by { |k| k[1] }
+  users.each { |user| users_objects << User.new(attributes: user, sessions: sessions_by_user[user[1]] || []) }
 
   report['usersStats'] = {}
   collect_stats_from_users(report, users_objects) do |user|
@@ -90,17 +71,17 @@ def work(filename = 'data.txt', disable_gc: false)
       # Собираем количество сессий по пользователям
       'sessionsCount' => user.sessions.count,
       # Собираем количество времени по пользователям
-      'totalTime' => "#{user.sessions.map { |s| s['time'] }.map(&:to_i).sum} min.",
+      'totalTime' => "#{user.sessions.map { |s| s[4] }.map(&:to_i).sum} min.",
       # Выбираем самую длинную сессию пользователя
-      'longestSession' => "#{user.sessions.map {|s| s['time']}.map(&:to_i).max} min.",
+      'longestSession' => "#{user.sessions.map { |s| s[4] }.map(&:to_i).max} min.",
       # Браузеры пользователя через запятую
-      'browsers' => user.sessions.map { |s| s['browser'] }.map(&:upcase).sort.join(', '),
+      'browsers' => user.sessions.map { |s| s[3] }.map(&:upcase).sort.join(', '),
       # Хоть раз использовал IE?
-      'usedIE' => user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      'usedIE' => user.sessions.map { |s| s[3] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
       # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ },
+      'alwaysUsedChrome' => user.sessions.map { |s| s[3] }.all? { |b| b.upcase =~ /CHROME/ },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map(&:iso8601)
+      'dates' => user.sessions.map { |s| s[5] }.map { |d| Date.parse(d) }.sort.reverse.map(&:iso8601)
     }
   end
 

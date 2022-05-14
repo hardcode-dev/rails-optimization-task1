@@ -69,11 +69,34 @@ Finished in 1.412858s, 0.7078 runs/s, 0.7078 assertions/s.
 ```
 В отчете `ruby-prof#Flat` данный метод перестал быть главной точкой роста. Скорость выполнения фидбэк-лупа также ожидаемо возросла.
 
-### Ваша находка №2
-- какой отчёт показал главную точку роста
-- как вы решили её оптимизировать
-- как изменилась метрика
-- как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
+### Array#each
+При запуске `ruby-prof#Flat` обнаружилась следующая точка роста — `Array#each`, для более подробного ее изучения я использовал `stackprof` и выяснил, что в данном куске кода происходит парсинг исходных данных:
+```ruby
+file_lines = File.read(filename).split("\n")
+file_lines.each do |line|
+  cols = line.split(',')
+  users = users + [parse_user(line)] if cols[0] == 'user'
+  sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+end
+```
+Я оптимизировал этот фрагмент кода:
+```ruby
+file_lines = File.readlines(filename, chomp: true)
+file_lines.each do |line|
+  record = line.split(',')
+  case record[0]
+  when 'user' then users << parse_user(record)
+  when 'session' then sessions << parse_session(record)
+  end
+end
+```
+Метрика изменилась в лучшую сторону, скорость выполнения программы увеличилась еще в три раза:
+```
+Finished in 0.455918s, 2.1934 runs/s, 2.1934 assertions/s.
+```
+Профайлер также показал, что данный метод больше не является главной точкой роста.
+
+На этом этапе я пробовал использовать для парсинга класс CSV, но он показал менее производительные результаты (я приложил сравнение в файле `css-parsing.md`).
 
 ### Ваша находка №X
 - какой отчёт показал главную точку роста

@@ -147,6 +147,8 @@ session,2,3,Chrome 20,84,2016-11-25
   context 'when performance' do
     it 'works under 3 ms' do
       expect { work(file_name: 'data_10_000.txt') }.to perform_under(65).ms.warmup(2).times.sample(10).times
+
+      File.write('result.json', '')
     end
   end
 end

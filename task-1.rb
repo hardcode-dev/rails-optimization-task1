@@ -7,10 +7,12 @@ require 'minitest/autorun'
 
 class User
   attr_reader :attributes, :sessions
+  attr_accessor :ie_user
 
   def initialize(attributes:, sessions:)
     @attributes = attributes
     @sessions = sessions
+    @ie_user = false
   end
 end
 
@@ -33,12 +35,32 @@ def parse_session(session)
   }
 end
 
-def collect_stats_from_users(report, users_objects, &block)
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge!(block.call(user))
+def collect_stats_from_users(user)
+  total_time = 0
+  longest_session = 0
+  browsers = []
+  dates_strings = []
+  user.sessions.map do |session|
+    time = session['time'].to_i
+    total_time += time
+    longest_session = time if time > longest_session
+    browser = session['browser'].upcase
+    browsers << browser
+    user.ie_user = true if browser.start_with? 'INTERNET EXPLORER'
+    dates_strings << session['date']
   end
+
+  always_use_chrome = user.ie_user ? false : browsers.all? { |b| b.start_with? 'CHROME' }
+
+  {
+    'sessionsCount' => user.sessions.count,
+    'totalTime' => "#{total_time} min.",
+    'longestSession' => "#{longest_session} min.",
+    'browsers' => browsers.sort.join(', '),
+    'usedIE' => user.ie_user,
+    'alwaysUsedChrome' => always_use_chrome,
+    'dates' => dates_strings.sort_by{ |d| y,m,d = d.split('-') }.reverse,
+  }
 end
 
 def work(file_name: 'data.txt', disabled_gc: false)
@@ -98,36 +120,10 @@ def work(file_name: 'data.txt', disabled_gc: false)
 
   report['usersStats'] = {}
 
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    total_time = 0
-    longest_session = 0
-    browsers = []
-    dates_strings = []
-    user.sessions.map do |session|
-      time = session['time'].to_i
-      total_time += time
-      longest_session = time if time > longest_session
-      browsers << session['browser'].upcase
-      dates_strings << session['date']
-    end
-
-    ie_user = browsers.any? { |b| b.start_with? 'INTERNET EXPLORER' }
-    always_use_chrome = if ie_user
-                          false
-                        else
-                          browsers.all? { |b| b.start_with? 'CHROME' }
-                        end
-
-    {
-      'sessionsCount' => user.sessions.count,
-      'totalTime' => "#{total_time} min.",
-      'longestSession' => "#{longest_session} min.",
-      'browsers' => browsers.sort.join(', '),
-      'usedIE' => ie_user,
-      'alwaysUsedChrome' => always_use_chrome,
-      'dates' => dates_strings.sort_by{ |d| y,m,d = d.split('-') }.reverse,
-    }
+  users_objects.each do |user|
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
+    report['usersStats'][user_key] ||= {}
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge!(collect_stats_from_users(user))
   end
 
   File.write('result.json', "#{report.to_json}\n")

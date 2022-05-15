@@ -47,13 +47,32 @@ def work(file_name: 'data.txt', disabled_gc: false)
   GC.disable if disabled_gc
   file_lines = File.read(file_name).split("\n")
 
-  users = []
-  sessions = []
+  sessions_count = 0
+  unique_browsers = []
 
+  # {"0"=>{:data=>{"id"=>"0", "first_name"=>"Leida", "last_name"=>"Cira", "age"=>"0"}, :sessions=>[]}
+  report_data = {}
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    if cols[0] == 'user'
+      parsed_user = parse_user(line)
+      report_data.merge!({ parsed_user['id'] => { data: parsed_user, sessions: []} })
+    end
+    if cols[0] == 'session'
+      parsed_session = parse_session(line)
+      report_data[parsed_session['user_id']][:sessions] << parsed_session
+      browser = parsed_session['browser']
+      unique_browsers << browser unless unique_browsers.include? browser
+      sessions_count += 1
+    end
+  end
+
+  users_objects = []
+  report_data.each do |k, v|
+    attrs = v[:data]
+    sessions = v[:sessions]
+    user_object = User.new(attributes: attrs, sessions: sessions)
+    users_objects << user_object
   end
 
   # Отчёт в json
@@ -72,45 +91,14 @@ def work(file_name: 'data.txt', disabled_gc: false)
   #     - даты сессий в порядке убывания через запятую +
 
   report = {}
-
-  report[:totalUsers] = users.count
-
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  report['totalSessions'] = sessions.count
-
+  report['totalUsers'] = users_objects.count
+  report['uniqueBrowsersCount'] = unique_browsers.count
+  report['totalSessions'] = sessions_count
   report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
+    unique_browsers
       .map { |b| b.upcase }
       .sort
-      .uniq
       .join(',')
-
-  # Статистика по пользователям
-  users_objects = []
-
-  # First optimization here
-  user_ids = users.map { |user| user['id'] }
-  users_sessions_hash = {}
-  user_ids.each do |id|
-    users_sessions_hash[id] = []
-  end
-  sessions.each do |session|
-    users_sessions_hash[session['user_id']] << session
-  end
-  users.each do |user|
-    user_object = User.new(attributes: user, sessions: users_sessions_hash[user['id']])
-    users_objects = users_objects + [user_object]
-  end
-
   report['usersStats'] = {}
 
   # Собираем количество сессий по пользователям

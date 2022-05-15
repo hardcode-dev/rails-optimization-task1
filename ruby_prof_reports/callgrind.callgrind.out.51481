@@ -2,349 +2,341 @@ events: wall_time
 
 fl=
 fn=IO::write^
-0 1690
+0 252
 
 fl=
 fn=JSON/Ext/Generator/State::initialize
-0 1
+0 3
 
 fl=
 fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
-0 2345
+0 2343
 cfl=
 cfn=JSON/Ext/Generator/State::initialize
 calls=1 0
-0 1
+0 3
 
 fl=
 fn=Date::iso8601
-0 3497
+0 2928
 
 fl=
 fn=Array::reverse
-0 370
+0 274
 
 fl=
 fn=Date::<=>
-0 2504
+0 2068
 
 fl=
 fn=Integer::div
-0 1129
+0 1052
 
 fl=
 fn=String::[]=
-0 2030
+0 1645
 
 fl=
 fn=MatchData::end
-0 1085
+0 953
 
 fl=
 fn=MatchData::begin
-0 4960
+0 4067
 
 fl=
 fn=Regexp::match
-0 11581
+0 9712
 
 fl=
 fn=String::gsub!
-0 6123
+0 5357
 
 fl=
 fn=Date::parse^
-0 22305
+0 18525
 cfl=
 cfn=String::gsub!
 calls=8464 0
-0 6123
+0 5357
 cfl=
 cfn=Regexp::match
 calls=16928 0
-0 11581
+0 9712
 cfl=
 cfn=MatchData::begin
 calls=8464 0
-0 4960
+0 4067
 cfl=
 cfn=MatchData::end
 calls=8464 0
-0 1085
+0 953
 cfl=
 cfn=String::[]=
 calls=8464 0
-0 2030
+0 1645
 cfl=
 cfn=Integer::div
 calls=8464 0
-0 1129
+0 1052
 
 fl=
 fn=Array::any?
-0 2958
+0 2381
 cfl=
 cfn=String::upcase
-calls=4492 131
-131 948
+calls=4492 138
+138 754
 
 fl=
 fn=Array::max
-0 273
+0 301
 
 fl=
 fn=String::+
-0 563
+0 522
 
 fl=
 fn=Integer::to_s
-0 564
+0 643
 
 fl=
 fn=Array::sum
-0 313
+0 276
 
 fl=
 fn=String::to_i
-0 2275
+0 2319
 
 fl=
 fn=Hash::merge
-0 4025
+0 3627
 
 fl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 fn=Object::collect_stats_from_users
-38 12
+38 7
 cfl=
 cfn=Array::each
 calls=7 39
-39 128754
+39 110040
 
 fl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 fn=User::initialize
-11 962
+11 496
 
 fl=
 fn=Class::new
-0 2400
+0 708
 cfl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 cfn=User::initialize
 calls=1536 0
-0 962
-
-fl=
-fn=Array::select
-0 2664086
+0 496
 
 fl=
 fn=Array::join
-0 1127
+0 1152
 
 fl=
 fn=Array::uniq
-0 487
+0 730
 
 fl=
 fn=Array::sort
-0 5789
+0 4946
 cfl=
 cfn=Date::<=>
 calls=17169 0
-0 2504
+0 2068
 
 fl=
 fn=String::upcase
-0 4715
+0 4068
 
 fl=
 fn=Array::map
-0 33384
+0 28081
 cfl=
 cfn=String::upcase
 calls=16928 92
-92 3339
+92 2978
 cfl=
 cfn=String::to_i
-calls=16928 116
-116 2275
+calls=16928 123
+123 2319
 cfl=
 cfn=Date::parse^
-calls=8464 141
-141 49212
+calls=8464 148
+148 41311
 cfl=
 cfn=Date::iso8601
-calls=8464 141
-141 3497
+calls=8464 148
+148 2928
 
 fl=
 fn=Array::all?
-0 128295
+0 108399
 cfl=
 cfn=String::upcase
-calls=1979 136
-136 428
+calls=1979 143
+143 336
 
 fl=
 fn=Array::count
-0 188
+0 186
 
 fl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 fn=Object::parse_session
-27 7618
+27 6703
 cfl=
 cfn=String::split
 calls=8464 28
-28 6892
+28 6000
 
 fl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 fn=Object::parse_user
-17 1372
+17 1214
 cfl=
 cfn=String::split
 calls=1536 18
-18 1058
+18 991
 
 fl=
 fn=Array::each
-0 189288
+0 163537
 cfl=
 cfn=String::split
 calls=10000 54
-54 9289
+54 7806
 cfl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 cfn=Object::parse_user
 calls=1536 55
-55 2430
+55 2205
 cfl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 cfn=Object::parse_session
 calls=8464 56
-56 14509
+56 12703
 cfl=
 cfn=Array::all?
 calls=10000 82
-82 128722
-cfl=
-cfn=Array::select
-calls=1536 102
-102 2664086
+82 108734
 cfl=
 cfn=Class::new
-calls=1536 103
-103 3362
+calls=1536 110
+110 1204
 cfl=
 cfn=Array::count
-calls=1536 111
-111 182
+calls=1536 118
+118 180
 cfl=
 cfn=Hash::merge
-calls=10752 111
-111 4025
+calls=10752 118
+118 3627
 cfl=
 cfn=Array::map
-calls=16896 116
-116 84705
+calls=16896 123
+123 71848
 cfl=
 cfn=Array::sum
-calls=1536 116
-116 313
+calls=1536 123
+123 276
 cfl=
 cfn=Integer::to_s
-calls=3072 116
-116 564
+calls=3072 123
+123 643
 cfl=
 cfn=String::+
-calls=3072 116
-116 563
+calls=3072 123
+123 522
 cfl=
 cfn=Array::max
-calls=1536 121
-121 273
+calls=1536 128
+128 301
 cfl=
 cfn=Array::sort
-calls=3072 126
-126 6748
+calls=3072 133
+133 5630
 cfl=
 cfn=Array::join
-calls=1536 126
-126 1073
+calls=1536 133
+133 1137
 cfl=
 cfn=Array::any?
-calls=1536 131
-131 3906
+calls=1536 138
+138 3135
 cfl=
 cfn=Array::reverse
-calls=1536 141
-141 370
+calls=1536 148
+148 274
 
 fl=
 fn=String::split
-0 19158
+0 16291
 
 fl=
 fn=IO::read^
-0 905
+0 207
 
 fl=/Users/efremovevgenii/Projects/rails-optimization-task1/<internal:gc>
 fn=GC::disable^
-63 5
+63 4
 
 fl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 fn=Object::work
-46 89
+46 64
 cfl=/Users/efremovevgenii/Projects/rails-optimization-task1/<internal:gc>
 cfn=GC::disable^
 calls=1 47
-47 5
+47 4
 cfl=
 cfn=IO::read^
 calls=1 48
-48 905
+48 207
 cfl=
 cfn=String::split
 calls=1 48
-48 1920
+48 1494
 cfl=
 cfn=Array::each
-calls=3 53
-53 2985654
+calls=5 53
+53 273725
 cfl=
 cfn=Array::count
 calls=3 76
-76 6
+76 7
 cfl=
 cfn=Array::map
-calls=2 89
-89 7002
+calls=3 89
+89 5769
 cfl=
 cfn=Array::sort
 calls=1 89
-89 1546
+89 1384
 cfl=
 cfn=Array::uniq
 calls=1 89
-89 487
+89 730
 cfl=
 cfn=Array::join
 calls=1 89
-89 54
+89 14
 cfl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 cfn=Object::collect_stats_from_users
-calls=7 110
-110 128766
+calls=7 117
+117 110047
 cfl=
 cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
-calls=1 144
-144 2346
+calls=1 151
+151 2346
 cfl=
 cfn=IO::write^
-calls=1 144
-144 1690
+calls=1 151
+151 252
 
 fl=/Users/efremovevgenii/Projects/rails-optimization-task1/callgrind_ruby_prof.rb
 fn=[global]::
-7 28
+7 34
 cfl=/Users/efremovevgenii/Projects/rails-optimization-task1/task-1.rb
 cfn=Object::work
 calls=1 7
-7 3130469
+7 396042
 

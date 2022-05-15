@@ -15,7 +15,7 @@ class User
 end
 
 def parse_user(user)
-  parsed_result = {
+  {
     'id' => user[1],
     'first_name' => user[2],
     'last_name' => user[3],
@@ -24,7 +24,7 @@ def parse_user(user)
 end
 
 def parse_session(session)
-  parsed_result = {
+  {
     'user_id' => session[1],
     'session_id' => session[2],
     'browser' => session[3],
@@ -35,9 +35,9 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge!(block.call(user))
   end
 end
 
@@ -66,7 +66,7 @@ def work(file_name: 'data.txt', disabled_gc: false)
   end
 
   users_objects = []
-  report_data.each do |k, v|
+  report_data.each do |_k, v|
     attrs = v[:data]
     sessions = v[:sessions]
     user_object = User.new(attributes: attrs, sessions: sessions)
@@ -103,24 +103,30 @@ def work(file_name: 'data.txt', disabled_gc: false)
     total_time = 0
     longest_session = 0
     browsers = []
-    dates = []
+    dates_strings = []
     user.sessions.map do |session|
-      total_time += session['time'].to_i
-      if session['time'].to_i > longest_session
-        longest_session = session['time'].to_i
-      end
+      time = session['time'].to_i
+      total_time += time
+      longest_session = time if time > longest_session
       browsers << session['browser'].upcase
-      dates <<  Date.iso8601(session['date'])
+      dates_strings << session['date']
     end
+
+    ie_user = browsers.any? { |b| b.start_with? 'INTERNET EXPLORER' }
+    always_use_chrome = if ie_user
+                          false
+                        else
+                          browsers.all? { |b| b.start_with? 'CHROME' }
+                        end
 
     {
       'sessionsCount' => user.sessions.count,
       'totalTime' => "#{total_time} min.",
       'longestSession' => "#{longest_session} min.",
       'browsers' => browsers.sort.join(', '),
-      'usedIE' => browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => browsers.all? { |b| b.upcase =~ /CHROME/ },
-      'dates' => dates.sort.reverse
+      'usedIE' => ie_user,
+      'alwaysUsedChrome' => always_use_chrome,
+      'dates' => dates_strings.sort_by{ |d| y,m,d = d.split('-') }.reverse,
     }
   end
 

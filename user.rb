@@ -8,3 +8,4 @@ class User
     @ie_user = false
   end
 end
+

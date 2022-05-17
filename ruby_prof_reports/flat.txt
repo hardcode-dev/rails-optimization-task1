@@ -1,0 +1,53 @@
+Measure Mode: wall_time
+Thread ID: 70173591805960
+Fiber ID: 70173593103060
+Total: 22.096649
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 28.40     19.241     6.275     0.000    12.966   500003  *Array#each                     
+ 18.25      4.033     4.033     0.000     0.000  3250941   String#split                   
+  7.87      2.079     1.738     0.000     0.341  2750940   Object#parse_session           /Users/farid/projects/rails-optimization-task1/task-1.rb:37
+  6.98      1.541     1.541     0.000     0.000  7577617   String#upcase                  
+  6.51      4.637     1.439     0.000     3.199   500000   Object#collect_stats_from_users /Users/farid/projects/rails-optimization-task1/task-1.rb:47
+  3.88      1.380     0.856     0.000     0.523        1   Array#map                      
+  3.86      0.852     0.852     0.000     0.000  1000001   Array#sort                     
+  3.77      3.346     0.833     0.000     2.513   500000   User#initialize                /Users/farid/projects/rails-optimization-task1/task-1.rb:9
+  3.50      1.068     0.773     0.000     0.295   500000   Array#any?                     
+  2.85      0.631     0.631     0.000     0.000        1   <Module::Oj>#dump              
+  2.47      0.546     0.546     0.000     0.000  6501880   Array#first                    
+  1.89      3.763     0.418     0.000     3.346   500000   Class#new                      
+  1.64      0.362     0.362     0.000     0.000   500001   Array#join                     
+  1.54      0.341     0.341     0.000     0.000  2750940   String#to_i                    
+  1.28      0.414     0.283     0.000     0.131   500000   Array#all?                     
+  1.23      0.272     0.272     0.000     0.000   500000   Object#parse_user              /Users/farid/projects/rails-optimization-task1/task-1.rb:28
+  1.06      0.234     0.234     0.000     0.000  1000000   Integer#to_s                   
+  0.67      0.149     0.149     0.000     0.000        1   Array#uniq                     
+  0.62      2.513     0.138     0.000     2.376   500000   User#fill_fields               /Users/farid/projects/rails-optimization-task1/task-1.rb:19
+  0.58      0.129     0.129     0.000     0.000   500000   Array#reverse                  
+  0.33      0.073     0.073     0.000     0.000   500000   Array#max                      
+  0.30      0.066     0.066     0.000     0.000   500000   Array#sum                      
+  0.24     22.097     0.054     0.000    22.043        1   Object#work                    /Users/farid/projects/rails-optimization-task1/task-1.rb:51
+  0.18      0.041     0.041     0.000     0.000        1   <Class::IO>#read               
+  0.09      0.020     0.020     0.000     0.000        1   <Class::IO>#write              
+  0.00     22.097     0.000     0.000    22.097        1   [global]#                      prof-flat.rb:7
+  0.00      1.084     0.000     0.000     1.084        1   Enumerable#group_by            
+  0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

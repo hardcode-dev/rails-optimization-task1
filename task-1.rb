@@ -8,6 +8,7 @@ require 'benchmark'
 
 class User
   attr_reader :attributes, :sessions
+  attr_writer :sessions
 
   def initialize(attributes:, sessions:)
     @attributes = attributes
@@ -22,7 +23,9 @@ def parse_user(user)
     'first_name' => fields[2],
     'last_name' => fields[3],
     'age' => fields[4],
+    'sessions' => [],
   }
+  User.new(attributes: parsed_result, sessions: [])
 end
 
 def parse_session(session)
@@ -49,13 +52,19 @@ def work(file = 'data_large.txt', disable_gc = false)
 
   file_lines = File.read(file).split("\n")
 
-  users = []
+  users_objects = []
   sessions = []
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    users_objects = users_objects + [parse_user(line)] if cols[0] == 'user'
+
+    if cols[0] == 'session'
+      session = parse_session(line) 
+      users_objects.find { |user| user.attributes['id'] == cols[1] }.sessions << session
+      sessions << session
+    end
   end
 
   # Отчёт в json
@@ -75,7 +84,7 @@ def work(file = 'data_large.txt', disable_gc = false)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = users_objects.count
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = []
@@ -95,16 +104,6 @@ def work(file = 'data_large.txt', disable_gc = false)
       .sort
       .uniq
       .join(',')
-
-  # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
 
   report['usersStats'] = {}
 

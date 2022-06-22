@@ -18,8 +18,7 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
+def parse_user(fields)
   parsed_result = {
     'id' => fields[1],
     'first_name' => fields[2],
@@ -30,8 +29,7 @@ def parse_user(user)
   User.new(attributes: parsed_result, sessions: [])
 end
 
-def parse_session(session)
-  fields = session.split(',')
+def parse_session(fields)
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
@@ -66,10 +64,10 @@ def work(file = 'data_large.txt', disable_gc = false)
   file_lines.each do |line|
     cols = line.split(',')
 
-    users_objects[cols[1].to_i] = parse_user(line) if cols[0] == 'user'
+    users_objects[cols[1].to_i] = parse_user(cols) if cols[0] == 'user'
 
     if cols[0] == 'session'
-      session = parse_session(line) 
+      session = parse_session(cols) 
       users_objects[cols[1].to_i].sessions << session
       sessions << session
     end

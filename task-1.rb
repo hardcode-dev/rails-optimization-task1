@@ -58,11 +58,11 @@ def work(file = 'data_large.txt', disable_gc = false)
   file_lines.each do |line|
     cols = line.split(',')
 
-    users_objects = users_objects + [parse_user(line)] if cols[0] == 'user'
+    users_objects[cols[1].to_i] = parse_user(line) if cols[0] == 'user'
 
     if cols[0] == 'session'
       session = parse_session(line) 
-      users_objects.find { |user| user.attributes['id'] == cols[1] }.sessions << session
+      users_objects[cols[1].to_i].sessions << session
       sessions << session
     end
   end
@@ -86,14 +86,7 @@ def work(file = 'data_large.txt', disable_gc = false)
 
   report[:totalUsers] = users_objects.count
 
-  # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = sessions.uniq { |session| session['browser'] }.count
 
   report['totalSessions'] = sessions.count
 

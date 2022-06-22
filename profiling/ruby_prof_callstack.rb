@@ -7,5 +7,5 @@ result = RubyProf.profile do
   work('../data/data16000.txt', disable_gc: true)
 end
 
-printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open("ruby_prof_reports/flat.txt", "w+"))
+printer = RubyProf::CallStackPrinter.new(result)
+printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))

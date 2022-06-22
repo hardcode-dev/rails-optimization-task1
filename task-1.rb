@@ -5,6 +5,8 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 require 'benchmark'
+require 'byebug'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions
@@ -52,6 +54,12 @@ def work(file = 'data_large.txt', disable_gc = false)
 
   file_lines = File.read(file).split("\n")
 
+  progressbar = ProgressBar.create(
+    total: file_lines.size,
+    format: '%a, %J, %E %B' # elapsed time, percent complete, estimate, bar
+    # output: File.open(File::NULL, 'w') # IN TEST ENV
+  )
+
   users_objects = []
   sessions = []
 
@@ -65,6 +73,8 @@ def work(file = 'data_large.txt', disable_gc = false)
       users_objects[cols[1].to_i].sessions << session
       sessions << session
     end
+
+    progressbar.increment
   end
 
   # Отчёт в json
@@ -132,7 +142,7 @@ def work(file = 'data_large.txt', disable_gc = false)
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+    { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")

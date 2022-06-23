@@ -115,7 +115,7 @@ def work(file = 'data_large.txt', disable_gc = false)
       dates << s['date']
     end
 
-    always_chrome = browsers.all?(/CHROME/)
+    always_chrome = browsers.all? { |b| b.start_with?('CHROME') }
 
     {
       # Собираем количество сессий по пользователям
@@ -131,7 +131,7 @@ def work(file = 'data_large.txt', disable_gc = false)
       'browsers' => browsers.sort.join(', '),
 
       # Хоть раз использовал IE?
-      'usedIE' => always_chrome ? false : browsers.any?(/INTERNET EXPLORER/),
+      'usedIE' => always_chrome ? false : browsers.any? { |b| b.start_with?('INTERNET EXPLORER') },
 
       # Всегда использовал только Chrome?
       'alwaysUsedChrome' => always_chrome,

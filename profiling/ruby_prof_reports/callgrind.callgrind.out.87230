@@ -1,0 +1,254 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 43408
+
+fl=
+fn=Oj::dump^
+0 305181
+
+fl=
+fn=Hash::merge
+0 127692
+
+fl=
+fn=Array::reverse
+0 45947
+
+fl=
+fn=Array::any?
+0 180193
+cfl=
+cfn=String::start_with?
+calls=444376 133
+133 74424
+
+fl=
+fn=Array::max
+0 34623
+
+fl=
+fn=Integer::to_s
+0 75070
+
+fl=
+fn=Array::sum
+0 31351
+
+fl=
+fn=String::start_with?
+0 117616
+
+fl=
+fn=Array::all?
+0 100639
+cfl=
+cfn=String::start_with?
+calls=203114 117
+117 43192
+
+fl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+41 4
+cfl=
+cfn=Array::each
+calls=1 42
+42 3527522
+
+fl=
+fn=Array::join
+0 144644
+
+fl=
+fn=Array::sort
+0 308132
+
+fl=
+fn=Array::uniq
+0 54427
+
+fl=
+fn=String::upcase
+0 448295
+
+fl=
+fn=Array::map
+0 423322
+cfl=
+cfn=String::upcase
+calls=866543 96
+96 225934
+
+fl=
+fn=Array::count
+0 28884
+
+fl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+31 600356
+
+fl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+fn=User::initialize
+15 69479
+
+fl=
+fn=Class::new
+0 143431
+cfl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=157457 0
+0 69479
+
+fl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+21 189370
+cfl=
+cfn=Class::new
+calls=157457 22
+22 212911
+
+fl=
+fn=String::to_i
+0 399293
+
+fl=
+fn=Array::each
+0 3335021
+cfl=
+cfn=String::split
+calls=1024000 64
+64 1089198
+cfl=
+cfn=String::to_i
+calls=1890543 66
+66 399293
+cfl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=157457 66
+66 402280
+cfl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=866543 69
+69 600356
+cfl=
+cfn=Array::each
+calls=157457 111
+111 1396469
+cfl=
+cfn=Array::all?
+calls=157457 117
+117 143831
+cfl=
+cfn=Array::count
+calls=157457 121
+121 28878
+cfl=
+cfn=Array::sum
+calls=157457 121
+121 31351
+cfl=
+cfn=Integer::to_s
+calls=314914 121
+121 75070
+cfl=
+cfn=Array::max
+calls=157457 121
+121 34623
+cfl=
+cfn=Array::sort
+calls=314914 121
+121 308075
+cfl=
+cfn=Array::join
+calls=157457 121
+121 144610
+cfl=
+cfn=Array::any?
+calls=152164 133
+133 254617
+cfl=
+cfn=Array::reverse
+calls=157457 133
+133 45947
+cfl=
+cfn=Hash::merge
+calls=157457 133
+133 127692
+cfl=
+cfn=String::upcase
+calls=866543 113
+113 222361
+
+fl=
+fn=String::split
+0 1279623
+
+fl=
+fn=IO::read^
+0 22816
+
+fl=
+fn=GC::disable^
+0 4
+
+fl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+fn=Object::work
+49 28954
+cfl=
+cfn=GC::disable^
+calls=1 50
+50 4
+cfl=
+cfn=IO::read^
+calls=1 52
+52 22816
+cfl=
+cfn=String::split
+calls=1 52
+52 190425
+cfl=
+cfn=Array::each
+calls=1 63
+63 3715681
+cfl=
+cfn=Array::count
+calls=3 94
+94 6
+cfl=
+cfn=Array::map
+calls=1 96
+96 649257
+cfl=
+cfn=Array::uniq
+calls=1 96
+96 54427
+cfl=
+cfn=Array::sort
+calls=1 102
+102 57
+cfl=
+cfn=Array::join
+calls=1 102
+102 34
+cfl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 106
+106 3527526
+cfl=
+cfn=Oj::dump^
+calls=1 143
+143 305181
+cfl=
+cfn=IO::write^
+calls=1 143
+143 43408
+
+fl=/Users/e.stashkovyan/projects/rails-optimization-task1/profiling/ruby_prof_callgrind.rb
+fn=[global]::
+7 15
+cfl=/Users/e.stashkovyan/projects/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 7
+7 8537776
+

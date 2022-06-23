@@ -107,10 +107,12 @@ def work(file = 'data_large.txt', disable_gc = false)
   collect_stats_from_users(report, users_objects) do |user|
     sessions_time = []
     browsers = []
+    dates = []
 
     user.sessions.each do |s|
       sessions_time << s['time'].to_i
       browsers << s['browser'].upcase
+      dates << s['date']
     end
 
     always_chrome = browsers.all?(/CHROME/)
@@ -135,7 +137,7 @@ def work(file = 'data_large.txt', disable_gc = false)
       'alwaysUsedChrome' => always_chrome,
 
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map{|s| s['date']}.sort.reverse,
+      'dates' => dates.sort.reverse,
     }
   end
 

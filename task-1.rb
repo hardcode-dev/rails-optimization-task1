@@ -1,6 +1,6 @@
 # Deoptimized version of homework task
 
-require 'json'
+require 'oj'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
@@ -142,7 +142,7 @@ def work(file = 'data_large.txt', disable_gc = false)
     }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('result.json', "#{Oj.dump(report, mode: :strict)}\n")
 end
 
 # class TestMe < Minitest::Test

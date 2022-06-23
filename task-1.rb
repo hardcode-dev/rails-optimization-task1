@@ -30,7 +30,7 @@ def parse_user(fields)
 end
 
 def parse_session(fields)
-  parsed_result = {
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -94,16 +94,13 @@ def work(file = 'data_large.txt', disable_gc = false)
 
   report[:totalUsers] = users_objects.count
 
-  report['uniqueBrowsersCount'] = sessions.uniq { |session| session['browser'] }.count
+  uniq_browsers = sessions.map { |s| s['browser'].upcase }.uniq
+
+  report['uniqueBrowsersCount'] = uniq_browsers.count
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'].upcase }
-      .uniq
-      .sort
-      .join(',')
+  report['allBrowsers'] = uniq_browsers.sort.join(',')
 
   report['usersStats'] = {}
 

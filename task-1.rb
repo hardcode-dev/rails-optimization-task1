@@ -101,8 +101,8 @@ def work(file = 'data_large.txt', disable_gc = false)
   report['allBrowsers'] =
     sessions
       .map { |s| s['browser'].upcase }
-      .sort
       .uniq
+      .sort
       .join(',')
 
   report['usersStats'] = {}

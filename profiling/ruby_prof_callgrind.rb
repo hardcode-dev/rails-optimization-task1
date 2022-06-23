@@ -4,7 +4,7 @@ require_relative '../task-1.rb'
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
-  work('../data/data256000.txt', disable_gc: true)
+  work('../data/data1024000.txt', disable_gc: true)
 end
 
 printer4 = RubyProf::CallTreePrinter.new(result)

@@ -108,35 +108,34 @@ def work(file = 'data_large.txt', disable_gc = false)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    total_time = 0
-    longest_session = 0
+    sessions_time = []
     browsers = []
 
-    browsers = user.sessions.map do |s|
-      time = s['time'].to_i
-      total_time += time
-      longest_session = time if time > longest_session
-      s['browser'].upcase
+    user.sessions.each do |s|
+      sessions_time << s['time'].to_i
+      browsers << s['browser'].upcase
     end
+
+    always_chrome = browsers.all?(/CHROME/)
 
     {
       # Собираем количество сессий по пользователям
       'sessionsCount' => user.sessions.count,
 
       # Собираем количество времени по пользователям
-      'totalTime' => total_time.to_s + ' min.',
+      'totalTime' => sessions_time.sum.to_s + ' min.',
 
       # Выбираем самую длинную сессию пользователя
-      'longestSession' => longest_session.to_s + ' min.',
+      'longestSession' => sessions_time.max.to_s + ' min.',
 
       # Браузеры пользователя через запятую
       'browsers' => browsers.sort.join(', '),
 
       # Хоть раз использовал IE?
-      'usedIE' => browsers.any?(/INTERNET EXPLORER/),
+      'usedIE' => always_chrome ? false : browsers.any?(/INTERNET EXPLORER/),
 
       # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => browsers.all?(/CHROME/),
+      'alwaysUsedChrome' => always_chrome,
 
       # Даты сессий через запятую в обратном порядке в формате iso8601
       'dates' => user.sessions.map{|s| s['date']}.sort.reverse,

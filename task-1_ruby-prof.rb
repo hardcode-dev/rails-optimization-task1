@@ -4,7 +4,7 @@ require 'ruby-prof'
 require_relative 'task-1'
 
 # GC.disable
-result = RubyProf::Profile.profile(track_allocations: true) { work('data_128k.txt') }
+result = RubyProf::Profile.profile(track_allocations: true) { work('data_large.txt') }
 # GC.enable
 
 RubyProf::GraphHtmlPrinter.new(result).print(

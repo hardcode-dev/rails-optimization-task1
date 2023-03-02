@@ -107,9 +107,15 @@ def work(input, output, rows_count: nil, gc_disable: false)
     used_ie = false
     always_used_chrome = true
 
+    max_time = user.sessions.first['time'].to_i
+    sum_times = 0
+
     user.sessions.each do |s|
-      times << s['time'].to_i
       dates << s['date']
+
+      time = s['time'].to_i
+      max_time = time if time > max_time
+      sum_times += time
 
       b = s['browser'].upcase
       browsers << b
@@ -123,8 +129,8 @@ def work(input, output, rows_count: nil, gc_disable: false)
 
     { 
       'sessionsCount' => user.sessions.count,
-      'totalTime' => (times.sum.to_s + ' min.'),
-      'longestSession' => (times.max.to_s + ' min.'),
+      'totalTime' => (sum_times.to_s + ' min.'),
+      'longestSession' => (max_time.to_s + ' min.'),
       'browsers' => browsers.sort.join(', '),
       'usedIE' => used_ie,
       'alwaysUsedChrome' => always_used_chrome,

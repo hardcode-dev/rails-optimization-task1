@@ -12,7 +12,7 @@ describe 'Performance' do
   it 'works under 3 sec for 500_000 rows' do
     expect {
       work(input, output, rows_count: 500_000)
-    }.to perform_under(3_000).ms.warmup(2).sample(2)
+    }.to perform_under(3).sec.warmup(2).sample(2)
   end
 
   it 'performs linear' do

@@ -74,10 +74,10 @@ def work(file_name = 'data.txt')
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  uniqueBrowsers = Set.new
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers << browser if uniqueBrowsers.all? { |b| b != browser }
+    uniqueBrowsers << browser
   end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count

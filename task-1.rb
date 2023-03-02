@@ -102,7 +102,7 @@ def work(input, output, rows_count: nil, gc_disable: false)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users.values) do |user|
-    times, browsers, dates = [], [], []
+    browsers, dates = [], []
 
     used_ie = false
     always_used_chrome = true

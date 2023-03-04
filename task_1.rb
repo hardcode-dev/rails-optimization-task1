@@ -57,6 +57,7 @@ def work(file)
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
   end
+  sessions_by_id = sessions.group_by { |s| s['user_id'] }
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -101,7 +102,7 @@ def work(file)
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = sessions_by_id[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end

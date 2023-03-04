@@ -82,13 +82,7 @@ def work(file = DATA_FILE_PATH, disable_gc: false)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = unique_browsers.uniq.map(&:upcase).sort.join(',')
 
   # Статистика по пользователям
   users_objects = []

@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions
@@ -34,7 +35,19 @@ def parse_session(session)
   }
 end
 
+def init_progress(items, title)
+  ProgressBar.create(
+    total: items.size,
+    title: title,
+    format: "%a %b\u{15E7}%i %p%% %t",
+    progress_mark: ' ',
+    remainder_mark: "\u{FF65}",
+    output: ENV.fetch('SHOW_PROGRESS', '0') == '1' ? $stdout : File.open(File::NULL, 'w')
+  )
+end
+
 def collect_stats_from_users(report, users_objects)
+  progressbar = init_progress(users_objects, 'collect_stats')
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
     user_stats = report['usersStats'][user_key] ||= {
@@ -66,6 +79,7 @@ def collect_stats_from_users(report, users_objects)
     user_stats['alwaysUsedChrome'] = always_used_chrome
     # Даты сессий через запятую в обратном порядке в формате iso8601
     user_stats['dates'] = user.sessions.map{|s| Date.strptime(s['date'], '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
+    progressbar.increment
   end
 end
 
@@ -124,11 +138,13 @@ def work(file_name = 'data.txt')
 
   grouped_sessions = sessions.group_by { |s| s['user_id'] }
 
+  progressbar = init_progress(users, 'generate users')
   users.each do |user|
     attributes = user
     user_sessions = grouped_sessions[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects << user_object
+    progressbar.increment
   end
 
   report['usersStats'] = {}

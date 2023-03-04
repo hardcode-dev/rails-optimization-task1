@@ -8,8 +8,7 @@ require 'date'
 require 'debug'
 require 'minitest/autorun'
 
-data_file = ENV.fetch('DATA_FILE', 'data5000.txt')
-DATA_FILE_PATH = "data/#{data_file}".freeze
+DATA_FILE_PATH = "data/#{ENV.fetch('DATA_FILE', 'data40000.txt')}".freeze
 
 class User
   attr_reader :attributes, :sessions
@@ -82,13 +81,13 @@ def work(file = DATA_FILE_PATH)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  unique_browsers = []
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    unique_browsers << browser unless unique_browsers.include?(browser)
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = unique_browsers.count
 
   report['totalSessions'] = sessions.count
 

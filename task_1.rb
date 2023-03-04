@@ -5,6 +5,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'debug'
 require 'minitest/autorun'
 
 class User

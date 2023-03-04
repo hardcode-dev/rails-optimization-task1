@@ -8,3 +8,5 @@ gem 'pry'
 gem 'rubocop-performance'
 gem 'ruby-prof'
 gem 'stackprof'
+
+gem "rspec-benchmark", "~> 0.6.0"

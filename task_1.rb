@@ -8,6 +8,9 @@ require 'date'
 require 'debug'
 require 'minitest/autorun'
 
+data_file = ENV.fetch('DATA_FILE', 'data5000.txt')
+DATA_FILE_PATH = "data/#{data_file}".freeze
+
 class User
   attr_reader :attributes, :sessions
 
@@ -46,7 +49,7 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file)
+def work(file = DATA_FILE_PATH)
   file_lines = File.read(file).split("\n")
 
   users = []
@@ -180,6 +183,6 @@ session,2,3,Chrome 20,84,2016-11-25
 end
 
 a = Time.now
-work('data/data10000.txt')
+work
 b = Time.now
 p b - a

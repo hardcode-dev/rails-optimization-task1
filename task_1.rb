@@ -9,6 +9,7 @@ require 'debug'
 require 'minitest/autorun'
 
 DATA_FILE_PATH = "data/#{ENV.fetch('DATA_FILE', 'data40000.txt')}".freeze
+DISABLE_GC = ENV.fetch('DISABLE_GC', false)
 
 class User
   attr_reader :attributes, :sessions
@@ -49,6 +50,7 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work(file = DATA_FILE_PATH)
+  GC.disable if DISABLE_GC
   file_lines = File.read(file).split("\n")
 
   users = []

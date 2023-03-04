@@ -42,8 +42,8 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
+    report['usersStats'][user_key] = {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
 end
@@ -114,12 +114,15 @@ def work(file = DATA_FILE_PATH, disable_gc: false)
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    browser_data = user.sessions.map { |s| s['browser'].upcase }
-    { 'sessionsCount' => user.sessions.count,
+    sessions = user.sessions
+    browser_data = sessions.map { |s| s['browser'].upcase }
+    sessions_times = sessions.map { |s| s['time'].to_i }
+
+    { 'sessionsCount' => sessions.count,
       # Собираем количество времени по пользователям
-      'totalTime' => "#{user.sessions.map { |s| s['time'].to_i }.sum} min.",
+      'totalTime' => "#{sessions_times.sum} min.",
       # Выбираем самую длинную сессию пользователя
-      'longestSession' => "#{user.sessions.map { |s| s['time'].to_i }.max} min.",
+      'longestSession' => "#{sessions_times.max} min.",
       # Браузеры пользователя через запятую
       'browsers' => browser_data.sort.join(', '),
       # Хоть раз использовал IE?
@@ -127,8 +130,7 @@ def work(file = DATA_FILE_PATH, disable_gc: false)
       # Всегда использовал только Chrome?
       'alwaysUsedChrome' => browser_data.all? { |b| b =~ /CHROME/ },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      # 'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
-      'dates' => user.sessions.map { |s| Date.parse(s['date']) }.sort.reverse.map { |d| d.iso8601 } }
+      'dates' => sessions.map { |s| s['date'] }.sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")

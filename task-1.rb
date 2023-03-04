@@ -37,22 +37,35 @@ end
 def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {
+    user_stats = report['usersStats'][user_key] ||= {
       # Собираем количество сессий по пользователям
       'sessionsCount' => user.sessions.count,
-      # Собираем количество времени по пользователям
-      'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
-      # Выбираем самую длинную сессию пользователя
-      'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
-      # Браузеры пользователя через запятую
-      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
-      # Хоть раз использовал IE?
-      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
-      # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
     }
+    total_time = 0
+    longest_session = 0
+    browsers = []
+    used_ie = false
+    always_used_chrome = true
+    user.sessions.each do |session|
+      session_time = session['time'].to_i
+      total_time += session_time
+      longest_session = session_time if session_time > longest_session
+      browsers << (browser = session['browser'].upcase)
+      used_ie ||= !!(browser =~ /INTERNET EXPLORER/)
+      always_used_chrome = !!(browser =~ /CHROME/) if always_used_chrome
+    end
+    # Собираем количество времени по пользователям
+    user_stats['totalTime'] = "#{total_time} min."
+    # Выбираем самую длинную сессию пользователя
+    user_stats['longestSession'] = "#{longest_session} min."
+    # Браузеры пользователя через запятую
+    user_stats['browsers'] = browsers.sort.join(', ')
+    # Хоть раз использовал IE?
+    user_stats['usedIE'] = used_ie
+    # Всегда использовал только Chrome?
+    user_stats['alwaysUsedChrome'] = always_used_chrome
+    # Даты сессий через запятую в обратном порядке в формате iso8601
+    user_stats['dates'] = user.sessions.map{|s| Date.strptime(s['date'], '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
   end
 end
 

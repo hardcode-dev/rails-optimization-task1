@@ -9,6 +9,6 @@ def time(name, &block)
   puts "#{name} Completed in #{time.round(3)} ms"
 end
 
-[20000, 40000, 60000, 80000, 100_000].each do |line|
+[100_000, 200_000, 400_000, 600_000].each do |line|
   time(line) { work("data/data-#{line}-lines.txt") }
 end

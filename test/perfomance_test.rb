@@ -11,7 +11,7 @@ describe 'performance' do
     it 'work n ms' do
       expect {
         work("data/data-8000-lines.txt")
-      }.to perform_under(300).ms.warmup(2).times.sample(5).times
+      }.to perform_under(250).ms.warmup(2).times.sample(5).times
     end
   end
 end

@@ -17,10 +17,10 @@ end
 def parse_user(user)
   fields = user.split(',')
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    id: fields[1],
+    first_name: fields[2],
+    last_name: fields[3],
+    age: fields[4],
     sessions: [],
   }
 end
@@ -28,21 +28,22 @@ end
 def parse_session(session)
   fields = session.split(',')
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+    user_id: fields[1],
+    session_id: fields[2],
+    browser: fields[3],
+    time: fields[4].to_i,
+    date: fields[5],
   }
 end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    user_key = "#{user.attributes[:first_name]}" + ' ' + "#{user.attributes[:last_name]}"
+    report[:usersStats][user_key] ||= {}
+    report[:usersStats][user_key] = report[:usersStats][user_key].merge(block.call(user))
   end
 end
+
 
 def work(filename, disable_gc: false)
   GC.disable if disable_gc
@@ -64,7 +65,7 @@ def work(filename, disable_gc: false)
       session = parse_session(line)
       sessions << session
       user[:sessions] << session
-      unique_browsers.add(session['browser'])
+      unique_browsers.add(session[:browser])
     end
   end
 
@@ -88,11 +89,11 @@ def work(filename, disable_gc: false)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  report['uniqueBrowsersCount'] = unique_browsers.count
+  report[:uniqueBrowsersCount] = unique_browsers.count
 
-  report['totalSessions'] = sessions.count
+  report[:totalSessions] = sessions.count
 
-  report['allBrowsers'] = unique_browsers.map(&:upcase).sort.join(',')
+  report[:allBrowsers] = unique_browsers.map(&:upcase).sort.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -103,25 +104,27 @@ def work(filename, disable_gc: false)
     users_objects = users_objects + [user_object]
   end
 
-  report['usersStats'] = {}
+  report[:usersStats] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
+    browsers = user.sessions.map { |s| s[:browser].upcase }.sort!
     {
       # Собираем количество сессий по пользователям
       sessionsCount: user.sessions.count,
       # Собираем количество времени по пользователям
-      totalTime: user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.sum.to_s + ' min.',
+      totalTime: "#{user.sessions.sum { |s| s[:time] }} min.",
       # Выбираем самую длинную сессию пользователя
-      longestSession: user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.max.to_s + ' min.',
+      longestSession: "#{user.sessions.max { |a, b| a[:time] <=> b[:time] }&.[](:time)} min.",
       # Браузеры пользователя через запятую
-      browsers: user.sessions.map { |s| s['browser'] }.map { |b| b.upcase }.sort.join(', '),
+      browsers: browsers.join(', '),
       # Хоть раз использовал IE?
-      usedIE: user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      usedIE: browsers.any? { |b| b =~ /INTERNET EXPLORER/i },
       # Всегда использовал только Chrome?
-      alwaysUsedChrome: user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ },
+      alwaysUsedChrome: browsers.all? { |b| b =~ /CHROME/i },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      dates: user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map { |d| d.iso8601 },
+      dates: user.sessions.map { |s| s[:date] }.sort.reverse!,
     }
   end
+
   File.write('result.json', "#{report.to_json}\n")
 end

@@ -1,0 +1,4 @@
+reports/*
+data/*
+!data/data10000.txt
+result.json

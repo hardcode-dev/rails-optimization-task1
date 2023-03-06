@@ -43,8 +43,11 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
-  file_lines = File.read('data.txt').split("\n")
+def work(file, disable_gc)
+  puts 'start ...'
+  GC.disable if disable_gc
+
+  file_lines = File.read(file).split("\n")
 
   users = []
   sessions = []
@@ -141,5 +144,7 @@ def work
   end
 
   File.write('result.json', "#{report.to_json}\n")
+
+    puts 'end ...'
 end
 

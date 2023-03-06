@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+
+/data
+!data/data.txt
+!data/data_large.txt.gz

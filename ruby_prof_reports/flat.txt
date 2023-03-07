@@ -1,61 +1,52 @@
 Measure Mode: wall_time
 Thread ID: 80
 Fiber ID: 60
-Total: 12.005195
+Total: 8.628237
 Sort by: self_time
 
  %self      total      self      wait     child     calls  name                           location
- 70.18     11.063     8.425     0.000     2.638     3046   Array#select                   
- 22.82      2.739     2.739     0.000     0.000 53372220   String#==                      
-  1.75      0.494     0.210     0.000     0.284    20000   Array#all?                     
-  1.53      0.282     0.184     0.000     0.098  1690336   BasicObject#!=                 
-  1.36      0.163     0.163     0.000     0.000    23246   Array#+                        
-  0.60     11.988     0.073     0.000    11.916       10   Array#each                     
-  0.36      0.106     0.043     0.000     0.063    33508   Array#map                      
-  0.25      0.030     0.030     0.000     0.000    40001   String#split                   
-  0.23      0.052     0.027     0.000     0.025    16954   <Class::Date>#parse            
-  0.11      0.033     0.013     0.000     0.020    16954   Object#parse_session           /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:27
-  0.08      0.010     0.010     0.000     0.000    33908   Regexp#match                   
-  0.07      0.009     0.009     0.000     0.000   136954   Array#[]                       
-  0.05      0.006     0.006     0.000     0.000    48736   String#+                       
-  0.05      0.009     0.006     0.000     0.003     6093   Array#sort                     
-  0.05      0.006     0.006     0.000     0.000    16954   String#gsub!                   
-  0.04      0.005     0.005     0.000     0.000    46682   String#upcase                  
-  0.04      0.005     0.005     0.000     0.000    42644   Hash#[]                        
-  0.04      0.005     0.005     0.000     0.000    16954   MatchData#begin                
-  0.04      0.004     0.004     0.000     0.000    16954   Date#iso8601                   
-  0.04      0.004     0.004     0.000     0.000    21322   Hash#merge                     
-  0.03      0.003     0.003     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
-  0.03      0.003     0.003     0.000     0.000    24369   Hash#[]=                       
-  0.03      0.003     0.003     0.000     0.000    42644   User#attributes                
-  0.02      0.003     0.003     0.000     0.000    34664   Date#<=>                       
-  0.02      0.003     0.003     0.000     0.000    33908   String#to_i                    
-  0.02      0.002     0.002     0.000     0.000    12774   String#=~                      
-  0.02      0.005     0.002     0.000     0.003     3046   Object#parse_user              /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:17
-  0.02      0.002     0.002     0.000     0.000    16954   String#[]=                     
-  0.02      0.005     0.002     0.000     0.003     3046   Array#any?                     
-  0.01      0.002     0.002     0.000     0.000    21322   User#sessions                  
-  0.01      0.002     0.002     0.000     0.001     3046   Class#new                      
-  0.01      0.001     0.001     0.000     0.000     3047   Array#join                     
-  0.01      0.001     0.001     0.000     0.000    16954   MatchData#end                  
-  0.01      0.001     0.001     0.000     0.000    16954   Integer#div                    
-  0.01      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
-  0.01      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
-  0.01      0.001     0.001     0.000     0.000     6091   Integer#to_s                   
-  0.01      0.001     0.001     0.000     0.000     3046   User#initialize                /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:11
-  0.01     12.005     0.001     0.000    12.005        1   Object#work                    /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:46
-  0.00      0.001     0.001     0.000     0.000        1   Array#uniq                     
-  0.00      0.000     0.000     0.000     0.000     3046   Array#reverse                  
-  0.00      0.000     0.000     0.000     0.000     3046   Array#max                      
-  0.00      0.000     0.000     0.000     0.000     3046   Array#sum                      
-  0.00      0.000     0.000     0.000     0.000     3049   Array#count                    
-  0.00      0.000     0.000     0.000     0.000        2   IO#write                       
-  0.00      0.173     0.000     0.000     0.173        7   Object#collect_stats_from_users /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:38
-  0.00     12.005     0.000     0.000    12.005        1   [global]#                      prof.rb:30
-  0.00      0.000     0.000     0.000     0.000        2   Kernel#puts                    
-  0.00      0.000     0.000     0.000     0.000        2   IO#puts                        
+ 26.20      7.959     2.261     0.000     5.698        4   Array#each                     
+ 20.23      1.745     1.745     0.000     0.000  1000001   String#split                   
+ 12.70      1.096     1.096     0.000     0.000   918097   Array#map                      
+  8.02      0.982     0.692     0.000     0.290   846230   Object#parse_session           /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:26
+  6.51      0.562     0.562     0.000     0.000   306033   Array#sort                     
+  4.34      0.374     0.374     0.000     0.000  6692460   Array#[]                       
+  2.84      0.245     0.245     0.000     0.000   636269   String#=~                      
+  2.64      0.228     0.228     0.000     0.000   999247   Hash#[]=                       
+  1.73      0.150     0.150     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  1.64      0.142     0.142     0.000     0.000   306033   Integer#to_s                   
+  1.35      0.117     0.117     0.000     0.000   153017   Array#join                     
+  1.20      0.136     0.104     0.000     0.032   153770   Object#parse_user              /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:17
+  1.02      0.088     0.088     0.000     0.000  1153770   Array#<<                       
+  0.98      0.108     0.084     0.000     0.023   153771   Class#new                      
+  0.96      0.083     0.083     0.000     0.000   153016   Array#reverse                  
+  0.95      0.082     0.082     0.000     0.000  1000000   String#==                      
+  0.89      0.077     0.077     0.000     0.000  1071112   User#sessions                  
+  0.84      0.073     0.073     0.000     0.000   846230   String#to_i                    
+  0.80      0.069     0.069     0.000     0.000   846230   String#upcase!                 
+  0.80      0.235     0.069     0.000     0.166   153016   Array#any?                     
+  0.63      0.055     0.055     0.000     0.000   307540   Hash#[]                        
+  0.52      0.045     0.045     0.000     0.000   459802   String#<<                      
+  0.42      0.037     0.037     0.000     0.000        1   Array#uniq                     
+  0.41      0.115     0.036     0.000     0.079   153016   Array#all?                     
+  0.27      0.023     0.023     0.000     0.000   153770   User#initialize                /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:11
+  0.26      0.022     0.022     0.000     0.000   307540   User#attributes                
+  0.21      0.018     0.018     0.000     0.000        1   <Class::IO>#write              
+  0.15      0.013     0.013     0.000     0.000   153016   Array#max                      
+  0.15      0.013     0.013     0.000     0.000   153016   Array#sum                      
+  0.12      0.010     0.010     0.000     0.000   153017   Array#size                     
+  0.10      0.009     0.009     0.000     0.000        1   <Class::IO>#read               
+  0.09      8.628     0.008     0.000     8.620        1   Object#work                    /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:52
+  0.00      0.000     0.000     0.000     0.000        3   IO#write                       
+  0.00      0.000     0.000     0.000     0.000        3   IO#puts                        
+  0.00      8.628     0.000     0.000     8.628        1   [global]#                      prof.rb:30
+  0.00      0.000     0.000     0.000     0.000        2   Array#count                    
+  0.00      0.292     0.000     0.000     0.292        1   Enumerable#group_by            
+  0.00      0.000     0.000     0.000     0.000        3   Kernel#puts                    
+  0.00      3.083     0.000     0.000     3.083        1   Object#collect_stats_from_users /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:36
   0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:84
-  0.00      0.000     0.000     0.000     0.000        1   NilClass#to_s                  
+  0.00      0.000     0.000     0.000     0.000        1   Hash#size                      
+  0.00      0.000     0.000     0.000     0.000        1   Hash#initialize                
   0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
 
 * recursively called methods

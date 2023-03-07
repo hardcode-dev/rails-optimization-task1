@@ -27,12 +27,12 @@ require_relative 'task-1'
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
- work
+ work('data/data_1_000_000.txt', disable_gc: true)
 end
 
 
-printer = RubyProf::CallTreePrinter.new(result)
-printer.print(:path => "ruby_prof_reports", :profile => 'callgrind')
+# printer = RubyProf::CallTreePrinter.new(result)
+# printer.print(:path => "ruby_prof_reports", :profile => 'callgrind')
 
 printer = RubyProf::CallStackPrinter.new(result)
 printer.print(File.open("ruby_prof_reports/callstack.html", "w+"))

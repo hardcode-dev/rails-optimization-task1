@@ -110,8 +110,12 @@ def work(input_file)
       'browsers' => user.sessions.map {|_, s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
       'usedIE' => user.sessions.map{|_, s| s['browser']}.any? { |b| b.upcase.start_with?("INTERNET EXPLORER") },
       'alwaysUsedChrome' => user.sessions.map{|_, s| s['browser']}.all? { |b| b.upcase.start_with?("CHROME") },
-      'dates' => user.sessions.map{|_, s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 }
+      'dates' => user.sessions.map{|_, s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
     }
+  end
+
+  def convert_date(date)
+
   end
 
   File.write('result.json', JSON.pretty_generate(report))

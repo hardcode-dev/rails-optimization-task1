@@ -14,6 +14,12 @@ if ARGV.first&.downcase == "profile"
   printer = RubyProf::MultiPrinter.new(result)
   printer.print(:path => "./reports", :profile => "profile")
 
+  printer = RubyProf::CallTreePrinter.new(result)
+  printer.print(:path => "./reports", :profile => "profile")
+
+  printer = RubyProf::CallStackPrinter.new(result)
+  printer.print(File.open("./reports/callstack.html", "w+"))
+
   StackProf.run(mode: :wall, out: 'reports/myapp.dump') do
     work("./data_small.txt")
   end

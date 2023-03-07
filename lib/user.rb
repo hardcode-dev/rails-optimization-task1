@@ -24,7 +24,7 @@ def parse_session(fields)
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
+    'browser' => fields[3].upcase,
     'time' => fields[4],
     'date' => fields[5],
   }
@@ -84,7 +84,7 @@ def work(input_file)
     user_sessions.each { |_k, user_session| all_browsers[user_session['browser']] = nil }
   end
   
-  report['allBrowsers'] = all_browsers.keys.map(&:upcase).sort.join(',')
+  report['allBrowsers'] = all_browsers.keys.sort.join(',')
 
   # Статистика по пользователям
   users_objects = {}
@@ -104,15 +104,11 @@ def work(input_file)
       'sessionsCount' => user.sessions.count,
       'totalTime' => user.sessions.map { |_, s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
       'longestSession' => user.sessions.map {|_, s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
-      'browsers' => user.sessions.map {|_, s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
-      'usedIE' => user.sessions.map{|_, s| s['browser']}.any? { |b| b.upcase.start_with?("INTERNET EXPLORER") },
-      'alwaysUsedChrome' => user.sessions.map{|_, s| s['browser']}.all? { |b| b.upcase.start_with?("CHROME") },
+      'browsers' => user.sessions.map {|_, s| s['browser']}.map {|b| b }.sort.join(', '),
+      'usedIE' => user.sessions.map{|_, s| s['browser']}.any? { |b| b.start_with?("INTERNET EXPLORER") },
+      'alwaysUsedChrome' => user.sessions.map{|_, s| s['browser']}.all? { |b| b.start_with?("CHROME") },
       'dates' => user.sessions.map{|_, s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
     }
-  end
-
-  def convert_date(date)
-
   end
 
   File.write('result.json', JSON.pretty_generate(report))

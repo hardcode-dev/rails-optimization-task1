@@ -78,13 +78,14 @@ def work(input_file)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  uniqueBrowsers = {}
   sessions.each do |user_id, user_sessions|
     user_sessions.each do |session_id, session|
       browser = session['browser']
-      uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+      uniqueBrowsers[session['browser']] = nil
     end
   end
+  uniqueBrowsers = uniqueBrowsers.keys
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
   report['totalSessions'] = sessions.map { |k, s| s.count }.sum
@@ -130,12 +131,12 @@ def work(input_file)
 
   # Хоть раз использовал IE?
   collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|_, s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
+    { 'usedIE' => user.sessions.map{|_, s| s['browser']}.any? { |b| b.upcase.start_with?("INTERNET EXPLORER") } }
   end
 
   # Всегда использовал только Chrome?
   collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|_, s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+    { 'alwaysUsedChrome' => user.sessions.map{|_, s| s['browser']}.all? { |b| b.upcase.start_with?("CHROME") } }
   end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601

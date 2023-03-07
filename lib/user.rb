@@ -85,12 +85,12 @@ def work(input_file)
 
     report['usersStats'][user_key] = { 
       'sessionsCount' => user_sessions.count,
-      'totalTime' => user_sessions.map { |_, s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
-      'longestSession' => user_sessions.map {|_, s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
-      'browsers' => user_sessions.map {|_, s| s['browser']}.map {|b| b }.sort.join(', '),
-      'usedIE' => user_sessions.map{|_, s| s['browser']}.any? { |b| b.start_with?("INTERNET EXPLORER") },
-      'alwaysUsedChrome' => user_sessions.map{|_, s| s['browser']}.all? { |b| b.start_with?("CHROME") },
-      'dates' => user_sessions.map{|_, s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
+      'totalTime' => user_sessions.map { |_, s| s['time'].to_i}.sum.to_s + ' min.',
+      'longestSession' => user_sessions.map {|_, s| s['time'].to_i}.max.to_s + ' min.',
+      'browsers' => user_sessions.map {|_, s| s['browser']}.sort.join(', '),
+      'usedIE' => user_sessions.any?{|_, s| s['browser'].start_with?("INTERNET EXPLORER")},
+      'alwaysUsedChrome' => user_sessions.all?{|_, s| s['browser'].start_with?("CHROME")},
+      'dates' => user_sessions.map{|_, s| Date.strptime(s['date'], '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
     }
   end
 

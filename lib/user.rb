@@ -2,17 +2,8 @@ require 'json'
 # require 'pry'
 require 'date'
 
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
-
 def parse_user(fields)
-  parsed_result = {
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -21,7 +12,7 @@ def parse_user(fields)
 end
 
 def parse_session(fields)
-  parsed_result = {
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3].upcase,
@@ -86,28 +77,20 @@ def work(input_file)
   
   report['allBrowsers'] = all_browsers.keys.sort.join(',')
 
-  # Статистика по пользователям
-  users_objects = {}
-
-  users.each do |user_id, user|
-    attributes = user
-    user_sessions = sessions[user_id]
-    users_objects[user_id] = User.new(attributes: attributes, sessions: user_sessions)
-  end
-
   report['usersStats'] = {}
 
-  users_objects.each do |user_id, user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+  sessions.each do |user_id, user_sessions|
+    user = users[user_id]
+    user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
 
     report['usersStats'][user_key] = { 
-      'sessionsCount' => user.sessions.count,
-      'totalTime' => user.sessions.map { |_, s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
-      'longestSession' => user.sessions.map {|_, s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
-      'browsers' => user.sessions.map {|_, s| s['browser']}.map {|b| b }.sort.join(', '),
-      'usedIE' => user.sessions.map{|_, s| s['browser']}.any? { |b| b.start_with?("INTERNET EXPLORER") },
-      'alwaysUsedChrome' => user.sessions.map{|_, s| s['browser']}.all? { |b| b.start_with?("CHROME") },
-      'dates' => user.sessions.map{|_, s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
+      'sessionsCount' => user_sessions.count,
+      'totalTime' => user_sessions.map { |_, s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
+      'longestSession' => user_sessions.map {|_, s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
+      'browsers' => user_sessions.map {|_, s| s['browser']}.map {|b| b }.sort.join(', '),
+      'usedIE' => user_sessions.map{|_, s| s['browser']}.any? { |b| b.start_with?("INTERNET EXPLORER") },
+      'alwaysUsedChrome' => user_sessions.map{|_, s| s['browser']}.all? { |b| b.start_with?("CHROME") },
+      'dates' => user_sessions.map{|_, s| s['date']}.map {|d| Date.strptime(d, '%Y-%m-%d')}.sort.reverse.map { |d| d.iso8601 }
     }
   end
 

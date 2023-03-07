@@ -4,3 +4,6 @@
 /data
 !data/data.txt
 !data/data_large.txt.gz
+!data/result.json
+
+/reports

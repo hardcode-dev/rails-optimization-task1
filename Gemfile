@@ -10,4 +10,7 @@ gem 'rspec-benchmark'
 gem 'ruby-prof'
 gem 'stackprof'
 
+gem 'rake'
+
 gem 'rubocop', require: false
+gem 'rubocop-rake'

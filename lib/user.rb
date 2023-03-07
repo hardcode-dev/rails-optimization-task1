@@ -31,13 +31,10 @@ def parse_session(fields)
 end
 
 def work(input_file)
-  file_lines = File.read(input_file).split("\n")
-
-
   users = {}
   sessions = {}
 
-  file_lines.each do |line|
+  File.open(input_file).each do |line|
     cols = line.split(',')
 
     if cols[0] == 'user'

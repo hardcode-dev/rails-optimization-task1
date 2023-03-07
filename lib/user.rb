@@ -1,7 +1,6 @@
 require 'json'
-require 'pry'
+# require 'pry'
 require 'date'
-require 'minitest/autorun'
 
 class User
   attr_reader :attributes, :sessions
@@ -41,6 +40,7 @@ end
 
 def work(input_file)
   file_lines = File.read(input_file).split("\n")
+
 
   users = {}
   sessions = {}
@@ -144,4 +144,5 @@ def work(input_file)
   end
 
   File.write('result.json', JSON.pretty_generate(report))
+  report.to_json
 end

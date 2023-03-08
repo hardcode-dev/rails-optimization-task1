@@ -42,19 +42,14 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def read_file(file_path)
+def read_file(file_path, users, sessions)
   file_lines = File.read(file_path).split("\n")
-
-  users = []
-  sessions = []
 
   file_lines.each do |line|
     cols = line.split(',')
     users << parse_user(cols) if cols[0] == 'user'
     sessions << parse_session(cols) if cols[0] == 'session'
   end
-
-  [users, sessions]
 end
 
 def find_uniq_browsers(sessions)
@@ -72,7 +67,9 @@ end
 def work(file_path: 'data/data.txt', disable_gc: false)
   GC.disable if disable_gc
 
-  users, sessions = read_file(file_path)
+  users = []
+  sessions = []
+  read_file(file_path, users, sessions)
 
   # Отчёт в json
   #   - Сколько всего юзеров +

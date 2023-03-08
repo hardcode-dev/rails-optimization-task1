@@ -1,6 +1,7 @@
 require 'json'
 # require 'pry'
 require 'date'
+require 'progress_bar'
 
 def parse_user(fields)
   {
@@ -25,8 +26,19 @@ def work(input_file)
   users = {}
   sessions = {}
 
+  bar = ProgressBar.new
+
+  file = File.open(input_file)
+  step_count = File.open(input_file).read.count("\n") / 50
+  counter = 0
+  process = 0
   File.open(input_file).each do |line|
     cols = line.split(',')
+    if process * step_count == counter
+      bar.increment! 
+      process += 1
+    end
+    counter += 1
 
     if cols[0] == 'user'
       user = parse_user(cols)
@@ -79,7 +91,17 @@ def work(input_file)
 
   report['usersStats'] = {}
 
+  counter = 0
+  process = 0
+  step_count = sessions.keys.count / 50
+
   sessions.each do |user_id, user_sessions|
+    if process * step_count == counter
+      bar.increment! 
+      process += 1
+    end
+    counter += 1
+
     user = users[user_id]
     user_key = "#{user[:first_name]}" + ' ' + "#{user[:last_name]}"
 

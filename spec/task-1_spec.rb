@@ -33,7 +33,7 @@ describe 'task_1 performance' do
   end
 
   context 'when allocation is tested' do
-    let(:maximum_objects_count) { 208_000 }
+    let(:maximum_objects_count) { 147_100 }
 
     xit 'works faster than mimimum_ips ips' do
       expect { work(file_path: file_path, disable_gc: true) }.to perform_allocation(maximum_objects_count)
@@ -41,9 +41,11 @@ describe 'task_1 performance' do
   end
 
   context 'when the asymptotics is tested' do
-    xit 'works like a power algorithm' do
-      # expected block to perform power, but performed power (??)
-      expect { work(file_path: file_path) }.to perform_power
+    let(:data_range) { [1000, 2000, 4000, 8000] }
+
+    it 'works like a linear algorithm' do
+      expect { |n, _index| work(file_path: "spec/data/data-#{n}-lines.txt") }
+        .to perform_linear.in_range(data_range).threshold(0.1)
     end
   end
 end

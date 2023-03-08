@@ -1,0 +1,5 @@
+require: rubocop-rake
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false

@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
+require 'set'
 
 class User
   attr_reader :attributes, :sessions
@@ -14,46 +15,61 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+def parse_user(user_fields)
+  {
+    'id' => user_fields[1],
+    'first_name' => user_fields[2],
+    'last_name' => user_fields[3],
+    'age' => user_fields[4]
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+def parse_session(session_fields)
+  {
+    'user_id' => session_fields[1],
+    'session_id' => session_fields[2],
+    'browser' => session_fields[3],
+    'time' => session_fields[4],
+    'date' => session_fields[5]
   }
 end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
 end
 
-def work
-  file_lines = File.read('data.txt').split("\n")
-
-  users = []
-  sessions = []
+def read_file(file_path, users, sessions)
+  file_lines = File.read(file_path).split("\n")
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users << parse_user(cols) if cols[0] == 'user'
+    sessions << parse_session(cols) if cols[0] == 'session'
   end
+end
+
+def find_uniq_browsers(sessions)
+  sessions.each_with_object(Set.new) { |session, set| set << session['browser'].upcase }
+end
+
+def user_objects_initialization(users, sessions)
+  sessions_by_user = sessions.group_by { |session| session['user_id'] }
+
+  users.map do |user_attributes|
+    User.new(attributes: user_attributes, sessions: sessions_by_user[user_attributes['id']])
+  end
+end
+
+def work(file_path: 'data/data.txt', disable_gc: false)
+  GC.disable if disable_gc
+
+  users = []
+  sessions = []
+  read_file(file_path, users, sessions)
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -72,81 +88,49 @@ def work
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = users.size
+  uniq_browsers = find_uniq_browsers(sessions)
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  report['uniqueBrowsersCount'] = find_uniq_browsers(sessions).size
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['totalSessions'] = sessions.size
 
-  report['totalSessions'] = sessions.count
-
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniq_browsers.sort.join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
+  users_objects = user_objects_initialization(users, sessions)
 
   report['usersStats'] = {}
 
-  # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
+    user_sessions = user.sessions
+    user_browsers = []
+    user_times = []
+    user_sessions.each do |s|
+      user_browsers << s['browser'].upcase
+      user_times << s['time'].to_i
+    end
+
+    {
+      'sessionsCount' => user_sessions.size, # Собираем количество сессий по пользователям
+      'totalTime' => "#{user_times.sum} min.", # Собираем количество времени по пользователям
+      'longestSession' => "#{user_times.max} min.", # Выбираем самую длинную сессию пользователя
+      'browsers' => user_browsers.sort.join(', '), # Браузеры пользователя через запятую
+      'usedIE' => user_browsers.any? { |b| b =~ /INTERNET EXPLORER/ }, # Хоть раз использовал IE?
+      'alwaysUsedChrome' => user_browsers.all? { |b| b =~ /CHROME/ }, # Всегда использовал только Chrome?
+      # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user_sessions.map { |s| s['date'] }.sort.reverse
+    }
   end
 
-  # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
-  end
-
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
-  end
-
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
-  end
-
-  # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-  end
-
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
-  end
-
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
-  end
-
-  File.write('result.json', "#{report.to_json}\n")
+  File.write('data/result.json', "#{report.to_json}\n")
 end
 
 class TestMe < Minitest::Test
   def setup
-    File.write('result.json', '')
-    File.write('data.txt',
+    File.write('data/result.json', '')
+    File.write('data/data.txt',
 'user,0,Leida,Cira,0
 session,0,0,Safari 29,87,2016-10-23
 session,0,1,Firefox 12,118,2017-02-27
@@ -170,7 +154,7 @@ session,2,3,Chrome 20,84,2016-11-25
 
   def test_result
     work
-    expected_result = '{"totalUsers":3,"uniqueBrowsersCount":14,"totalSessions":15,"allBrowsers":"CHROME 13,CHROME 20,CHROME 35,CHROME 6,FIREFOX 12,FIREFOX 32,FIREFOX 47,INTERNET EXPLORER 10,INTERNET EXPLORER 28,INTERNET EXPLORER 35,SAFARI 17,SAFARI 29,SAFARI 39,SAFARI 49","usersStats":{"Leida Cira":{"sessionsCount":6,"totalTime":"455 min.","longestSession":"118 min.","browsers":"FIREFOX 12, INTERNET EXPLORER 28, INTERNET EXPLORER 28, INTERNET EXPLORER 35, SAFARI 29, SAFARI 39","usedIE":true,"alwaysUsedChrome":false,"dates":["2017-09-27","2017-03-28","2017-02-27","2016-10-23","2016-09-15","2016-09-01"]},"Palmer Katrina":{"sessionsCount":5,"totalTime":"218 min.","longestSession":"116 min.","browsers":"CHROME 13, CHROME 6, FIREFOX 32, INTERNET EXPLORER 10, SAFARI 17","usedIE":true,"alwaysUsedChrome":false,"dates":["2017-04-29","2016-12-28","2016-12-20","2016-11-11","2016-10-21"]},"Gregory Santos":{"sessionsCount":4,"totalTime":"192 min.","longestSession":"85 min.","browsers":"CHROME 20, CHROME 35, FIREFOX 47, SAFARI 49","usedIE":false,"alwaysUsedChrome":false,"dates":["2018-09-21","2018-02-02","2017-05-22","2016-11-25"]}}}' + "\n"
-    assert_equal expected_result, File.read('result.json')
+    expected_result = "{\"totalUsers\":3,\"uniqueBrowsersCount\":14,\"totalSessions\":15,\"allBrowsers\":\"CHROME 13,CHROME 20,CHROME 35,CHROME 6,FIREFOX 12,FIREFOX 32,FIREFOX 47,INTERNET EXPLORER 10,INTERNET EXPLORER 28,INTERNET EXPLORER 35,SAFARI 17,SAFARI 29,SAFARI 39,SAFARI 49\",\"usersStats\":{\"Leida Cira\":{\"sessionsCount\":6,\"totalTime\":\"455 min.\",\"longestSession\":\"118 min.\",\"browsers\":\"FIREFOX 12, INTERNET EXPLORER 28, INTERNET EXPLORER 28, INTERNET EXPLORER 35, SAFARI 29, SAFARI 39\",\"usedIE\":true,\"alwaysUsedChrome\":false,\"dates\":[\"2017-09-27\",\"2017-03-28\",\"2017-02-27\",\"2016-10-23\",\"2016-09-15\",\"2016-09-01\"]},\"Palmer Katrina\":{\"sessionsCount\":5,\"totalTime\":\"218 min.\",\"longestSession\":\"116 min.\",\"browsers\":\"CHROME 13, CHROME 6, FIREFOX 32, INTERNET EXPLORER 10, SAFARI 17\",\"usedIE\":true,\"alwaysUsedChrome\":false,\"dates\":[\"2017-04-29\",\"2016-12-28\",\"2016-12-20\",\"2016-11-11\",\"2016-10-21\"]},\"Gregory Santos\":{\"sessionsCount\":4,\"totalTime\":\"192 min.\",\"longestSession\":\"85 min.\",\"browsers\":\"CHROME 20, CHROME 35, FIREFOX 47, SAFARI 49\",\"usedIE\":false,\"alwaysUsedChrome\":false,\"dates\":[\"2018-09-21\",\"2018-02-02\",\"2017-05-22\",\"2016-11-25\"]}}}\n"
+    assert_equal expected_result, File.read('data/result.json')
   end
 end

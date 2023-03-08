@@ -88,13 +88,13 @@ def work(file_path: 'data/data.txt', disable_gc: false)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = users.size
   uniq_browsers = find_uniq_browsers(sessions)
 
   # Подсчёт количества уникальных браузеров
-  report['uniqueBrowsersCount'] = find_uniq_browsers(sessions).count
+  report['uniqueBrowsersCount'] = find_uniq_browsers(sessions).size
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions.size
 
   report['allBrowsers'] = uniq_browsers.sort.join(',')
 
@@ -113,7 +113,7 @@ def work(file_path: 'data/data.txt', disable_gc: false)
     end
 
     {
-      'sessionsCount' => user_sessions.count, # Собираем количество сессий по пользователям
+      'sessionsCount' => user_sessions.size, # Собираем количество сессий по пользователям
       'totalTime' => "#{user_times.sum} min.", # Собираем количество времени по пользователям
       'longestSession' => "#{user_times.max} min.", # Выбираем самую длинную сессию пользователя
       'browsers' => user_browsers.sort.join(', '), # Браузеры пользователя через запятую

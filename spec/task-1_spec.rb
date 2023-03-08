@@ -11,7 +11,7 @@ describe 'task_1 performance' do
   let(:file_path) { 'data/data-8000-lines.txt' }
 
   context 'when the runtime is tested' do
-    let(:maximum_execution_time_ms) { 56 }
+    let(:maximum_execution_time_ms) { 40 }
     let(:warmup) { 1 }
     let(:sample) { 10 }
 
@@ -22,7 +22,7 @@ describe 'task_1 performance' do
   end
 
   context 'when the ips is tested' do
-    let(:mimimum_ips) { 18 }
+    let(:mimimum_ips) { 26 }
     let(:measurement_time_seconds) { 0.4 }
     let(:warmup) { 0.2 }
 
@@ -33,9 +33,9 @@ describe 'task_1 performance' do
   end
 
   context 'when allocation is tested' do
-    let(:maximum_objects_count) { 376_000 }
+    let(:maximum_objects_count) { 210_000 }
 
-    xit 'works faster than mimimum_ips ips' do
+    it 'works faster than mimimum_ips ips' do
       expect { work(file_path: file_path, disable_gc: true) }.to perform_allocation(maximum_objects_count)
     end
   end

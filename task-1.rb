@@ -118,39 +118,25 @@ def work(file_path: 'data/data.txt', disable_gc: false)
 
   report['usersStats'] = {}
 
-  # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
-  end
+    user_sessions = user.sessions
+    user_browsers = []
+    user_times = []
+    user_sessions.each do |s|
+      user_browsers << s['browser'].upcase
+      user_times << s['time'].to_i
+    end
 
-  # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
-  end
-
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
-  end
-
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
-  end
-
-  # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-  end
-
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
-  end
-
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map { |s| s['date'] }.sort.reverse }
+    {
+      'sessionsCount' => user_sessions.count, # Собираем количество сессий по пользователям
+      'totalTime' => "#{user_times.sum} min.", # Собираем количество времени по пользователям
+      'longestSession' => "#{user_times.max} min.", # Выбираем самую длинную сессию пользователя
+      'browsers' => user_browsers.sort.join(', '), # Браузеры пользователя через запятую
+      'usedIE' => user_browsers.any? { |b| b =~ /INTERNET EXPLORER/ }, # Хоть раз использовал IE?
+      'alwaysUsedChrome' => user_browsers.all? { |b| b =~ /CHROME/ }, # Всегда использовал только Chrome?
+      # Даты сессий через запятую в обратном порядке в формате iso8601
+      'dates' => user_sessions.map { |s| s['date'] }.sort.reverse
+    }
   end
 
   File.write('data/result.json', "#{report.to_json}\n")

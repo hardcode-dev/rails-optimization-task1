@@ -1,0 +1,10 @@
+/reports
+!/reports/.keep
+
+/data_large.txt
+/data_large.txt.gz
+/data_small_result.json
+/data_small.txt
+/data.txt
+/myapp.dump
+/result.json

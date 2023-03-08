@@ -1,0 +1,77 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 12.005195
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 70.18     11.063     8.425     0.000     2.638     3046   Array#select                   
+ 22.82      2.739     2.739     0.000     0.000 53372220   String#==                      
+  1.75      0.494     0.210     0.000     0.284    20000   Array#all?                     
+  1.53      0.282     0.184     0.000     0.098  1690336   BasicObject#!=                 
+  1.36      0.163     0.163     0.000     0.000    23246   Array#+                        
+  0.60     11.988     0.073     0.000    11.916       10   Array#each                     
+  0.36      0.106     0.043     0.000     0.063    33508   Array#map                      
+  0.25      0.030     0.030     0.000     0.000    40001   String#split                   
+  0.23      0.052     0.027     0.000     0.025    16954   <Class::Date>#parse            
+  0.11      0.033     0.013     0.000     0.020    16954   Object#parse_session           /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:27
+  0.08      0.010     0.010     0.000     0.000    33908   Regexp#match                   
+  0.07      0.009     0.009     0.000     0.000   136954   Array#[]                       
+  0.05      0.006     0.006     0.000     0.000    48736   String#+                       
+  0.05      0.009     0.006     0.000     0.003     6093   Array#sort                     
+  0.05      0.006     0.006     0.000     0.000    16954   String#gsub!                   
+  0.04      0.005     0.005     0.000     0.000    46682   String#upcase                  
+  0.04      0.005     0.005     0.000     0.000    42644   Hash#[]                        
+  0.04      0.005     0.005     0.000     0.000    16954   MatchData#begin                
+  0.04      0.004     0.004     0.000     0.000    16954   Date#iso8601                   
+  0.04      0.004     0.004     0.000     0.000    21322   Hash#merge                     
+  0.03      0.003     0.003     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  0.03      0.003     0.003     0.000     0.000    24369   Hash#[]=                       
+  0.03      0.003     0.003     0.000     0.000    42644   User#attributes                
+  0.02      0.003     0.003     0.000     0.000    34664   Date#<=>                       
+  0.02      0.003     0.003     0.000     0.000    33908   String#to_i                    
+  0.02      0.002     0.002     0.000     0.000    12774   String#=~                      
+  0.02      0.005     0.002     0.000     0.003     3046   Object#parse_user              /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:17
+  0.02      0.002     0.002     0.000     0.000    16954   String#[]=                     
+  0.02      0.005     0.002     0.000     0.003     3046   Array#any?                     
+  0.01      0.002     0.002     0.000     0.000    21322   User#sessions                  
+  0.01      0.002     0.002     0.000     0.001     3046   Class#new                      
+  0.01      0.001     0.001     0.000     0.000     3047   Array#join                     
+  0.01      0.001     0.001     0.000     0.000    16954   MatchData#end                  
+  0.01      0.001     0.001     0.000     0.000    16954   Integer#div                    
+  0.01      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
+  0.01      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
+  0.01      0.001     0.001     0.000     0.000     6091   Integer#to_s                   
+  0.01      0.001     0.001     0.000     0.000     3046   User#initialize                /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:11
+  0.01     12.005     0.001     0.000    12.005        1   Object#work                    /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:46
+  0.00      0.001     0.001     0.000     0.000        1   Array#uniq                     
+  0.00      0.000     0.000     0.000     0.000     3046   Array#reverse                  
+  0.00      0.000     0.000     0.000     0.000     3046   Array#max                      
+  0.00      0.000     0.000     0.000     0.000     3046   Array#sum                      
+  0.00      0.000     0.000     0.000     0.000     3049   Array#count                    
+  0.00      0.000     0.000     0.000     0.000        2   IO#write                       
+  0.00      0.173     0.000     0.000     0.173        7   Object#collect_stats_from_users /Users/ken/thinknetika/rails-optimization/rails-optimization-task1/task-1.rb:38
+  0.00     12.005     0.000     0.000    12.005        1   [global]#                      prof.rb:30
+  0.00      0.000     0.000     0.000     0.000        2   Kernel#puts                    
+  0.00      0.000     0.000     0.000     0.000        2   IO#puts                        
+  0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:84
+  0.00      0.000     0.000     0.000     0.000        1   NilClass#to_s                  
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

@@ -43,9 +43,7 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file_path: 'data/data.txt', disable_gc: false)
-  GC.disable if disable_gc
-
+def read_file(file_path)
   file_lines = File.read(file_path).split("\n")
 
   users = []
@@ -56,6 +54,32 @@ def work(file_path: 'data/data.txt', disable_gc: false)
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
   end
+
+  [users, sessions]
+end
+
+def find_uniq_browsers(sessions)
+  sessions.uniq { |session| session['browser'] }
+end
+
+def user_objects_initialization(users, sessions)
+  users_objects = []
+  sessions_by_user = sessions.group_by { |session| session['user_id'] }
+
+  users.each do |user|
+    attributes = user
+    user_sessions = sessions_by_user[user['id']]
+    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    users_objects = users_objects + [user_object]
+  end
+
+  users_objects
+end
+
+def work(file_path: 'data/data.txt', disable_gc: false)
+  GC.disable if disable_gc
+
+  users, sessions = read_file(file_path)
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -77,13 +101,7 @@ def work(file_path: 'data/data.txt', disable_gc: false)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = find_uniq_browsers(sessions).count
 
   report['totalSessions'] = sessions.count
 
@@ -96,15 +114,7 @@ def work(file_path: 'data/data.txt', disable_gc: false)
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
-  sessions_by_user = sessions.group_by { |session| session['user_id'] }
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions_by_user[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
+  users_objects = user_objects_initialization(users, sessions)
 
   report['usersStats'] = {}
 

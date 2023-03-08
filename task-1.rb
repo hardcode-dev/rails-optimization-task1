@@ -3,7 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
-require 'minitest/autorun'
+# require 'minitest/autorun'
 require 'benchmark'
 
 class User
@@ -141,14 +141,16 @@ def work(file_path)
     { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
   end
 
-  File.write('result.json', "#{report.to_json}\n")
+  json = report.to_json
+  File.write('result.json', "#{json}\n")
+  json
 end
 
-GC.disable
-Benchmark.bm(5) do |x|
-  x.report   { work("./data_small.txt") }
-end
-GC.enable
+# GC.disable
+# Benchmark.bm(5) do |x|
+#   x.report   { work("./data_small.txt") }
+# end
+# GC.enable
 
 # class TestMe < Minitest::Test
 #   def setup

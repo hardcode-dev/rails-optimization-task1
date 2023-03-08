@@ -94,6 +94,7 @@ def work(input_file)
     }
   end
 
-  File.write('result.json', JSON.pretty_generate(report))
-  report.to_json
+  json = report.to_json
+  File.write('result.json', json)
+  json
 end

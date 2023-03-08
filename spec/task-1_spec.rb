@@ -11,7 +11,7 @@ describe 'task_1 performance' do
   let(:file_path) { 'data/data-8000-lines.txt' }
 
   context 'when the runtime is tested' do
-    let(:maximum_execution_time_ms) { 105 }
+    let(:maximum_execution_time_ms) { 56 }
     let(:warmup) { 1 }
     let(:sample) { 10 }
 
@@ -22,7 +22,7 @@ describe 'task_1 performance' do
   end
 
   context 'when the ips is tested' do
-    let(:mimimum_ips) { 13 }
+    let(:mimimum_ips) { 18 }
     let(:measurement_time_seconds) { 0.4 }
     let(:warmup) { 0.2 }
 

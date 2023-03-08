@@ -11,7 +11,7 @@ describe 'task_1 performance' do
   let(:file_path) { 'data/data-8000-lines.txt' }
 
   context 'when the runtime is tested' do
-    let(:maximum_execution_time_ms) { 33 }
+    let(:maximum_execution_time_ms) { 32 }
     let(:warmup) { 1 }
     let(:sample) { 10 }
 

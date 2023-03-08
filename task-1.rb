@@ -14,24 +14,22 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+def parse_user(user_fields)
+  {
+    'id' => user_fields[1],
+    'first_name' => user_fields[2],
+    'last_name' => user_fields[3],
+    'age' => user_fields[4]
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+def parse_session(session_fields)
+  {
+    'user_id' => session_fields[1],
+    'session_id' => session_fields[2],
+    'browser' => session_fields[3],
+    'time' => session_fields[4],
+    'date' => session_fields[5]
   }
 end
 
@@ -51,8 +49,8 @@ def read_file(file_path)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users << parse_user(line) if cols[0] == 'user'
-    sessions << parse_session(line) if cols[0] == 'session'
+    users << parse_user(cols) if cols[0] == 'user'
+    sessions << parse_session(cols) if cols[0] == 'session'
   end
 
   [users, sessions]

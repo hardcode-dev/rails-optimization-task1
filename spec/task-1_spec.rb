@@ -9,10 +9,9 @@ RSpec.configure { |config| config.include RSpec::Benchmark::Matchers }
 
 describe 'task_1 performance' do
   let(:file_path) { 'data/data-8000-lines.txt' }
-  let(:file_size) { File.size(file_path) }
 
   context 'when the runtime is tested' do
-    let(:maximum_execution_time_ms) { 930 }
+    let(:maximum_execution_time_ms) { 200 }
     let(:warmup) { 1 }
     let(:sample) { 10 }
 
@@ -23,7 +22,7 @@ describe 'task_1 performance' do
   end
 
   context 'when the ips is tested' do
-    let(:mimimum_ips) { 1 }
+    let(:mimimum_ips) { 7 }
     let(:measurement_time_seconds) { 0.4 }
     let(:warmup) { 0.2 }
 
@@ -44,7 +43,7 @@ describe 'task_1 performance' do
   context 'when the asymptotics is tested' do
     xit 'works like a power algorithm' do
       # expected block to perform power, but performed power (??)
-      expect { work(file_path: file_path) }.to perform_power.in_range(10, file_size)
+      expect { work(file_path: file_path) }.to perform_power
     end
   end
 end

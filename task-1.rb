@@ -63,17 +63,11 @@ def find_uniq_browsers(sessions)
 end
 
 def user_objects_initialization(users, sessions)
-  users_objects = []
   sessions_by_user = sessions.group_by { |session| session['user_id'] }
 
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions_by_user[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+  users.map do |user_attributes|
+    User.new(attributes: user_attributes, sessions: sessions_by_user[user_attributes['id']])
   end
-
-  users_objects
 end
 
 def work(file_path: 'data/data.txt', disable_gc: false)

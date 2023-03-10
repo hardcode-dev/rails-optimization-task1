@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions
@@ -49,6 +50,12 @@ def work(disable_gc: false)
   file ||= ENV['DATA_FILE'] || 'data.txt'
   file_lines = File.read(file).split("\n")
 
+  progressbar = ProgressBar.create(
+    total: file_lines.count,
+    format: '%a, %J, %E %B' # elapsed time, percent complete, estimate, bar
+    # output: File.open(File::NULL, 'w') # IN TEST ENV
+  )
+
   @users = []
   @sessions = []
 
@@ -63,6 +70,8 @@ def work(disable_gc: false)
       @users.last.sessions << session
       @sessions << session
     end
+
+    progressbar.increment
   end
 
   # Отчёт в json

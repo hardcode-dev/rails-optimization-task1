@@ -14,24 +14,22 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+def parse_user(cols)
+  {
+    'id' => cols[1],
+    'first_name' => cols[2],
+    'last_name' => cols[3],
+    'age' => cols[4],
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+def parse_session(cols)
+  {
+    'user_id' => cols[1],
+    'session_id' => cols[2],
+    'browser' => cols[3],
+    'time' => cols[4],
+    'date' => cols[5],
   }
 end
 
@@ -58,10 +56,10 @@ def work(disable_gc: false)
     cols = line.split(',')
 
     if cols[0] == 'user'
-      attributes = parse_user(line)
+      attributes = parse_user(cols)
       @users << User.new(attributes: attributes, sessions: [])
     else
-      session = parse_session(line)
+      session = parse_session(cols)
       @users.last.sessions << session
       @sessions << session
     end

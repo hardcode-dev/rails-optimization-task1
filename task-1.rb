@@ -32,20 +32,39 @@ def parse_session(fields)
   }
 end
 
-def collect_stats_from_users(report, users_objects)
-  report['usersStats'] = {}
-  users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] = {
-      'sessionsCount' => user.sessions.count,
-      'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
-      'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
-      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
-      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
-      'dates' => user.sessions.map{|s| s['date']}.sort.reverse,
-    }
+def collect_stats_from_user(report, user)
+  user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
+  session_count = user.sessions.count
+  total_time = 0
+  longest_session = 0
+  browsers = []
+  used_ie = false
+  always_chrome = true
+  dates = []
+  user.sessions.each do |session|
+    time = session['time'].to_i
+    browser = session['browser'].upcase
+    total_time += time
+    longest_session = time > longest_session ? time : longest_session
+    browsers << browser
+    unless used_ie
+      used_ie = browser[0] == 'I'
+    end
+    if always_chrome
+      always_chrome = browser[0] == 'C'
+    end
+    dates << session['date']
   end
+
+  report['usersStats'][user_key] = {
+    'sessionsCount' => session_count,
+    'totalTime' => "#{total_time} min.",
+    'longestSession' => "#{longest_session} min.",
+    'browsers' => browsers.sort.join(', '),
+    'usedIE' => used_ie,
+    'alwaysUsedChrome' => always_chrome,
+    'dates' => dates.sort.reverse,
+  }
 end
 
 def work(file_lines:)
@@ -100,14 +119,11 @@ def work(file_lines:)
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
+  report['usersStats'] = {}
   users.each do |user|
-    attributes = user
-    user_object = User.new(attributes: attributes, sessions: user_sessions[user['id']])
-    users_objects << user_object
+    user_object = User.new(attributes: user, sessions: user_sessions[user['id']])
+    collect_stats_from_user(report, user_object)
   end
 
-  collect_stats_from_users(report, users_objects)
   File.write('result.json', "#{report.to_json}\n")
 end

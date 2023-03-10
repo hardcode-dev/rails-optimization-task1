@@ -58,12 +58,12 @@ def work(file_lines:)
   file_lines.each do |line|
     cols = line.split(',')
     if cols[0] == 'user'
-      users = users + [parse_user(line)]
+      users << parse_user(line)
       user_sessions[cols[1]] = []
     end
     if cols[0] == 'session'
       session = parse_session(line)
-      sessions = sessions + [session]
+      sessions << session
       user_sessions[cols[1]] << session
     end
   end
@@ -107,7 +107,7 @@ def work(file_lines:)
   users.each do |user|
     attributes = user
     user_object = User.new(attributes: attributes, sessions: user_sessions[user['id']])
-    users_objects = users_objects + [user_object]
+    users_objects << user_object
   end
 
   collect_stats_from_users(report, users_objects)

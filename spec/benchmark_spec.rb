@@ -41,8 +41,8 @@ describe 'Performance' do
   describe 'with 10000 rows' do
     let(:file_lines) { File.read('data_large.txt').split("\n").first(10_000) }
 
-    it 'works under 100 ms' do
-      expect { work(file_lines: file_lines) }.to perform_under(100).ms.warmup(2).times.sample(5).times
+    it 'works under 10 ms' do
+      expect { work(file_lines: file_lines) }.to perform_under(10).ms.warmup(2).times.sample(5).times
     end
 
     # it 'performs linear' do

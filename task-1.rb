@@ -13,9 +13,8 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -23,9 +22,8 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -58,11 +56,11 @@ def work(file_lines:)
   file_lines.each do |line|
     cols = line.split(',')
     if cols[0] == 'user'
-      users << parse_user(line)
+      users << parse_user(cols)
       user_sessions[cols[1]] = []
     end
     if cols[0] == 'session'
-      session = parse_session(line)
+      session = parse_session(cols)
       sessions << session
       user_sessions[cols[1]] << session
     end

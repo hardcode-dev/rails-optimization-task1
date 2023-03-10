@@ -1,0 +1,7 @@
+ruby_prof_reports
+stackprof_reports
+.idea
+.DS_Store
+data_large.txt
+result.json
+data.txt

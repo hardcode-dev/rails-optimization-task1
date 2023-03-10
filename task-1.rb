@@ -3,15 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
-
-class User
-  attr_reader :attributes, :sessions
-
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
-    @sessions = sessions
-  end
-end
+require 'set'
 
 def parse_user(fields)
   {
@@ -32,16 +24,16 @@ def parse_session(fields)
   }
 end
 
-def collect_stats_from_user(report, user)
-  user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
-  session_count = user.sessions.count
+def collect_stats_from_user(report, user, sessions)
+  user_key = "#{user['first_name']} #{user['last_name']}"
+  session_count = sessions.count
   total_time = 0
   longest_session = 0
   browsers = []
   used_ie = false
   always_chrome = true
   dates = []
-  user.sessions.each do |session|
+  sessions.each do |session|
     time = session['time'].to_i
     browser = session['browser'].upcase
     total_time += time
@@ -104,25 +96,21 @@ def work(file_lines:)
 
   report[:totalUsers] = users.count
 
-  uniqueBrowsers = sessions.map{|session| session['browser']}.uniq
+  uniqueBrowsers = Set.new
+  sessions.each do |session|
+    uniqueBrowsers << session['browser'].upcase
+  end
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
   # Статистика по пользователям
   report['usersStats'] = {}
   users.each do |user|
-    user_object = User.new(attributes: user, sessions: user_sessions[user['id']])
-    collect_stats_from_user(report, user_object)
+    collect_stats_from_user(report, user, user_sessions[user['id']])
   end
 
   File.write('result.json', "#{report.to_json}\n")

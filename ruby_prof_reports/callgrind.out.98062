@@ -1,0 +1,86 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 1
+
+fl=
+fn=Exception::exception
+0 1
+
+fl=
+fn=Exception::initialize
+0 2
+
+fl=
+fn=SystemCallError::initialize
+0 5
+cfl=
+cfn=Exception::initialize
+calls=1 0
+0 2
+
+fl=
+fn=IO::read^
+0 21
+cfl=
+cfn=SystemCallError::initialize
+calls=1 0
+0 7
+cfl=
+cfn=Exception::exception
+calls=1 0
+0 1
+cfl=
+cfn=Exception::backtrace
+calls=1 0
+0 1
+
+fl=/Users/maksimpw/work/study/rails-optimization-task1/<internal:gc>
+fn=GC::disable^
+63 4
+
+fl=
+fn=IO::write
+0 14
+
+fl=
+fn=IO::puts
+0 3
+cfl=
+cfn=IO::write
+calls=1 0
+0 14
+
+fl=
+fn=Kernel::puts
+0 4
+cfl=
+cfn=IO::puts
+calls=1 0
+0 17
+
+fl=/Users/maksimpw/work/study/rails-optimization-task1/task-1.rb
+fn=Object::work
+17 10
+cfl=
+cfn=Kernel::puts
+calls=1 20
+20 21
+cfl=/Users/maksimpw/work/study/rails-optimization-task1/<internal:gc>
+cfn=GC::disable^
+calls=1 22
+22 4
+cfl=
+cfn=IO::read^
+calls=1 24
+24 31
+
+fl=/Users/maksimpw/work/study/rails-optimization-task1/ruby-prof_calltree.rb
+fn=[global]::
+11 8
+cfl=/Users/maksimpw/work/study/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 11
+11 65
+

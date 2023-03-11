@@ -1,0 +1,36 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 0.000509
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 75.37      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:63
+ 10.82      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
+  3.52      0.000     0.000     0.000     0.000        1   Object#work                    /Users/maksimpw/work/study/rails-optimization-task1/task-1.rb:17
+  3.26      0.000     0.000     0.000     0.000        1   IO#write                       
+  2.35      0.001     0.000     0.000     0.000        1   [global]#                      ruby-prof_flat.rb:10
+  1.57      0.000     0.000     0.000     0.000        1   SystemCallError#initialize     
+  1.25      0.000     0.000     0.000     0.000        1   Kernel#puts                    
+  0.68      0.000     0.000     0.000     0.000        1   IO#puts                        
+  0.61      0.000     0.000     0.000     0.000        1   Exception#initialize           
+  0.31      0.000     0.000     0.000     0.000        1   Exception#exception            
+  0.26      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

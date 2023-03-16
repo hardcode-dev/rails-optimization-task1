@@ -1,0 +1,19 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+  AllowedIdentifiers: [uniqueBrowsers, iso8601]
+
+RSpec/MultipleExpectations:
+  Enabled: false

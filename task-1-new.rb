@@ -14,7 +14,7 @@ class User
   end
 end
 
-class Work
+class NewWork
   class << self
     def parse_user(user)
       fields = user.split(',')

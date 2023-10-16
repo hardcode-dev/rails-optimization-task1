@@ -125,7 +125,7 @@ def work(filename = 'data.txt', disable_gc: false)
     result.merge!({ 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } })
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
-    result.merge!({ 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } })
+    result.merge!({ 'dates' => user.sessions.map{|s| s['date']}.sort.reverse })
   end
 
   File.write('result.json', "#{report.to_json}\n")

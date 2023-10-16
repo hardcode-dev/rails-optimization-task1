@@ -6,5 +6,5 @@ profile = RubyProf::Profile.new(measure_mode: RubyProf::WALL_TIME)
 result = profile.profile do
   work('data10000.txt', disable_gc: true)
 end
-printer = RubyProf::CallStackPrinter.new(result)
+printer = RubyProf::CallTreePrinter.new(result)
 printer.print(path: 'ruby_prof_reports', profile: 'callgrind')

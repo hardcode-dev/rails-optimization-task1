@@ -13,3 +13,4 @@ puts "Finished in #{time.round(2)}"
 # Iteration 2: measurement with changes for collect_stats_from_users = 0.1 seconds
 # Iteration 3: measurement with changes for all? = 0.07 seconds
 # Iteration 4: measurement with changes for split = 0.04 seconds
+# Iteration 5: measurement with changes for Date = 0.02 seconds

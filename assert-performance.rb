@@ -12,14 +12,14 @@ describe 'Performance' do
       expect { work('data100.txt') }.to perform_under(0.32).ms.warmup(2).times.sample(10).times
     end
 
-    # 1000 lines under 2 milliseconds
+    # 1000 lines under 1.95 milliseconds
     it 'should work under 2 milliseconds' do
-      expect { work('data1000.txt') }.to perform_under(2).ms.warmup(2).times.sample(10).times
+      expect { work('data1000.txt') }.to perform_under(1.95).ms.warmup(2).times.sample(10).times
     end
 
-    # 10000 lines under 21.5 milliseconds
-    it 'should work under 21.5 milliseconds' do
-      expect { work('data10000.txt') }.to perform_under(21.5).ms.warmup(2).times.sample(10).times
+    # 10000 lines under 20 milliseconds
+    it 'should work under 20 milliseconds' do
+      expect { work('data10000.txt') }.to perform_under(20).ms.warmup(2).times.sample(10).times
     end
 
     let(:measurement_time_seconds) { 1 }

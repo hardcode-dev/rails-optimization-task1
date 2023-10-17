@@ -1,10 +1,10 @@
 require 'benchmark'
 require_relative 'task-1'
 
-GC.disable
+# GC.disable
 puts 'Started'
 time = Benchmark.realtime do
-  work('data10000.txt')
+  work('data_large.txt')
 end
 puts "Finished in #{time.round(2)}"
 
@@ -15,3 +15,4 @@ puts "Finished in #{time.round(2)}"
 # Iteration 4: measurement with changes for split = 0.04 seconds
 # Iteration 5: measurement with changes for Date = 0.02 seconds
 # Iteration 6: measurement with changes for remaining map = 0.02 seconds
+# Iteration 7: measurement with changes for remaining array append = 0.02 seconds

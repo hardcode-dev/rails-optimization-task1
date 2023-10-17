@@ -100,7 +100,7 @@ def work(filename = 'data.txt', disable_gc: false)
   users.each do |user|
     attributes = user
     user_object = User.new(attributes: attributes, sessions: user_sessions[user['id']] || [])
-    users_objects = users_objects + [user_object]
+    users_objects << user_object
   end
 
   report['usersStats'] = {}

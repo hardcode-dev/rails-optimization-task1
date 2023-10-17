@@ -15,7 +15,7 @@ class User
 end
 
 def parse_user(user)
-  parsed_result = {
+  {
     'id' => user[1],
     'first_name' => user[2],
     'last_name' => user[3],
@@ -24,11 +24,11 @@ def parse_user(user)
 end
 
 def parse_session(session)
-  parsed_result = {
+  {
     'user_id' => session[1],
     'session_id' => session[2],
-    'browser' => session[3],
-    'time' => session[4],
+    'browser' => session[3].upcase,
+    'time' => session[4].to_i,
     'date' => session[5],
   }
 end
@@ -73,6 +73,11 @@ def work(filename = 'data.txt', disable_gc: false)
 
   report[:totalUsers] = users.count
 
+  # progressbar = ProgressBar.create(
+  #   total: report[:totalUsers],
+  #   format: '%a, %J, %E %B' # elapsed time, percent complete, estimated time remaining, bar
+  # )
+
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = sessions.map { |s| s['browser'] }.uniq
 
@@ -80,11 +85,7 @@ def work(filename = 'data.txt', disable_gc: false)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    uniqueBrowsers
-      .map { |b| b.upcase }
-      .sort
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -105,27 +106,48 @@ def work(filename = 'data.txt', disable_gc: false)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    result = {}
     # Собираем количество сессий по пользователям
-    result.merge!({ 'sessionsCount' => user.sessions.count })
+    result = {
+      'sessionsCount' => 0,
+      'totalTime' => 0,
+      'longestSession' => 0,
+      'browsers' => [],
+      'usedIE' => false,
+      'alwaysUsedChrome' => false,
+      'dates' => []
+    }
+
+    user.sessions.each do |session|
+      time = session['time']
+      result['totalTime'] += time
+      result['longestSession'] = time if time > result['longestSession']
+      browser = session['browser']
+      result['browsers'] << browser
+      result['usedIE'] = true if !(browser =~ /INTERNET EXPLORER/).nil?
+      result['alwaysUsedChrome'] = !(browser =~ /CHROME/).nil? && (result['sessionsCount'] == 0 || result['alwaysUsedChrome'])
+      result['dates'] << session['date']
+      result['sessionsCount'] += 1
+    end
 
     # Собираем количество времени по пользователям
-    result.merge!({ 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' })
+    result['totalTime'] = result['totalTime'].to_s + ' min.'
 
     # Выбираем самую длинную сессию пользователя
-    result.merge!({ 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' })
+    result['longestSession'] = result['longestSession'].to_s + ' min.'
 
     # Браузеры пользователя через запятую
-    result.merge!({ 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') })
+    result['browsers'] = result['browsers'].sort.join(', ')
 
     # Хоть раз использовал IE?
-    result.merge!({ 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } })
+    # result['usedIE']
 
     # Всегда использовал только Chrome?
-    result.merge!({ 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } })
+    # result['alwaysUsedChrome']
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
-    result.merge!({ 'dates' => user.sessions.map{|s| s['date']}.sort.reverse })
+    result['dates'] = result['dates'].sort.reverse
+
+    result
   end
 
   File.write('result.json', "#{report.to_json}\n")

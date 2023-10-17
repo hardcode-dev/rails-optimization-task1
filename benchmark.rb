@@ -14,3 +14,4 @@ puts "Finished in #{time.round(2)}"
 # Iteration 3: measurement with changes for all? = 0.07 seconds
 # Iteration 4: measurement with changes for split = 0.04 seconds
 # Iteration 5: measurement with changes for Date = 0.02 seconds
+# Iteration 6: measurement with changes for remaining map = 0.02 seconds

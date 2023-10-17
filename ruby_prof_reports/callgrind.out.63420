@@ -2,7 +2,7 @@ events: wall_time
 
 fl=
 fn=IO::write^
-0 237
+0 210
 
 fl=
 fn=JSON/Ext/Generator/State::initialize
@@ -10,7 +10,7 @@ fn=JSON/Ext/Generator/State::initialize
 
 fl=
 fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
-0 1354
+0 1280
 cfl=
 cfn=JSON/Ext/Generator/State::initialize
 calls=1 0
@@ -18,51 +18,19 @@ calls=1 0
 
 fl=
 fn=Hash::merge
-0 406
+0 394
 
 fl=
 fn=Array::reverse
-0 119
-
-fl=
-fn=Array::all?
-0 465
-cfl=
-cfn=String::upcase
-calls=1979 125
-125 177
-
-fl=
-fn=Array::any?
-0 1008
-cfl=
-cfn=String::upcase
-calls=4492 122
-122 386
-
-fl=
-fn=Array::max
-0 137
+0 112
 
 fl=
 fn=String::+
-0 296
+0 264
 
 fl=
 fn=Integer::to_s
-0 250
-
-fl=
-fn=Array::sum
-0 122
-
-fl=
-fn=String::to_i
-0 1053
-
-fl=
-fn=Hash::merge!
-0 1080
+0 244
 
 fl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 fn=Object::collect_stats_from_users
@@ -70,139 +38,119 @@ fn=Object::collect_stats_from_users
 cfl=
 cfn=Array::each
 calls=1 37
-37 19666
+37 12657
 
 fl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 fn=User::initialize
-11 226
+11 216
 
 fl=
 fn=Class::new
-0 347
+0 302
 cfl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 cfn=User::initialize
 calls=1536 0
-0 226
+0 216
 
 fl=
 fn=Array::join
-0 546
+0 501
 
 fl=
 fn=Array::sort
-0 918
-
-fl=
-fn=String::upcase
-0 1285
+0 868
 
 fl=
 fn=Array::uniq
-0 396
+0 352
 
 fl=
 fn=Array::map
-0 8024
-cfl=
-cfn=String::upcase
-calls=8664 85
-85 722
-cfl=
-cfn=String::to_i
-calls=16928 113
-113 1053
+0 710
 
 fl=
 fn=Array::count
-0 101
+0 1
+
+fl=
+fn=String::to_i
+0 531
+
+fl=
+fn=String::upcase
+0 644
 
 fl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 fn=Object::parse_session
-26 1638
+26 2542
+cfl=
+cfn=String::upcase
+calls=8464 28
+28 644
+cfl=
+cfn=String::to_i
+calls=8464 28
+28 531
 
 fl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 fn=Object::parse_user
-17 272
+17 274
 
 fl=
 fn=Array::each
-0 11308
+0 16949
 cfl=
 cfn=String::split
 calls=10000 52
-52 3695
+52 3668
 cfl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 cfn=Object::parse_user
 calls=1536 53
-53 272
+53 274
 cfl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 cfn=Object::parse_session
 calls=8464 54
-54 1638
+54 3716
 cfl=
 cfn=Class::new
-calls=1536 101
-101 573
+calls=1536 102
+102 518
 cfl=
-cfn=Array::count
-calls=1536 110
-110 100
-cfl=
-cfn=Hash::merge!
-calls=10752 110
-110 1080
-cfl=
-cfn=Array::map
-calls=13824 113
-113 9042
-cfl=
-cfn=Array::sum
-calls=1536 113
-113 122
+cfn=Array::each
+calls=1536 120
+120 7368
 cfl=
 cfn=Integer::to_s
-calls=3072 113
-113 250
+calls=3072 133
+133 244
 cfl=
 cfn=String::+
-calls=3072 113
-113 296
-cfl=
-cfn=Array::max
-calls=1536 116
-116 137
+calls=3072 133
+133 264
 cfl=
 cfn=Array::sort
-calls=3072 119
-119 890
+calls=3072 139
+139 847
 cfl=
 cfn=Array::join
-calls=1536 119
-119 538
-cfl=
-cfn=Array::any?
-calls=1536 122
-122 1394
-cfl=
-cfn=Array::all?
-calls=1536 125
-125 642
+calls=1536 139
+139 491
 cfl=
 cfn=Array::reverse
-calls=1536 128
-128 119
+calls=1536 148
+148 112
 cfl=
 cfn=Hash::merge
-calls=1536 128
-128 406
+calls=1536 150
+150 394
 
 fl=
 fn=String::split
-0 4287
+0 4249
 
 fl=
 fn=IO::read^
-0 92
+0 75
 
 fl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/<internal:gc>
 fn=GC::disable^
@@ -210,7 +158,7 @@ fn=GC::disable^
 
 fl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 fn=Object::work
-44 61
+44 64
 cfl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/<internal:gc>
 cfn=GC::disable^
 calls=1 45
@@ -218,47 +166,47 @@ calls=1 45
 cfl=
 cfn=IO::read^
 calls=1 46
-46 92
+46 75
 cfl=
 cfn=String::split
 calls=1 46
-46 592
+46 581
 cfl=
 cfn=Array::each
 calls=3 51
-51 12834
+51 14819
 cfl=
 cfn=Array::count
 calls=3 74
 74 1
 cfl=
 cfn=Array::map
-calls=2 77
-77 757
+calls=1 82
+82 710
 cfl=
 cfn=Array::uniq
-calls=1 77
-77 396
+calls=1 82
+82 352
 cfl=
 cfn=Array::sort
-calls=1 83
-83 29
+calls=1 88
+88 21
 cfl=
 cfn=Array::join
-calls=1 83
-83 8
+calls=1 88
+88 9
 cfl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 cfn=Object::collect_stats_from_users
-calls=1 107
-107 19667
+calls=1 108
+108 12658
 cfl=
 cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
-calls=1 131
-131 1355
+calls=1 153
+153 1281
 cfl=
 cfn=IO::write^
-calls=1 131
-131 237
+calls=1 153
+153 210
 
 fl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/profiler-4.rb
 fn=[global]::
@@ -266,5 +214,5 @@ fn=[global]::
 cfl=/Users/igor.arkhipov/Documents/Work/Ruby/thinknetica/rails-optimization-task1/task-1.rb
 cfn=Object::work
 calls=1 7
-7 36030
+7 30782
 

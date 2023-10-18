@@ -1,0 +1,81 @@
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 0.784187
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 19.51      0.751     0.153     0.000     0.598       10   Array#each                     
+ 18.56      0.146     0.146     0.000     0.000    28811   Array#+                        
+ 14.47      0.114     0.114     0.000     0.000    50001   String#split                   
+  8.94      0.186     0.070     0.000     0.116    41923   Array#map                      
+  6.17      0.095     0.048     0.000     0.046    21189   <Class::Date>#parse            
+  4.00      0.078     0.031     0.000     0.046    21189   Object#parse_session           /home/peplum/dev/rails-optimization-task1/task-1.rb:27
+  2.83      0.022     0.022     0.000     0.000   171191   Array#[]                       
+  2.65      0.021     0.021     0.000     0.000    60976   String#+                       
+  2.37      0.019     0.019     0.000     0.000    42378   Regexp#match                   
+  1.80      0.014     0.014     0.000     0.000    58357   String#upcase                  
+  1.45      0.017     0.011     0.000     0.005     7623   Array#sort                     
+  1.41      0.011     0.011     0.000     0.000    57165   Hash#[]                        
+  1.27      0.010     0.010     0.000     0.000    21189   String#gsub!                   
+  1.18      0.009     0.009     0.000     0.000    30489   Hash#[]=                       
+  1.02      0.008     0.008     0.000     0.000    21189   MatchData#begin                
+  0.99      0.008     0.008     0.000     0.000    21189   Date#iso8601                   
+  0.91      0.007     0.007     0.000     0.000    15981   String#=~                      
+  0.90      0.007     0.007     0.000     0.000    50002   String#==                      
+  0.87      0.007     0.007     0.000     0.000    53354   User#attributes                
+  0.86      0.007     0.007     0.000     0.000    26677   Hash#merge                     
+  0.82      0.006     0.006     0.000     0.000    42380   String#to_i                    
+  0.71      0.006     0.006     0.000     0.000        2   Array#uniq                     
+  0.66      0.005     0.005     0.000     0.000    37150   Date#<=>                       
+  0.63      0.012     0.005     0.000     0.007     3811   Object#parse_user              /home/peplum/dev/rails-optimization-task1/task-1.rb:17
+  0.60      0.005     0.005     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  0.59      0.011     0.005     0.000     0.007     3811   Array#any?                     
+  0.54      0.004     0.004     0.000     0.000    21189   String#[]=                     
+  0.51      0.019     0.004     0.000     0.015     3811   Object#always_used_chrome?     /home/peplum/dev/rails-optimization-task1/task-1.rb:46
+  0.44      0.003     0.003     0.000     0.000    26677   User#sessions                  
+  0.40      0.003     0.003     0.000     0.000    21189   Integer#div                    
+  0.34      0.003     0.003     0.000     0.000     3816   Array#join                     
+  0.31      0.002     0.002     0.000     0.000    21189   MatchData#end                  
+  0.30      0.010     0.002     0.000     0.007     3811   Array#all?                     
+  0.19      0.003     0.001     0.000     0.001     3811   Class#new                      
+  0.15      0.001     0.001     0.000     0.000     7624   Integer#to_s                   
+  0.14      0.001     0.001     0.000     0.000     3811   User#initialize                /home/peplum/dev/rails-optimization-task1/task-1.rb:11
+  0.11      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
+  0.07      0.001     0.001     0.000     0.000     3811   Array#reverse                  
+  0.07      0.001     0.001     0.000     0.000     3811   Array#max                      
+  0.07      0.001     0.001     0.000     0.000     3811   Array#sum                      
+  0.06      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
+  0.06      0.000     0.000     0.000     0.000     3814   Array#count                    
+  0.02      0.784     0.000     0.000     0.784        1   Object#work                    /home/peplum/dev/rails-optimization-task1/task-1.rb:64
+  0.01      0.784     0.000     0.000     0.784        1   [global]#                      prof.rb:5
+  0.00      0.381     0.000     0.000     0.381        1   Object#fetch_users_and_sessions /home/peplum/dev/rails-optimization-task1/task-1.rb:50
+  0.00      0.000     0.000     0.000     0.000        2   Kernel#caller                  
+  0.00      0.000     0.000     0.000     0.000        2   Warning#warn                   
+  0.00      0.357     0.000     0.000     0.357        7   Object#collect_stats_from_users /home/peplum/dev/rails-optimization-task1/task-1.rb:38
+  0.00      0.000     0.000     0.000     0.000        2   <Module::Gem>#location_of_caller /home/peplum/.rbenv/versions/3.1.3/lib/ruby/3.1.0/rubygems.rb:632
+  0.00      0.000     0.000     0.000     0.000        2   String#%                       
+  0.00      0.007     0.000     0.000     0.007        1   Enumerable#group_by            
+  0.00      0.000     0.000     0.000     0.000        2   Warning::buffer#write          
+  0.00      0.000     0.000     0.000     0.000        2   <Module::Gem::Deprecate>#skip  /home/peplum/.rbenv/versions/3.1.3/lib/ruby/3.1.0/rubygems/deprecate.rb:73
+  0.00      0.000     0.000     0.000     0.000        1   #<Class:0x00007fa187051628>#[] 
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

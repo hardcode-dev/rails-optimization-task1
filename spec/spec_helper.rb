@@ -13,7 +13,14 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'rspec-benchmark'
+Dir[File.expand_path('spec/support/**/*.rb')].each { |f| require_relative(f) }
+
+# See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.include RSpec::Benchmark::Matchers
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

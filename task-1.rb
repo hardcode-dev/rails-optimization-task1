@@ -6,10 +6,14 @@ require 'date'
 require 'minitest/autorun'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_reader :id, :first_name, :last_name, :age
+  attr_accessor :sessions
 
-  def initialize(attributes:, sessions:)
-    @attributes = attributes
+  def initialize(id:, first_name:, last_name:, age:, sessions: [])
+    @id = id
+    @first_name = first_name
+    @last_name = last_name
+    @age = age
     @sessions = sessions
   end
 end
@@ -17,10 +21,10 @@ end
 def parse_user(user)
   fields = user.split(',')
   parsed_result = {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    id: fields[1],
+    first_name: fields[2],
+    last_name: fields[3],
+    age: fields[4],
   }
 end
 
@@ -37,7 +41,7 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.first_name}" + ' ' + "#{user.last_name}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
@@ -96,16 +100,21 @@ def work(file_path = 'data.txt', **options)
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
+  users_objects_by_id = {}
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    user_object = User.new(**attributes)
+    users_objects_by_id[user_object.id] = user_object
+  end
+
+  sessions.each do |session|
+    users_objects_by_id[session['user_id']].sessions << session
   end
 
   report['usersStats'] = {}
+
+  users_objects = users_objects_by_id.values
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|

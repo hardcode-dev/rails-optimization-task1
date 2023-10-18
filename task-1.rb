@@ -47,11 +47,7 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file_path = 'data.txt', **options)
-  GC.disable if options[:disable_gc]
-
-  file_lines = File.read(file_path).split("\n")
-
+def split_users_and_sessions(file_lines)
   users = []
   sessions = []
 
@@ -60,6 +56,30 @@ def work(file_path = 'data.txt', **options)
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
   end
+
+  [users, sessions]
+end
+
+def initialize_users(users)
+  users_objects_by_id = {}
+
+  users.each do |user|
+    attributes = user
+    user_object = User.new(**attributes)
+    users_objects_by_id[user_object.id] = user_object
+  end
+
+  users_objects_by_id
+end
+
+def assign_sessions_to_users(users_objects_by_id, sessions)
+  sessions.each do |session|
+    users_objects_by_id[session['user_id']].sessions << session
+  end
+end
+
+def build_report(users_objects_by_id, sessions)
+  users = users_objects_by_id.values
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -100,18 +120,6 @@ def work(file_path = 'data.txt', **options)
       .join(',')
 
   # Статистика по пользователям
-  users_objects_by_id = {}
-
-  users.each do |user|
-    attributes = user
-    user_object = User.new(**attributes)
-    users_objects_by_id[user_object.id] = user_object
-  end
-
-  sessions.each do |session|
-    users_objects_by_id[session['user_id']].sessions << session
-  end
-
   report['usersStats'] = {}
 
   users_objects = users_objects_by_id.values
@@ -150,6 +158,18 @@ def work(file_path = 'data.txt', **options)
   collect_stats_from_users(report, users_objects) do |user|
     { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
   end
+
+  report
+end
+
+def work(file_path = 'data.txt', **options)
+  GC.disable if options[:disable_gc]
+
+  file_lines = File.read(file_path).split("\n")
+  users, sessions = split_users_and_sessions(file_lines)
+  users_objects_by_id = initialize_users(users)
+  assign_sessions_to_users(users_objects_by_id, sessions)
+  report = build_report(users_objects_by_id, sessions)
 
   File.write('result.json', "#{report.to_json}\n")
 ensure

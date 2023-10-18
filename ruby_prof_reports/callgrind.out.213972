@@ -1,0 +1,430 @@
+events: wall_time
+
+fl=
+fn=Warning::warn
+0 16
+
+fl=
+fn=Warning/buffer::write
+0 3
+
+fl=/home/peplum/.rbenv/versions/3.1.3/lib/ruby/3.1.0/rubygems/deprecate.rb
+fn=Gem/Deprecate::skip^
+73 2
+
+fl=
+fn=Integer::to_s
+0 2
+
+fl=
+fn=Kernel::caller
+0 11
+
+fl=/home/peplum/.rbenv/versions/3.1.3/lib/ruby/3.1.0/rubygems.rb
+fn=Gem::location_of_caller^
+632 10
+cfl=
+cfn=Kernel::caller
+calls=2 633
+633 11
+cfl=
+cfn=Array::[]
+calls=2 633
+633 1
+cfl=
+cfn=String::=~
+calls=2 633
+633 11
+cfl=
+cfn=String::to_i
+calls=2 635
+635 1
+
+fl=
+fn=String::%
+0 6
+
+fl=
+fn=IO::write^
+0 1883
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 1
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 5818
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 1
+
+fl=
+fn=Hash::merge
+0 1884
+
+fl=
+fn=Array::reverse
+0 693
+
+fl=
+fn=Array::all?
+0 1702
+cfl=
+cfn=String::=~
+calls=4943 117
+117 1436
+
+fl=
+fn=String::=~
+0 4616
+
+fl=
+fn=Array::any?
+0 3161
+cfl=
+cfn=String::=~
+calls=11036 116
+116 3169
+
+fl=
+fn=Array::max
+0 629
+
+fl=
+fn=Array::sum
+0 553
+
+fl=
+fn=String::to_i
+0 2875
+
+fl=
+fn=User::sessions
+0 537
+
+fl=
+fn=User::attributes
+0 1010
+
+fl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+36 4
+cfl=
+cfn=Array::each
+calls=1 37
+37 78074
+
+fl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+fn=User::initialize
+11 1199
+
+fl=
+fn=Class::new
+0 1572
+cfl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=3811 0
+0 1199
+
+fl=
+fn=Hash::[]
+0 2343
+
+fl=
+fn=Enumerable::group_by
+0 9
+cfl=
+cfn=Array::each
+calls=1 0
+0 7327
+
+fl=
+fn=Array::join
+0 2618
+cfl=
+cfn=Integer::to_s
+calls=2 0
+0 2
+
+fl=
+fn=Array::sort
+0 8040
+
+fl=
+fn=String::upcase
+0 7247
+
+fl=
+fn=Array::map
+0 5901
+cfl=
+cfn=String::upcase
+calls=21189 86
+86 3467
+
+fl=
+fn=Array::uniq
+0 6091
+
+fl=
+fn=Hash::[]=
+0 2710
+
+fl=
+fn=Array::count
+0 444
+
+fl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+26 21700
+cfl=
+cfn=Array::[]
+calls=105945 28
+28 10925
+
+fl=
+fn=Array::<<
+0 11602
+
+fl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+17 3421
+cfl=
+cfn=Array::[]
+calls=15244 19
+19 1576
+
+fl=
+fn=String::==
+0 5892
+
+fl=
+fn=Array::[]
+0 18573
+
+fl=
+fn=Array::each
+0 81131
+cfl=
+cfn=String::split
+calls=25000 50
+50 17910
+cfl=
+cfn=Array::[]
+calls=50000 51
+51 6071
+cfl=
+cfn=String::==
+calls=50000 51
+51 5889
+cfl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=3811 51
+51 4997
+cfl=
+cfn=Array::<<
+calls=92378 51
+51 11602
+cfl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=21189 52
+52 32626
+cfl=
+cfn=Hash::[]
+calls=11433 95
+95 2343
+cfl=
+cfn=Class::new
+calls=3811 95
+95 2771
+cfl=
+cfn=User::attributes
+calls=7622 38
+38 1010
+cfl=
+cfn=Hash::[]=
+calls=7622 39
+39 2708
+cfl=
+cfn=User::sessions
+calls=3811 101
+101 537
+cfl=
+cfn=Array::each
+calls=3811 105
+105 34990
+cfl=
+cfn=Array::count
+calls=3811 112
+112 438
+cfl=
+cfn=Array::sum
+calls=3811 112
+112 553
+cfl=
+cfn=Array::max
+calls=3811 112
+112 629
+cfl=
+cfn=Array::sort
+calls=7622 112
+112 4204
+cfl=
+cfn=Array::join
+calls=3811 112
+112 2593
+cfl=
+cfn=Array::any?
+calls=3811 112
+112 6330
+cfl=
+cfn=Array::all?
+calls=3811 112
+112 3138
+cfl=
+cfn=Array::reverse
+calls=3811 112
+112 693
+cfl=
+cfn=Hash::merge
+calls=3811 112
+112 1884
+cfl=
+cfn=String::upcase
+calls=21189 106
+106 3780
+cfl=
+cfn=String::to_i
+calls=21189 107
+107 2874
+
+fl=
+fn=String::split
+0 20786
+
+fl=
+fn=IO::read^
+0 9082
+
+fl=
+fn=#<Class:0x00007f58b9a6d650>::[]
+0 3
+
+fl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+fn=Object::fetch_users_and_sessions
+44 20
+cfl=
+cfn=#<Class:0x00007f58b9a6d650>::[]
+calls=1 45
+45 3
+cfl=
+cfn=IO::read^
+calls=1 45
+45 9082
+cfl=
+cfn=String::split
+calls=1 45
+45 2876
+cfl=
+cfn=Array::each
+calls=1 49
+49 103565
+
+fl=/home/peplum/dev/rails-optimization-task1/<internal:gc>
+fn=GC::disable^
+84 4
+
+fl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+fn=Object::work
+58 303
+cfl=/home/peplum/dev/rails-optimization-task1/<internal:gc>
+cfn=GC::disable^
+calls=1 59
+59 4
+cfl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+cfn=Object::fetch_users_and_sessions
+calls=1 60
+60 115546
+cfl=
+cfn=Array::count
+calls=3 78
+78 5
+cfl=
+cfn=Hash::[]=
+calls=1 78
+78 2
+cfl=
+cfn=Array::uniq
+calls=2 82
+82 6091
+cfl=
+cfn=Array::map
+calls=1 86
+86 9369
+cfl=
+cfn=Array::sort
+calls=1 86
+86 3837
+cfl=
+cfn=Array::join
+calls=1 86
+86 18
+cfl=
+cfn=Enumerable::group_by
+calls=1 91
+91 7336
+cfl=
+cfn=Array::each
+calls=1 92
+92 7743
+cfl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 100
+100 78078
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 122
+122 5819
+cfl=
+cfn=IO::write^
+calls=1 122
+122 1883
+
+fl=/home/peplum/dev/rails-optimization-task1/prof.rb
+fn=[global]::
+6 76
+cfl=/home/peplum/dev/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 6
+6 236034
+cfl=
+cfn=String::==
+calls=2 7
+7 3
+cfl=
+cfn=String::%
+calls=2 7
+7 6
+cfl=/home/peplum/.rbenv/versions/3.1.3/lib/ruby/3.1.0/rubygems.rb
+cfn=Gem::location_of_caller^
+calls=2 7
+7 35
+cfl=
+cfn=Array::join
+calls=4 7
+7 9
+cfl=/home/peplum/.rbenv/versions/3.1.3/lib/ruby/3.1.0/rubygems/deprecate.rb
+cfn=Gem/Deprecate::skip^
+calls=2 7
+7 2
+cfl=
+cfn=Warning/buffer::write
+calls=2 7
+7 3
+cfl=
+cfn=Warning::warn
+calls=2 7
+7 16
+

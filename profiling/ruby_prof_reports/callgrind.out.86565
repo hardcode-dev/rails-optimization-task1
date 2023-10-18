@@ -1,0 +1,326 @@
+events: wall_time
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/<internal:gc>
+fn=GC::enable^
+72 6
+
+fl=
+fn=IO::write^
+0 444
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 4
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 3633
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 4
+
+fl=
+fn=Hash::merge
+0 1298
+
+fl=
+fn=Array::reverse
+0 517
+
+fl=
+fn=Array::all?
+0 1914
+cfl=
+cfn=String::upcase
+calls=1979 63
+63 495
+
+fl=
+fn=Array::any?
+0 3909
+cfl=
+cfn=String::upcase
+calls=4492 61
+61 1167
+
+fl=
+fn=Array::max
+0 399
+
+fl=
+fn=String::+
+0 810
+
+fl=
+fn=Integer::to_s
+0 882
+
+fl=
+fn=Array::sum
+0 396
+
+fl=
+fn=String::to_i
+0 1839
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+42 4
+cfl=
+cfn=Array::each
+calls=1 43
+43 46937
+
+fl=
+fn=Array::join
+0 1676
+
+fl=
+fn=Array::sort
+0 4477
+
+fl=
+fn=String::upcase
+0 6040
+
+fl=
+fn=Array::uniq
+0 1688
+
+fl=
+fn=Array::map
+0 25027
+cfl=
+cfn=String::upcase
+calls=16928 133
+133 4378
+cfl=
+cfn=String::to_i
+calls=8464 47
+47 1839
+
+fl=
+fn=Array::count
+0 371
+
+fl=
+fn=Hash::values
+0 21
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::build_report
+102 42
+cfl=
+cfn=Hash::values
+calls=2 103
+103 21
+cfl=
+cfn=Array::count
+calls=3 122
+122 6
+cfl=
+cfn=Array::map
+calls=3 125
+125 11560
+cfl=
+cfn=Array::uniq
+calls=2 125
+125 1688
+cfl=
+cfn=Array::sort
+calls=1 130
+130 1580
+cfl=
+cfn=Array::join
+calls=1 130
+130 41
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 143
+143 46941
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::assign_sessions_to_users
+96 9
+cfl=
+cfn=Array::each
+calls=1 97
+97 5581
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=User::initialize
+12 1439
+
+fl=
+fn=Class::new
+0 1244
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=1536 0
+0 1439
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::initialize_users
+84 7
+cfl=
+cfn=Array::each
+calls=1 87
+87 5049
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+31 9489
+cfl=
+cfn=String::split
+calls=8464 32
+32 8942
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+21 1505
+cfl=
+cfn=String::split
+calls=1536 22
+22 1490
+
+fl=
+fn=Array::each
+0 29829
+cfl=
+cfn=String::split
+calls=10000 76
+76 10685
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=1536 77
+77 2995
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=8464 78
+78 18431
+cfl=
+cfn=Class::new
+calls=1536 89
+89 2683
+cfl=
+cfn=Array::map
+calls=7680 47
+47 19684
+cfl=
+cfn=Array::count
+calls=1536 50
+50 365
+cfl=
+cfn=Array::sum
+calls=1536 50
+50 396
+cfl=
+cfn=Integer::to_s
+calls=3072 50
+50 882
+cfl=
+cfn=String::+
+calls=3072 50
+50 810
+cfl=
+cfn=Array::max
+calls=1536 50
+50 399
+cfl=
+cfn=Array::sort
+calls=3072 50
+50 2898
+cfl=
+cfn=Array::join
+calls=1536 50
+50 1635
+cfl=
+cfn=Array::any?
+calls=1536 50
+50 5076
+cfl=
+cfn=Array::all?
+calls=1536 50
+50 2409
+cfl=
+cfn=Array::reverse
+calls=1536 50
+50 517
+cfl=
+cfn=Hash::merge
+calls=1536 50
+50 1298
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::split_users_and_sessions
+71 6
+cfl=
+cfn=Array::each
+calls=1 75
+75 43423
+
+fl=
+fn=String::split
+0 23272
+
+fl=
+fn=IO::read^
+0 308
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/<internal:gc>
+fn=GC::disable^
+84 4
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+fn=Object::work
+148 157
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/<internal:gc>
+cfn=GC::disable^
+calls=1 149
+149 4
+cfl=
+cfn=IO::read^
+calls=1 151
+151 308
+cfl=
+cfn=String::split
+calls=1 151
+151 2155
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::split_users_and_sessions
+calls=1 152
+152 43429
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::initialize_users
+calls=1 153
+153 5056
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::assign_sessions_to_users
+calls=1 154
+154 5590
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::build_report
+calls=1 155
+155 61878
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 157
+157 3637
+cfl=
+cfn=IO::write^
+calls=1 157
+157 444
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/<internal:gc>
+cfn=GC::enable^
+calls=1 159
+159 6
+
+fl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/profiling/ruby_prof_callgrind.rb
+fn=[global]::
+10 19
+cfl=/Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 10
+10 122664
+

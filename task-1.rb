@@ -43,7 +43,9 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file_path = 'data.txt')
+def work(file_path = 'data.txt', **options)
+  GC.disable if options[:disable_gc]
+
   file_lines = File.read(file_path).split("\n")
 
   users = []
@@ -141,6 +143,8 @@ def work(file_path = 'data.txt')
   end
 
   File.write('result.json', "#{report.to_json}\n")
+ensure
+  GC.enable
 end
 
 class TestMe < Minitest::Test

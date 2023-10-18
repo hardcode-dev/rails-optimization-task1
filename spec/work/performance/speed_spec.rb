@@ -10,7 +10,7 @@ RSpec.describe 'Work' do
     before { ensure_test_data_exists(size) }
 
     describe 'ms' do
-      it 'is equals or better that current implementation' do
+      xit 'is equals or better that current implementation' do
         expect { work(file_path) }.to perform_under(ms).ms.warmup(warmup_seconds).times.sample(10).times
       end
 

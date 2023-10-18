@@ -39,7 +39,7 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(filename = 'data_large.txt', disable_gc: true)
+def work(filename = 'data_large.txt', disable_gc: false)
   GC.disable if disable_gc
 
   users = []

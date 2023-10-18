@@ -13,3 +13,11 @@ describe 'with file with 50000 linex' do
     end.to perform_under(250).ms.warmup(2).times.sample(10).times
   end
 end
+
+describe 'with file with all linex' do
+  it 'performs for less than 15 sec' do
+    expect do
+      work
+    end.to perform_under(20).sec.warmup(2).times.sample(10).times
+  end
+end

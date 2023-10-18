@@ -4,8 +4,8 @@ RSpec.describe 'Work' do
 
     let(:file_path) { fixture(size) }
     let(:warmup_seconds) { 1 }
-    let(:size) { 10_000 }
-    let(:ms) { 245 }
+    let(:size) { 50_000 }
+    let(:ms) { 900 }
 
     before { ensure_test_data_exists(size) }
 

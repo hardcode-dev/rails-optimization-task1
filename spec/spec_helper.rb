@@ -15,6 +15,7 @@
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'rspec-benchmark'
+require_relative '../task-1'
 Dir[File.expand_path('spec/support/**/*.rb')].each { |f| require_relative(f) }
 
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration

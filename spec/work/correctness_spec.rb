@@ -1,5 +1,3 @@
-require_relative '../../task-1'
-
 RSpec.describe 'Work' do
   subject { work }
 

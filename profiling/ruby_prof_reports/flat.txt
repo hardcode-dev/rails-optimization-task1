@@ -1,51 +1,42 @@
 Measure Mode: wall_time
 Thread ID: 260
 Fiber ID: 240
-Total: 0.256290
+Total: 0.167349
 Sort by: self_time
 
  %self      total      self      wait     child     calls  name                           location
- 21.41      0.234     0.055     0.000     0.179       10   Array#each                     
- 19.68      0.127     0.050     0.000     0.076    16899   Array#map                      
- 11.45      0.063     0.029     0.000     0.034     8464   <Class::Date>#parse            
-  9.35      0.024     0.024     0.000     0.000    20001   String#split                   
-  5.29      0.014     0.014     0.000     0.000    16928   Regexp#match                   
-  3.67      0.019     0.009     0.000     0.009     8464   Object#parse_session           /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:31
-  3.05      0.011     0.008     0.000     0.004     3073   Array#sort                     
-  2.92      0.007     0.007     0.000     0.000     8464   String#gsub!                   
-  2.46      0.006     0.006     0.000     0.000     8464   MatchData#begin                
-  2.45      0.006     0.006     0.000     0.000    23399   String#upcase                  
-  2.34      0.006     0.006     0.000     0.000    10752   Hash#merge                     
-  2.02      0.005     0.005     0.000     0.000     8464   Date#iso8601                   
-  1.51      0.004     0.004     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
-  1.48      0.004     0.004     0.000     0.000    16928   String#to_i                    
-  1.48      0.005     0.004     0.000     0.001     1536   Array#any?                     
-  1.43      0.004     0.004     0.000     0.000    17169   Date#<=>                       
-  1.09      0.003     0.003     0.000     0.000     8464   String#[]=                     
-  0.73      0.002     0.002     0.000     0.001     1536   Array#all?                     
-  0.70      0.002     0.002     0.000     0.000        2   Array#uniq                     
-  0.67      0.002     0.002     0.000     0.000     8464   MatchData#end                  
-  0.66      0.002     0.002     0.000     0.000     1537   Array#join                     
-  0.66      0.002     0.002     0.000     0.000     8464   Integer#div                    
-  0.61      0.003     0.002     0.000     0.002     1536   Object#parse_user              /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:21
-  0.54      0.001     0.001     0.000     0.000     1536   User#initialize                /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:12
-  0.45      0.003     0.001     0.000     0.001     1536   Class#new                      
-  0.35      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
-  0.34      0.001     0.001     0.000     0.000     3072   Integer#to_s                   
-  0.30      0.001     0.001     0.000     0.000     3072   String#+                       
-  0.22      0.001     0.001     0.000     0.000     1536   Array#reverse                  
-  0.16      0.000     0.000     0.000     0.000     1536   Array#max                      
-  0.15      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
-  0.15      0.000     0.000     0.000     0.000     1536   Array#sum                      
-  0.13      0.000     0.000     0.000     0.000     1539   Array#count                    
-  0.04      0.256     0.000     0.000     0.256        1   Object#work                    /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:165
-  0.03      0.195     0.000     0.000     0.195        1   Object#build_report            /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:81
-  0.01      0.256     0.000     0.000     0.256        1   [global]#                      profiling/ruby_prof_flat.rb:8
+ 30.86      0.146     0.052     0.000     0.095       10   Array#each                     
+ 24.53      0.049     0.041     0.000     0.008    13827   Array#map                      
+ 13.54      0.023     0.023     0.000     0.000    20001   String#split                   
+  5.51      0.018     0.009     0.000     0.009     8464   Object#parse_session           /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:31
+  3.74      0.006     0.006     0.000     0.000    23399   String#upcase                  
+  3.55      0.006     0.006     0.000     0.000    10752   Hash#merge                     
+  2.72      0.005     0.005     0.000     0.000     3073   Array#sort                     
+  2.57      0.004     0.004     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  2.26      0.005     0.004     0.000     0.001     1536   Array#any?                     
+  2.08      0.003     0.003     0.000     0.000    16928   String#to_i                    
+  1.25      0.003     0.002     0.000     0.001     1536   Array#all?                     
+  0.99      0.002     0.002     0.000     0.000     1537   Array#join                     
+  0.93      0.003     0.002     0.000     0.001     1536   Object#parse_user              /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:21
+  0.89      0.001     0.001     0.000     0.000        2   Array#uniq                     
+  0.81      0.001     0.001     0.000     0.000     1536   User#initialize                /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:12
+  0.67      0.002     0.001     0.000     0.001     1536   Class#new                      
+  0.59      0.001     0.001     0.000     0.000        1   <Class::IO>#read               
+  0.49      0.001     0.001     0.000     0.000     3072   Integer#to_s                   
+  0.49      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
+  0.48      0.001     0.001     0.000     0.000     3072   String#+                       
+  0.28      0.000     0.000     0.000     0.000     1536   Array#reverse                  
+  0.23      0.000     0.000     0.000     0.000     1536   Array#max                      
+  0.21      0.000     0.000     0.000     0.000     1536   Array#sum                      
+  0.17      0.000     0.000     0.000     0.000     1539   Array#count                    
+  0.08      0.167     0.000     0.000     0.167        1   Object#work                    /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:161
+  0.03      0.107     0.000     0.000     0.107        1   Object#build_report            /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:81
+  0.01      0.167     0.000     0.000     0.167        1   [global]#                      profiling/ruby_prof_flat.rb:8
+  0.01      0.095     0.000     0.000     0.094        7   Object#collect_stats_from_users /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:42
   0.01      0.000     0.000     0.000     0.000        2   Hash#values                    
-  0.01      0.180     0.000     0.000     0.180        7   Object#collect_stats_from_users /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:42
+  0.01      0.005     0.000     0.000     0.005        1   Object#initialize_users        /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:63
+  0.00      0.042     0.000     0.000     0.042        1   Object#split_users_and_sessions /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:50
   0.00      0.004     0.000     0.000     0.004        1   Object#assign_sessions_to_users /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:75
-  0.00      0.044     0.000     0.000     0.044        1   Object#split_users_and_sessions /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:50
-  0.00      0.006     0.000     0.000     0.006        1   Object#initialize_users        /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:63
   0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:84
   0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#enable            <internal:gc>:72
   0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 

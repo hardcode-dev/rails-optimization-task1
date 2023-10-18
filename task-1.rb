@@ -101,12 +101,7 @@ def build_report(users_objects_by_id, sessions)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
-
+  uniqueBrowsers = sessions.map { |s| s['browser'] }.uniq
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
   report['totalSessions'] = sessions.count

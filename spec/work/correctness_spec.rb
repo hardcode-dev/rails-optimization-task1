@@ -34,6 +34,7 @@ RSpec.describe 'Work' do
 
   it 'generates correct result json' do
     subject
+    # binding.irb
     expect(File.read('result.json')).to eq(expected_result)
   end
 end

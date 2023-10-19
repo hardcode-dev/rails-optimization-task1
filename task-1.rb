@@ -68,24 +68,20 @@ def collect_stats_from_users(report, users)
     user_key = "#{user.first_name}" + ' ' + "#{user.last_name}"
     report['usersStats'][user_key] ||= {}
 
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(
-      {
-        # # Собираем количество сессий по пользователям
-        'sessionsCount' => user.sessions_count,
-        # # Собираем количество времени по пользователям
-        'totalTime' => "#{user.total_time} min.",
-        # # Выбираем самую длинную сессию пользователя
-        'longestSession' => "#{user.longest_session['time']} min.",
-        # # Браузеры пользователя через запятую
-        'browsers' => user.browsers.sort.join(', '),
-        # # Хоть раз использовал IE?
-        'usedIE' => user.used_internet_explorer?,
-        # # Всегда использовал только Chrome?
-        'alwaysUsedChrome' => user.always_used_chrome?,
-        # # Даты сессий через запятую в обратном порядке в формате iso8601
-        'dates' => user.sessions.map{|s| s['date']}.sort.reverse
-      }
-    )
+    # # Собираем количество сессий по пользователям
+    report['usersStats'][user_key]['sessionsCount'] = user.sessions_count
+    # # Собираем количество времени по пользователям
+    report['usersStats'][user_key]['totalTime'] = "#{user.total_time} min."
+    # # Браузеры пользователя через запятую
+    report['usersStats'][user_key]['longestSession'] = "#{user.longest_session['time']} min."
+    # # Хоть раз использовал IE?
+    report['usersStats'][user_key]['browsers'] = user.browsers.sort.join(', ')
+    # # Выбираем самую длинную сессию пользователя
+    report['usersStats'][user_key]['usedIE'] = user.used_internet_explorer?
+    # # Всегда использовал только Chrome?
+    report['usersStats'][user_key]['alwaysUsedChrome'] = user.always_used_chrome?
+    # # Даты сессий через запятую в обратном порядке в формате iso8601
+    report['usersStats'][user_key]['dates'] = user.sessions.map{|s| s['date']}.sort.reverse
   end
 end
 

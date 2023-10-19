@@ -321,31 +321,13 @@ flat:
 1.67sec -> 1.56sec
 
 - как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
-```
- %self      total      self      wait     child     calls  name                           location
- 29.62      0.090     0.030     0.000     0.060     1540  *Array#each
- 12.88      0.013     0.013     0.000     0.000    10001   String#split
- 12.08      0.026     0.012     0.000     0.014     8464   Object#parse_session           /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:55
- 11.31      0.014     0.011     0.000     0.002     8464   User#add_session               /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:35
-  3.17      0.003     0.003     0.000     0.000     3073   Array#sort
-  2.96      0.003     0.003     0.000     0.000        1   <Class::IO>#write
-  2.74      0.003     0.003     0.000     0.000     1538   Array#map
-  2.69      0.003     0.003     0.000     0.000    10443   String#include?
-  2.59      0.003     0.003     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json
-  2.28      0.002     0.002     0.000     0.000     8464   String#upcase
-  2.08      0.002     0.002     0.000     0.000     8464   String#to_i
-  2.08      0.002     0.002     0.000     0.000     1536   User#initialize                /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:11
-  2.00      0.002     0.002     0.000     0.000    10000   String#start_with?
-  1.49      0.002     0.002     0.000     0.000     1537   Array#join
-  1.34      0.003     0.001     0.000     0.001     1536   Object#parse_user              /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:45
-  1.26      0.001     0.001     0.000     0.000        1   Array#flatten
-  1.08      0.002     0.001     0.000     0.000     1536   Array#all?
-  1.06      0.003     0.001     0.000     0.002     1536   Class#new
-```
+
+`merge` ушел из отчета. Ура! теперь мы попадаем в бюджет.
+
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.
 
-Удалось улучшить метрику системы с 2_800ms / 10к записей до 46ms / 10к записей и уложиться в заданный бюджет.
+Удалось улучшить метрику системы с `2_800ms / 10к` записей до `46ms / 10к` записей и уложиться в заданный бюджет.
 
 ## Защита от регрессии производительности
 Для защиты от потери достигнутого прогресса при дальнейших изменениях программы я использовал тест:

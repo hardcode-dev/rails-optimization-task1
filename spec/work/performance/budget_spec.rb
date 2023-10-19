@@ -9,7 +9,7 @@ RSpec.describe 'Work' do
 
     before { ensure_test_data_exists(size) }
 
-    xdescribe 'budget' do
+    describe 'budget' do
       let(:file_path) { 'data_large.txt' }
 
       it 'is fast as hell' do

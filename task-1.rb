@@ -6,7 +6,7 @@ require 'date'
 require 'minitest/autorun'
 
 class User
-  attr_reader :id, :first_name, :last_name, :age, :sessions, :sessions_count, :total_time
+  attr_reader :id, :first_name, :last_name, :age, :sessions, :sessions_count, :total_time, :browsers
 
   def initialize(id:, first_name:, last_name:, age:, sessions: [])
     @id = id
@@ -16,18 +16,21 @@ class User
     @sessions = sessions
     @sessions_count = 0
     @total_time = 0
+    @used_internet_explorer = false
+    @browsers = []
   end
 
   def longest_session
     @sessions.max_by { |s| s['time'] }
   end
 
-  def browsers
-    @sessions.map { |s| s['browser'].upcase }.sort
-  end
+  # def browsers
+  #   # @sessions.map { |s| s['browser'] }.sort
+  #   @sessions.map { |s| s['browser'] }
+  # end
 
   def used_internet_explorer?
-    browsers.any? { |b| b.include?('INTERNET EXPLORER') }
+    @used_internet_explorer
   end
 
   def always_used_chrome?
@@ -38,6 +41,9 @@ class User
     @sessions << session
     @sessions_count += 1
     @total_time += session['time']
+    browser = session['browser']
+    @browsers << browser
+    @used_internet_explorer = true if browser.include?('INTERNET EXPLORER')
   end
 end
 
@@ -56,7 +62,7 @@ def parse_session(session)
   parsed_result = {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
+    'browser' => fields[3].upcase,
     'time' => fields[4].to_i,
     'date' => fields[5],
   }

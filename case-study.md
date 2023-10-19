@@ -239,6 +239,62 @@ flat
 
 Коммитим изменение и пересматриваем входные данные метрики.
 
+
+### Ваша находка №8
+- какой отчёт показал главную точку роста
+
+ Кажется, нам больше не нужны кардинальные изменения для достижения бюджетной метрики.
+ Судя по отчету flat, мы продолжаем тратить много времени в each / map.
+
+ %self      total      self      wait     child     calls  name                           location
+ 21.48      0.112     0.030     0.000     0.083     1540  *Array#each
+ 15.17      0.032     0.021     0.000     0.011     7682  *Array#map
+  9.94      0.014     0.014     0.000     0.000    10001   String#split
+  7.74      0.023     0.011     0.000     0.012     8464   Object#parse_session           /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:54
+  6.45      0.009     0.009     0.000     0.000    33856   String#upcase
+  5.94      0.008     0.008     0.000     0.000     9217   Array#sort
+  4.30      0.006     0.006     0.000     0.000     8464   User#add_session               /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:37
+  2.97      0.036     0.004     0.000     0.032     6144   User#browsers                  /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:25
+  2.79      0.004     0.004     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+  2.57      0.004     0.004     0.000     0.000        1   <Class::IO>#write
+  2.08      0.003     0.003     0.000     0.000        1   <Class::IO>#read
+  1.89      0.004     0.003     0.000     0.001     1536   Array#any?
+  1.67      0.002     0.002     0.000     0.000     9407   String#include?
+  1.57      0.002     0.002     0.000     0.000     8464   String#to_i
+  1.47      0.002     0.002     0.000     0.000    10000   String#start_with?
+  1.35      0.002     0.002     0.000     0.000     1537   Array#join
+  1.34      0.003     0.002     0.000     0.001     1536   Array#all?
+
+
+- как вы решили её оптимизировать
+
+Во-первых, `upcase` по браузеру мы можем выполнять сразу при добавлении сессии пользователю (и дальше не дублировать это при построении отчета).
+Во-вторых, (кажется, мы мало что можем сделать с определением `alwaysUsedChrome` - т.к. все равно придется проверить все сессии пользователя), но что касается `usedIE` - мы можем делать это при добавлении сессии, и сохранять это в переменной пользователя, чтобы дальше обращаться при построении отчета к ней.
+
+- как изменилась метрика
+
+Улучшилась:
+2sec -> 1.67sec
+Но в бюджет пока не пролезаем.
+
+- как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
+
+Веса перераспределилилсь.
+
+ %self      total      self      wait     child     calls  name                           location
+ 28.05      0.091     0.029     0.000     0.062     1540  *Array#each
+ 12.65      0.013     0.013     0.000     0.000    10001   String#split
+ 12.29      0.026     0.013     0.000     0.014     8464   Object#parse_session           /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:60
+ 11.35      0.014     0.012     0.000     0.002     8464   User#add_session               /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:40
+  3.29      0.003     0.003     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json
+  3.02      0.003     0.003     0.000     0.000     3073   Array#sort
+  2.91      0.003     0.003     0.000     0.000     1538   Array#map
+  2.58      0.003     0.003     0.000     0.000    10443   String#include?
+  2.28      0.002     0.002     0.000     0.000     8464   String#upcase
+  2.10      0.002     0.002     0.000     0.000     1536   User#initialize                /Users/i.udalov/Projects/thinknetica/ror_optimization/task1_new/rails-optimization-task1/task-1.rb:11
+  2.08      0.002     0.002     0.000     0.000     8464   String#to_i
+  1.95      0.002     0.002     0.000     0.000    10000   String#start_with?
+
 ### Ваша находка №X
 - какой отчёт показал главную точку роста
 - как вы решили её оптимизировать

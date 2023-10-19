@@ -24,11 +24,6 @@ class User
     @sessions.max_by { |s| s['time'] }
   end
 
-  # def browsers
-  #   # @sessions.map { |s| s['browser'] }.sort
-  #   @sessions.map { |s| s['browser'] }
-  # end
-
   def used_internet_explorer?
     @used_internet_explorer
   end
@@ -73,9 +68,6 @@ def collect_stats_from_users(report, users)
     user_key = "#{user.first_name}" + ' ' + "#{user.last_name}"
     report['usersStats'][user_key] ||= {}
 
-    # user_times = user.sessions.map {|s| s['time']}.map {|t| t.to_i}
-    # user_browsers = user.sessions.map {|s| s['browser']}
-
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(
       {
         # # Собираем количество сессий по пользователям
@@ -98,7 +90,6 @@ def collect_stats_from_users(report, users)
 end
 
 def parse_lines(file_lines)
-  # lines = file_lines.sort_by { |l| l}
   users, sessions = file_lines.group_by { |l| l.start_with?('user') }.values
 
   users_objects_by_id = users.each_with_object({}) do |u, acc|

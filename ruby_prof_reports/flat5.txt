@@ -1,0 +1,46 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 0.000213
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 33.31      0.000     0.000     0.000     0.000        1   <Class::IO>#readlines          
+ 14.05      0.000     0.000     0.000     0.000        4   Array#each                     
+ 11.78      0.000     0.000     0.000     0.000       36   String#split                   
+  6.70      0.000     0.000     0.000     0.000        1   [global]#                      ruby-prof-flat.rb:7
+  6.46      0.000     0.000     0.000     0.000       15   Array#all?                     
+  4.72      0.000     0.000     0.000     0.000        1   Object#work                    /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:49
+  4.67      0.000     0.000     0.000     0.000       15   Object#parse_session           /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:28
+  4.07      0.000     0.000     0.000     0.000        3   Array#select                   
+  2.71      0.000     0.000     0.000     0.000        2   Array#map                      
+  1.56      0.000     0.000     0.000     0.000        1   BasicObject#method_missing     
+  1.54      0.000     0.000     0.000     0.000        1   Array#sort                     
+  1.49      0.000     0.000     0.000     0.000        3   Object#parse_user              /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:18
+  1.39      0.000     0.000     0.000     0.000       15   String#upcase                  
+  1.36      0.000     0.000     0.000     0.000        3   Class#new                      
+  1.18      0.000     0.000     0.000     0.000        3   User#initialize                /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:12
+  1.01      0.000     0.000     0.000     0.000        1   Array#uniq                     
+  0.96      0.000     0.000     0.000     0.000        1   Array#join                     
+  0.44      0.000     0.000     0.000     0.000        3   Array#count                    
+  0.38      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+  0.23      0.000     0.000     0.000     0.000        1   Exception#exception            
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

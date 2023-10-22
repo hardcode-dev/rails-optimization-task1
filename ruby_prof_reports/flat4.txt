@@ -1,0 +1,57 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 0.000511
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 24.27      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
+ 15.30      0.000     0.000     0.000     0.000        1   <Class::IO>#readlines          
+  8.50      0.000     0.000     0.000     0.000       38  *Array#map                      
+  6.45      0.000     0.000     0.000     0.000       51   String#split                   
+  5.73      0.000     0.000     0.000     0.000        4   Array#each                     
+  3.96      0.000     0.000     0.000     0.000        3   Object#collect_all_stats       /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:47
+  3.86      0.000     0.000     0.000     0.000        1   <Module::Oj>#dump              
+  3.15      0.000     0.000     0.000     0.000       18   Array#all?                     
+  3.11      0.001     0.000     0.000     0.000        1   [global]#                      ruby-prof-flat.rb:7
+  2.69      0.000     0.000     0.000     0.000        1   Object#work                    /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:67
+  2.25      0.000     0.000     0.000     0.000       18   Class#new                      
+  2.07      0.000     0.000     0.000     0.000       15   Date#initialize                
+  1.99      0.000     0.000     0.000     0.000       15   Object#parse_session           /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:28
+  1.97      0.000     0.000     0.000     0.000       15   Date#iso8601                   
+  1.97      0.000     0.000     0.000     0.000        7   Array#sort                     
+  1.90      0.000     0.000     0.000     0.000       60   String#to_i                    
+  1.75      0.000     0.000     0.000     0.000       45   String#upcase                  
+  1.73      0.000     0.000     0.000     0.000        3   Array#select                   
+  1.05      0.000     0.000     0.000     0.000        3   Array#any?                     
+  0.97      0.000     0.000     0.000     0.000       15   String#include?                
+  0.92      0.000     0.000     0.000     0.000        4   Array#join                     
+  0.91      0.000     0.000     0.000     0.000       21   Date#<=>                       
+  0.63      0.000     0.000     0.000     0.000        3   Hash#merge                     
+  0.59      0.000     0.000     0.000     0.000        3   Object#parse_user              /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:18
+  0.48      0.000     0.000     0.000     0.000        3   User#initialize                /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1-refactored.rb:12
+  0.42      0.000     0.000     0.000     0.000        1   Array#uniq                     
+  0.34      0.000     0.000     0.000     0.000        6   Integer#to_s                   
+  0.33      0.000     0.000     0.000     0.000        6   Array#count                    
+  0.24      0.000     0.000     0.000     0.000        3   Array#max                      
+  0.24      0.000     0.000     0.000     0.000        3   Array#reverse                  
+  0.23      0.000     0.000     0.000     0.000        3   Array#sum                      
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

@@ -3,7 +3,6 @@
 require 'json'
 require 'pry'
 require 'date'
-require 'minitest/autorun'
 
 class User
   attr_reader :attributes, :sessions

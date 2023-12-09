@@ -3,9 +3,6 @@
 require 'json'
 require 'pry'
 require 'date'
-require 'benchmark'
-
-include Benchmark
 
 class User
   attr_reader :attributes, :sessions
@@ -98,10 +95,10 @@ def work(filename = 'data.txt')
   # Статистика по пользователям
   users_objects = []
 
+  user_sessions = sessions.group_by { |session| session['user_id'] }
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    user_object = User.new(attributes: attributes, sessions: user_sessions[user['id']])
     users_objects = users_objects + [user_object]
   end
 
@@ -109,7 +106,7 @@ def work(filename = 'data.txt')
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
+    { 'sessionsCount' => user.sessions&.count.to_i }
   end
 
   # Собираем количество времени по пользователям
@@ -145,10 +142,24 @@ def work(filename = 'data.txt')
   File.write('result.json', "#{report.to_json}\n")
 end
 
-Benchmark.bm do |x|
-  [10, 50, 100, 500, 1_000, 5_000, 10_000, 20_000, 30_000, 40_000, 50_000].each do |n|
-    filename = "data_large#{n}.txt"
-    `head -n #{n} data_large.txt > data_large#{n}.txt` unless File.exist?(filename)
-    x.report("n=#{n}") { work(filename) }
+# Метод для запуска работы с разным количеством строк файла `data_large.txt`
+# @param [Integer] n количество строк
+# @return [void]
+def work_with_line_count(n)
+  filename = "data_large#{n}.txt"
+  `head -n #{n} data_large.txt > data_large#{n}.txt` unless File.exist?(filename)
+  work(filename)
+ensure
+  File.delete(filename) if File.exist?(filename)
+end
+
+if ENV.key? 'LINE_COUNT'
+  line_count = ENV['LINE_COUNT'].to_i
+  work_with_line_count(line_count)
+else
+  if ENV.key? 'FILE_NAME'
+    work ENV['FILE_NAME']
+  else
+    work
   end
 end

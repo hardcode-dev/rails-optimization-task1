@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+ruby '3.1.2'
+
+gem 'json'
+gem 'pry'
+gem 'date'
+gem 'minitest'
+gem 'stackprof'
+gem 'ruby-prof'

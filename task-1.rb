@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'benchmark'
 require 'minitest/autorun'
 
 class User
@@ -43,8 +44,8 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
-  file_lines = File.read('data.txt').split("\n")
+def work(filename = 'data.txt')
+  file_lines = File.read(filename).split("\n")
 
   users = []
   sessions = []
@@ -174,3 +175,18 @@ session,2,3,Chrome 20,84,2016-11-25
     assert_equal expected_result, File.read('result.json')
   end
 end
+
+time = Benchmark.realtime do
+  work('data10000.txt')
+end
+puts "Work 10000 finish in #{time.round(2)}"
+
+# time = Benchmark.realtime do
+#   work('data20000.txt')
+# end
+# puts "Work 20000 finish in #{time.round(2)}"
+#
+# time = Benchmark.realtime do
+#   work('data40000.txt')
+# end
+# puts "Work 40000 finish in #{time.round(2)}"

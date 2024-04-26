@@ -86,13 +86,13 @@ def work(filename = 'data.txt')
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  uniqueBrowsers = Hash.new(0)
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    uniqueBrowsers[browser] += 1
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = uniqueBrowsers.keys.size
 
   report['totalSessions'] = sessions.count
 
@@ -186,6 +186,7 @@ session,2,3,Chrome 20,84,2016-11-25
   end
 end
 
+
 # time = Benchmark.realtime do
 #   work('data10000.txt')
 # end
@@ -201,11 +202,14 @@ time = Benchmark.realtime do
 end
 puts "Work 40000 finish in #{time.round(2)}"
 
+# time = Benchmark.realtime do
+#   work('data500000.txt')
+# end
+# puts "Work 500000 finish in #{time.round(2)}"
 
 
-
-GC.disable
-
+# GC.disable
+#
 # ### ruby-prof. Flat
 # RubyProf.measure_mode = RubyProf::WALL_TIME
 # result = RubyProf.profile do
@@ -231,3 +235,9 @@ GC.disable
 # StackProf.run(mode: :wall, out: 'stackprof_reports/stackprof.dump', interval: 1000) do
 #   work('data40000.txt')
 # end
+
+### StackProf speedscope
+# profile = StackProf.run(mode: :wall, raw: true) do
+#   work('data40000.txt')
+# end
+# File.write('stackprof_reports/stackprof.json', JSON.generate(profile))

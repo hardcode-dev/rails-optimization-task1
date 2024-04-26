@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'benchmark'
+require 'ruby-prof'
 require 'minitest/autorun'
 
 class User
@@ -49,11 +50,19 @@ def work(filename = 'data.txt')
 
   users = []
   sessions = []
+  user_sessions_hash = {}
 
   file_lines.each do |line|
     cols = line.split(',')
     users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    if cols[0] == 'session'
+      session = parse_session(line)
+      user_id = session['user_id']
+      user_sessions_hash[user_id] ||= []
+      user_sessions_hash[user_id] << session
+      sessions = sessions + [session]
+    end
   end
 
   # Отчёт в json
@@ -99,7 +108,7 @@ def work(filename = 'data.txt')
 
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = user_sessions_hash[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end
@@ -190,3 +199,24 @@ puts "Work 10000 finish in #{time.round(2)}"
 #   work('data40000.txt')
 # end
 # puts "Work 40000 finish in #{time.round(2)}"
+
+
+
+
+GC.disable
+
+### ruby-prof. Flat
+RubyProf.measure_mode = RubyProf::WALL_TIME
+result = RubyProf.profile do
+  work('data10000.txt')
+end
+printer = RubyProf::FlatPrinter.new(result)
+printer.print(File.open("ruby_prof_reports/flat.txt", "w+"))
+
+### ruby-prof. Graph
+printer = RubyProf::GraphHtmlPrinter.new(result)
+printer.print(File.open("ruby_prof_reports/graph.html", "w+"))
+
+### ruby-prof. Callstack
+printer = RubyProf::CallStackPrinter.new(result)
+printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))

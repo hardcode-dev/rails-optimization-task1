@@ -5,6 +5,7 @@ require 'pry'
 require 'date'
 require 'benchmark'
 require 'ruby-prof'
+require 'stackprof'
 require 'minitest/autorun'
 
 class User
@@ -61,7 +62,7 @@ def work(filename = 'data.txt')
       user_id = session['user_id']
       user_sessions_hash[user_id] ||= []
       user_sessions_hash[user_id] << session
-      sessions = sessions + [session]
+      sessions << session
     end
   end
 
@@ -185,38 +186,48 @@ session,2,3,Chrome 20,84,2016-11-25
   end
 end
 
-time = Benchmark.realtime do
-  work('data10000.txt')
-end
-puts "Work 10000 finish in #{time.round(2)}"
+# time = Benchmark.realtime do
+#   work('data10000.txt')
+# end
+# puts "Work 10000 finish in #{time.round(2)}"
 
 # time = Benchmark.realtime do
 #   work('data20000.txt')
 # end
 # puts "Work 20000 finish in #{time.round(2)}"
-#
-# time = Benchmark.realtime do
-#   work('data40000.txt')
-# end
-# puts "Work 40000 finish in #{time.round(2)}"
+
+time = Benchmark.realtime do
+  work('data40000.txt')
+end
+puts "Work 40000 finish in #{time.round(2)}"
 
 
 
 
 GC.disable
 
-### ruby-prof. Flat
-RubyProf.measure_mode = RubyProf::WALL_TIME
-result = RubyProf.profile do
-  work('data10000.txt')
-end
-printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open("ruby_prof_reports/flat.txt", "w+"))
+# ### ruby-prof. Flat
+# RubyProf.measure_mode = RubyProf::WALL_TIME
+# result = RubyProf.profile do
+#   work('data40000.txt')
+# end
+# printer = RubyProf::FlatPrinter.new(result)
+# printer.print(File.open("ruby_prof_reports/flat.txt", "w+"))
+#
+# ### ruby-prof. Graph
+# printer = RubyProf::GraphHtmlPrinter.new(result)
+# printer.print(File.open("ruby_prof_reports/graph.html", "w+"))
+#
+# ### ruby-prof. Callstack
+# printer = RubyProf::CallStackPrinter.new(result)
+# printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
+#
+# ### ruby-prof. Callgrind
+# printer = RubyProf::CallTreePrinter.new(result)
+# printer.print(:path => "ruby_prof_reports", :profile => 'callgrind')
 
-### ruby-prof. Graph
-printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open("ruby_prof_reports/graph.html", "w+"))
 
-### ruby-prof. Callstack
-printer = RubyProf::CallStackPrinter.new(result)
-printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
+### StackProf CLI
+# StackProf.run(mode: :wall, out: 'stackprof_reports/stackprof.dump', interval: 1000) do
+#   work('data40000.txt')
+# end

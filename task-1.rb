@@ -135,7 +135,7 @@ def work(filename = 'data.txt')
       # Всегда использовал только Chrome?
       'alwaysUsedChrome' => user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map { |d| d.iso8601 }
+      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse
     }
   end
 
@@ -195,6 +195,10 @@ puts "Work 40000 finish in #{time.round(2)}"
 # end
 # puts "Work 500000 finish in #{time.round(2)}"
 
+# time = Benchmark.realtime do
+#   work('data_large.txt')
+# end
+# puts "Work data_large finish in #{time.round(2)}"
 
 # GC.disable
 #

@@ -15,6 +15,34 @@ class User
     @attributes = attributes
     @sessions = sessions
   end
+
+  def sessions_count
+    @sessions_count ||= @sessions.size
+  end
+
+  def total_time
+    @total_time ||= @sessions.map { |s| s['time'].to_i }.sum.to_s + ' min.'
+  end
+
+  def longest_session
+    @longest_session ||= @sessions.map { |s| s['time'].to_i }.max.to_s + ' min.'
+  end
+
+  def browsers
+    @browsers ||= @sessions.map { |s| s['browser'].upcase }.sort.join(', ')
+  end
+
+  def used_ie?
+    @used_ie ||= @sessions.any? { |b| b['browser'].upcase =~ /INTERNET EXPLORER/ }
+  end
+
+  def always_used_chrome?
+    @always_used_chrome ||= @sessions.all? { |b| b['browser'].upcase =~ /CHROME/ }
+  end
+
+  def dates
+    @dates ||= @sessions.map { |s| s['date'] }.sort.reverse
+  end
 end
 
 def parse_user(fields)
@@ -121,19 +149,19 @@ def work(filename = 'data.txt')
   collect_stats_from_users(report, users_objects) do |user|
     {
       # Собираем количество сессий по пользователям
-      'sessionsCount' => user.sessions.count,
+      'sessionsCount' => user.sessions_count,
       # Собираем количество времени по пользователям
-      'totalTime' => user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.sum.to_s + ' min.',
+      'totalTime' => user.total_time,
       # Выбираем самую длинную сессию пользователя
-      'longestSession' => user.sessions.map { |s| s['time'] }.map { |t| t.to_i }.max.to_s + ' min.',
+      'longestSession' => user.longest_session,
       # Браузеры пользователя через запятую
-      'browsers' => user.sessions.map { |s| s['browser'] }.map { |b| b.upcase }.sort.join(', '),
+      'browsers' => user.browsers,
       # Хоть раз использовал IE?
-      'usedIE' => user.sessions.map { |s| s['browser'] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      'usedIE' => user.used_ie?,
       # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => user.sessions.map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ },
+      'alwaysUsedChrome' => user.always_used_chrome?,
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse
+      'dates' => user.dates
     }
   end
 
@@ -170,8 +198,19 @@ session,2,3,Chrome 20,84,2016-11-25
     expected_result = '{"totalUsers":3,"uniqueBrowsersCount":14,"totalSessions":15,"allBrowsers":"CHROME 13,CHROME 20,CHROME 35,CHROME 6,FIREFOX 12,FIREFOX 32,FIREFOX 47,INTERNET EXPLORER 10,INTERNET EXPLORER 28,INTERNET EXPLORER 35,SAFARI 17,SAFARI 29,SAFARI 39,SAFARI 49","usersStats":{"Leida Cira":{"sessionsCount":6,"totalTime":"455 min.","longestSession":"118 min.","browsers":"FIREFOX 12, INTERNET EXPLORER 28, INTERNET EXPLORER 28, INTERNET EXPLORER 35, SAFARI 29, SAFARI 39","usedIE":true,"alwaysUsedChrome":false,"dates":["2017-09-27","2017-03-28","2017-02-27","2016-10-23","2016-09-15","2016-09-01"]},"Palmer Katrina":{"sessionsCount":5,"totalTime":"218 min.","longestSession":"116 min.","browsers":"CHROME 13, CHROME 6, FIREFOX 32, INTERNET EXPLORER 10, SAFARI 17","usedIE":true,"alwaysUsedChrome":false,"dates":["2017-04-29","2016-12-28","2016-12-20","2016-11-11","2016-10-21"]},"Gregory Santos":{"sessionsCount":4,"totalTime":"192 min.","longestSession":"85 min.","browsers":"CHROME 20, CHROME 35, FIREFOX 47, SAFARI 49","usedIE":false,"alwaysUsedChrome":false,"dates":["2018-09-21","2018-02-02","2017-05-22","2016-11-25"]}}}' + "\n"
     assert_equal expected_result, File.read('result.json')
   end
+
+  def test_performance
+    time = Benchmark.realtime do
+      work
+    end
+    assert time < 0.0004, "The Ruby method took more than 0.0004 seconds to execute"
+  end
 end
 
+# time = Benchmark.realtime do
+#   work('data.txt')
+# end
+# puts "Work finish in #{time.round(5)}"
 
 # time = Benchmark.realtime do
 #   work('data10000.txt')
@@ -183,10 +222,10 @@ end
 # end
 # puts "Work 20000 finish in #{time.round(2)}"
 
-time = Benchmark.realtime do
-  work('data40000.txt')
-end
-puts "Work 40000 finish in #{time.round(2)}"
+# time = Benchmark.realtime do
+#   work('data40000.txt')
+# end
+# puts "Work 40000 finish in #{time.round(2)}"
 
 # time = Benchmark.realtime do
 #   work('data500000.txt')

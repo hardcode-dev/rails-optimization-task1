@@ -55,7 +55,11 @@ def work(filename = 'data.txt')
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
+
+    if cols[0] == 'user'
+      user = parse_user(line)
+      users << user
+    end
 
     if cols[0] == 'session'
       session = parse_session(line)
@@ -111,7 +115,7 @@ def work(filename = 'data.txt')
     attributes = user
     user_sessions = user_sessions_hash[user['id']]
     user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    users_objects << user_object
   end
 
   report['usersStats'] = {}

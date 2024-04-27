@@ -21,27 +21,37 @@ class User
   end
 
   def total_time
-    @total_time ||= @sessions.map { |s| s['time'].to_i }.sum.to_s + ' min.'
+    @total_time ||= sessions_time.sum.to_s + ' min.'
   end
 
   def longest_session
-    @longest_session ||= @sessions.map { |s| s['time'].to_i }.max.to_s + ' min.'
+    @longest_session ||= sessions_time.max.to_s + ' min.'
   end
 
   def browsers
-    @browsers ||= @sessions.map { |s| s['browser'].upcase }.sort.join(', ')
+    @browsers ||= upcase_browsers.sort.join(', ')
   end
 
   def used_ie?
-    @used_ie ||= @sessions.any? { |b| b['browser'].upcase =~ /INTERNET EXPLORER/ }
+    @used_ie ||= upcase_browsers.any? { |b| b =~ /INTERNET EXPLORER/ }
   end
 
   def always_used_chrome?
-    @always_used_chrome ||= @sessions.all? { |b| b['browser'].upcase =~ /CHROME/ }
+    @always_used_chrome ||= upcase_browsers.all? { |b| b =~ /CHROME/ }
   end
 
   def dates
     @dates ||= @sessions.map { |s| s['date'] }.sort.reverse
+  end
+
+  private
+
+  def sessions_time
+    @sessions_time ||= @sessions.map { |s| s['time'].to_i }
+  end
+
+  def upcase_browsers
+    @upcase_browsers ||= @sessions.map { |s| s['browser'].upcase }
   end
 end
 
@@ -128,8 +138,7 @@ def work(filename = 'data.txt')
 
   report['allBrowsers'] =
     sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
+      .map { |s| s['browser'].upcase }
       .sort
       .uniq
       .join(',')

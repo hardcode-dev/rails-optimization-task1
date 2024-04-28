@@ -2,7 +2,7 @@
 
 require 'rspec-benchmark'
 require_relative '../../task-1'
-
+  
 describe 'Task-1' do
   include RSpec::Benchmark::Matchers
 
@@ -13,12 +13,12 @@ describe 'Task-1' do
   let(:process) { work(file_name) }
 
   describe 'Performance' do
-    let(:file_name) { './data10_000.txt' }
+    let(:file_name) { './data100_000.txt' }
 
     it 'works under 6000 ns' do
       expect do
         process
-      end.to perform_under(6000).ns.warmup(1).times.sample(10).times
+      end.to perform_under(6000).ns.warmup(10).times.sample(10).times
     end
   end
 

@@ -81,7 +81,7 @@ module V5
       isIE = false
 
       user[:sessions].each do |s|
-        break isIE = true if (s['browser'] =~ /INTERNET EXPLORER/).zero?
+        break isIE = true if (s['browser'] =~ /INTERNET EXPLORER/) == 0
       end
 
       ['usedIE', isIE]

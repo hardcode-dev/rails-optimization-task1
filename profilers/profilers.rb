@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'stackprof'
 require 'ruby-prof'
-require_relative '../task-1.rb'
+require_relative '../task-1'
 
 file_path = './complexity/data10_000.txt'
 
@@ -19,12 +21,11 @@ printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
 RubyProf.measure_mode = RubyProf::WALL_TIME
 
 result = RubyProf.profile do
-    work(file_path)
+  work(file_path)
 end
 
 printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open("ruby_prof_reports/graph.html", "w+"))
-
+printer.print(File.open('ruby_prof_reports/graph.html', 'w+'))
 
 ###############
 

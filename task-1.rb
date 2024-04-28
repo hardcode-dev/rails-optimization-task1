@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Deoptimized version of homework task
 
 require 'json'

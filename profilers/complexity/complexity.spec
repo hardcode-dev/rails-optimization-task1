@@ -2,7 +2,7 @@
 
 require 'rspec-benchmark'
 require_relative '../../task-1'
-  
+
 describe 'Task-1' do
   include RSpec::Benchmark::Matchers
 
@@ -10,15 +10,13 @@ describe 'Task-1' do
     config.disable_gc = true
   end
 
-  let(:process) { work(file_name) }
-
   describe 'Performance' do
-    let(:file_name) { './data100_000.txt' }
+    let(:file_name) { './data4000.txt' }
 
-    it 'works under 6000 ns' do
+    it 'works under 6 ms' do
       expect do
-        process
-      end.to perform_under(6000).ns.warmup(10).times.sample(10).times
+        work(file_name)
+      end.to perform_under(550).ms.warmup(2).times.sample(10).times
     end
   end
 

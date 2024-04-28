@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module V2
+  extend self
   def parse_user(user)
     fields = user.split(',')
     {
@@ -22,7 +23,7 @@ module V2
     }
   end
 
-  def self.parse(file_lines)
+  def parse(file_lines)
     users = []
     sessions = []
     sessions_hash = {}

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module V1
+  extend self
   class User
     attr_reader :attributes, :sessions
 
@@ -18,7 +19,7 @@ module V1
     end
   end
 
-  def self.report(users, sessions, sessions_hash)
+  def report(users, sessions, sessions_hash)
     # Отчёт в json
     #   - Сколько всего юзеров +
     #   - Сколько всего уникальных браузеров +

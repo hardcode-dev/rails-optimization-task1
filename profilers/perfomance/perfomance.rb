@@ -48,6 +48,26 @@ describe 'Task-1' do
     end
   end
 
+  describe 'Performance V3' do
+    let(:file_name) { './data30_000.txt' }
+
+    it 'works under 1 s' do
+      expect do
+        WorkV2.work(file_name)
+      end.to perform_under(1).sec.warmup(2).times.sample(5).times
+    end
+
+    it 'works under 0.5 s' do
+      expect do
+        WorkV3.work(file_name)
+      end.to perform_under(0.5).sec.warmup(2).times.sample(5).times
+    end
+
+    it 'works 10 % faster' do
+      expect { WorkV3.work(file_name) }.to perform_faster_than { WorkV2.work(file_name) }.at_least(1.9).times
+    end
+  end
+
   # describe 'Performance' do
   #   let(:file_name) { './data4000.txt' }
 

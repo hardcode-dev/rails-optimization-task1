@@ -21,7 +21,9 @@ require_relative 'report/v3/parser'
 require_relative 'report/v4/report'
 require_relative 'report/v4/parser'
 
-GC.disable
+require_relative 'report/v5/report'
+require_relative 'report/v5/parser'
+
 
 class InitWork
   def self.work(file_name = 'data.txt')
@@ -73,6 +75,18 @@ class WorkV4
 
     users, sessions, sessions_hash, sessions_br = V4.parse(file_lines)
     report = V4.report(users, sessions, sessions_hash, sessions_br)
+
+    File.write('result.json', "#{report.to_json}\n")
+  end
+end
+
+
+class WorkV5
+  def self.work(file_name = 'data.txt')
+    file_lines = File.read(file_name).split("\n")
+
+    users, sessions, sessions_hash, sessions_br = V5.parse(file_lines)
+    report = V5.report(users, sessions, sessions_hash, sessions_br)
 
     File.write('result.json', "#{report.to_json}\n")
   end

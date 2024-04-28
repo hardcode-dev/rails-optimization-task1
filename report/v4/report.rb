@@ -47,8 +47,8 @@ module V4
 
     report['totalSessions'] = sessions.count
 
-    report['allBrowsers'] = uniqueBrowsers.sort.join(',')
-
+    report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
+    
     # Статистика по пользователям
     users_objects = []
 

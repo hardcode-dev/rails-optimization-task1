@@ -6,9 +6,9 @@ require_relative '../../task-1'
 describe 'Task-1' do
   include RSpec::Benchmark::Matchers
 
-  RSpec::Benchmark.configure do |config|
-    config.disable_gc = true
-  end
+  # RSpec::Benchmark.configure do |config|
+  #   config.disable_gc = true
+  # end
 
   describe 'Performance' do
     let(:file_name) { './data4000.txt' }
@@ -80,6 +80,20 @@ describe 'Task-1' do
     it 'works almost twice faster' do
       expect { WorkV4.work(file_name) }.to perform_faster_than { WorkV3.work(file_name) }.at_least(1.9).times
     end
+  end
+
+  describe 'Performance V5' do
+    let(:file_name) { './data_large.txt' }
+
+    it 'works under 240 ms' do
+      expect do
+        WorkV5.work(file_name)
+      end.to perform_under(80).sec.warmup(2).times
+    end
+
+    # it 'works almost twice faster' do
+    #   expect { WorkV4.work(file_name) }.to perform_faster_than { WorkV3.work(file_name) }.at_least(1.9).times
+    # end
   end
 
   # describe 'Performance' do

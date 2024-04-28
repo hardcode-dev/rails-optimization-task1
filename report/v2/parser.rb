@@ -29,15 +29,15 @@ module V2
 
     file_lines.each do |line|
       cols = line.split(',')
-      users += [parse_user(line)] if cols[0] == 'user'
-      sessions += [parse_session(line)] if cols[0] == 'session'
+      users.concat([parse_user(line)]) if cols[0] == 'user'
+      sessions.concat([parse_session(line)]) if cols[0] == 'session'
       next unless cols[0] == 'session'
 
       session = parse_session(line)
       if sessions_hash[session['user_id']].nil?
         sessions_hash[session['user_id']] = [session]
       else
-        sessions_hash[session['user_id']] << session
+        sessions_hash[session['user_id']].concat([session])
       end
     end
 

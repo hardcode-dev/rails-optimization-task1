@@ -6,8 +6,6 @@ require 'json'
 require 'pry'
 require 'date'
 
-
-
 require_relative 'report/report'
 require_relative 'report/parser'
 

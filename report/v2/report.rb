@@ -65,7 +65,7 @@ module V2
       # user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
       user_sessions = sessions_hash[user['id']]
       user_object = User.new(attributes:, sessions: user_sessions)
-      users_objects += [user_object]
+      users_objects.concat([user_object])
     end
 
     report['usersStats'] = {}

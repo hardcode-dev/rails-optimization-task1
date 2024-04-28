@@ -663,7 +663,7 @@
   <body>
     <div style="display: inline-block;">
       <div id="titlebar">
-        Call tree for application <strong>profilers.rb </strong><br/> Generated on 2024-04-28 15:00:47 +0200
+        Call tree for application <strong>profilers.rb </strong><br/> Generated on 2024-04-28 15:27:22 +0200
         with options {}<br/>
       </div>
       <div id="commands">
@@ -693,7 +693,7 @@
       
         
         <div class="thread">
-          <span>Thread: 80, Fiber: 60 (100.00% ~ 1.4178439700044692)</span>
+          <span>Thread: 80, Fiber: 60 (100.00% ~ 1.3271446140715852)</span>
           <ul name="thread">
             
             <li class="color9" style="display:block">
@@ -704,195 +704,199 @@
 <a href="#" class="toggle minus" ></a>
 <span>100.00% (100.00%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/task-1.rb#45">&lt;Class::WorkV2&gt;#work</a> [1 calls, 1 total]</span>
 <ul>
-<li class="color7" style="display:block">
+<li class="color8" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>71.40% (71.40%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/v2/report.rb#21">&lt;Module::V2&gt;#report</a> [1 calls, 1 total]</span>
+<span>86.97% (86.98%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/v2/report.rb#21">&lt;Module::V2&gt;#report</a> [1 calls, 1 total]</span>
 <ul>
-<li class="color5" style="display:block">
+<li class="color6" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>52.59% (73.65%) Array#each [2 calls, 10 total]</span>
+<span>64.08% (73.68%) Array#each [2 calls, 10 total]</span>
 <ul>
-<li class="color5" style="display:block">
+<li class="color6" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>51.05% (97.07%) Array#all? [8464 calls, 10000 total]</span>
+<span>62.55% (97.62%) Array#all? [8464 calls, 10000 total]</span>
+<ul>
+<li class="color3" style="display:block">
+<a href="#" class="toggle minus" ></a>
+<span>34.38% (54.96%) BasicObject#!= [841276 calls, 841276 total]</span>
+<ul>
+<li class="color1" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>11.60% (33.76%) String#== [841276 calls, 871276 total]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.35% (0.55%) Hash#[] [11536 calls, 178368 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.15% (0.23%) Class#new [1536 calls, 1536 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.06% (39.72%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/v2/report.rb#7">V2::User#initialize</a> [1536 calls, 1536 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.03% (0.04%) Array#concat [1536 calls, 18464 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.02% (0.04%) Array#+ [200 calls, 200 total]</span>
+</li>
+</ul>
+</li>
+<li class="color2" style="display:block">
+<a href="#" class="toggle minus" ></a>
+<span>21.71% (24.96%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/report.rb#12">Object#collect_stats_from_users</a> [7 calls, 7 total]</span>
 <ul>
 <li class="color2" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>28.82% (56.45%) BasicObject#!= [841276 calls, 841276 total]</span>
-<ul>
-<li class="color05" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>9.81% (34.05%) String#== [841276 calls, 871276 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.41% (0.77%) Array#+ [1736 calls, 11736 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.27% (0.51%) Hash#[] [11536 calls, 178368 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.12% (0.23%) Class#new [1536 calls, 1536 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.05% (41.25%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/v2/report.rb#7">V2::User#initialize</a> [1536 calls, 1536 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color1" style="display:block">
-<a href="#" class="toggle minus" ></a>
-<span>17.89% (25.05%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/report.rb#12">Object#collect_stats_from_users</a> [7 calls, 7 total]</span>
+<span>21.71% (99.99%) Array#each [7 calls, 10 total]</span>
 <ul>
 <li class="color1" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>17.89% (99.99%) Array#each [7 calls, 10 total]</span>
+<span>12.18% (56.13%) Array#map [16896 calls, 16898 total]</span>
 <ul>
 <li class="color05" style="display:block">
-<a href="#" class="toggle minus" ></a>
-<span>10.07% (56.30%) Array#map [16896 calls, 16898 total]</span>
-<ul>
-<li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>5.25% (52.10%) &lt;Class::Date&gt;#parse [8464 calls, 8464 total]</span>
+<span>6.41% (52.60%) &lt;Class::Date&gt;#parse [8464 calls, 8464 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.08% (20.66%) Regexp#match [16928 calls, 16928 total]</span>
+<span>1.44% (22.41%) Regexp#match [16928 calls, 16928 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.57% (10.89%) String#gsub! [8464 calls, 8464 total]</span>
+<span>0.70% (10.98%) String#gsub! [8464 calls, 8464 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.48% (9.09%) MatchData#begin [8464 calls, 8464 total]</span>
+<span>0.61% (9.45%) MatchData#begin [8464 calls, 8464 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.23% (4.33%) String#[]= [8464 calls, 8464 total]</span>
+<span>0.26% (4.12%) String#[]= [8464 calls, 8464 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.13% (2.54%) Integer#div [8464 calls, 8464 total]</span>
+<span>0.16% (2.54%) MatchData#end [8464 calls, 8464 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.11% (2.09%) MatchData#end [8464 calls, 8464 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.99% (9.86%) Hash#[] [50784 calls, 178368 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.38% (3.74%) Date#iso8601 [8464 calls, 8464 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.27% (2.64%) String#to_i [16928 calls, 16928 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.19% (1.89%) String#upcase [8464 calls, 23399 total]</span>
+<span>0.16% (2.51%) Integer#div [8464 calls, 8464 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.27% (7.11%) Hash#[] [75264 calls, 178368 total]</span>
+<span>1.13% (9.26%) Hash#[] [50784 calls, 178368 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.69% (3.88%) Array#sort [3072 calls, 3073 total]</span>
+<span>0.48% (3.96%) Date#iso8601 [8464 calls, 8464 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.31% (2.51%) String#upcase [8464 calls, 23399 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.30% (2.42%) String#to_i [16928 calls, 16928 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.51% (6.95%) Hash#[] [75264 calls, 178368 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.88% (4.04%) Array#sort [3072 calls, 3073 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.27% (38.40%) Date#&lt;=&gt; [17169 calls, 17169 total]</span>
+<span>0.32% (36.97%) Date#&lt;=&gt; [17169 calls, 17169 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.54% (3.03%) Hash#merge [10752 calls, 10752 total]</span>
+<span>0.61% (2.83%) Hash#merge [10752 calls, 10752 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.50% (2.82%) Array#any? [1536 calls, 1536 total]</span>
+<span>0.60% (2.75%) Array#any? [1536 calls, 1536 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.20% (39.09%) String#=~ [4492 calls, 6471 total]</span>
+<span>0.24% (39.98%) String#=~ [4492 calls, 6471 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.10% (19.14%) String#upcase [4492 calls, 23399 total]</span>
+<span>0.12% (19.55%) String#upcase [4492 calls, 23399 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.33% (1.84%) Hash#[]= [12288 calls, 13829 total]</span>
+<span>0.45% (2.09%) Hash#[]= [12288 calls, 13829 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.28% (1.57%) V2::User#attributes [21504 calls, 21504 total]</span>
+<span>0.35% (1.62%) V2::User#attributes [21504 calls, 21504 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.25% (1.40%) Array#all? [1536 calls, 10000 total]</span>
+<span>0.28% (1.27%) Array#all? [1536 calls, 10000 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.09% (36.78%) String#=~ [1979 calls, 6471 total]</span>
+<span>0.11% (40.62%) String#=~ [1979 calls, 6471 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.05% (19.95%) String#upcase [1979 calls, 23399 total]</span>
+<span>0.05% (17.89%) String#upcase [1979 calls, 23399 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.15% (0.81%) V2::User#sessions [10752 calls, 10752 total]</span>
+<span>0.23% (1.06%) Array#join [1536 calls, 1537 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.12% (0.69%) Array#join [1536 calls, 1537 total]</span>
+<span>0.19% (0.89%) V2::User#sessions [10752 calls, 10752 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.08% (0.44%) Integer#to_s [3072 calls, 3072 total]</span>
+<span>0.10% (0.47%) String#+ [3072 calls, 3072 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.08% (0.42%) String#+ [3072 calls, 3072 total]</span>
+<span>0.10% (0.45%) Integer#to_s [3072 calls, 3072 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.04% (0.22%) Array#reverse [1536 calls, 1536 total]</span>
+<span>0.05% (0.25%) Array#reverse [1536 calls, 1536 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.03% (0.17%) Array#max [1536 calls, 1536 total]</span>
+<span>0.03% (0.16%) Array#max [1536 calls, 1536 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.03% (0.14%) Array#sum [1536 calls, 1536 total]</span>
+<span>0.03% (0.15%) Array#sum [1536 calls, 1536 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.02% (0.12%) Array#count [1536 calls, 1539 total]</span>
+<span>0.03% (0.12%) Array#count [1536 calls, 1539 total]</span>
 </li>
 </ul>
 </li>
@@ -900,25 +904,25 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.76% (1.06%) Array#map [2 calls, 16898 total]</span>
+<span>0.94% (1.08%) Array#map [2 calls, 16898 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.16% (21.56%) String#upcase [8464 calls, 23399 total]</span>
+<span>0.21% (22.48%) String#upcase [8464 calls, 23399 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.16% (21.36%) Hash#[] [8464 calls, 178368 total]</span>
+<span>0.21% (21.93%) Hash#[] [8464 calls, 178368 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.12% (0.16%) Array#sort [1 calls, 3073 total]</span>
+<span>0.16% (0.18%) Array#sort [1 calls, 3073 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.04% (0.06%) Array#uniq [1 calls, 1 total]</span>
+<span>0.08% (0.09%) Array#uniq [1 calls, 1 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
@@ -934,77 +938,73 @@
 </li>
 </ul>
 </li>
-<li class="color2" style="display:block">
+<li class="color1" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>27.96% (27.96%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/v2/parser.rb#25">&lt;Module::V2&gt;#parse</a> [1 calls, 1 total]</span>
-<ul>
-<li class="color2" style="display:block">
-<a href="#" class="toggle minus" ></a>
-<span>27.96% (100.00%) Array#each [1 calls, 10 total]</span>
+<span>12.25% (12.25%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/v2/parser.rb#25">&lt;Module::V2&gt;#parse</a> [1 calls, 1 total]</span>
 <ul>
 <li class="color1" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>15.73% (56.28%) Array#+ [10000 calls, 11736 total]</span>
-</li>
+<a href="#" class="toggle minus" ></a>
+<span>12.25% (99.99%) Array#each [1 calls, 10 total]</span>
+<ul>
 <li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>5.29% (18.92%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/parser.rb#13">Object#parse_session</a> [16928 calls, 16928 total]</span>
+<span>5.32% (43.47%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/parser.rb#13">Object#parse_session</a> [16928 calls, 16928 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.81% (34.24%) String#split [16928 calls, 28465 total]</span>
+<span>1.70% (31.86%) String#split [16928 calls, 28465 total]</span>
 </li>
-<li class="color01" style="display:none">
+<li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.00% (18.84%) Array#[] [84640 calls, 120784 total]</span>
+<span>1.07% (20.08%) Array#[] [84640 calls, 120784 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.06% (3.80%) String#split [10000 calls, 28465 total]</span>
+<span>1.08% (8.79%) String#split [10000 calls, 28465 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.61% (2.18%) Hash#[] [32320 calls, 178368 total]</span>
+<span>0.60% (4.90%) Hash#[] [32320 calls, 178368 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.44% (1.59%) String#== [30000 calls, 871276 total]</span>
+<span>0.46% (3.74%) String#== [30000 calls, 871276 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.43% (1.53%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/parser.rb#3">Object#parse_user</a> [1536 calls, 1536 total]</span>
+<span>0.46% (3.73%) <a href="file:///Users/boris/Documents/GitHub/2024_optimization/rails-optimization-task1/report/parser.rb#3">Object#parse_user</a> [1536 calls, 1536 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.14% (33.62%) String#split [1536 calls, 28465 total]</span>
+<span>0.16% (34.44%) String#split [1536 calls, 28465 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.07% (17.56%) Array#[] [6144 calls, 120784 total]</span>
+<span>0.08% (17.00%) Array#[] [6144 calls, 120784 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.41% (1.46%) Array#[] [30000 calls, 120784 total]</span>
+<span>0.40% (3.25%) Array#[] [30000 calls, 120784 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.13% (0.46%) Array#&lt;&lt; [6928 calls, 6928 total]</span>
+<span>0.31% (2.50%) Array#concat [16928 calls, 18464 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.13% (0.45%) Hash#[]= [1536 calls, 13829 total]</span>
+<span>0.11% (0.88%) Kernel#nil? [6928 calls, 6928 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.11% (0.38%) Kernel#nil? [6928 calls, 6928 total]</span>
+<span>0.10% (0.84%) Hash#[]= [1536 calls, 13829 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.03% (0.09%) NilClass#nil? [1536 calls, 1536 total]</span>
+<span>0.03% (0.22%) NilClass#nil? [1536 calls, 1536 total]</span>
 </li>
 </ul>
 </li>
@@ -1012,25 +1012,25 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.26% (0.26%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
+<span>0.41% (0.41%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.04%) JSON::Ext::Generator::State#initialize [1 calls, 1 total]</span>
+<span>0.00% (0.03%) JSON::Ext::Generator::State#initialize [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.20% (0.20%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
+<span>0.16% (0.16%) String#split [1 calls, 28465 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.15% (0.15%) String#split [1 calls, 28465 total]</span>
+<span>0.12% (0.12%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.02% (0.02%) &lt;Class::IO&gt;#read [1 calls, 1 total]</span>
+<span>0.08% (0.08%) &lt;Class::IO&gt;#read [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>

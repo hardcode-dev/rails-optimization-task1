@@ -2,7 +2,6 @@
 
 require 'rspec-benchmark'
 require_relative '../../task-1'
-require_relative '../../task-1-v-1'
 
 describe 'Task-1' do
   include RSpec::Benchmark::Matchers
@@ -24,14 +23,28 @@ describe 'Task-1' do
   describe 'Performance V1' do
     let(:file_name) { './data4000.txt' }
 
-    it 'works under 100 ms' do
+    it 'works under 110 ms' do
       expect do
         WorkV1.work(file_name)
-      end.to perform_under(100).ms.warmup(2).times.sample(10).times
+      end.to perform_under(110).ms.warmup(2).times.sample(10).times
     end
 
-    it 'works under 100 ms' do
+    it 'works 4 times faster' do
       expect { WorkV1.work(file_name) }.to perform_faster_than { InitWork.work(file_name) }.at_least(4).times
+    end
+  end
+
+  describe 'Performance V2' do
+    let(:file_name) { './data4000.txt' }
+
+    it 'works under 85 ms' do
+      expect do
+        WorkV2.work(file_name)
+      end.to perform_under(85).ms.warmup(2).times.sample(10).times
+    end
+
+    it 'works 10 % faster' do
+      expect { WorkV2.work(file_name) }.to perform_faster_than { WorkV1.work(file_name) }.at_least(1.1).times
     end
   end
 

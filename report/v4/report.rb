@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module V4
-  extend self
-  
+  module_function
+
   class User
     attr_reader :attributes, :sessions
 
@@ -12,11 +12,11 @@ module V4
     end
   end
 
-  def collect_stats_from_users(report, users_objects, &block)
+  def collect_stats_from_users(report, users_objects)
     users_objects.each do |user|
       user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
       report['usersStats'][user_key] ||= {}
-      report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+      report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
     end
   end
 
@@ -42,13 +42,13 @@ module V4
 
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = sessions_br.keys
-    
+
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
     report['totalSessions'] = sessions.count
 
     report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
-    
+
     # Статистика по пользователям
     users_objects = []
 

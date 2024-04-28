@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.1.2'
+ruby '3.2.2'
 
 gem 'json'
 gem 'pry'
@@ -12,3 +12,5 @@ gem 'fasterer'
 gem 'rspec-benchmark'
 gem 'kalibera'
 gem 'benchmark-ips'
+gem 'rubocop-performance'
+gem 'fasterer'

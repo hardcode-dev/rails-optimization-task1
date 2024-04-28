@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module V1
-  extend self
+  module_function
 
   def parse_user(user)
     fields = user.split(',')

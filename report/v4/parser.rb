@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module V4
-  extend self
+  module_function
 
   def parse_user(user)
     fields = /(\w+),(\w+),(\w+),(\w+),(\w+)/.match(user)
@@ -32,15 +32,15 @@ module V4
     sessions_br = {}
 
     file_lines.each do |line|
-      is_user = line.start_with? ('user')
-      is_session = line.start_with? ('session')
-    
+      is_user = line.start_with?('user')
+      is_session = line.start_with?('session')
+
       users.concat([parse_user(line)]) if is_user
-      
+
       session = parse_session(line) if is_session
       sessions.concat([session]) if is_session
       next unless is_session
-      
+
       if sessions_hash[session['user_id']].nil?
         sessions_hash[session['user_id']] = [session]
       else

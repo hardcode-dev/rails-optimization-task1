@@ -1,25 +1,16 @@
 # frozen_string_literal: true
 
 module V5
-  extend self
-  
-  class User
-    attr_reader :attributes, :sessions
+  module_function
 
-    def initialize(attributes:, sessions:)
-      @attributes = attributes
-      @sessions = sessions
-    end
-  end
-
-  def collect_stats_from_users(report, users_objects, &block)
+  def collect_stats_from_users(report, users_objects)
     users_objects.each do |user|
       user_key = "#{user[:attributes]['first_name']} #{user[:attributes]['last_name']}"
 
       report['usersStats'][user_key] ||= {}
-      
+
       block_stat = yield user
-      
+
       report['usersStats'][user_key][block_stat[0]] = block_stat[1]
     end
   end
@@ -46,12 +37,12 @@ module V5
 
     # Подсчёт количества уникальных браузеров
     uniqueBrowsers = sessions_br.keys
-    
+
     report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
     report['totalSessions'] = sessions.count
 
-    report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
+    report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
     # Статистика по пользователям
     users_objects = []
@@ -59,7 +50,7 @@ module V5
     users.each do |user|
       attributes = user
       user_sessions = sessions_hash[user['id']]
-      user_object = {attributes:, sessions: user_sessions}
+      user_object = { attributes:, sessions: user_sessions }
       users_objects.concat([user_object])
     end
 
@@ -67,37 +58,43 @@ module V5
 
     # Собираем количество сессий по пользователям
     collect_stats_from_users(report, users_objects) do |user|
-      ['sessionsCount', user[:sessions].count ]
+      ['sessionsCount', user[:sessions].count]
     end
 
     # Собираем количество времени по пользователям
     collect_stats_from_users(report, users_objects) do |user|
-      ['totalTime', user[:sessions].map { |s| s['time'] }.map(&:to_i).sum.to_s + ' min.']
+      ['totalTime', user[:sessions].map { |s| s['time'].to_i }.sum.to_s + ' min.']
     end
 
     # Выбираем самую длинную сессию пользователя
     collect_stats_from_users(report, users_objects) do |user|
-      ['longestSession', user[:sessions].map { |s| s['time'] }.map(&:to_i).max.to_s + ' min.' ]
+      ['longestSession', user[:sessions].map { |s| s['time'].to_i }.max.to_s + ' min.']
     end
 
     # Браузеры пользователя через запятую
     collect_stats_from_users(report, users_objects) do |user|
-      ['browsers', user[:sessions].map { |s| s['browser'] }.map(&:upcase).sort.join(', ') ]
+      ['browsers', user[:sessions].map { |s| s['browser'] }.sort.join(', ')]
     end
 
     # Хоть раз использовал IE?
     collect_stats_from_users(report, users_objects) do |user|
-      [ 'usedIE', user[:sessions].map { |s| s['browser'] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } ]
+      isIE = false
+
+      user[:sessions].each do |s|
+        break isIE = true if (s['browser'] =~ /INTERNET EXPLORER/).zero?
+      end
+
+      ['usedIE', isIE]
     end
 
     # Всегда использовал только Chrome?
     collect_stats_from_users(report, users_objects) do |user|
-      [ 'alwaysUsedChrome', user[:sessions].map { |s| s['browser'] }.all? { |b| b.upcase =~ /CHROME/ } ]
+      ['alwaysUsedChrome', user[:sessions].map { |s| s['browser'] }.all? { |b| b =~ /CHROME/ }]
     end
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
     collect_stats_from_users(report, users_objects) do |user|
-      [ 'dates', user[:sessions].map { |s| s['date'] }.sort.reverse ]
+      ['dates', user[:sessions].map { |s| s['date'] }.sort.reverse]
     end
 
     report

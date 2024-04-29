@@ -1,3 +1,3 @@
 require_relative 'task-1'
 
-work
+work(with_progressbar: true)

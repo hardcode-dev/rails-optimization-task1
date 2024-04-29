@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions
@@ -40,8 +41,9 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
+def work(with_progressbar: false)
   file_lines = File.read('data.txt').split("\n")
+  progressbar = ProgressBar.create(title: 'Parsing', total: file_lines.count) if with_progressbar
 
   users = []
   sessions = []
@@ -55,6 +57,8 @@ def work
       cols[3] = upcased_browser[cols[3]] || (upcased_browser[cols[3]] = cols[3].upcase)
       sessions << parse_session(cols)
     end
+
+    progressbar.increment if with_progressbar
   end
 
   # Отчёт в json
@@ -94,17 +98,24 @@ def work
   users_objects = []
 
   sessions_by_user = sessions.group_by { |session| session['user_id'] }
+
+  progressbar = ProgressBar.create(title: 'Creating', total: sessions_by_user.count) if with_progressbar
+
   users.each do |user|
     attributes = user
     user_sessions = sessions_by_user[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects << user_object
+
+    progressbar.increment if with_progressbar
   end
 
   report['usersStats'] = {}
 
+  progressbar = ProgressBar.create(title: 'Collecting', total: users_objects.count) if with_progressbar
+
   collect_stats_from_users(report, users_objects) do |user|
-    {
+    data = {
       # Собираем количество сессий по пользователям
       'sessionsCount' => user.sessions.count,
       # Собираем количество времени по пользователям
@@ -120,6 +131,10 @@ def work
       # Даты сессий через запятую в обратном порядке в формате iso8601
       'dates' => user.sessions.map{|s| s['date']}.sort { |d1, d2| d2 <=> d1 },
     }
+
+    progressbar.increment if with_progressbar
+
+    data
   end
 
   File.write('result.json', "#{report.to_json}\n")

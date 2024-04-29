@@ -288,6 +288,54 @@ end
 
 ### Ваша находка №2
 Проще всего мне будет запустить отчет StackProf, потому что он был последним в нашем ознакомительном туре по профилировщикам. Попробуем его
+
+Видим проблему в Object#collect_stats_from_users
+
+```==================================
+  Mode: wall(1000)
+  Samples: 136 (0.00% miss rate)
+  GC: 0 (0.00%)
+==================================
+     TOTAL    (pct)     SAMPLES    (pct)     FRAME
+       136 (100.0%)          58  (42.6%)     Object#work
+        27  (19.9%)          14  (10.3%)     Array#all?
+        11   (8.1%)          11   (8.1%)     String#split
+        48  (35.3%)          10   (7.4%)     Object#collect_stats_from_users
+        22  (16.2%)           9   (6.6%)     Date.parse
+         4   (2.9%)           4   (2.9%)     String#gsub!
+         4   (2.9%)           4   (2.9%)     MatchData#begin
+         4   (2.9%)           3   (2.2%)     Object#parse_session
+```
+
+Идем его лечить. Смотрим на метод и не понимаем, как его лечить. Будем запускать Graph, чтобы посмотреть стек вызовов
+25% времени занимает метод Array#all?. Ищем его
+Видим вызов в 2 местах, но помня о предыдущем отчете, предполагаем, что проблемный метод находится внутри метода #collect_stats_from_users, который принимает блок
+
+```ruby
+# Всегда использовал только Chrome?
+collect_stats_from_users(report, users_objects) do |user|
+  { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+end
+```
+С помощью такой-то матери, #match? (оказывается надо вопросительный знак писать) и #uniq переписываем метод
+
+```ruby
+  collect_stats_from_users(report, users_objects) do |user|
+    user_browsers = user.sessions.map{|s| s['browser']}.uniq
+    user_always_use_chrome = user_browsers.uniq.size == 1 && user_browsers.first.upcase.match?(/CHROME/)
+
+    { 'alwaysUsedChrome' => user_always_use_chrome }
+  end
+```
+
+Попутно понимаем, что в коде, очевидно, ошибка и если массив пустой- пользователь будет помечен как всегда использующий Chrome.
+![ Other Story ](images/other_story.jpeg)
+
+Попутно видим, что тесты упали, говорят, что регрессия линейная. Фиксим и опять же методом тыка обновлям данные по тестам
+Метод тыка не показал прироста на выборках данных 100, 1000 и 10_000, зато теперь проходит тест на линеечку
+
+
+
 - какой отчёт показал главную точку роста
 - как вы решили её оптимизировать
 - как изменилась метрика

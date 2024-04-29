@@ -9,10 +9,14 @@
 # end
 
 require_relative 'task-1.rb'
-require 'stackprof'
+require 'ruby-prof'
 
+profile = RubyProf::Profile.new(measure_mode: RubyProf::WALL_TIME)
 GC.disable
 
-StackProf.run(mode: :wall, out: 'stackprof_reports/stackprof.dump', interval: 1000) do
+result = profile.profile do
   work('data_small.txt')
 end
+
+printer = RubyProf::GraphHtmlPrinter.new(result)
+printer.print(File.open('ruby_prof_result/graph2.html', 'w+'))

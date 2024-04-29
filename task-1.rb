@@ -134,7 +134,10 @@ def work(filename)
 
   # Всегда использовал только Chrome?
   collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
+    user_browsers = user.sessions.map{|s| s['browser']}.uniq
+    user_always_use_chrome = user_browsers.uniq.size == 1 && user_browsers.first.upcase.match?(/CHROME/)
+
+    { 'alwaysUsedChrome' => user_always_use_chrome }
   end
 
   # Даты сессий через запятую в обратном порядке в формате iso8601

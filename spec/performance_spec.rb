@@ -53,7 +53,7 @@ describe "Perfomance" do
       prepare_data(size) do |filename|
         expect {
           work(filename)
-        }.to perform_under(600).ms.warmup(2).times.sample(1).times
+        }.to perform_under(600).ms.warmup(2).times.sample(10).times
       end
     }
   end
@@ -62,7 +62,7 @@ describe "Perfomance" do
     it {
       expect { |n, _i|
         prepare_data(n) { |filename| work(filename) }
-      }.to perform_exponential.in_range(10, 10_000)
+      }.to perform_linear.in_range(10, 10_000)
     }
   end
 end

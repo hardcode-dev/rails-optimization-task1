@@ -485,6 +485,50 @@ end
 
 ### Ваша находка №5
 Прогоним еще раз Graph отчет
+Находим несколько результатов, но особенно интересует String#split c 14%. Видим, что половину всех вызовов занимает 54 строчка
+```ruby
+file_lines.each do |line|
+  cols = line.split(',')
+
+  case cols[0]
+  when 'user'
+    users = users << parse_user(line)
+  when 'session'
+    sessions = sessions << parse_session(line)
+  end
+end
+```
+Похоже, что файл в формате CSV, попробуем использовать стандартную библиотеку
+Так же видим, что parse_user и parse_session принимают строку, которую потом преобразовывают в массив, а из csv мы итак получаем массив. Починим
+```ruby
+def parse_user(fields)
+  parsed_result = {
+    'id' => fields[1],
+    'first_name' => fields[2],
+    'last_name' => fields[3],
+    'age' => fields[4],
+  }
+end
+
+def parse_session(fields)
+  parsed_result = {
+    'user_id' => fields[1],
+    'session_id' => fields[2],
+    'browser' => fields[3],
+    'time' => fields[4],
+    'date' => fields[5],
+  }
+end
+
+CSV.foreach(filename, headers: false) do |row|
+  case row[0]
+  when 'user'
+    users = users << parse_user(row)
+  when 'session'
+    sessions = sessions << parse_session(row)
+  end
+end
+```
 
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.

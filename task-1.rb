@@ -52,8 +52,13 @@ def work(filename)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    case cols[0]
+    when 'user'
+      users = users << parse_user(line)
+    when 'session'
+      sessions = sessions << parse_session(line)
+    end
   end
 
   # Отчёт в json
@@ -138,7 +143,7 @@ def work(filename)
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+    { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")

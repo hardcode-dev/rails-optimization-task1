@@ -53,7 +53,7 @@ describe "Perfomance" do
       prepare_data(size) do |filename|
         expect {
           work(filename)
-        }.to perform_under(450).ms.warmup(2).times.sample(10).times
+        }.to perform_under(150).ms.warmup(2).times.sample(10).times
       end
     }
   end

@@ -375,6 +375,47 @@ end
 Спишем на проблему библиотеки и пойдем искать дальше
 
 ### Ваша находка №4
+Снова вызываем Graph отчет
+Повторяем шаги и видим проблему опять в ~~рассадние заразы~~ #collect_stats_from_users, строка №40, а именно Array#each и сложение массивов. Находим в отчете номер строчки, видим 55, что у нас там?
+```ruby
+file_lines.each do |line|
+  cols = line.split(',')
+  users = users + [parse_user(line)] if cols[0] == 'user'
+  sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+end
+```
+Кажется, это неоптимальный сбор данных в массив. Рефакторим
+```ruby
+file_lines.each do |line|
+  cols = line.split(',')
+
+  case cols[0]
+  when 'user'
+    users = users << parse_user(line)
+  when 'session'
+    sessions = sessions << parse_session(line)
+  end
+end
+```
+Все еще экспонента, снова запускаем отчет и видим Date.parse
+Присматриваемся и понимаем, что мы парсим дату, сортируем по ней, а потом приводим к тому же формату
+```ruby
+  collect_stats_from_users(report, users_objects) do |user|
+    # it is true
+    puts user.sessions.first['date'].to_s == Date.parse(user.sessions.first['date']).iso8601.to_s
+    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+  end
+```
+
+Рефакторим
+```ruby
+# Даты сессий через запятую в обратном порядке в формате iso8601
+collect_stats_from_users(report, users_objects) do |user|
+  { 'dates' => user.sessions.map{|s| s['date']}.sort.reverse }
+end
+```
+
+Все еще экспонента, но на 10_000 данных работает в 3 раза быстрее. Остальные тесты решил не обновлять, т.к. интересует только самый большой. Коммитим
 
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.

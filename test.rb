@@ -19,4 +19,4 @@ result = profile.profile do
 end
 
 printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open('ruby_prof_result/graph3.html', 'w+'))
+printer.print(File.open('ruby_prof_result/graph5.html', 'w+'))

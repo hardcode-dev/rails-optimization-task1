@@ -4,3 +4,5 @@ source "https://rubygems.org"
 
 gem "rspec"
 gem "rspec-benchmark"
+gem "pry"
+gem "minitest"

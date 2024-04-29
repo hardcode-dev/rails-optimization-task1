@@ -98,7 +98,7 @@ head -n N data_large.txt > dataN.txt # create smaller file from larger (take N f
 - [x] Построить и проанализировать отчёт `ruby-prof` в режиме `Flat`;
 - [x] Построить и проанализировать отчёт `ruby-prof` в режиме `Graph`;
 - [x] Построить и проанализировать отчёт `ruby-prof` в режиме `CallStack`;
-- [ ] Построить и проанализировать отчёт `ruby-prof` в режиме `CallTree` c визуализацией в `QCachegrind`;
+- [x] Построить и проанализировать отчёт `ruby-prof` в режиме `CallTree` c визуализацией в `QCachegrind`;
 - [x] Построить дамп `stackprof` и проанализировать его с помощью `CLI`
 - [x] Построить дамп `stackprof` в `json` и проанализировать его с помощью `speedscope.app`
 - [x] Профилировать работающий процесс `rbspy`;

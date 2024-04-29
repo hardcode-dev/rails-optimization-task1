@@ -1,4 +1,4 @@
-require_relative 'task-1'
+require_relative '../task-1'
 require 'minitest/autorun'
 
 

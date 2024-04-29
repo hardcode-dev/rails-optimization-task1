@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative 'task-1.rb'
-# require 'bundler/setup'
-
 # require 'benchmark'
 
 # Benchmark.bm do |x|
@@ -11,4 +8,15 @@ require_relative 'task-1.rb'
 #   x.report { work('sample10000.txt') }
 # end
 
-work('data_large.txt')
+require_relative 'task-1.rb'
+require 'ruby-prof'
+
+profile = RubyProf::Profile.new(measure_mode: RubyProf::WALL_TIME)
+GC.disable
+
+result = profile.profile do
+  work('data_small.txt')
+end
+
+printer = RubyProf::CallTreePrinter.new(result)
+printer.print

@@ -1,0 +1,73 @@
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 2.685920
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 61.09      2.202     1.641     0.000     0.561      774   Array#select                   
+ 23.06      0.619     0.619     0.000     0.000  3696407   String#==                      
+  4.74      0.300     0.127     0.000     0.173     5000   Array#all?                     
+  4.30      0.172     0.116     0.000     0.057   415483   BasicObject#!=                 
+  1.53      0.041     0.041     0.000     0.000     5974   Array#+                        
+  1.33      2.678     0.036     0.000     2.643       10   Array#each                     
+  0.74      0.053     0.020     0.000     0.033     8516   Array#map                      
+  0.48      0.027     0.013     0.000     0.014     4226   <Class::Date>#parse            
+  0.40      0.011     0.011     0.000     0.000    10001   String#split                   
+  0.26      0.014     0.007     0.000     0.007     4226   Object#parse_session           /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:28
+  0.22      0.006     0.006     0.000     0.000     8452   Regexp#match                   
+  0.17      0.005     0.005     0.000     0.000    34226   Array#[]                       
+  0.13      0.005     0.003     0.000     0.001     1549   Array#sort                     
+  0.12      0.003     0.003     0.000     0.000     4226   String#gsub!                   
+  0.11      0.003     0.003     0.000     0.000    12384   String#+                       
+  0.11      0.003     0.003     0.000     0.000     5418   Hash#merge                     
+  0.11      0.003     0.003     0.000     0.000    11707   String#upcase                  
+  0.10      0.004     0.003     0.000     0.001      774   Class#new                      
+  0.10      0.003     0.003     0.000     0.000    10836   Hash#[]                        
+  0.10      0.003     0.003     0.000     0.000     4226   MatchData#begin                
+  0.08      0.002     0.002     0.000     0.000     4226   Date#iso8601                   
+  0.07      0.002     0.002     0.000     0.000     3255   String#=~                      
+  0.07      0.002     0.002     0.000     0.000     6193   Hash#[]=                       
+  0.06      0.002     0.002     0.000     0.000    10836   User#attributes                
+  0.06      0.002     0.002     0.000     0.000     8452   String#to_i                    
+  0.06      0.001     0.001     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  0.05      0.001     0.001     0.000     0.000     8568   Date#<=>                       
+  0.04      0.003     0.001     0.000     0.002      774   Array#any?                     
+  0.04      0.001     0.001     0.000     0.000     4226   String#[]=                     
+  0.04      0.002     0.001     0.000     0.001      774   Object#parse_user              /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:18
+  0.04      0.001     0.001     0.000     0.000     5418   User#sessions                  
+  0.04      0.001     0.001     0.000     0.000      774   User#initialize                /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:12
+  0.03      0.001     0.001     0.000     0.000      775   Array#join                     
+  0.02      0.001     0.001     0.000     0.000     4226   Integer#div                    
+  0.02      0.001     0.001     0.000     0.000     4226   MatchData#end                  
+  0.01      0.000     0.000     0.000     0.000     1548   Integer#to_s                   
+  0.01      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
+  0.01      0.000     0.000     0.000     0.000        1   Array#uniq                     
+  0.01      0.000     0.000     0.000     0.000      774   Array#reverse                  
+  0.01      0.000     0.000     0.000     0.000      774   Array#sum                      
+  0.01      0.000     0.000     0.000     0.000      774   Array#max                      
+  0.01      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
+  0.00      0.000     0.000     0.000     0.000      777   Array#count                    
+  0.00      2.686     0.000     0.000     2.686        1   Object#work                    /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:47
+  0.00      0.092     0.000     0.000     0.092        7   Object#collect_stats_from_users /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:39
+  0.00      2.686     0.000     0.000     2.686        1   [global]#                      ./test.rb:18
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

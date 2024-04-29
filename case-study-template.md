@@ -66,9 +66,131 @@ Finished in 4.12 seconds (files took 0.27141 seconds to load)
 
 
 ## Вникаем в детали системы, чтобы найти главные точки роста
+
+### RBSPY
 Для того, чтобы найти "точки роста" для оптимизации я решил начать с инструмента rbspy
 Устанавливаем `brew install rbspy`
-Делаем наш test.rb исполняемым `chmod +x test.rb` и запускаем скрипт `sudo rbspy record bundle exec ruby test.rb`
+Делаем наш test.rb исполняемым `chmod +x test.rb` и запускаем скрипт `sudo rbspy record --pid $PID`
+
+Коммент: `sudo rbspy record -- bundle exec ruby test.rb` почему-то не запустилась из-за ошибок с бандлером???
+
+Получаем слудующий вывод:
+```
+Time since start: 13s. Press Ctrl+C to stop.
+Summary of profiling data so far:
+% self  % total  name
+ 98.38    99.78  block in work - /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:57
+  1.08     1.08  split [c function] - (unknown)
+  0.22   100.00  each [c function] - (unknown)
+  0.22     0.65  parse_session - /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:37
+  0.11     0.11  parse_user - /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:26
+  0.00   100.00  work - /Users/vocrsz/dev/rails-optimization-task1/task-1.rb:145
+  0.00   100.00  <main> - ./test.rb:14
+```
+Идем смотреть на 57 строчку нашего исполняемого файла. Строчка указывает на следующий код:
+```ruby
+  file_lines.each do |line|
+    cols = line.split(',')
+    users = users + [parse_user(line)] if cols[0] == 'user'
+    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+  end # line #57
+```
+Предположу, что указывая на конец блока строчка говорит, что проблемы внутри самого блока. Пока ничего не понятно, но очень интересно. Пользоваться этим я, конечно же, не буду. Переходим к следующему инструменту
+
+### RubyProf
+
+#### Отчет Flat
+Для начала пильнем файл с небольшими данными, чтобы не умереть от старости в ожидании основного скрипта `head -n 5000 data_large.txt >> data_small.txt`
+Поставим гем, обновим файл test.rb
+```ruby
+require_relative 'task-1.rb'
+require 'ruby-prof'
+
+profile = RubyProf::Profile.new(measure_mode: RubyProf::WALL_TIME)
+GC.disable
+
+result = profile.profile do
+  work('data_small.txt')
+end
+
+printer = RubyProf::FlatPrinter.new(result)
+printer.print(File.open('ruby_prof_result/flat.txt', 'w+'))
+```
+
+В выводе видим следующее
+```
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 2.685920
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 61.09      2.202     1.641     0.000     0.561      774   Array#select
+ 23.06      0.619     0.619     0.000     0.000  3696407   String#==
+  4.74      0.300     0.127     0.000     0.173     5000   Array#all?
+  4.30      0.172     0.116     0.000     0.057   415483   BasicObject#!=
+  1.53      0.041     0.041     0.000     0.000     5974   Array#+
+  1.33      2.678     0.036     0.000     2.643       10   Array#each
+  0.74      0.053     0.020     0.000     0.033     8516   Array#map
+```
+Большую часть времени занимает метод Array#select и сравнение строк. Поищем что-то похожее в нашем скрипте
+Кажется, что проблемы у нас в следующем коде (единственный #select на весь файл)
+```ruby
+  users.each do |user|
+    attributes = user
+    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    users_objects = users_objects + [user_object]
+  end
+```
+Похоже на проблемы со сложностью алгоритма, кажется, что мы имеем тут сложность O(N*M), где N- количество пользователей, а M- количество сессий. Просто предположу, что возможно стоило бы воспользоваться хеш-функцией или хотя бы структурой Set, но жажда посмотреть остальные инструменты профилирования одолевает меня все сильнее
+
+#### Отчет Graph
+
+```ruby
+printer = RubyProf::GraphHtmlPrinter.new(result)
+```
+Идем смотреть отчет
+![ Идем смотреть отчет ](images/graph.png)
+
+Видим, что Array#select вызывается 774 раза и занимает 59.48% общего времени выполнения
+![ Array#select ](images/array#select.png)
+
+Что же, получается проблема все там же. Идем дальше
+
+#### Отчет Callstack
+
+```ruby
+printer = RubyProf::CallStackPrinter.new(result)
+```
+
+Говорит нам, что проблема все там же
+![ Calltree ](images/calltree.png)
+
+#### Отчет Callgrind
+
+Ставим `brew install qcachegrind`
+
+```ruby
+printer = RubyProf::CallTreePrinter.new(result)
+printer.print
+```
+
+Комментарий `printer.print(path: "ruby_prof_reports", profile: 'callgrind')` не захотел запускаться, что-то ему не понравилось в path
+![ srabotal ](images/srabotal.jpg)
+
+Так, что-то непонятное, идем разбираться
+![ Calltree ](images/qcachegrind.png)
+
+Указывает все на то же место в коде, Array#select, который мы уже собираемся поменять на Hash[]
+
+### STACKPROF
+
+
+
+
+
 
 Вот какие проблемы удалось найти и решить
 

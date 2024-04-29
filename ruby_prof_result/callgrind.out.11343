@@ -1,0 +1,438 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 1115
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 1
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 1454
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 1
+
+fl=
+fn=Date::iso8601
+0 2147
+
+fl=
+fn=Array::reverse
+0 227
+
+fl=
+fn=Date::<=>
+0 1378
+
+fl=
+fn=Integer::div
+0 698
+
+fl=
+fn=String::[]=
+0 1140
+
+fl=
+fn=MatchData::end
+0 600
+
+fl=
+fn=MatchData::begin
+0 2656
+
+fl=
+fn=Regexp::match
+0 6171
+
+fl=
+fn=String::gsub!
+0 3203
+
+fl=
+fn=Date::parse^
+0 13384
+cfl=
+cfn=String::gsub!
+calls=4226 0
+0 3203
+cfl=
+cfn=Regexp::match
+calls=8452 0
+0 6171
+cfl=
+cfn=MatchData::begin
+calls=4226 0
+0 2656
+cfl=
+cfn=MatchData::end
+calls=4226 0
+0 600
+cfl=
+cfn=String::[]=
+calls=4226 0
+0 1140
+cfl=
+cfn=Integer::div
+calls=4226 0
+0 698
+
+fl=
+fn=String::=~
+0 1811
+
+fl=
+fn=Array::any?
+0 1251
+cfl=
+cfn=String::upcase
+calls=2238 131
+131 637
+cfl=
+cfn=String::=~
+calls=2238 131
+131 1228
+
+fl=
+fn=Array::max
+0 169
+
+fl=
+fn=Integer::to_s
+0 340
+
+fl=
+fn=Array::sum
+0 157
+
+fl=
+fn=String::to_i
+0 1564
+
+fl=
+fn=Hash::merge
+0 2836
+
+fl=
+fn=User::sessions
+0 946
+
+fl=
+fn=Hash::[]
+0 2609
+
+fl=
+fn=String::+
+0 3052
+
+fl=
+fn=User::attributes
+0 1653
+
+fl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+39 13
+cfl=
+cfn=Array::each
+calls=7 40
+40 92417
+
+fl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+fn=User::initialize
+12 685
+
+fl=
+fn=Class::new
+0 2043
+cfl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=774 0
+0 685
+
+fl=
+fn=Array::select
+0 1396479
+cfl=
+cfn=String::==
+calls=3270924 102
+102 511796
+
+fl=
+fn=Array::join
+0 723
+
+fl=
+fn=Array::uniq
+0 279
+
+fl=
+fn=Array::sort
+0 3374
+cfl=
+cfn=Date::<=>
+calls=8568 0
+0 1378
+
+fl=
+fn=String::upcase
+0 3157
+
+fl=
+fn=Array::map
+0 20243
+cfl=
+cfn=String::upcase
+calls=8452 92
+92 2253
+cfl=
+cfn=String::to_i
+calls=8452 116
+116 1564
+cfl=
+cfn=Date::parse^
+calls=4226 141
+141 27851
+cfl=
+cfn=Date::iso8601
+calls=4226 141
+141 2147
+
+fl=
+fn=BasicObject::!=
+0 111896
+cfl=
+cfn=String::==
+calls=415483 0
+0 55109
+
+fl=
+fn=Array::all?
+0 120884
+cfl=
+cfn=BasicObject::!=
+calls=415483 82
+82 167005
+cfl=
+cfn=String::upcase
+calls=1017 136
+136 266
+cfl=
+cfn=String::=~
+calls=1017 136
+136 584
+
+fl=
+fn=Hash::[]=
+0 1768
+
+fl=
+fn=Array::count
+0 120
+
+fl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+28 6995
+cfl=
+cfn=String::split
+calls=4226 29
+29 4338
+cfl=
+cfn=Array::[]
+calls=21130 31
+31 2787
+
+fl=
+fn=Array::+
+0 42241
+
+fl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+18 1108
+cfl=
+cfn=String::split
+calls=774 19
+19 810
+cfl=
+cfn=Array::[]
+calls=3096 21
+21 397
+
+fl=
+fn=String::==
+0 568521
+
+fl=
+fn=Array::[]
+0 4688
+
+fl=
+fn=Array::each
+0 34585
+cfl=
+cfn=String::split
+calls=5000 54
+54 5202
+cfl=
+cfn=Array::[]
+calls=10000 55
+55 1503
+cfl=
+cfn=String::==
+calls=10000 55
+55 1616
+cfl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=774 55
+55 2315
+cfl=
+cfn=Array::+
+calls=5974 55
+55 42241
+cfl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=4226 56
+56 14120
+cfl=
+cfn=Array::all?
+calls=5000 82
+82 288738
+cfl=
+cfn=Array::select
+calls=774 102
+102 1908275
+cfl=
+cfn=Class::new
+calls=774 103
+103 2728
+cfl=
+cfn=User::attributes
+calls=10836 41
+41 1653
+cfl=
+cfn=String::+
+calls=12384 41
+41 3052
+cfl=
+cfn=Hash::[]
+calls=10836 42
+42 2609
+cfl=
+cfn=Hash::[]=
+calls=6192 42
+42 1765
+cfl=
+cfn=User::sessions
+calls=5418 111
+111 946
+cfl=
+cfn=Array::count
+calls=774 111
+111 117
+cfl=
+cfn=Hash::merge
+calls=5418 111
+111 2836
+cfl=
+cfn=Array::map
+calls=8514 116
+116 50339
+cfl=
+cfn=Array::sum
+calls=774 116
+116 157
+cfl=
+cfn=Integer::to_s
+calls=1548 116
+116 340
+cfl=
+cfn=Array::max
+calls=774 121
+121 169
+cfl=
+cfn=Array::sort
+calls=1548 126
+126 4032
+cfl=
+cfn=Array::join
+calls=774 126
+126 705
+cfl=
+cfn=Array::any?
+calls=774 131
+131 3116
+cfl=
+cfn=Array::reverse
+calls=774 141
+141 227
+
+fl=
+fn=String::split
+0 11249
+
+fl=
+fn=IO::read^
+0 151
+
+fl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+fn=Object::work
+47 83
+cfl=
+cfn=IO::read^
+calls=1 48
+48 151
+cfl=
+cfn=String::split
+calls=1 48
+48 898
+cfl=
+cfn=Array::each
+calls=3 53
+53 2280972
+cfl=
+cfn=Array::count
+calls=3 76
+76 3
+cfl=
+cfn=Hash::[]=
+calls=1 76
+76 3
+cfl=
+cfn=Array::map
+calls=2 89
+89 3719
+cfl=
+cfn=Array::sort
+calls=1 89
+89 721
+cfl=
+cfn=Array::uniq
+calls=1 89
+89 279
+cfl=
+cfn=Array::join
+calls=1 89
+89 18
+cfl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=7 110
+110 92430
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 144
+144 1455
+cfl=
+cfn=IO::write^
+calls=1 144
+144 1115
+
+fl=/Users/vocrsz/dev/rails-optimization-task1/test.rb
+fn=[global]::
+18 9
+cfl=/Users/vocrsz/dev/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 18
+18 2381847
+

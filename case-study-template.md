@@ -255,13 +255,39 @@ File.write('stackprof_reports/stackprof.json', JSON.generate(profile))
 ### Ваша находка №1
 Все отчеты показали проблемы с Array#select
 Попробуем его оптимизировать через Hash[]
+Вносим исправления в код
+```ruby
+  sessions_by_users = sessions.group_by { |session| session['user_id'] }
 
-- какой отчёт показал главную точку роста
-- как вы решили её оптимизировать
-- как изменилась метрика
-- как изменился отчёт профилировщика - исправленная проблема перестала быть главной точкой роста?
+  users.each do |user|
+    attributes = user
+    user_sessions = sessions_by_users.fetch(user['id'], [])
+    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    users_objects = users_objects + [user_object]
+  end
+```
+
+Запускаем тесты, ловим ошибку
+![ Speedscope ](images/first_optimization.png)
+Комментарий: поправка, один раз сработало, но потом перестало, по-прежнему экспоненциальная зависимость
+
+
+```ruby
+require 'benchmark'
+require_relative 'task-1.rb'
+
+Benchmark.bm do |x|
+  x.report { work('sample10000.txt') }
+  x.report { work('sample100000.txt') }
+end
+```
+
+Но точно стало работать быстрее
+Обновляем тесты методом тыка и продолжаем искать bottlenecks
+Получаем 0.45 и 19.063885 секунд на 10000 и 100000 строчек данных соответственно
 
 ### Ваша находка №2
+Проще всего мне будет запустить отчет StackProf, потому что он был последним в нашем ознакомительном туре по профилировщикам. Попробуем его
 - какой отчёт показал главную точку роста
 - как вы решили её оптимизировать
 - как изменилась метрика

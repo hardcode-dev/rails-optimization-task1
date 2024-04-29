@@ -41,7 +41,7 @@ describe "Perfomance" do
       prepare_data(size) do |filename|
         expect {
           work(filename)
-        }.to perform_under(50).ms.warmup(2).times.sample(10).times
+        }.to perform_under(20).ms.warmup(2).times.sample(10).times
       end
     }
   end
@@ -49,11 +49,11 @@ describe "Perfomance" do
   context "works under 4s for 10000 strings of data" do
     let(:size) { 10000 }
 
-    xit {
+    it {
       prepare_data(size) do |filename|
         expect {
           work(filename)
-        }.to perform_under(8).sec.warmup(2).times.sample(1).times
+        }.to perform_under(600).ms.warmup(2).times.sample(1).times
       end
     }
   end

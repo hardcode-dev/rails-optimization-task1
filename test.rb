@@ -10,12 +10,9 @@
 
 require_relative 'task-1.rb'
 require 'stackprof'
-require 'json'
 
 GC.disable
 
-profile = StackProf.run(mode: :wall, raw: true) do
+StackProf.run(mode: :wall, out: 'stackprof_reports/stackprof.dump', interval: 1000) do
   work('data_small.txt')
 end
-
-File.write('stackprof_reports/stackprof.json', JSON.generate(profile))

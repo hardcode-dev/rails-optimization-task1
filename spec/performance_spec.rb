@@ -1,6 +1,26 @@
 require_relative '../task-1.rb'
 
 describe "Perfomance" do
+  context "it works correctly" do
+    let(:sample100_result) { File.join(fixtures_path, 'sample100_result.json') }
+    let(:real_result_file)  { File.join(root_path, "result.json") }
+    let(:size) { 100 }
+
+    # script to prepare test data
+    # it {
+    #   prepare_data(size) do |filename|
+    #     work(filename)
+
+    #     File.open(sample100_result, 'w') { |file| file.write(File.read(real_result_file)) }
+    #   end
+    # }
+
+    it {
+      prepare_data(size) { |filename| work(filename) }
+
+      expect( File.read(real_result_file) ).to eq(File.read(sample100_result))
+    }
+  end
 
   context "works under 3ms for 100 strings of data" do
     let(:size) { 100 }

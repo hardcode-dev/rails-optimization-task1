@@ -43,7 +43,7 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work
-  file_lines = File.read('data.txt').split("\n", 1_000_000)
+  file_lines = File.read('data.txt').split("\n")
 
   users = []
   sessions = []
@@ -74,11 +74,7 @@ def work
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] unless uniqueBrowsers.include?(browser)
-  end
+  uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
@@ -106,6 +102,8 @@ def work
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
+    upcased_browsers = user.sessions.map{|s| s['browser'].upcase }
+
     {
       # Собираем количество сессий по пользователям
       'sessionsCount' => user.sessions.count,
@@ -114,11 +112,11 @@ def work
       # Выбираем самую длинную сессию пользователя
       'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
       # Браузеры пользователя через запятую
-      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
+      'browsers' => upcased_browsers.sort.join(', '),
       # Хоть раз использовал IE?
-      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+      'usedIE' => upcased_browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
       # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
+      'alwaysUsedChrome' => upcased_browsers.all? { |b| b =~ /CHROME/ },
       # Даты сессий через запятую в обратном порядке в формате iso8601
       'dates' => user.sessions.map{|s| s['date']}.map {|d| parse_date(d)}.sort.reverse.map { |d| d.iso8601 },
     }

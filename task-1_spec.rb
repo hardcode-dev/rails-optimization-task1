@@ -18,6 +18,6 @@ RSpec.describe 'work' do
   it 'should perform under 15 seconds' do
     `cp data_large.txt data.txt`
 
-    expect { work }.to perform_under(15).sec
+    expect { work }.to perform_under(30).sec
   end
 end

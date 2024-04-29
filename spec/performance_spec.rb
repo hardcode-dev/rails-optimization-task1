@@ -26,10 +26,16 @@ describe "Perfomance" do
     }
   end
 
-  xit "works under 4s for 10000 strings of data" do
-    expect {
-      work('spec/fixtures/sample10000.txt')
-    }.to perform_under(4).sec.warmup(2).times.sample(3).times
+  context "works under 4s for 10000 strings of data" do
+    let(:size) { 10000 }
+
+    xit {
+      prepare_data(size) do |filename|
+        expect {
+          work(filename)
+        }.to perform_under(8).sec.warmup(2).times.sample(1).times
+      end
+    }
   end
 
   context "works exponential" do

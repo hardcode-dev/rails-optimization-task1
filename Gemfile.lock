@@ -30,6 +30,7 @@ GEM
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
     ruby-prof (1.7.0)
+    stackprof (0.2.26)
 
 PLATFORMS
   x86_64-darwin-21
@@ -40,6 +41,7 @@ DEPENDENCIES
   rspec
   rspec-benchmark
   ruby-prof
+  stackprof
 
 BUNDLED WITH
    2.4.20

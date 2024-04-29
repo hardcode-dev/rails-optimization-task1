@@ -9,14 +9,13 @@
 # end
 
 require_relative 'task-1.rb'
-require 'ruby-prof'
+require 'stackprof'
+require 'json'
 
-profile = RubyProf::Profile.new(measure_mode: RubyProf::WALL_TIME)
 GC.disable
 
-result = profile.profile do
+profile = StackProf.run(mode: :wall, raw: true) do
   work('data_small.txt')
 end
 
-printer = RubyProf::CallTreePrinter.new(result)
-printer.print
+File.write('stackprof_reports/stackprof.json', JSON.generate(profile))

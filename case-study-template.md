@@ -187,14 +187,75 @@ printer.print
 
 ### STACKPROF
 
+#### STACKPROF Cli
 
+Обновляем test.rb
+```ruby
+require_relative 'task-1.rb'
+require 'stackprof'
 
+GC.disable
 
+StackProf.run(mode: :wall, out: 'stackprof_reports/stackprof.dump', interval: 1000) do
+  work('data_small.txt')
+end
+```
 
+Получаем вывод
+```
+==================================
+  Mode: wall(1000)
+  Samples: 636 (0.16% miss rate)
+  GC: 0 (0.00%)
+==================================
+     TOTAL    (pct)     SAMPLES    (pct)     FRAME
+       636 (100.0%)         438  (68.9%)     Object#work
+       473  (74.4%)         104  (16.4%)     Array#select
+        33   (5.2%)          15   (2.4%)     Date.parse
+        14   (2.2%)          14   (2.2%)     String#split
+        25   (3.9%)          14   (2.2%)     Array#all?
+        54   (8.5%)          10   (1.6%)     Array#map
+        10   (1.6%)          10   (1.6%)     Regexp#match
+        75  (11.8%)           8   (1.3%)     Object#collect_stats_from_users
+       632  (99.4%)           5   (0.8%)     Array#each
+         4   (0.6%)           4   (0.6%)     MatchData#begin
+         3   (0.5%)           3   (0.5%)     Array#sort
+         3   (0.5%)           3   (0.5%)     String#gsub!
+         2   (0.3%)           2   (0.3%)     String#upcase
+         2   (0.3%)           1   (0.2%)     Object#parse_user
+```
+Показывает на тот же метод, но количество вызов отличается от 774, которые показал отчет Flat. Предположу, что зависит от интервала съема стека
+
+#### STACKPROF speedscope
+
+Обновляем test.rb
+```ruby
+require_relative 'task-1.rb'
+require 'stackprof'
+
+GC.disable
+
+profile = StackProf.run(mode: :wall, raw: true) do
+  work('data_small.txt')
+end
+
+File.write('stackprof_reports/stackprof.json', JSON.generate(profile))
+```
+
+Загружаем на https://www.speedscope.app/
+
+![ Speedscope ](images/speedscope.png)
+
+Вот тут уже видим, что Array#select вызывается 4 раза, приглядываемся повнимательнее
+Я, конечно, не умею работать с flamegraph, но выглядит, как будто #work вызывается внутри Array#select
+Ничего не понятно, ставлю 1 звезду из 5, не рекомендую
 
 Вот какие проблемы удалось найти и решить
 
 ### Ваша находка №1
+Все отчеты показали проблемы с Array#select
+Попробуем его оптимизировать через Hash[]
+
 - какой отчёт показал главную точку роста
 - как вы решили её оптимизировать
 - как изменилась метрика

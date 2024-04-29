@@ -529,6 +529,31 @@ CSV.foreach(filename, headers: false) do |row|
   end
 end
 ```
+Большого прироста не получаем
+Но работает, идем дальше
+Повторяем запуск профилировщика
+Видим, что теперь 30% от всего времени выполнения отжирает csv
+Попробуем переписать
+
+```ruby
+File.readlines(filename, chomp: true).each do |line|
+  splitted_line = line.split(',')
+
+  case splitted_line[0]
+  when 'user'
+    users = users << parse_user(splitted_line)
+  when 'session'
+    sessions = sessions << parse_session(splitted_line)
+  end
+end
+```
+2 секунды против 2.8 на 100_000 данных. Вроде успех
+Повторяем, видим, что Array#map съедает много времени внутри #collect_user_data
+Видим двойной проход по массиву в нескольких местах, исправляем, получаем 1.7 секунды
+```ruby
+# totalTime = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.'
+totalTime = user.sessions.sum_by {|s| s['time'].to_i}.map {|t| t.}.to_s + ' min.'
+```
 
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.

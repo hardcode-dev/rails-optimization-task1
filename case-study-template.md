@@ -417,6 +417,75 @@ end
 
 Все еще экспонента, но на 10_000 данных работает в 3 раза быстрее. Остальные тесты решил не обновлять, т.к. интересует только самый большой. Коммитим
 
+### Ваша находка №5
+Ох, как я с тобой намаюсь
+![ Other Story ](images/attempt5.jpeg)
+
+Повторяем цикл и находим Array#each, который вызывает Array#map. Смотрим
+Видим дублирующий поиск уникальных браузеров
+```ruby
+uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
+
+report['uniqueBrowsersCount'] = uniqueBrowsers.count
+
+report['totalSessions'] = sessions.count
+
+report['allBrowsers'] =
+  sessions
+    .map { |s| s['browser'] }
+    .map { |b| b.upcase }
+    .sort
+    .uniq
+    .join(',')
+```
+Рефакторим
+Мимо
+Повторяем
+Блин, ну конечно, #collect_stats_from_users бегает по пользователям и каждый раз бегает еще по куче массивов. Объединяем все вызовы в 1, проверяем, успех, линеечка
+```ruby
+collect_stats_from_users(report, users_objects) do |user|
+  # Собираем количество сессий по пользователям
+  sessionsCount = user.sessions.count
+
+  # Собираем количество времени по пользователям
+  totalTime = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.'
+
+  # Выбираем самую длинную сессию пользователя
+  longestSession = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.'
+
+  # Браузеры пользователя через запятую
+  browsers = user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ')
+
+  # Хоть раз использовал IE?
+  usedIE = user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ }
+
+  # Всегда использовал только Chrome?
+  user_browsers = user.sessions.map{|s| s['browser']}.uniq
+  user_always_use_chrome = user_browsers.uniq.size == 1 && user_browsers.first.upcase.match?(/CHROME/)
+
+  alwaysUsedChrome = user_always_use_chrome
+
+  # Даты сессий через запятую в обратном порядке в формате iso8601
+  dates = user.sessions.map{|s| s['date']}.sort.reverse
+
+  {
+    'sessionsCount'    => sessionsCount,
+    'totalTime'        => totalTime,
+    'longestSession'   => longestSession,
+    'browsers'         => browsers,
+    'usedIE'           => usedIE,
+    'alwaysUsedChrome' => alwaysUsedChrome,
+    'dates'            => dates,
+  }
+end
+```
+
+Добавим тесткейс для 100_000, показывает 2 секунды
+При линейной зависимости можем ожидать примерно 90 секунд на 3_500_000 строчек, близко к бюджету, но пока не то
+
+### Ваша находка №5
+Прогоним еще раз Graph отчет
+
 ## Результаты
 В результате проделанной оптимизации наконец удалось обработать файл с данными.
 Удалось улучшить метрику системы с *того, что у вас было в начале, до того, что получилось в конце* и уложиться в заданный бюджет.

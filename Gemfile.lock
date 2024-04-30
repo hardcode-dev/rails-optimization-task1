@@ -8,6 +8,7 @@ GEM
     diff-lcs (1.5.1)
     method_source (1.1.0)
     minitest (5.22.3)
+    progressbar (0.21.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -30,6 +31,7 @@ GEM
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
     ruby-prof (1.7.0)
+    ruby-progressbar (1.13.0)
     stackprof (0.2.26)
 
 PLATFORMS
@@ -37,10 +39,12 @@ PLATFORMS
 
 DEPENDENCIES
   minitest
+  progressbar
   pry
   rspec
   rspec-benchmark
   ruby-prof
+  ruby-progressbar
   stackprof
 
 BUNDLED WITH

@@ -7,14 +7,7 @@ require 'set'
 require 'minitest'
 # require 'minitest/autorun'
 require 'ruby-progressbar'
-
-class User
-  attr_reader :attributes
-
-  def initialize(attributes:)
-    @attributes = attributes
-  end
-end
+require 'bundler/setup'
 
 def parse_user(fields)
   id, first_name, last_name, age = *fields
@@ -39,7 +32,7 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user['first_name']}" + ' ' + "#{user['last_name']}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
@@ -51,20 +44,19 @@ def work(filename)
   browsers = Set.new
   browsers_by_user_id = Hash.new { |h, k| h[k] = [] }
 
-  parsing_progressbar = ProgressBar.create(
-    total: `wc -l #{filename}`.to_i,
-    format: '%a, %J %E, %B', # elapsed time, percent complete, estimate, bar
-    # output: File.open(File::NULL, 'w') #for specs
-  )
+  # parsing_progressbar = ProgressBar.create(
+  #   total: `wc -l #{filename}`.to_i,
+  #   format: '%a, %J %E, %B', # elapsed time, percent complete, estimate, bar
+  #   # output: File.open(File::NULL, 'w') #for specs
+  # )
 
   File.readlines(filename, chomp: true).each do |line|
-    parsing_progressbar.increment
+    # parsing_progressbar.increment
     type, *splitted_line = *line.split(',')
 
     case type
     when 'user'
-      user_attributes = parse_user(splitted_line)
-      users_objects << User.new(attributes: user_attributes)
+      users_objects << parse_user(splitted_line)
     when 'session'
       s = parse_session(splitted_line)
 
@@ -104,18 +96,18 @@ def work(filename)
 
   report['usersStats'] = {}
 
-  handing_progressbar = ProgressBar.create(
-    total: users_objects.count-1,
-    format: '%a, %J %E, %B', # elapsed time, percent complete, estimate, bar
-    # output: File.open(File::NULL, 'w') #for specs
-  )
+  # handing_progressbar = ProgressBar.create(
+  #   total: users_objects.count,
+  #   format: '%a, %J %E, %B', # elapsed time, percent complete, estimate, bar
+  #   # output: File.open(File::NULL, 'w') #for specs
+  # )
 
   collect_stats_from_users(report, users_objects) do |user|
-    handing_progressbar.increment
-    user_browsers = browsers_by_user_id[ user.attributes['id'] ].sort
+    # handing_progressbar.increment
+    user_browsers = browsers_by_user_id[ user['id'] ].sort
     uniq_user_browsers = user_browsers.uniq
 
-    user_sessions = sessions_by_users[ user.attributes['id'] ]
+    user_sessions = sessions_by_users[ user['id'] ]
 
     # Собираем количество сессий по пользователям
     sessionsCount = user_sessions.count

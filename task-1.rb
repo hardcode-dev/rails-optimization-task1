@@ -8,11 +8,10 @@ require 'minitest'
 require 'set'
 
 class User
-  attr_reader :attributes, :sessions
+  attr_reader :attributes
 
-  def initialize(attributes:, sessions:)
+  def initialize(attributes:)
     @attributes = attributes
-    @sessions = sessions
   end
 end
 
@@ -46,7 +45,7 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work(filename)
-  users = []
+  users_objects = []
   sessions = []
   browsers = Set.new
   browsers_by_user_id = Hash.new { |h, k| h[k] = [] }
@@ -56,7 +55,8 @@ def work(filename)
 
     case type
     when 'user'
-      users = users << parse_user(splitted_line)
+      user_attributes = parse_user(splitted_line)
+      users_objects << User.new(attributes: user_attributes)
     when 'session'
       s = parse_session(splitted_line)
 
@@ -67,6 +67,7 @@ def work(filename)
   end
 
   browsers = browsers.to_a.sort
+  sessions_by_users = sessions.group_by { |session| session['user_id'] }
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -85,7 +86,7 @@ def work(filename)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = users_objects.count
 
   report['uniqueBrowsersCount'] = browsers.count
 
@@ -93,32 +94,22 @@ def work(filename)
 
   report['allBrowsers'] = browsers.join(",")
 
-  # Статистика по пользователям
-  users_objects = []
-  sessions_by_users = sessions.group_by { |session| session['user_id'] }
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions_by_users.fetch(user['id'], [])
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
-  end
-
   report['usersStats'] = {}
-
 
   collect_stats_from_users(report, users_objects) do |user|
     user_browsers = browsers_by_user_id[ user.attributes['id'] ].sort
     uniq_user_browsers = user_browsers.uniq
 
+    user_sessions = sessions_by_users[ user.attributes['id'] ]
+
     # Собираем количество сессий по пользователям
-    sessionsCount = user.sessions.count
+    sessionsCount = user_sessions.count
 
     # Собираем количество времени по пользователям
-    totalTime = user.sessions.sum {|s| s['time']}.to_s + ' min.'
+    totalTime = user_sessions.sum {|s| s['time']}.to_s + ' min.'
 
     # Выбираем самую длинную сессию пользователя
-    longestSession = (user.sessions.map {|s| s['time']} || {}).max.to_s + ' min.'
+    longestSession = (user_sessions.map {|s| s['time']} || {}).max.to_s + ' min.'
 
     # Браузеры пользователя через запятую
     browsers = user_browsers.join(', ')
@@ -132,7 +123,7 @@ def work(filename)
     alwaysUsedChrome = user_always_use_chrome
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
-    dates = user.sessions.map{|s| s['date']}.sort.reverse
+    dates = user_sessions.map{|s| s['date']}.sort.reverse
 
     {
       'sessionsCount'    => sessionsCount,

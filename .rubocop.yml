@@ -1,0 +1,19 @@
+require:
+  - rubocop-performance
+AllCops:
+  SuggestExtensions: false
+  NewCops: enable
+Style/Documentation:
+  Enabled: false
+Style/AsciiComments:
+  Enabled: false
+Layout/LineLength:
+  Max: 200
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ClassLength:
+  Max: 140
+Metrics/AbcSize:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Max: 20

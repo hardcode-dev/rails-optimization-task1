@@ -3,9 +3,10 @@
 require 'json'
 require 'pry'
 require 'date'
-# require 'minitest/autorun'
-require 'minitest'
 require 'set'
+require 'minitest'
+# require 'minitest/autorun'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes
@@ -31,7 +32,7 @@ def parse_session(fields)
     'user_id' => user_id,
     'session_id' => session_id,
     'browser' => browser.upcase,
-    'time' => time.to_i,
+    'time' => Integer(time),
     'date' => date,
   }
 end
@@ -50,7 +51,14 @@ def work(filename)
   browsers = Set.new
   browsers_by_user_id = Hash.new { |h, k| h[k] = [] }
 
+  parsing_progressbar = ProgressBar.create(
+    total: `wc -l #{filename}`.to_i,
+    format: '%a, %J %E, %B', # elapsed time, percent complete, estimate, bar
+    # output: File.open(File::NULL, 'w') #for specs
+  )
+
   File.readlines(filename, chomp: true).each do |line|
+    parsing_progressbar.increment
     type, *splitted_line = *line.split(',')
 
     case type
@@ -96,7 +104,14 @@ def work(filename)
 
   report['usersStats'] = {}
 
+  handing_progressbar = ProgressBar.create(
+    total: users_objects.count-1,
+    format: '%a, %J %E, %B', # elapsed time, percent complete, estimate, bar
+    # output: File.open(File::NULL, 'w') #for specs
+  )
+
   collect_stats_from_users(report, users_objects) do |user|
+    handing_progressbar.increment
     user_browsers = browsers_by_user_id[ user.attributes['id'] ].sort
     uniq_user_browsers = user_browsers.uniq
 

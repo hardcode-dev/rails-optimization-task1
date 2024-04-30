@@ -9,14 +9,14 @@
 # end
 
 require_relative 'task-1.rb'
-require 'ruby-prof'
+# require 'ruby-prof'
 
-profile = RubyProf::Profile.new(measure_mode: RubyProf::WALL_TIME)
-GC.disable
+# profile = RubyProf::Profile.new(measure_mode: RubyProf::WALL_TIME)
+# GC.disable
 
-result = profile.profile do
-  work('data_small.txt')
-end
+# result = profile.profile do
+  work('data_large.txt')
+# end
 
-printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open('ruby_prof_result/graph18.html', 'w+'))
+# printer = RubyProf::GraphHtmlPrinter.new(result)
+# printer.print(File.open('ruby_prof_result/graph20.html', 'w+'))

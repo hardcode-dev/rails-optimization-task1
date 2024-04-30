@@ -152,10 +152,10 @@ Sort by: self_time
 printer = RubyProf::GraphHtmlPrinter.new(result)
 ```
 Идем смотреть отчет
-![ Идем смотреть отчет ](images/graph.png)
+![ Идем смотреть отчет ](screenshots/graph.png)
 
 Видим, что Array#select вызывается 774 раза и занимает 59.48% общего времени выполнения
-![ Array#select ](images/array#select.png)
+![ Array#select ](screenshots/array#select.png)
 
 Что же, получается проблема все там же. Идем дальше
 
@@ -166,7 +166,7 @@ printer = RubyProf::CallStackPrinter.new(result)
 ```
 
 Говорит нам, что проблема все там же
-![ Calltree ](images/calltree.png)
+![ Calltree ](screenshots/calltree.png)
 
 #### Отчет Callgrind
 
@@ -178,10 +178,10 @@ printer.print
 ```
 
 Комментарий `printer.print(path: "ruby_prof_reports", profile: 'callgrind')` не захотел запускаться, что-то ему не понравилось в path
-![ srabotal ](images/srabotal.jpg)
+![ srabotal ](screenshots/srabotal.jpg)
 
 Так, что-то непонятное, идем разбираться
-![ Calltree ](images/qcachegrind.png)
+![ Calltree ](screenshots/qcachegrind.png)
 
 Указывает все на то же место в коде, Array#select, который мы уже собираемся поменять на Hash[]
 
@@ -244,7 +244,7 @@ File.write('stackprof_reports/stackprof.json', JSON.generate(profile))
 
 Загружаем на https://www.speedscope.app/
 
-![ Speedscope ](images/speedscope.png)
+![ Speedscope ](screenshots/speedscope.png)
 
 Вот тут уже видим, что Array#select вызывается 4 раза, приглядываемся повнимательнее
 Я, конечно, не умею работать с flamegraph, но выглядит, как будто #work вызывается внутри Array#select
@@ -268,7 +268,7 @@ File.write('stackprof_reports/stackprof.json', JSON.generate(profile))
 ```
 
 Запускаем тесты, ловим ошибку
-![ Speedscope ](images/first_optimization.png)
+![ Speedscope ](screenshots/first_optimization.png)
 Комментарий: поправка, один раз сработало, но потом перестало, по-прежнему экспоненциальная зависимость
 
 
@@ -329,7 +329,7 @@ end
 ```
 
 Попутно понимаем, что в коде, очевидно, ошибка и если массив пустой- пользователь будет помечен как всегда использующий Chrome.
-![ Other Story ](images/other_story.jpeg)
+![ Other Story ](screenshots/other_story.jpeg)
 
 Попутно видим, что тесты упали, говорят, что регрессия линейная. Фиксим и опять же методом тыка обновлям данные по тестам
 Метод тыка не показал прироста на выборках данных 100, 1000 и 10_000, зато теперь проходит тест на линеечку
@@ -419,7 +419,7 @@ end
 
 ### Ваша находка №5
 Ох, как я с тобой намаюсь
-![ Other Story ](images/attempt5.jpeg)
+![ Other Story ](screenshots/attempt5.jpeg)
 
 Повторяем цикл и находим Array#each, который вызывает Array#map. Смотрим
 Видим дублирующий поиск уникальных браузеров

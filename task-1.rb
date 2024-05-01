@@ -11,6 +11,8 @@ require 'minitest'
 require 'ruby-progressbar'
 require 'bundler/setup'
 
+MINUTES_TEMPLATE = '%{minutes} min.'
+
 def parse_user(fields)
   id, first_name, last_name, age = *fields
   {
@@ -36,7 +38,7 @@ def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
     user_key = "#{user['first_name']} #{user['last_name']}"
     report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = report['usersStats'][user_key].merge(yield(user))
   end
 end
 
@@ -115,10 +117,10 @@ def work(filename)
     sessionsCount = user_sessions.count
 
     # Собираем количество времени по пользователям
-    totalTime = user_sessions.sum { |s| s['time'] }.to_s + ' min.'
+    totalTime = user_sessions.sum { |s| s['time'] }
 
     # Выбираем самую длинную сессию пользователя
-    longestSession = (user_sessions.map { |s| s['time'] } || {}).max.to_s + ' min.'
+    longestSession = (user_sessions.map { |s| s['time'] } || {}).max
 
     # Браузеры пользователя через запятую
     browsers = user_browsers.join(', ')
@@ -136,8 +138,8 @@ def work(filename)
 
     {
       'sessionsCount' => sessionsCount,
-      'totalTime' => totalTime,
-      'longestSession' => longestSession,
+      'totalTime' => MINUTES_TEMPLATE % { minutes: totalTime },
+      'longestSession' => MINUTES_TEMPLATE % { minutes: longestSession },
       'browsers' => browsers,
       'usedIE' => usedIE,
       'alwaysUsedChrome' => alwaysUsedChrome,

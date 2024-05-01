@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'benchmark'
 
-require_relative 'task-1.rb'
+require_relative 'task-1'
 # require 'ruby-prof'
 
 Benchmark.bm do |x|
@@ -13,7 +14,7 @@ end
 # GC.disable
 
 # result = profile.profile do
-  # work('data_large.txt')
+# work('data_large.txt')
 # end
 
 # printer = RubyProf::GraphHtmlPrinter.new(result)

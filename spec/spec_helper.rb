@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec-benchmark'
 require 'fileutils'
 require 'bundler/setup'

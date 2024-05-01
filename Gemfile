@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "rspec"
-gem "rspec-benchmark"
-gem "pry"
-gem "minitest"
-gem "ruby-prof"
-gem "stackprof"
-gem "ruby-progressbar"
+gem 'minitest'
+gem 'pry'
+gem 'rspec'
+gem 'rspec-benchmark'
+gem 'rubocop-performance', require: false
+gem 'ruby-prof'
+gem 'ruby-progressbar'
+gem 'stackprof'

@@ -1,0 +1,10 @@
+result.json
+data*.txt
+
+/tmp/*
+!/tmp/.keep
+!/tmp/ruby_prof/.keep
+!/tmp/stackprof/.keep
+
+# Ignore MacOS system files
+.DS_Store

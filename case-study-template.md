@@ -206,6 +206,11 @@ end
 Добавил rubyprof flamegraph не затронутый в лекции и установил speedscope локально, чтобы командой запускать:
 `speedscope ruby_prof_reports/task-1_flamegraph_data_file_data20000.txt_disable_gc_true.json`
 
+Добавил новый Firefox Profiler, используя гемы:
+```ruby
+gem 'vernier'
+gem 'profile-viewer'
+```
 ## Защита от регрессии производительности
 Для защиты от потери достигнутого прогресса при дальнейших изменениях программы performance-тесты.
 Тесты проверяют время выполнения обработки разных объемов данных.

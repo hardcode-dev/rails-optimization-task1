@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'pry'
-require 'date'
-require 'ruby-progressbar'
+# require 'date'
+# require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions

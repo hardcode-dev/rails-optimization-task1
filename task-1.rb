@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
+require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions

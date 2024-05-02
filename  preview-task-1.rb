@@ -97,11 +97,26 @@ def work
   # Статистика по пользователям
   users_objects = []
 
+  parts_of_work = users.size
+  progressbar = ProgressBar.create(
+    total: parts_of_work, format: '%a, %J, %E %B'
+  )
+
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
+    user_sessions = []
+    sessions.delete_if do |session|
+      if session['user_id'] == user['id']
+        user_sessions << session
+        true
+      else
+        false
+      end
+    end
+
     user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
+    progressbar.increment
   end
 
   report['usersStats'] = {}

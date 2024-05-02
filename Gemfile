@@ -10,6 +10,8 @@ gem 'memory_profiler'
 gem 'ruby-prof'
 gem 'ruby-prof-speedscope'
 gem 'stackprof'
+gem 'vernier'
+gem 'profile-viewer'
 
 gem 'rubocop', require: false
 gem 'rubocop-performance', require: false

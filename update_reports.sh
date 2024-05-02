@@ -6,8 +6,8 @@ filename="data200_000.txt"
 disable_gc=false
 
 # Создание директорий
-rm -rf ruby_prof_reports stackprof_reports rbspy
-mkdir ruby_prof_reports stackprof_reports rbspy
+rm -rf ruby_prof_reports stackprof_reports rbspy vernier
+mkdir ruby_prof_reports stackprof_reports rbspy vernier
 
 # Запуск rbspy для профилирования
 ruby task-1_benchmark_large.rb $filename \
@@ -25,6 +25,9 @@ DISABLE_GC=$disable_gc DATA_FILE=$filename ruby task-1_ruby_prof_flamegraph.rb
 DISABLE_GC=$disable_gc DATA_FILE=$filename ruby task-1_stackprof_cli.rb
 DISABLE_GC=$disable_gc DATA_FILE=$filename ruby task-1_stackprof_flamegraph.rb
 DISABLE_GC=$disable_gc DATA_FILE=$filename ruby task-1_stackprof_flamegraph.rb
+
+# Запуск Vernier
+DISABLE_GC=$disable_gc DATA_FILE=$filename ruby task-1_vernier.rb
 
 # Запуск тестов
 ruby task-1_test.rb

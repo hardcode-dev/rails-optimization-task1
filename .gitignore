@@ -1,0 +1,4 @@
+result.json
+data*
+!data_large.txt.gz
+!data.txt

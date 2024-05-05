@@ -92,57 +92,39 @@ def work(filename = '', disable_gc: false)
 
   report['usersStats'] = {}
 
-  # Определяем методы для разных статистик
-  def collect_sessions_count(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
-      { 'sessionsCount' => user.sessions.count }
-    end
-  end
+  # Собираем статистику по пользователям
+  collect_stats_from_users(report, users_objects) do |user|
+    # Собираем количество сессий по пользователям
+    sessions_count = user.sessions.count
+    
+    # Собираем количество времени по пользователям
+    total_time = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.'
 
-  def collect_total_time(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
-      { 'totalTime' => user.sessions.map { |s| s['time'].to_i }.sum.to_s + ' min.' }
-    end
-  end
+    # Выбираем самую длинную сессию пользователя
+    longest_session = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.'
 
-  def collect_longest_session(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
-      { 'longestSession' => user.sessions.map { |s| s['time'].to_i }.max.to_s + ' min.' }
-    end
-  end
+    # Браузеры пользователя через запятую
+    browsers = user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort
 
-  def collect_browsers(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
-      { 'browsers' => user.sessions.map { |s| s['browser'].upcase }.sort.join(', ') }
-    end
-  end
+    # Хоть раз использовал IE?
+    used_IE = browsers.any? { |b| b =~ /INTERNET EXPLORER/ }
 
-  def check_used_ie(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
-      { 'usedIE' => user.sessions.any? { |s| s['browser'].upcase.include?('INTERNET EXPLORER') } }
-    end
-  end
+    # Всегда использовал только Chrome?
+    always_used_chrome = browsers.all? { |b| b =~ /CHROME/ }
 
-  def check_always_used_chrome(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
-      { 'alwaysUsedChrome' => user.sessions.all? { |s| s['browser'].upcase.include?('CHROME') } }
-    end
-  end
+    # Даты сессий через запятую в обратном порядке в формате iso8601
+    dates = user.sessions.map { |session| session['date'] }.sort.reverse
 
-  def collect_session_dates(report, users_objects)
-    collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map { |session| session['date'] }.sort.reverse }
-    end
+    {
+      'sessionsCount' => sessions_count,
+      'totalTime' => total_time,
+      'longestSession' => longest_session,
+      'browsers' => browsers.join(', '),
+      'usedIE' => used_IE,
+      'alwaysUsedChrome' => always_used_chrome,
+      'dates' => dates
+    }
   end
-
-  # Теперь можно вызывать эти методы для сбора статистики
-  collect_sessions_count(report, users_objects)
-  collect_total_time(report, users_objects)
-  collect_longest_session(report, users_objects)
-  collect_browsers(report, users_objects)
-  check_used_ie(report, users_objects)
-  check_always_used_chrome(report, users_objects)
-  collect_session_dates(report, users_objects)
 
   File.write('result.json', "#{report.to_json}\n")
   puts 'Finish work'

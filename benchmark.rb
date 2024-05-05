@@ -16,7 +16,7 @@ require_relative 'task-1'
 
 
 Benchmark.bm do |x|
-  counters = [1, 2, 4, 8, 16]
+  counters = [1, 2, 4, 8, 16, 200]
 
   counters.each do |counter|
     `head -n #{counter * 1000} data_large.txt > data.txt`

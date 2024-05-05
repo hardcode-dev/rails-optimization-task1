@@ -76,13 +76,7 @@ def work(filename = '', disable_gc: false)
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -107,19 +101,19 @@ def work(filename = '', disable_gc: false)
 
   def collect_total_time(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'totalTime' => user.sessions.map { |s| s['time'] }.map(&:to_i).sum.to_s + ' min.' }
+      { 'totalTime' => user.sessions.map { |s| s['time'].to_i }.sum.to_s + ' min.' }
     end
   end
 
   def collect_longest_session(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'longestSession' => user.sessions.map { |s| s['time'] }.map(&:to_i).max.to_s + ' min.' }
+      { 'longestSession' => user.sessions.map { |s| s['time'].to_i }.max.to_s + ' min.' }
     end
   end
 
   def collect_browsers(report, users_objects)
     collect_stats_from_users(report, users_objects) do |user|
-      { 'browsers' => user.sessions.map { |s| s['browser'] }.map(&:upcase).sort.join(', ') }
+      { 'browsers' => user.sessions.map { |s| s['browser'].upcase }.sort.join(', ') }
     end
   end
 

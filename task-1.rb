@@ -74,13 +74,7 @@ def work
 
   report['totalSessions'] = sessions.count
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
 
   # Статистика по пользователям
   users_objects = []
@@ -108,12 +102,12 @@ def work
 
   # Выбираем самую длинную сессию пользователя
   collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
+    { 'longestSession' => user.sessions.map { |s| s['time'].to_i }.max.to_s + ' min.' }
   end
 
   # Браузеры пользователя через запятую
   collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
+    { 'browsers' => user.sessions.map { |s| s['browser'].upcase }.sort.join(', ') }
   end
 
   # Хоть раз использовал IE?

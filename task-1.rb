@@ -93,7 +93,7 @@ def work
 
   sessions_hash = sessions.group_by { |session| session['user_id'] }
 
-  users.each do |user| # HERE !!!
+  users.each do |user|
     attributes = user
     user_sessions = sessions_hash[user['id']] || []
     user_object = User.new(attributes: attributes, sessions: user_sessions)

@@ -1,8 +1,4 @@
-# for profiling with GC.disable
-
 require 'json'
-require 'pry'
-require 'date'
 
 class User
   attr_reader :attributes, :sessions
@@ -14,29 +10,27 @@ class User
 end
 
 def parse_user(fields)
-  #fields = user.split(',')
   {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
-    'age' => fields[4],
+    'age' => fields[4]
   }
 end
 
 def parse_session(fields)
-  #fields = session.split(',')
   {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
     'time' => fields[4],
-    'date' => fields[5],
+    'date' => fields[5]
   }
 end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"    ####gggggggggggggggggggg
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
@@ -46,25 +40,18 @@ def work(filename = '', disable_gc: false)
   puts 'Start work'
   GC.disable if disable_gc
 
-  file_lines = File.read(ENV['DATA_FILE'] || filename).split("\n")
+  users = []
+  sessions = []
 
-  users = file_lines.filter { |line| line.start_with?('user') }.map { |line| parse_user(line) }
-  sessions = file_lines.filter { |line| line.start_with?('session') }.map { |line| parse_session(line) }
-
-  # Отчёт в json
-  #   - Сколько всего юзеров +
-  #   - Сколько всего уникальных браузеров +
-  #   - Сколько всего сессий +
-  #   - Перечислить уникальные браузеры в алфавитном порядке через запятую и капсом +
-  #
-  #   - По каждому пользователю
-  #     - сколько всего сессий +
-  #     - сколько всего времени +
-  #     - самая длинная сессия +
-  #     - браузеры через запятую +
-  #     - Хоть раз использовал IE? +
-  #     - Всегда использовал только Хром? +
-  #     - даты сессий в порядке убывания через запятую +
+  file_lines.each do |line|
+    cols = line.split(',')
+    case cols[0]
+    when 'user'
+      users << parse_user(cols)
+    when 'session'
+      sessions << parse_session(cols)
+    end
+  end
 
   report = {}
 
@@ -97,7 +84,7 @@ def work(filename = '', disable_gc: false)
     sessions_count = user.sessions.count
     
     # Собираем количество времени по пользователям
-    total_time = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.'
+    total_time = user.sessions.sum {|s| s['time'].to_i}.to_s + ' min.'
 
     # Выбираем самую длинную сессию пользователя
     longest_session = user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.'

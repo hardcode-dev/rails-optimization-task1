@@ -37,7 +37,7 @@ end
 
 def collect_stats_from_users(report, users_objects, &block)
   users_objects.each do |user|
-    user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
+    user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"   # gggggggggggggggggggg
     report['usersStats'][user_key] ||= {}
     report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
   end
@@ -84,8 +84,7 @@ def work
   users.each do |user|
     attributes = user
     user_sessions = sessions_hash[user['id']] || []
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+    users_objects << User.new(attributes: attributes, sessions: user_sessions)
   end
 
   report['usersStats'] = {}

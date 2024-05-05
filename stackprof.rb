@@ -1,8 +1,8 @@
 # Stackprof report
 # ruby 16-stackprof.rb
 # cd stackprof_reports
-# stackprof stackprof.dump
-# stackprof stackprof.dump --method Object#work
+# stackprof stackprof_reports/stackprof.dump
+# stackprof stackprof_reports/stackprof.dump --method Object#work
 require 'json'
 require 'stackprof'
 require_relative 'work_method.rb'

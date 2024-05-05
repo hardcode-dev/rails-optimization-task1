@@ -13,9 +13,9 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  #fields = user.split(',')
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -23,9 +23,9 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  #fields = session.split(',')
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -42,20 +42,14 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
+def work(filename = '', disable_gc: false)
   puts 'Start work'
   GC.disable if disable_gc
 
   file_lines = File.read(ENV['DATA_FILE'] || filename).split("\n")
 
-  users = []
-  sessions = []
-
-  file_lines.each do |line|
-    cols = line.split(',')
-    users << parse_user(line) if cols[0] == 'user'
-    sessions << parse_session(line) if cols[0] == 'session'
-  end
+  users = file_lines.filter { |line| line.start_with?('user') }.map { |line| parse_user(line) }
+  sessions = file_lines.filter { |line| line.start_with?('session') }.map { |line| parse_session(line) }
 
   # Отчёт в json
   #   - Сколько всего юзеров +

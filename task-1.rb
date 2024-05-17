@@ -43,7 +43,7 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file_name = File.read('data10000.txt'))
+def work(file_name = File.read('data100000.txt'))
   file_lines = file_name.split("\n")
 
   users = []
@@ -51,8 +51,9 @@ def work(file_name = File.read('data10000.txt'))
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+
+    users << parse_user(line) if cols[0] == 'user'
+    sessions << parse_session(line) if cols[0] == 'session'
   end
 
   # Отчёт в json

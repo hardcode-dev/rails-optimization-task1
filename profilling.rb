@@ -11,9 +11,9 @@ result = RubyProf.profile do
 end
 
 printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open('reports/flat/flat10000_2.txt', 'w+'))
+printer.print(File.open('reports/flat/flat10000_3.txt', 'w+'))
 printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open('reports/graph/graph10000_2.html', 'w+'))
+printer.print(File.open('reports/graph/graph10000_3.html', 'w+'))
 # printer = RubyProf::CallStackPrinter.new(result)
 # printer.print(File.open('reports/callstack10000_1.html', 'w+'))
 printer = RubyProf::CallTreePrinter.new(result)

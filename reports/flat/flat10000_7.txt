@@ -1,0 +1,67 @@
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 53.942824
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 18.70     48.983    10.086     0.000    38.897        4   Array#each                     
+ 17.31      9.517     9.338     0.000     0.179  2750940   <Class::Date>#strptime         
+ 15.98      8.618     8.618     0.000     0.000  6501881   String#split                   
+ 15.07     19.788     8.127     0.000    11.660  5500003   Array#map                      
+  4.09      6.549     2.205     0.000     4.344  2750940   Object#parse_session           /Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb:27
+  4.03      2.574     2.173     0.000     0.402  1000001   Array#sort                     
+  2.82      1.521     1.521     0.000     0.000   500000   Hash#merge                     
+  2.53      1.364     1.364     0.000     0.000  7577617   String#upcase                  
+  2.38      1.283     1.283     0.000     0.000 22256580   Array#[]                       
+  1.93      1.040     1.040     0.000     0.000        2   Array#uniq                     
+  1.83      0.989     0.989     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  1.61      0.868     0.868     0.000     0.000   500001   Array#join                     
+  1.14      0.695     0.613     0.000     0.082   500000   Class#new                      
+  1.00      0.542     0.542     0.000     0.000  2750940   Date#iso8601                   
+  0.95      0.511     0.511     0.000     0.000  1500000   Hash#[]                        
+  0.88      0.472     0.472     0.000     0.000  6501880   String#==                      
+  0.79      0.427     0.427     0.000     0.000  5501880   String#to_i                    
+  0.74      0.402     0.402     0.000     0.000  5568523   Date#<=>                       
+  0.70      0.376     0.376     0.000     0.000  2075737   String#=~                      
+  0.69      1.081     0.370     0.000     0.711   500000   Object#parse_user              /Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb:17
+  0.59      0.708     0.317     0.000     0.390   500000   Array#any?                     
+  0.59      0.317     0.317     0.000     0.000   992466   Hash#[]=                       
+  0.56      0.303     0.303     0.000     0.000   500000   Array#reverse                  
+  0.54      0.292     0.292     0.000     0.000  3750940   Array#<<                       
+  0.46      0.250     0.250     0.000     0.000  3500000   User#sessions                  
+  0.42      0.229     0.229     0.000     0.000  2000000   String#+                       
+  0.33      0.179     0.179     0.000     0.000  2750940   Integer#div                    
+  0.30      0.339     0.164     0.000     0.175   500000   Array#all?                     
+  0.19      0.102     0.102     0.000     0.000  1000000   Integer#to_s                   
+  0.17      0.094     0.094     0.000     0.000        1   <Class::IO>#read               
+  0.15      0.082     0.082     0.000     0.000   500000   User#initialize                /Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb:11
+  0.14      0.076     0.076     0.000     0.000  1000000   User#attributes                
+  0.10      0.053     0.053     0.000     0.000        1   <Class::IO>#write              
+  0.09      0.048     0.048     0.000     0.000   500000   Array#sum                      
+  0.08      0.045     0.045     0.000     0.000   500000   Array#max                      
+  0.07      0.036     0.036     0.000     0.000   500003   Array#count                    
+  0.05     53.849     0.029     0.000    53.820        1   Object#work                    /Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb:46
+  0.00     53.943     0.000     0.000    53.943        1   [global]#                      profilling.rb:10
+  0.00     29.548     0.000     0.000    29.548        1   Object#collect_stats_from_users /Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb:38
+  0.00      0.956     0.000     0.000     0.956        1   Enumerable#group_by            
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

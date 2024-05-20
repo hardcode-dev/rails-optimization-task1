@@ -1,0 +1,394 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 7360
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 1
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 95716
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 1
+
+fl=
+fn=Hash::merge
+0 69798
+
+fl=
+fn=Array::reverse
+0 18844
+
+fl=
+fn=Date::iso8601
+0 87918
+
+fl=
+fn=Integer::div
+0 26997
+
+fl=
+fn=Date::strptime^
+0 494654
+cfl=
+cfn=Integer::div
+calls=423067 0
+0 26997
+
+fl=
+fn=Array::all?
+0 26337
+cfl=
+cfn=String::upcase
+calls=99150 116
+116 8242
+cfl=
+cfn=String::=~
+calls=99150 116
+116 18319
+
+fl=
+fn=String::=~
+0 60123
+
+fl=
+fn=Array::any?
+0 53866
+cfl=
+cfn=String::upcase
+calls=220694 115
+115 18002
+cfl=
+cfn=String::=~
+calls=220694 115
+115 41804
+
+fl=
+fn=String::to_s
+0 5425
+
+fl=
+fn=Enumerable::max_by
+0 12919
+cfl=
+cfn=Array::each
+calls=76933 0
+0 98866
+
+fl=
+fn=Integer::to_s
+0 7241
+
+fl=
+fn=String::to_i
+0 60511
+
+fl=
+fn=Array::sum
+0 96568
+cfl=
+cfn=String::to_i
+calls=423067 112
+112 31221
+
+fl=
+fn=User::sessions
+0 32202
+
+fl=
+fn=String::+
+0 30823
+
+fl=
+fn=User::attributes
+0 11099
+
+fl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+38 8
+cfl=
+cfn=Array::each
+calls=1 39
+39 1944046
+
+fl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+fn=User::initialize
+11 12988
+
+fl=
+fn=Class::new
+0 37565
+cfl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=76933 0
+0 12988
+
+fl=
+fn=Hash::[]
+0 48835
+
+fl=
+fn=Enumerable::group_by
+0 5
+cfl=
+cfn=Array::each
+calls=1 0
+0 94356
+
+fl=
+fn=Array::join
+0 42711
+
+fl=
+fn=Array::sort
+0 129454
+
+fl=
+fn=String::upcase
+0 128268
+
+fl=
+fn=Array::uniq
+0 82039
+
+fl=
+fn=Array::map
+0 334878
+cfl=
+cfn=String::upcase
+calls=846134 87
+87 102024
+cfl=
+cfn=Date::strptime^
+calls=423067 117
+117 521651
+cfl=
+cfn=Date::iso8601
+calls=423067 117
+117 87918
+
+fl=
+fn=Hash::[]=
+0 40611
+
+fl=
+fn=Array::count
+0 5528
+
+fl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+27 302331
+cfl=
+cfn=String::split
+calls=423067 28
+28 270891
+cfl=
+cfn=Array::[]
+calls=2115335 30
+30 122791
+
+fl=
+fn=Array::<<
+0 45507
+
+fl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+17 49158
+cfl=
+cfn=String::split
+calls=76933 18
+18 44393
+cfl=
+cfn=Array::[]
+calls=307732 20
+20 17879
+
+fl=
+fn=String::==
+0 75686
+
+fl=
+fn=Array::[]
+0 199461
+
+fl=
+fn=Array::each
+0 962314
+cfl=
+cfn=String::split
+calls=500000 53
+53 315825
+cfl=
+cfn=Array::[]
+calls=1000000 55
+55 58791
+cfl=
+cfn=String::==
+calls=1000000 55
+55 75686
+cfl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=76933 55
+55 111429
+cfl=
+cfn=Array::<<
+calls=576933 55
+55 45507
+cfl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=423067 56
+56 696013
+cfl=
+cfn=Hash::[]
+calls=230799 99
+99 48835
+cfl=
+cfn=Class::new
+calls=76933 99
+99 50553
+cfl=
+cfn=User::attributes
+calls=153866 40
+40 11099
+cfl=
+cfn=String::+
+calls=307732 40
+40 30823
+cfl=
+cfn=Hash::[]=
+calls=153681 41
+41 40608
+cfl=
+cfn=User::sessions
+calls=538531 111
+111 32202
+cfl=
+cfn=Array::count
+calls=76933 111
+111 5519
+cfl=
+cfn=Array::sum
+calls=76933 111
+111 127789
+cfl=
+cfn=Integer::to_s
+calls=76933 111
+111 7241
+cfl=
+cfn=Enumerable::max_by
+calls=76933 111
+111 111785
+cfl=
+cfn=String::to_s
+calls=76933 111
+111 5425
+cfl=
+cfn=Array::map
+calls=153866 111
+111 844866
+cfl=
+cfn=Array::sort
+calls=153866 111
+111 87576
+cfl=
+cfn=Array::join
+calls=76933 111
+111 42687
+cfl=
+cfn=Array::any?
+calls=76933 111
+111 113672
+cfl=
+cfn=Array::all?
+calls=76933 111
+111 52898
+cfl=
+cfn=Array::reverse
+calls=76933 111
+111 18844
+cfl=
+cfn=Hash::merge
+calls=76933 111
+111 69798
+cfl=
+cfn=String::to_i
+calls=423067 113
+113 29290
+
+fl=
+fn=String::split
+0 662253
+
+fl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+fn=Object::work
+46 2726
+cfl=
+cfn=String::split
+calls=1 47
+47 31144
+cfl=
+cfn=Array::each
+calls=2 52
+52 1859808
+cfl=
+cfn=Array::count
+calls=3 76
+76 9
+cfl=
+cfn=Hash::[]=
+calls=1 76
+76 3
+cfl=
+cfn=Array::map
+calls=2 79
+79 201605
+cfl=
+cfn=Array::uniq
+calls=2 79
+79 82039
+cfl=
+cfn=Array::sort
+calls=1 85
+85 41878
+cfl=
+cfn=Array::join
+calls=1 85
+85 23
+cfl=
+cfn=Enumerable::group_by
+calls=1 95
+95 94361
+cfl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 109
+109 1944055
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 121
+121 95717
+cfl=
+cfn=IO::write^
+calls=1 121
+121 7360
+
+fl=
+fn=IO::read^
+0 6673
+
+fl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/profilling.rb
+fn=[global]::
+10 65
+cfl=
+cfn=IO::read^
+calls=1 10
+10 6673
+cfl=/Users/aiufrolov/Desktop/optimization_rails/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 10
+10 4360728
+

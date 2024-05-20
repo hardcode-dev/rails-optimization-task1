@@ -84,8 +84,7 @@ def work(file_name = File.read('data500000.txt'))
 
   report['allBrowsers'] =
     sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
+      .map { |s| s['browser'].upcase }
       .sort
       .uniq
       .join(',')
@@ -110,12 +109,12 @@ def work(file_name = File.read('data500000.txt'))
   collect_stats_from_users(report, users_objects) do |user|
     {
       'sessionsCount' => user.sessions.count,
-      'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.',
-      'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.',
-      'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', '),
-      'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ },
-      'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.strptime(d)}.sort.reverse.map { |d| d.iso8601 },
+      'totalTime' => user.sessions.sum {|s| s['time'].to_i}.to_s + ' min.',
+      'longestSession' => user.sessions.max_by {|s| s['time'].to_i}['time'].to_s + ' min.',
+      'browsers' => user.sessions.map {|s| s['browser'].upcase}.sort.join(', '),
+      'usedIE' => user.sessions.any?{|s| s['browser'].upcase =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => user.sessions.all?{|s| s['browser'].upcase =~ /CHROME/},
+      'dates' => user.sessions.map{|s| Date.strptime(s['date']).iso8601 }.sort.reverse,
     }
   end
 

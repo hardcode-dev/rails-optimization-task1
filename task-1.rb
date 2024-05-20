@@ -43,7 +43,7 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work(file_name = File.read('data500000.txt'))
+def work(file_name = File.read('data_large.txt'))
   file_lines = file_name.split("\n")
 
   users = []

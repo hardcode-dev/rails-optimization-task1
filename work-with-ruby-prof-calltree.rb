@@ -10,6 +10,6 @@ result = profile.profile do
   work
 end
 
-printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open('ruby_prof_reports/graph2.html', 'w+'))
+printer = RubyProf::CallTreePrinter.new(result)
+printer.print(path: "ruby_prof_reports", profile: "callgrind")
 puts "End work"

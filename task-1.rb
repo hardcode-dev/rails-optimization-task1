@@ -3,6 +3,7 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'set'
 
 class User
   attr_reader :attributes, :sessions
@@ -88,13 +89,13 @@ def work
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  unique_browsers = Set.new
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    unique_browsers << browser
   end
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = unique_browsers.size
 
   report['totalSessions'] = sessions.count
 

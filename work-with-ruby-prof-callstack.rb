@@ -11,5 +11,5 @@ result = profile.profile do
 end
 
 printer = RubyProf::CallStackPrinter.new(result)
-printer.print(File.open('ruby_prof_reports/callstack2.html', 'w+'))
+printer.print(File.open('ruby_prof_reports/callstack3.html', 'w+'))
 puts "End work"

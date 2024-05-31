@@ -59,13 +59,13 @@ def work
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
+    users.concat([parse_user(line)]) if cols[0] == 'user'
     if cols[0] == 'session'
       parsed_session = parse_session(line)
-      sessions = sessions + [parsed_session[:session]]
+      sessions.concat([parsed_session[:session]])
       uid = parsed_session[:uid]
       uid_to_sessions[uid] ||= []
-      uid_to_sessions[uid] = uid_to_sessions[uid] + [parsed_session[:session]]
+      uid_to_sessions[uid].concat([parsed_session[:session]])
     end
   end
 
@@ -121,7 +121,7 @@ def work
 
   # Собираем количество сессий по пользователям
   collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions.count }
+    { 'sessionsCount' => user.sessions&.count || 0 }
   end
 
   # Собираем количество времени по пользователям

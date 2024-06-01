@@ -1,0 +1,590 @@
+events: wall_time
+
+fl=
+fn=IO::write^
+0 1203
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 0
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 2155
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 0
+
+fl=
+fn=Date::iso8601
+0 2265
+
+fl=
+fn=Array::reverse
+0 218
+
+fl=
+fn=Date::<=>
+0 1646
+
+fl=
+fn=Integer::div
+0 644
+
+fl=
+fn=String::[]=
+0 1180
+
+fl=
+fn=MatchData::end
+0 757
+
+fl=
+fn=MatchData::begin
+0 2769
+
+fl=
+fn=Regexp::match
+0 4684
+
+fl=
+fn=String::gsub!
+0 4443
+
+fl=
+fn=Date::parse^
+0 13660
+cfl=
+cfn=String::gsub!
+calls=11010 0
+0 4443
+cfl=
+cfn=Regexp::match
+calls=22020 0
+0 4684
+cfl=
+cfn=MatchData::begin
+calls=11010 0
+0 2769
+cfl=
+cfn=MatchData::end
+calls=11010 0
+0 757
+cfl=
+cfn=String::[]=
+calls=11010 0
+0 1180
+cfl=
+cfn=Integer::div
+calls=11010 0
+0 644
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::sessions_dates
+102 1
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 104
+104 44152
+
+fl=
+fn=Array::all?
+0 667
+cfl=
+cfn=String::upcase
+calls=2577 98
+98 217
+cfl=
+cfn=String::=~
+calls=2577 98
+98 428
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::always_chrome_browser
+95 1
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 97
+97 7047
+
+fl=
+fn=String::=~
+0 1352
+
+fl=
+fn=Array::any?
+0 1305
+cfl=
+cfn=String::upcase
+calls=5824 91
+91 490
+cfl=
+cfn=String::=~
+calls=5824 91
+91 924
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::any_ie_browser
+88 1
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 90
+90 8640
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::user_browsers
+81 1
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 83
+83 9924
+
+fl=
+fn=Array::max
+0 159
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::longest_user_session
+74 1
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 76
+76 9294
+
+fl=
+fn=Integer::to_s
+0 363
+
+fl=
+fn=Array::sum
+0 172
+
+fl=
+fn=String::to_i
+0 1660
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::amount_of_time_by_users
+67 2
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 69
+69 9542
+
+fl=
+fn=Hash::merge
+0 2474
+
+fl=
+fn=User::sessions
+0 994
+
+fl=
+fn=String::+
+0 3233
+
+fl=
+fn=User::attributes
+0 1947
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::collect_stats_from_users
+39 4
+cfl=
+cfn=Array::each
+calls=7 40
+40 93498
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::sessions_num_by_users
+60 1
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 62
+62 4903
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=User::initialize
+11 341
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::create_objects_from_users
+48 1
+cfl=
+cfn=Array::each
+calls=1 50
+50 2355
+
+fl=
+fn=Array::join
+0 575
+
+fl=
+fn=Array::uniq
+0 325
+
+fl=
+fn=Array::sort
+0 3360
+cfl=
+cfn=Date::<=>
+calls=22414 0
+0 1646
+
+fl=
+fn=String::upcase
+0 2524
+
+fl=
+fn=Array::map
+0 19854
+cfl=
+cfn=String::upcase
+calls=22020 171
+171 1817
+cfl=
+cfn=String::to_i
+calls=22020 70
+70 1660
+cfl=
+cfn=Date::parse^
+calls=11010 105
+105 28137
+cfl=
+cfn=Date::iso8601
+calls=11010 105
+105 2265
+
+fl=
+fn=Hash::size
+0 0
+
+fl=/Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb
+fn=Set::size
+301 1
+cfl=
+cfn=Hash::size
+calls=1 302
+302 0
+
+fl=/Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb
+fn=Set::<<
+511 2079
+cfl=
+cfn=Hash::[]=
+calls=11010 512
+512 1197
+
+fl=
+fn=NilClass::nil?
+0 0
+
+fl=
+fn=Hash::initialize
+0 1
+
+fl=/Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb
+fn=Set::initialize
+243 8
+cfl=
+cfn=Class::new
+calls=1 244
+244 1
+cfl=
+cfn=NilClass::nil?
+calls=1 246
+246 0
+
+fl=
+fn=Class::new
+0 475
+cfl=/Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb
+cfn=Set::initialize
+calls=1 0
+0 9
+cfl=
+cfn=Hash::initialize
+calls=1 0
+0 1
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=User::initialize
+calls=1994 0
+0 341
+
+fl=
+fn=Array::count
+0 125
+
+fl=
+fn=Hash::[]=
+0 3733
+
+fl=
+fn=Hash::[]
+0 8433
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::parse_session
+27 8701
+cfl=
+cfn=String::split
+calls=11010 28
+28 4110
+cfl=
+cfn=Array::[]
+calls=55050 29
+29 3419
+
+fl=
+fn=Array::concat
+0 2231
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::parse_user
+17 1231
+cfl=
+cfn=String::split
+calls=1994 18
+18 662
+cfl=
+cfn=Array::[]
+calls=7976 20
+20 520
+
+fl=
+fn=String::==
+0 1883
+
+fl=
+fn=Array::each
+0 40508
+cfl=
+cfn=String::split
+calls=13004 111
+111 4986
+cfl=
+cfn=Array::[]
+calls=26008 112
+112 1671
+cfl=
+cfn=String::==
+calls=26008 112
+112 1883
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::parse_user
+calls=1994 112
+112 2412
+cfl=
+cfn=Array::concat
+calls=26008 112
+112 2231
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::parse_session
+calls=11010 114
+114 16229
+cfl=
+cfn=Hash::[]
+calls=84960 115
+115 8433
+cfl=
+cfn=Hash::[]=
+calls=17946 117
+117 2536
+cfl=/Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb
+cfn=Set::<<
+calls=11010 161
+161 3275
+cfl=
+cfn=Class::new
+calls=1994 53
+53 812
+cfl=
+cfn=User::attributes
+calls=27916 41
+41 1947
+cfl=
+cfn=String::+
+calls=31904 41
+41 3233
+cfl=
+cfn=User::sessions
+calls=13958 63
+63 994
+cfl=
+cfn=Array::count
+calls=1994 63
+63 123
+cfl=
+cfn=Hash::merge
+calls=13958 63
+63 2474
+cfl=
+cfn=Array::map
+calls=21934 70
+70 50593
+cfl=
+cfn=Array::sum
+calls=1994 70
+70 172
+cfl=
+cfn=Integer::to_s
+calls=3988 70
+70 363
+cfl=
+cfn=Array::max
+calls=1994 77
+77 159
+cfl=
+cfn=Array::sort
+calls=3988 84
+84 4009
+cfl=
+cfn=Array::join
+calls=1994 84
+84 569
+cfl=
+cfn=Array::any?
+calls=1994 91
+91 2719
+cfl=
+cfn=Array::all?
+calls=1994 98
+98 1312
+cfl=
+cfn=Array::reverse
+calls=1994 105
+105 218
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::parse_to_users_and_sessions
+109 1
+cfl=
+cfn=Array::each
+calls=1 110
+110 51993
+
+fl=
+fn=IO::read^
+0 135
+
+fl=
+fn=String::split
+0 10441
+
+fl=
+fn=String::start_with?
+0 1
+
+fl=
+fn=Array::[]
+0 5610
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+fn=Object::work
+123 103
+cfl=
+cfn=Array::[]
+calls=3 124
+124 0
+cfl=
+cfn=String::start_with?
+calls=1 124
+124 1
+cfl=
+cfn=String::split
+calls=2 125
+125 683
+cfl=
+cfn=IO::read^
+calls=1 130
+130 135
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::parse_to_users_and_sessions
+calls=1 136
+136 51994
+cfl=
+cfn=Array::count
+calls=2 155
+155 2
+cfl=
+cfn=Hash::[]=
+calls=1 155
+155 0
+cfl=
+cfn=Class::new
+calls=1 158
+158 13
+cfl=
+cfn=Array::each
+calls=1 159
+159 6017
+cfl=/Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb
+cfn=Set::size
+calls=1 164
+164 2
+cfl=
+cfn=Array::map
+calls=2 168
+168 3141
+cfl=
+cfn=Array::sort
+calls=1 168
+168 997
+cfl=
+cfn=Array::uniq
+calls=1 168
+168 325
+cfl=
+cfn=Array::join
+calls=1 168
+168 6
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::create_objects_from_users
+calls=1 176
+176 2356
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::sessions_num_by_users
+calls=1 180
+180 4905
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::amount_of_time_by_users
+calls=1 181
+181 9544
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::longest_user_session
+calls=1 182
+182 9295
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::user_browsers
+calls=1 183
+183 9925
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::any_ie_browser
+calls=1 184
+184 8642
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::always_chrome_browser
+calls=1 185
+185 7049
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::sessions_dates
+calls=1 186
+186 44153
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 188
+188 2155
+cfl=
+cfn=IO::write^
+calls=1 188
+188 1203
+
+fl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/work-with-ruby-prof-calltree.rb
+fn=[global]::
+10 4
+cfl=/Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb
+cfn=Object::work
+calls=1 10
+10 162644
+

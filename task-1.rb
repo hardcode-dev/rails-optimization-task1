@@ -102,7 +102,15 @@ end
 def sessions_dates(report, users_objects)
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+    { 'dates' => user.sessions
+                     .map{|s| s['date']}
+                     .sort
+                     .reverse
+                     .map do |date|
+                        date_ary = date.split('-')
+                        Date.new(date_ary[0].to_i, date_ary[1].to_i, date_ary[2].to_i).iso8601
+                     end
+    }
   end
 end
 

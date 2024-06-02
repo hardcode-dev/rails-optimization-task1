@@ -11,5 +11,5 @@ result = profile.profile do
 end
 
 printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open('ruby_prof_reports/graph5.html', 'w+'))
+printer.print(File.open('ruby_prof_reports/graph6.html', 'w+'))
 puts "End work"

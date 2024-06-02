@@ -7,7 +7,7 @@ puts "Start work"
 
 GC.disable
 result = profile.profile do
-  work
+  work('data_large.txt')
 end
 
 printer = RubyProf::CallTreePrinter.new(result)

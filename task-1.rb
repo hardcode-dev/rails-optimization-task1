@@ -90,13 +90,7 @@ def parse_to_users_and_sessions(file_lines, users, sessions, uid_to_sessions)
   end
 end
 
-def work
-  if ARGV[0]&.start_with? 'filename='
-    filename = ARGV[0].split('=')[1]
-  else
-    filename = 'data.txt'
-  end
-
+def work(filename)
   file_lines = File.read(filename).split("\n")
 
   users = []

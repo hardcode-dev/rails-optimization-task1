@@ -79,9 +79,8 @@ end
 
 def parse_to_users_and_sessions(file_lines, users, sessions, uid_to_sessions)
   file_lines.each do |line|
-    cols = line.split(',')
-    users.concat([parse_user(line)]) if cols[0] == 'user'
-    if cols[0] == 'session'
+    users.concat([parse_user(line)]) if line.start_with? 'user'
+    if line.start_with? 'session'
       parsed_session = parse_session(line)
       sessions.concat([parsed_session[:session]])
       uid = parsed_session[:uid]

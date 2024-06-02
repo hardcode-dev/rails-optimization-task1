@@ -663,7 +663,7 @@
   <body>
     <div style="display: inline-block;">
       <div id="titlebar">
-        Call tree for application <strong>work-with-ruby-prof-callstack.rb filename=data3.txt</strong><br/> Generated on 2024-06-01 13:42:59 +0400
+        Call tree for application <strong>work-with-ruby-prof-callstack.rb filename=data3.txt</strong><br/> Generated on 2024-06-02 09:40:16 +0400
         with options {}<br/>
       </div>
       <div id="commands">
@@ -693,7 +693,7 @@
       
         
         <div class="thread">
-          <span>Thread: 80, Fiber: 60 (100.00% ~ 0.14707048499258235)</span>
+          <span>Thread: 80, Fiber: 60 (100.00% ~ 0.11748361401259899)</span>
           <ul name="thread">
             
             <li class="color9" style="display:block">
@@ -702,389 +702,197 @@
 <ul>
 <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>100.00% (100.00%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#131">Object#work</a> [1 calls, 1 total]</span>
+<span>100.00% (100.00%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#94">Object#work</a> [1 calls, 1 total]</span>
+<ul>
+<li class="color4" style="display:block">
+<a href="#" class="toggle minus" ></a>
+<span>44.55% (44.55%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#80">Object#parse_to_users_and_sessions</a> [1 calls, 1 total]</span>
+<ul>
+<li class="color4" style="display:block">
+<a href="#" class="toggle minus" ></a>
+<span>44.54% (100.00%) Array#each [1 calls, 4 total]</span>
+<ul>
+<li class="color1" style="display:block">
+<a href="#" class="toggle minus" ></a>
+<span>13.85% (31.10%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#27">Object#parse_session</a> [11010 calls, 11010 total]</span>
+<ul>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>3.49% (25.19%) String#split [11010 calls, 37020 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>2.95% (21.30%) Array#[] [55050 calls, 122067 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>4.28% (9.61%) String#split [13004 calls, 37020 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>4.07% (9.14%) Hash#[] [55050 calls, 57044 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>2.13% (4.78%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#17">Object#parse_user</a> [1994 calls, 1994 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.62% (29.33%) String#split [1994 calls, 37020 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.42% (19.72%) Array#[] [7976 calls, 122067 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.81% (4.06%) Array#concat [24014 calls, 26008 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.63% (3.66%) String#== [26008 calls, 26008 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.43% (3.22%) Array#[] [26008 calls, 122067 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.51% (1.14%) Hash#[]= [1994 calls, 14999 total]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="color3" style="display:block">
+<a href="#" class="toggle minus" ></a>
+<span>37.79% (37.79%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 1 total]</span>
 <ul>
 <li class="color3" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>35.78% (35.78%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#117">Object#parse_to_users_and_sessions</a> [1 calls, 1 total]</span>
+<span>37.78% (100.00%) Array#each [1 calls, 4 total]</span>
 <ul>
 <li class="color3" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>35.78% (100.00%) Array#each [1 calls, 10 total]</span>
+<span>35.26% (93.31%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#59">Object#evaluate_stats</a> [1994 calls, 1994 total]</span>
 <ul>
-<li class="color1" style="display:block">
+<li class="color2" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>11.05% (30.89%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#27">Object#parse_session</a> [11010 calls, 11010 total]</span>
+<span>25.71% (72.93%) Array#map [11964 calls, 11966 total]</span>
 <ul>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.86% (25.85%) String#split [11010 calls, 37020 total]</span>
+<span>3.13% (12.19%) String#to_i [44040 calls, 44040 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.29% (20.68%) Array#[] [55050 calls, 122067 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>3.48% (9.73%) String#split [13004 calls, 37020 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>3.26% (9.10%) Hash#[] [55050 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.68% (4.70%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#17">Object#parse_user</a> [1994 calls, 1994 total]</span>
+<span>2.49% (9.69%) Class#new [11010 calls, 13006 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.51% (30.13%) String#split [1994 calls, 37020 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.33% (19.91%) Array#[] [7976 calls, 122067 total]</span>
+<span>0.78% (31.43%) Date#initialize [11010 calls, 11010 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.44% (4.04%) Array#concat [24014 calls, 26008 total]</span>
+<span>2.14% (8.31%) String#split [11010 calls, 37020 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.32% (3.69%) String#== [26008 calls, 26008 total]</span>
+<span>2.06% (8.01%) Date#iso8601 [11010 calls, 11010 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.13% (3.16%) Array#[] [26008 calls, 122067 total]</span>
+<span>1.70% (6.60%) Array#[] [33030 calls, 122067 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.42% (1.17%) Hash#[]= [1994 calls, 28957 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color1" style="display:block">
-<a href="#" class="toggle minus" ></a>
-<span>18.48% (18.48%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#102">Object#sessions_dates</a> [1 calls, 1 total]</span>
-<ul>
-<li class="color1" style="display:block">
-<a href="#" class="toggle minus" ></a>
-<span>18.48% (100.00%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 7 total]</span>
-<ul>
-<li class="color1" style="display:block">
-<a href="#" class="toggle minus" ></a>
-<span>18.47% (100.00%) Array#each [1 calls, 10 total]</span>
-<ul>
-<li class="color1" style="display:block">
-<a href="#" class="toggle minus" ></a>
-<span>14.58% (78.90%) Array#map [3988 calls, 19942 total]</span>
-<ul>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>2.06% (14.15%) Class#new [11010 calls, 13006 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.64% (30.87%) Date#initialize [11010 calls, 11010 total]</span>
+<span>0.88% (3.42%) String#upcase [11010 calls, 30421 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.74% (11.92%) String#to_i [33030 calls, 55050 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.73% (11.85%) String#split [11010 calls, 37020 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.51% (10.33%) Date#iso8601 [11010 calls, 11010 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.48% (10.18%) Array#[] [33030 calls, 122067 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.48% (2.62%) Array#sort [1994 calls, 3989 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.34% (1.83%) Hash#[] [3988 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.32% (1.72%) String#+ [3988 calls, 31904 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.25% (1.34%) User#attributes [3988 calls, 27916 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.20% (1.08%) Hash#merge [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.17% (0.91%) Hash#[]= [1994 calls, 28957 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (0.62%) Array#reverse [1994 calls, 1994 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.10% (0.57%) User#sessions [1994 calls, 13958 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.87% (6.87%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#81">Object#user_browsers</a> [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.87% (99.98%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 7 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.87% (100.00%) Array#each [1 calls, 10 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>2.76% (40.18%) Array#map [3988 calls, 19942 total]</span>
+<span>2.47% (7.00%) Array#any? [1994 calls, 1994 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.61% (22.29%) String#upcase [11010 calls, 30421 total]</span>
-</li>
-</ul>
+<span>0.90% (36.39%) String#=~ [5824 calls, 8401 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.44% (6.34%) Array#join [1994 calls, 1995 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.41% (6.02%) Array#sort [1994 calls, 3989 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.34% (4.95%) Hash#[] [3988 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.26% (3.83%) String#+ [3988 calls, 31904 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.22% (3.25%) Hash#merge [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.16% (2.32%) User#attributes [3988 calls, 27916 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.14% (2.11%) Hash#[]= [1994 calls, 28957 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (1.58%) User#sessions [1994 calls, 13958 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.64% (6.64%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#67">Object#amount_of_time_by_users</a> [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.64% (99.98%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 7 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.64% (100.00%) Array#each [1 calls, 10 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>2.96% (44.54%) Array#map [3988 calls, 19942 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.56% (18.84%) String#to_i [11010 calls, 55050 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.41% (6.13%) String#+ [5982 calls, 31904 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.31% (4.62%) Hash#[] [3988 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.24% (3.55%) Hash#merge [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.18% (2.73%) User#attributes [3988 calls, 27916 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.15% (2.33%) Hash#[]= [1994 calls, 28957 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.13% (1.97%) Array#sum [1994 calls, 1994 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.13% (1.88%) Integer#to_s [1994 calls, 3988 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (1.59%) User#sessions [1994 calls, 13958 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.39% (6.39%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#74">Object#longest_user_session</a> [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.39% (99.98%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 7 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.39% (99.99%) Array#each [1 calls, 10 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>2.73% (42.72%) Array#map [3988 calls, 19942 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.56% (20.54%) String#to_i [11010 calls, 55050 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.41% (6.39%) String#+ [5982 calls, 31904 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.33% (5.11%) Hash#[] [3988 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.23% (3.56%) Hash#merge [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.16% (2.48%) User#attributes [3988 calls, 27916 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.14% (2.19%) Hash#[]= [1994 calls, 28957 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.13% (1.98%) Integer#to_s [1994 calls, 3988 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (1.72%) Array#max [1994 calls, 1994 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (1.68%) User#sessions [1994 calls, 13958 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.18% (6.18%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#88">Object#any_ie_browser</a> [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.18% (99.98%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 7 total]</span>
-<ul style="display:none">
-<li class="color05" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>6.18% (99.99%) Array#each [1 calls, 10 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.85% (30.02%) Array#any? [1994 calls, 1994 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.63% (33.73%) String#=~ [5824 calls, 8401 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.34% (18.40%) String#upcase [5824 calls, 30421 total]</span>
+<span>0.47% (19.22%) String#upcase [5824 calls, 30421 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.20% (19.39%) Array#map [1994 calls, 19942 total]</span>
+<span>1.15% (3.26%) Array#all? [1994 calls, 1994 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.37% (32.04%) String#=~ [2577 calls, 8401 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.35% (5.68%) Hash#[] [3988 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.28% (4.58%) Hash#merge [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.27% (4.39%) String#+ [3988 calls, 31904 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.16% (2.54%) User#attributes [3988 calls, 27916 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.14% (2.30%) Hash#[]= [1994 calls, 28957 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (1.76%) User#sessions [1994 calls, 13958 total]</span>
+<span>0.22% (18.92%) String#upcase [2577 calls, 30421 total]</span>
 </li>
 </ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.99% (2.81%) Array#sort [3988 calls, 3989 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.47% (1.34%) Array#join [1994 calls, 1995 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.41% (1.18%) String#+ [3988 calls, 7976 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.31% (0.89%) Integer#to_s [3988 calls, 3988 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.17% (0.48%) Array#sum [1994 calls, 1994 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.15% (0.43%) Array#count [1994 calls, 1996 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.15% (0.42%) Array#reverse [1994 calls, 1994 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.15% (0.42%) Array#max [1994 calls, 1994 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.15% (0.41%) User#sessions [1994 calls, 1994 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.45% (1.19%) Hash#[]= [1994 calls, 14999 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.37% (0.98%) String#+ [3988 calls, 7976 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.25% (0.66%) User#attributes [3988 calls, 3988 total]</span>
 </li>
 </ul>
 </li>
@@ -1092,121 +900,59 @@
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>4.80% (4.80%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#95">Object#always_chrome_browser</a> [1 calls, 1 total]</span>
+<span>5.16% (5.16%) Array#each [1 calls, 4 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>4.79% (99.98%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 7 total]</span>
+<span>2.79% (54.08%) <a href="file:///Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb#511">Set#&lt;&lt;</a> [11010 calls, 11010 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>4.79% (99.99%) Array#each [1 calls, 10 total]</span>
+<span>1.01% (36.23%) Hash#[]= [11010 calls, 14999 total]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>4.17% (4.17%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>2.71% (2.71%) Array#map [2 calls, 11966 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.94% (19.61%) Array#map [1994 calls, 19942 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.90% (18.81%) Array#all? [1994 calls, 1994 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.29% (32.01%) String#=~ [2577 calls, 8401 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.15% (16.81%) String#upcase [2577 calls, 30421 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.32% (6.72%) Hash#[] [3988 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.27% (5.71%) String#+ [3988 calls, 31904 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.27% (5.61%) Hash#merge [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.16% (3.30%) User#attributes [3988 calls, 27916 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.14% (2.86%) Hash#[]= [1994 calls, 28957 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (2.25%) User#sessions [1994 calls, 13958 total]</span>
-</li>
-</ul>
-</li>
-</ul>
+<span>0.77% (28.51%) String#upcase [11010 calls, 30421 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>4.00% (4.00%) Array#each [1 calls, 10 total]</span>
+<span>2.00% (2.00%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#47">Object#create_objects_from_users</a> [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.17% (54.18%) <a href="file:///Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb#511">Set#&lt;&lt;</a> [11010 calls, 11010 total]</span>
+<span>2.00% (99.96%) Array#each [1 calls, 4 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.73% (33.79%) Hash#[]= [11010 calls, 28957 total]</span>
+<span>0.64% (32.22%) Class#new [1994 calls, 13006 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.27% (42.19%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#11">User#initialize</a> [1994 calls, 1994 total]</span>
 </li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>3.39% (3.39%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#60">Object#sessions_num_by_users</a> [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>3.39% (99.96%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#39">Object#collect_stats_from_users</a> [1 calls, 7 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>3.39% (99.99%) Array#each [1 calls, 10 total]</span>
-<ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.46% (13.51%) Hash#[]= [3988 calls, 28957 total]</span>
+<span>0.34% (16.82%) Hash#[] [1994 calls, 57044 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.27% (7.99%) Hash#[] [3988 calls, 84960 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.26% (7.56%) String#+ [3988 calls, 31904 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.17% (5.15%) Hash#merge [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.16% (4.60%) User#attributes [3988 calls, 27916 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.12% (3.51%) User#sessions [1994 calls, 13958 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.11% (3.24%) Array#count [1994 calls, 1996 total]</span>
-</li>
-</ul>
+<span>0.13% (6.75%) Array#concat [1994 calls, 26008 total]</span>
 </li>
 </ul>
 </li>
@@ -1214,77 +960,29 @@
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.48% (2.48%) Array#map [2 calls, 19942 total]</span>
+<span>1.73% (1.73%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.62% (24.78%) String#upcase [11010 calls, 30421 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>1.66% (1.66%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#48">Object#create_objects_from_users</a> [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.66% (99.95%) Array#each [1 calls, 10 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.57% (34.53%) Class#new [1994 calls, 13006 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.23% (39.78%) <a href="file:///Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb#11">User#initialize</a> [1994 calls, 1994 total]</span>
+<span>0.00% (0.03%) JSON::Ext::Generator::State#initialize [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.28% (16.93%) Hash#[] [1994 calls, 84960 total]</span>
+<span>0.85% (0.85%) Array#sort [1 calls, 3989 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.09% (5.52%) Array#concat [1994 calls, 26008 total]</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.57% (1.57%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.02%) JSON::Ext::Generator::State#initialize [1 calls, 1 total]</span>
+<span>0.54% (0.54%) String#split [2 calls, 37020 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.02%) String#eql? [1 calls, 2 total]</span>
-</li>
-</ul>
+<span>0.27% (0.27%) Array#uniq [1 calls, 1 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.68% (0.68%) Array#sort [1 calls, 3989 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.45% (0.45%) String#split [2 calls, 37020 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.23% (0.23%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.22% (0.22%) Array#uniq [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.09% (0.09%) &lt;Class::IO&gt;#read [1 calls, 1 total]</span>
+<span>0.11% (0.11%) &lt;Class::IO&gt;#read [1 calls, 1 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
@@ -1292,21 +990,21 @@
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.01% (79.37%) <a href="file:///Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb#243">Set#initialize</a> [1 calls, 1 total]</span>
+<span>0.01% (70.66%) <a href="file:///Users/diana/.asdf/installs/ruby/3.3.1/lib/ruby/3.3.0/set.rb#243">Set#initialize</a> [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (19.50%) Class#new [1 calls, 13006 total]</span>
+<span>0.00% (18.03%) Class#new [1 calls, 13006 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (69.23%) Hash#initialize [1 calls, 1 total]</span>
+<span>0.00% (39.39%) Hash#initialize [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (3.50%) NilClass#nil? [1 calls, 1 total]</span>
+<span>0.00% (5.46%) NilClass#nil? [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>
@@ -1314,11 +1012,7 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Array#join [1 calls, 1995 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Array#count [2 calls, 1996 total]</span>
+<span>0.01% (0.01%) Array#join [1 calls, 1995 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
@@ -1326,17 +1020,13 @@
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (25.42%) Hash#size [1 calls, 1 total]</span>
+<span>0.00% (19.05%) Hash#size [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) String#start_with? [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) String#eql? [1 calls, 2 total]</span>
+<span>0.00% (0.00%) Array#count [2 calls, 1996 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
@@ -1344,7 +1034,11 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Hash#[]= [1 calls, 28957 total]</span>
+<span>0.00% (0.00%) Hash#[]= [1 calls, 14999 total]</span>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (0.00%) String#start_with? [1 calls, 1 total]</span>
 </li>
 </ul>
 </li>

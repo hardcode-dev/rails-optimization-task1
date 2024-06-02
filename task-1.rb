@@ -36,11 +36,10 @@ def parse_session(session)
   {uid: user_id, session: parsed_result}
 end
 
-def collect_stats_from_users(report, users_objects, &block)
+def collect_stats_from_users(report, users_objects)
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']}" + ' ' + "#{user.attributes['last_name']}"
-    report['usersStats'][user_key] ||= {}
-    report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
+    report['usersStats'][user_key] = evaluate_stats(user)
   end
 end
 
@@ -57,61 +56,25 @@ def create_objects_from_users(users_ary, uid_to_sessions)
   users_objects
 end
 
-def sessions_num_by_users(report, users_objects)
-  # Собираем количество сессий по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'sessionsCount' => user.sessions&.count || 0 }
-  end
-end
-
-def amount_of_time_by_users(report, users_objects)
-  # Собираем количество времени по пользователям
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
-  end
-end
-
-def longest_user_session(report, users_objects)
-  # Выбираем самую длинную сессию пользователя
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
-  end
-end
-
-def user_browsers(report, users_objects)
-  # Браузеры пользователя через запятую
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
-  end
-end
-
-def any_ie_browser(report, users_objects)
-  # Хоть раз использовал IE?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
-  end
-end
-
-def always_chrome_browser(report, users_objects)
-  # Всегда использовал только Chrome?
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
-  end
-end
-
-def sessions_dates(report, users_objects)
-  # Даты сессий через запятую в обратном порядке в формате iso8601
-  collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions
-                     .map{|s| s['date']}
-                     .sort
-                     .reverse
-                     .map do |date|
-                        date_ary = date.split('-')
-                        Date.new(date_ary[0].to_i, date_ary[1].to_i, date_ary[2].to_i).iso8601
-                     end
-    }
-  end
+def evaluate_stats(user)
+  sessions = user.sessions
+  time = sessions.map {|s| s['time']}.map {|t| t.to_i}
+  browsers = sessions.map {|s| s['browser']}
+  dates = sessions.map{|s| s['date']}
+  {
+    'sessionsCount' => sessions.count,
+    'totalTime' => time.sum.to_s + ' min.',
+    'longestSession' => time.max.to_s + ' min.',
+    'browsers' => browsers.map {|b| b.upcase}.sort.join(', '),
+    'usedIE' => browsers.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
+    'alwaysUsedChrome' => browsers.all? { |b| b.upcase =~ /CHROME/ },
+    'dates' => dates.sort
+                    .reverse
+                    .map do |date|
+                      date_ary = date.split('-')
+                      Date.new(date_ary[0].to_i, date_ary[1].to_i, date_ary[2].to_i).iso8601
+                    end
+  }
 end
 
 def parse_to_users_and_sessions(file_lines, users, sessions, uid_to_sessions)
@@ -185,13 +148,7 @@ def work
 
   report['usersStats'] = {}
 
-  sessions_num_by_users(report, users_objects)
-  amount_of_time_by_users(report, users_objects)
-  longest_user_session(report, users_objects)
-  user_browsers(report, users_objects)
-  any_ie_browser(report, users_objects)
-  always_chrome_browser(report, users_objects)
-  sessions_dates(report, users_objects)
+  collect_stats_from_users(report, users_objects)
 
   File.write('result.json', "#{report.to_json}\n")
 end

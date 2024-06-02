@@ -9,6 +9,6 @@ Benchmark.ips do |x|
     confidence: 95,
   )
   x.report("task 1") do
-    work('data_large.txt')
+    work('data3.txt')
   end
 end

@@ -1,0 +1,6 @@
+/.bundle
+/.idea
+.DS_Store
+result.json
+report.html
+data_large.txt

@@ -54,7 +54,7 @@ class Report
         'browsers' => browsers.map { |b| b.upcase }.sort.join(', '),
         'usedIE' => browsers.any? { |b| b.upcase =~ /INTERNET EXPLORER/ },
         'alwaysUsedChrome' => browsers.all? { |b| b.upcase =~ /CHROME/ },
-        'dates' => user['sessions'].map { |s| s['date'] }.map { |d| Date.new(*d.split('-').map(&:to_i)) }.sort.reverse.map { |d| d.iso8601 },
+        'dates' => user['sessions'].map { |s| s['date'] }.sort.reverse!,
       }
     end
 

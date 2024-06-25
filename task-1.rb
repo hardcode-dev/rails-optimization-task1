@@ -104,14 +104,15 @@ def work(disable_gc: false, file_name: ARGV[0] || 'data.txt')
   # Даты сессий через запятую в обратном порядке в формате iso8601
 
   collect_stats_from_users(users_objects) do |user|
+    user_sessions = user.sessions
     {
-      'sessionsCount' => user.sessions.count,
-      'totalTime' => user.sessions.sum {|s| s['time'].to_i}.to_s + ' min.',
-      'longestSession' => user.sessions.max_by {|s| s['time'].to_i}['time'].to_s + ' min.',
-      'browsers' => user.sessions.map {|s| s['browser'].upcase}.sort.join(', '),
-      'usedIE' => user.sessions.any?{|s| s['browser'].upcase =~ /INTERNET EXPLORER/ },
-      'alwaysUsedChrome' => user.sessions.all?{|s| s['browser'].upcase =~ /CHROME/},
-      'dates' => user.sessions.map{|s| Date.strptime(s['date']).iso8601 }.sort.reverse,
+      'sessionsCount' => user_sessions.count,
+      'totalTime' => user_sessions.sum {|s| s['time'].to_i}.to_s + ' min.',
+      'longestSession' => user_sessions.max_by {|s| s['time'].to_i}['time'].to_s + ' min.',
+      'browsers' => user_sessions.map {|s| s['browser'].upcase}.sort.join(', '),
+      'usedIE' => user_sessions.any?{|s| s['browser'].upcase =~ /INTERNET EXPLORER/ },
+      'alwaysUsedChrome' => user_sessions.all?{|s| s['browser'].upcase =~ /CHROME/},
+      'dates' => user_sessions.map{|s| Date.strptime(s['date']).iso8601 }.sort.reverse,
     }
   end
   File.write('result.json', "#{@report.to_json}\n")

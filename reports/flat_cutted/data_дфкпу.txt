@@ -1,0 +1,34 @@
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 0.000543
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 86.40      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
+  5.07      0.001     0.000     0.000     0.001        1   [global]#                      test.rb:9
+  4.02      0.000     0.000     0.000     0.000        1   SystemCallError#initialize     
+  3.45      0.001     0.000     0.000     0.000        1   Object#work                    /mnt/c/Users/Home/study/task-1/task-1.rb:48
+  0.53      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:69
+  0.29      0.000     0.000     0.000     0.000        1   Exception#initialize           
+  0.13      0.000     0.000     0.000     0.000        1   Exception#backtrace            
+  0.11      0.000     0.000     0.000     0.000        1   Exception#exception            
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

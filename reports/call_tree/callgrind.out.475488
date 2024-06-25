@@ -1,0 +1,158 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 2
+
+fl=
+fn=Exception::exception
+0 4
+
+fl=
+fn=Exception::initialize
+0 5
+
+fl=
+fn=SignalException::initialize
+0 9
+cfl=
+cfn=Exception::initialize
+calls=1 0
+0 5
+
+fl=
+fn=Interrupt::initialize
+0 16
+cfl=
+cfn=SignalException::initialize
+calls=1 0
+0 14
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_session
+26 4465230
+cfl=
+cfn=String::[]
+calls=6521940 28
+28 3275772
+
+fl=
+fn=Array::<<
+0 549622
+
+fl=
+fn=String::<<
+0 292457
+
+fl=
+fn=String::[]
+0 4209961
+
+fl=
+fn=String::inspect
+0 558543
+
+fl=
+fn=Kernel::p
+0 7880031
+cfl=
+cfn=String::inspect
+calls=237077 0
+0 558543
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_user
+17 1648560
+cfl=
+cfn=Kernel::p
+calls=237077 18
+18 8438574
+cfl=
+cfn=String::[]
+calls=948308 20
+20 934189
+cfl=
+cfn=String::<<
+calls=474154 20
+20 292457
+
+fl=
+fn=String::==
+0 849332
+
+fl=
+fn=Array::[]
+0 762675
+
+fl=
+fn=Array::each
+0 4914944
+cfl=
+cfn=String::split
+calls=1541466 53
+53 5606974
+cfl=
+cfn=Array::[]
+calls=3082930 55
+55 762675
+cfl=
+cfn=String::==
+calls=3082930 55
+55 849332
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_user
+calls=237077 55
+55 11313779
+cfl=
+cfn=Array::<<
+calls=1541465 55
+55 549622
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_session
+calls=1304388 56
+56 7741002
+
+fl=
+fn=String::split
+0 6140578
+cfl=
+cfn=Interrupt::initialize
+calls=1 0
+0 30
+cfl=
+cfn=Exception::exception
+calls=1 0
+0 4
+cfl=
+cfn=Exception::backtrace
+calls=1 0
+0 2
+
+fl=
+fn=IO::read^
+0 454245
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+44 37
+cfl=
+cfn=IO::read^
+calls=1 47
+47 454245
+cfl=
+cfn=String::split
+calls=1 47
+47 533640
+cfl=
+cfn=Array::each
+calls=1 52
+52 31738329
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 142
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 32726251
+

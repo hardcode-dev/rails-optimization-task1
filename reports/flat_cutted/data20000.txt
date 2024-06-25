@@ -1,0 +1,54 @@
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 0.136526
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 19.94      0.027     0.027     0.000     0.000        1   <Class::IO>#read               
+ 18.23      0.037     0.025     0.000     0.012        3   Array#each                     
+ 14.22      0.030     0.019     0.000     0.011    16954   Object#parse_session           /mnt/c/Users/Home/study/task-1/task-1.rb:26
+ 12.55      0.069     0.017     0.000     0.052        6   Array#map                      
+ 12.19      0.017     0.017     0.000     0.000   116954   Array#[]                       
+ 11.31      0.015     0.015     0.000     0.000    20001   String#split                   
+  2.04      0.005     0.003     0.000     0.002     3046   Object#parse_user              /mnt/c/Users/Home/study/task-1/task-1.rb:17
+  1.69      0.002     0.002     0.000     0.000     9138   Hash#[]                        
+  1.50      0.002     0.002     0.000     0.000     6092   Hash#[]=                       
+  1.02      0.002     0.001     0.000     0.001     3046   Class#new                      
+  0.97      0.001     0.001     0.000     0.000        1   Array#uniq                     
+  0.84      0.001     0.001     0.000     0.000     6092   String#+                       
+  0.73      0.001     0.001     0.000     0.000     3046   User#initialize                /mnt/c/Users/Home/study/task-1/task-1.rb:11
+  0.69      0.001     0.001     0.000     0.000     3045   Hash#merge                     
+  0.63      0.001     0.001     0.000     0.000     6092   User#attributes                
+  0.62      0.001     0.001     0.000     0.000     6091   User#sessions                  
+  0.31      0.000     0.000     0.000     0.000     3048   Array#count                    
+  0.29      0.000     0.000     0.000     0.000     3045   Kernel#nil?                    
+  0.12      0.136     0.000     0.000     0.136        1   Object#work                    /mnt/c/Users/Home/study/task-1/task-1.rb:48
+  0.03      0.000     0.000     0.000     0.000        1   Array#sort                     
+  0.03      0.000     0.000     0.000     0.000      200   String#upcase                  
+  0.02      0.137     0.000     0.000     0.136        1   [global]#                      test.rb:9
+  0.01      0.020     0.000     0.000     0.020        2   Enumerable#group_by            
+  0.01      0.000     0.000     0.000     0.000        1   Array#join                     
+  0.00      0.020     0.000     0.000     0.020        1   Object#split_lines             /mnt/c/Users/Home/study/task-1/task-1.rb:44
+  0.00      0.017     0.000     0.000     0.017        1   Object#collect_stats_from_users /mnt/c/Users/Home/study/task-1/task-1.rb:36
+  0.00      0.000     0.000     0.000     0.000        1   NilClass#nil?                  
+  0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:69
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

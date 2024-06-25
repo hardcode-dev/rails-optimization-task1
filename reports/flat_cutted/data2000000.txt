@@ -1,0 +1,60 @@
+Measure Mode: wall_time
+Thread ID: 260
+Fiber ID: 240
+Total: 40.853404
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 19.59     22.687     8.005     0.000    14.682  1227192   Array#map                      
+ 17.12     19.758     6.992     0.000    12.765        3   Array#each                     
+ 12.37      7.687     5.052     0.000     2.635  1692482   Object#parse_session           /mnt/c/Users/Home/study/task-1/task-1.rb:26
+ 11.60      4.740     4.740     0.000     0.000  2000001   String#split                   
+  9.54      3.898     3.898     0.000     0.000 11692482   Array#[]                       
+  3.25      1.330     1.330     0.000     0.000  1264981   String#=~                      
+  2.62      1.069     1.069     0.000     0.000        1   <Class::IO>#write              
+  2.59      1.058     1.058     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  2.27      0.925     0.925     0.000     0.000   609267   Array#sort                     
+  2.10      1.315     0.858     0.000     0.457   307518   Object#parse_user              /mnt/c/Users/Home/study/task-1/task-1.rb:17
+  1.92      0.785     0.785     0.000     0.000        1   <Class::IO>#read               
+  1.83      0.747     0.747     0.000     0.000  1692682   String#upcase                  
+  1.63      1.592     0.665     0.000     0.927   304633   Array#any?                     
+  1.51      0.617     0.617     0.000     0.000  1692482   String#to_i                    
+  1.38      0.563     0.563     0.000     0.000   304634   Hash#[]=                       
+  1.32      0.539     0.539     0.000     0.000   615036   Hash#[]                        
+  1.09      0.702     0.447     0.000     0.255   307518   Class#new                      
+  0.98      0.399     0.399     0.000     0.000   304634   Array#join                     
+  0.92      0.375     0.375     0.000     0.000  1227187   User#sessions                  
+  0.84      0.747     0.344     0.000     0.403   304633   Array#all?                     
+  0.70      0.287     0.287     0.000     0.000        1   Array#uniq                     
+  0.62      0.255     0.255     0.000     0.000   307518   User#initialize                /mnt/c/Users/Home/study/task-1/task-1.rb:11
+  0.44      0.181     0.181     0.000     0.000   615036   User#attributes                
+  0.40      0.165     0.165     0.000     0.000   304633   Array#reverse                  
+  0.32      0.130     0.130     0.000     0.000   304633   Array#max                      
+  0.30      0.121     0.121     0.000     0.000   304633   Array#sum                      
+  0.27      0.111     0.111     0.000     0.000   304636   Array#count                    
+  0.25      0.103     0.103     0.000     0.000   307518   Kernel#nil?                    
+  0.22     40.853     0.091     0.000    40.762        1   Object#work                    /mnt/c/Users/Home/study/task-1/task-1.rb:48
+  0.00     40.853     0.000     0.000    40.853        1   [global]#                      test.rb:9
+  0.00      4.201     0.000     0.000     4.201        2   Enumerable#group_by            
+  0.00      6.142     0.000     0.000     6.142        1   Object#split_lines             /mnt/c/Users/Home/study/task-1/task-1.rb:44
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+  0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:69
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

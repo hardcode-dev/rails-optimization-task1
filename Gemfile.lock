@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ruby-prof (1.7.0)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  ruby-prof
+
+RUBY VERSION
+   ruby 3.2.0p0
+
+BUNDLED WITH
+   2.5.16

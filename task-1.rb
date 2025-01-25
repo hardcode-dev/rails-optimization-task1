@@ -93,13 +93,9 @@ def work(filename)
       .join(',')
 
   # Статистика по пользователям
-  users_objects = []
-
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects + [user_object]
+  user_sessions = sessions.group_by { |session| session['user_id'] }
+  users_objects = users.map do |user|
+    User.new(attributes: user, sessions: user_sessions[user['id']] || [])
   end
 
   report['usersStats'] = {}

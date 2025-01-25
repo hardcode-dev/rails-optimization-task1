@@ -1,10 +1,10 @@
 require 'minitest/autorun'
-require_relative 'task-1'
+require_relative '../task-1'
 
 class TestMe < Minitest::Test
   def setup
     File.write('result.json', '')
-    File.write('data.txt',
+    File.write('data/data.txt',
                'user,0,Leida,Cira,0
 session,0,0,Safari 29,87,2016-10-23
 session,0,1,Firefox 12,118,2017-02-27

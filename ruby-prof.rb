@@ -20,5 +20,5 @@ graph_printer.print(File.open("ruby_prof_reports/graph.html", "w+"))
 printer_callstack = RubyProf::CallStackPrinter.new(result)
 printer_callstack.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
 
-printer_calltree = RubyProf::CallTreePrinter.new(result)
-printer_calltree.print(:path => "ruby_prof_reports", :profile => 'callgrind')
+# printer_calltree = RubyProf::CallTreePrinter.new(result)
+# printer_calltree.print(:path => "ruby_prof_reports", :profile => 'callgrind')

@@ -3,3 +3,4 @@ source "https://rubygems.org"
 
 gem 'ruby-prof'
 gem 'rspec-benchmark'
+gem 'stackprof'

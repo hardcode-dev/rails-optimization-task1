@@ -24,6 +24,7 @@ GEM
       rspec-support (~> 3.13.0)
     rspec-support (3.13.2)
     ruby-prof (1.7.0)
+    stackprof (0.2.27)
 
 PLATFORMS
   ruby
@@ -32,6 +33,7 @@ PLATFORMS
 DEPENDENCIES
   rspec-benchmark
   ruby-prof
+  stackprof
 
 RUBY VERSION
    ruby 3.3.6p108

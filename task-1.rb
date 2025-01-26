@@ -5,6 +5,7 @@ require 'pry'
 require 'date'
 require 'minitest/autorun'
 require 'csv'
+require 'stackprof'
 
 class User
   attr_reader :attributes, :sessions
@@ -16,31 +17,29 @@ class User
 end
 
 def parse_user(cols)
-  fields = cols.split(',')
+  _, id, first_name, last_name, age = cols.split(',')
   {
-    'id' => fields[1],
-    'first_name' => fields[2],
-    'last_name' => fields[3],
-    'age' => fields[4],
+    'id' => id,
+    'first_name' => first_name,
+    'last_name' => last_name,
+    'age' => age,
   }
 end
 
 def parse_session(cols)
-  fields = cols.split(',')
+  _, user_id, session_id, browser, time, date = cols.split(',')
   {
-    'user_id' => fields[1],
-    'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+    'user_id' => user_id,
+    'session_id' => session_id,
+    'browser' => browser,
+    'time' => time,
+    'date' => date,
   }
 end
 
 def work(filename = 'data.txt')
   report = {}
-  # file_lines = File.read(filename).split("\n")
 
-  # users_sessions = {}
   current_user = nil
   uniqueBrowsers = Set.new
   totalSessions = 0
@@ -59,7 +58,7 @@ def work(filename = 'data.txt')
       user_object.sessions.push session
 
       totalSessions += 1
-      uniqueBrowsers.add(session['browser'])
+      uniqueBrowsers.add(session['browser'].upcase)
     end
   end
 
@@ -79,14 +78,12 @@ def work(filename = 'data.txt')
   #     - Всегда использовал только Хром? +
   #     - даты сессий в порядке убывания через запятую +
 
-
-
   report['totalUsers'] = users_objects.count
 
   # Подсчёт количества уникальных браузеров
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
   report['totalSessions'] = totalSessions
-  report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
+  report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
   report['usersStats'] = {}
 
@@ -94,8 +91,9 @@ def work(filename = 'data.txt')
 
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
-    times = user.sessions.map {|s| s['time']}.map(&:to_i)
-    browsers = user.sessions.map {|s| s['browser']}.map(&:upcase)
+
+    times = user.sessions.map { |s| s['time'].to_i }
+    browsers = user.sessions.map { |s| s['browser'].upcase }
 
     dates = user.sessions.map do |session|
       cached_dates[session['date']] ||= Date.parse(session['date'])
@@ -116,18 +114,28 @@ def work(filename = 'data.txt')
   File.write('result.json', "#{report.to_json}\n")
 end
 
-require 'ruby-prof'
+# require 'ruby-prof'
 
-GC.disable
-RubyProf.measure_mode = RubyProf::WALL_TIME
+# GC.disable
+# RubyProf.measure_mode = RubyProf::WALL_TIME
 
-result = RubyProf::Profile.profile do
-  work('data_large.txt')
-end
+# result = RubyProf::Profile.profile do
+#   work('data_large.txt')
+# end
 
-printer = RubyProf::CallStackPrinter.new(result)
-printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
+# printer = RubyProf::CallStackPrinter.new(result)
+# printer.print(File.open('ruby_prof_reports/callstack.html', 'w+'))
 
+time = Time.now
+work('data_large.txt')
+end_time = Time.now
+p end_time - time
+
+# profile = StackProf.run(mode: :wall, raw: true) do
+#   work('data_large.txt')
+# end
+
+# File.write('stackprof_reports/stackprof.json', JSON.generate(profile))
 
 class TestMe < Minitest::Test
   def setup

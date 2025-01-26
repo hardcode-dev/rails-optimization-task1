@@ -2,7 +2,7 @@ require 'benchmark'
 require 'benchmark/ips'
 require_relative 'task-1_with_argument.rb'
 
-COUNTERS = [1, 2, 4, 8, 16, 32]
+COUNTERS = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
 COUNTERS.each do |counter|
   time = Benchmark.realtime do
@@ -29,7 +29,7 @@ Benchmark.ips do |x|
   )
 
   x.report("work") do
-    `head -n #{16_000} data_large.txt > data_small.txt`
+    `head -n #{128000} data_large.txt > data_small.txt`
     work('data_small.txt')
   end
 end

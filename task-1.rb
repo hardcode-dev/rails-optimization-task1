@@ -66,7 +66,7 @@ def work(file_name:)
   file_lines.each do |line|
     cols = line.split(',')
     users.concat([parse_user(line)]) if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    sessions.concat([parse_session(line)]) if cols[0] == 'session'
   end
   progressbar.increment
 

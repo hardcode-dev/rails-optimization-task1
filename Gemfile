@@ -1,4 +1,4 @@
-ruby '3.2.0'
+ruby '3.3.6'
 source "https://rubygems.org"
 
 gem 'ruby-prof'

@@ -35,7 +35,6 @@ def parse_session(session)
   }
 end
 
-
 def work(filename = 'data.txt')
   report = {}
   file_lines = File.read(filename).split("\n")
@@ -44,7 +43,6 @@ def work(filename = 'data.txt')
   current_user = nil
   uniqueBrowsers = Set.new
   totalSessions = 0
-  allBrowsers = Set.new
 
   users_objects = []
 
@@ -81,26 +79,9 @@ def work(filename = 'data.txt')
   report[:totalUsers] = users_sessions.count
 
   # Подсчёт количества уникальных браузеров
-  # uniqueBrowsers = []
-  # sessions.each do |session|
-  #   browser = session['browser']
-  #   uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  # end
-
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
-
-  # report['totalSessions'] = sessions.count
-
   report['totalSessions'] = totalSessions
   report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
-
-  # report['allBrowsers'] =
-  #   sessions
-  #     .map { |s| s['browser'] }
-  #     .map { |b| b.upcase }
-  #     .sort
-  #     .uniq
-  #     .join(',')
 
   # Статистика по пользователям
 
@@ -110,19 +91,19 @@ def work(filename = 'data.txt')
     users_objects.push user_object
   end
 
-  # users.each do |user|
-  #   attributes = user
-  #   user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-  #   user_object = User.new(attributes: attributes, sessions: user_sessions)
-  #   users_objects = users_objects + [user_object]
-  # end
-
   report['usersStats'] = {}
+
+  cached_dates = {}
 
   users_objects.each do |user|
     user_key = "#{user.attributes['first_name']} #{user.attributes['last_name']}"
     times = user.sessions.map {|s| s['time']}.map(&:to_i)
     browsers = user.sessions.map {|s| s['browser']}.map(&:upcase)
+
+    dates = user.sessions.map do |session|
+      cached_dates[session['date']] ||= Date.parse(session['date'])
+      cached_dates[session['date']]
+    end
 
     report['usersStats'][user_key] = {
       'sessionsCount' => user.sessions.count,
@@ -131,7 +112,7 @@ def work(filename = 'data.txt')
       'browsers' => browsers.sort.join(', '),
       'usedIE' => browsers.any? { |b| b =~ /INTERNET EXPLORER/ },
       'alwaysUsedChrome' =>  browsers.all? { |b| b =~ /CHROME/ },
-      'dates' => user.sessions.map{ |s| Date.parse(s['date']) }.sort.reverse.map { |d| d.iso8601 }
+      'dates' => dates.sort.reverse.map { |d| d.iso8601 }
     }
   end
 

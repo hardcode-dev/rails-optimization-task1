@@ -3,6 +3,8 @@
 require 'json'
 require 'pry'
 require 'date'
+require 'ruby-progressbar'
+
 class User
   attr_reader :attributes, :sessions
 
@@ -41,8 +43,22 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
+def select_sessions_for_users(sessions)
+  sessions.each_with_object({}) do |session, result|
+    result[session['user_id']] ||= []
+    result[session['user_id']] << session
+  end
+end
+
 def work(file_name:)
+  progressbar = ProgressBar.create(
+    total: 12,
+    format: '%a, %J, %E %B',
+    output: file_name == 'data.txt' ? File.open(File::NULL, 'w') : $stdout # TEST
+  )
+
   file_lines = File.read(file_name).split("\n")
+  progressbar.increment
 
   users = []
   sessions = []
@@ -52,6 +68,7 @@ def work(file_name:)
     users = users + [parse_user(line)] if cols[0] == 'user'
     sessions = sessions + [parse_session(line)] if cols[0] == 'session'
   end
+  progressbar.increment
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -78,6 +95,7 @@ def work(file_name:)
     browser = session['browser']
     uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
   end
+  progressbar.increment
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
@@ -94,12 +112,14 @@ def work(file_name:)
   # Статистика по пользователям
   users_objects = []
 
+  users_sessions = select_sessions_for_users(sessions)
+
   users.each do |user|
     attributes = user
-    user_sessions = sessions.select { |session| session['user_id'] == user['id'] }
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
+    user_object = User.new(attributes: attributes, sessions: users_sessions[user['id']])
     users_objects = users_objects + [user_object]
   end
+  progressbar.increment
 
   report['usersStats'] = {}
 
@@ -107,36 +127,44 @@ def work(file_name:)
   collect_stats_from_users(report, users_objects) do |user|
     { 'sessionsCount' => user.sessions.count }
   end
+  progressbar.increment
 
   # Собираем количество времени по пользователям
   collect_stats_from_users(report, users_objects) do |user|
     { 'totalTime' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.' }
   end
+  progressbar.increment
 
   # Выбираем самую длинную сессию пользователя
   collect_stats_from_users(report, users_objects) do |user|
     { 'longestSession' => user.sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.' }
   end
+  progressbar.increment
 
   # Браузеры пользователя через запятую
   collect_stats_from_users(report, users_objects) do |user|
     { 'browsers' => user.sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort.join(', ') }
   end
+  progressbar.increment
 
   # Хоть раз использовал IE?
   collect_stats_from_users(report, users_objects) do |user|
     { 'usedIE' => user.sessions.map{|s| s['browser']}.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
   end
+  progressbar.increment
 
   # Всегда использовал только Chrome?
   collect_stats_from_users(report, users_objects) do |user|
     { 'alwaysUsedChrome' => user.sessions.map{|s| s['browser']}.all? { |b| b.upcase =~ /CHROME/ } }
   end
+  progressbar.increment
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
     { 'dates' => user.sessions.map{|s| s['date']}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
   end
+  progressbar.increment
 
   File.write('result.json', "#{report.to_json}\n")
+  progressbar.increment
 end

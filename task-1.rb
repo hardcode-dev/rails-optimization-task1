@@ -116,7 +116,8 @@ def work(file_name:)
 
   users.each do |user|
     attributes = user
-    user_object = User.new(attributes: attributes, sessions: users_sessions[user['id']])
+    user_sessions = users_sessions[user['id']] || []
+    user_object = User.new(attributes: attributes, sessions: user_sessions)
     users_objects = users_objects + [user_object]
   end
   progressbar.increment

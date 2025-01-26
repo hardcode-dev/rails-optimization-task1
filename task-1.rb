@@ -50,8 +50,8 @@ def work(filename)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users + [parse_user(line)] if cols[0] == 'user'
-    sessions = sessions + [parse_session(line)] if cols[0] == 'session'
+    users.append(parse_user(line)) if cols[0] == 'user'
+    sessions.append(parse_session(line)) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -74,11 +74,7 @@ def work(filename)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
-  sessions.each do |session|
-    browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
-  end
+  uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 

@@ -18,9 +18,9 @@ describe 'Performance' do
     end.to perform_under(600).ms.warmup(2).times.sample(5).times
   end
 
-  it '640_000 works under 4.5s' do
+  it '640_000 works under 3.1s' do
     expect do
       work('data/data640000.txt')
-    end.to perform_under(4.5).sec.warmup(2).times.sample(5).times
+    end.to perform_under(3.1).sec.warmup(2).times.sample(5).times
   end
 end

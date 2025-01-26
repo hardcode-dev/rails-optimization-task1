@@ -96,7 +96,7 @@ def work(filename)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    user_session_time = user.sessions.map { |s| s['time'] }.map(&:to_i)
+    user_session_time = user.sessions.map { |s| s['time'].to_i }
     user_session_browser = user.sessions.map { |s| s['browser'].upcase }.sort
 
     {
@@ -116,10 +116,10 @@ def work(filename)
       'usedIE' => user_session_browser.any? { |b| b =~ /INTERNET EXPLORER/ },
 
       # Всегда использовал только Chrome?
-      'alwaysUsedChrome' => user_session_browser.all? { |b| b.upcase =~ /CHROME/ },
+      'alwaysUsedChrome' => user_session_browser.all? { |b| b =~ /CHROME/ },
 
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => user.sessions.map { |s| s['date'] }.map { |d| Date.parse(d) }.sort.reverse.map(&:iso8601)
+      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse
     }
   end
 

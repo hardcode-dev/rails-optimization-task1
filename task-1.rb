@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
+require 'csv'
 
 class User
   attr_reader :attributes, :sessions
@@ -14,9 +15,9 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(cols)
+  fields = cols.split(',')
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -24,9 +25,9 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(cols)
+  fields = cols.split(',')
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -37,28 +38,31 @@ end
 
 def work(filename = 'data.txt')
   report = {}
-  file_lines = File.read(filename).split("\n")
+  # file_lines = File.read(filename).split("\n")
 
-  users_sessions = {}
+  # users_sessions = {}
   current_user = nil
   uniqueBrowsers = Set.new
   totalSessions = 0
-
+  user_object = nil
   users_objects = []
 
-  file_lines.each do |line|
+  File.readlines(filename, chomp: true).each do |line|
     cols = line.split(',')
     if cols[0] == 'user'
       current_user = parse_user(line)
-      users_sessions[current_user] = []
+      user_object = User.new(attributes: current_user, sessions: [])
+      users_objects.push user_object
+      # users_sessions[current_user] = []
     elsif cols[0] == 'session'
       session = parse_session(line)
-      users_sessions[current_user].push session
+      user_object.sessions.push session
 
       totalSessions += 1
       uniqueBrowsers.add(session['browser'])
     end
   end
+
 
   # Отчёт в json
   #   - Сколько всего юзеров +
@@ -76,20 +80,13 @@ def work(filename = 'data.txt')
   #     - даты сессий в порядке убывания через запятую +
 
 
-  report[:totalUsers] = users_sessions.count
+
+  report['totalUsers'] = users_objects.count
 
   # Подсчёт количества уникальных браузеров
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
   report['totalSessions'] = totalSessions
   report['allBrowsers'] = uniqueBrowsers.map(&:upcase).sort.join(',')
-
-  # Статистика по пользователям
-
-  users_sessions.each do |user, sessions|
-    attributes = user
-    user_object = User.new(attributes: attributes, sessions: sessions)
-    users_objects.push user_object
-  end
 
   report['usersStats'] = {}
 
@@ -118,7 +115,6 @@ def work(filename = 'data.txt')
 
   File.write('result.json', "#{report.to_json}\n")
 end
-
 
 require 'ruby-prof'
 
@@ -164,3 +160,4 @@ session,2,3,Chrome 20,84,2016-11-25
     assert_equal expected_result, File.read('result.json')
   end
 end
+

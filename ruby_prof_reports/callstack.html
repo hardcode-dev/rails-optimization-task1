@@ -663,7 +663,7 @@
   <body>
     <div style="display: inline-block;">
       <div id="titlebar">
-        Call tree for application <strong>task-1.rb </strong><br/> Generated on 2025-01-26 15:47:01 +0300
+        Call tree for application <strong>task-1.rb </strong><br/> Generated on 2025-01-26 16:38:37 +0300
         with options {}<br/>
       </div>
       <div id="commands">
@@ -693,242 +693,216 @@
       
         
         <div class="thread">
-          <span>Thread: 260, Fiber: 240 (100.00% ~ 40.52076910100004)</span>
+          <span>Thread: 260, Fiber: 240 (100.00% ~ 38.837385888000426)</span>
           <ul name="thread">
             
             <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>100.00% (100.00%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#155">[global]#</a> [1 calls, 1 total]</span>
+<span>100.00% (100.00%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#126">[global]#</a> [1 calls, 1 total]</span>
 <ul>
 <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>100.00% (100.00%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#38">Object#work</a> [1 calls, 1 total]</span>
+<span>100.00% (100.00%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#39">Object#work</a> [1 calls, 1 total]</span>
 <ul>
 <li class="color9" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>95.30% (95.30%) Array#each [2 calls, 2 total]</span>
+<span>97.06% (97.06%) Array#each [2 calls, 2 total]</span>
 <ul>
-<li class="color1" style="display:block">
+<li class="color2" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>19.10% (20.04%) Array#map [3000000 calls, 3000000 total]</span>
+<span>20.84% (21.47%) Array#map [3000000 calls, 3000000 total]</span>
 <ul>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.51% (13.14%) Date#iso8601 [2750940 calls, 2750940 total]</span>
+<span>2.86% (13.74%) Hash#[] [5501880 calls, 5501880 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.36% (12.38%) Hash#[] [5501880 calls, 8252820 total]</span>
+<span>2.75% (13.19%) Date#iso8601 [2750940 calls, 2750940 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.33% (6.98%) String#upcase [2750940 calls, 2751140 total]</span>
+<span>1.48% (7.12%) String#upcase [2750940 calls, 2751140 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.10% (5.76%) String#to_i [2750940 calls, 2750940 total]</span>
+<span>1.13% (5.43%) String#to_i [2750940 calls, 2750940 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.01% (0.08%) &lt;Class::Date&gt;#parse [1000 calls, 1000 total]</span>
+<span>0.02% (0.08%) &lt;Class::Date&gt;#parse [1000 calls, 1000 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (14.86%) Regexp#match [2000 calls, 2000 total]</span>
+<span>0.00% (15.84%) Regexp#match [2000 calls, 2000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (14.65%) String#gsub! [1000 calls, 1000 total]</span>
+<span>0.00% (14.09%) String#gsub! [1000 calls, 1000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (10.60%) MatchData#begin [1000 calls, 1000 total]</span>
+<span>0.00% (10.01%) MatchData#begin [1000 calls, 1000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (4.64%) String#[]= [1000 calls, 1000 total]</span>
+<span>0.00% (4.67%) String#[]= [1000 calls, 1000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (2.72%) Integer#div [1000 calls, 1000 total]</span>
+<span>0.00% (2.47%) Integer#div [1000 calls, 1000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (2.48%) MatchData#end [1000 calls, 1000 total]</span>
+<span>0.00% (2.40%) MatchData#end [1000 calls, 1000 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.01%) Hash#[]= [1000 calls, 3751941 total]</span>
+<span>0.00% (0.01%) Hash#[]= [1000 calls, 3251940 total]</span>
 </li>
 </ul>
 </li>
 <li class="color1" style="display:block">
 <a href="#" class="toggle minus" ></a>
-<span>16.54% (17.35%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#27">Object#parse_session</a> [2750940 calls, 2750940 total]</span>
+<span>17.60% (18.14%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#28">Object#parse_session</a> [2750940 calls, 2750940 total]</span>
 <ul>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>4.74% (28.67%) String#split [2750940 calls, 6501881 total]</span>
+<span>5.34% (30.31%) String#split [2750940 calls, 6501880 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>3.63% (21.97%) Array#[] [13754700 calls, 21756580 total]</span>
+<span>3.68% (20.90%) Array#[] [13754700 calls, 21756580 total]</span>
 </li>
 </ul>
 </li>
 <li class="color05" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>6.06% (6.36%) String#split [3250940 calls, 6501881 total]</span>
+<span>6.53% (6.73%) String#split [3250940 calls, 6501880 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>5.34% (5.60%) Hash#[] [2750940 calls, 8252820 total]</span>
+<span>5.24% (5.40%) Array#sort [1000000 calls, 1000001 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.07% (38.76%) Hash#hash [2750940 calls, 3250949 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle plus" ></a>
-<span>4.70% (4.93%) Array#sort [1000000 calls, 1000001 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.89% (40.18%) Date#&lt;=&gt; [4784430 calls, 4784430 total]</span>
+<span>2.28% (43.54%) Date#&lt;=&gt; [4784430 calls, 4784430 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle plus" ></a>
-<span>4.65% (4.88%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#511">Set#add</a> [2750940 calls, 2750940 total]</span>
+<span>4.79% (4.93%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#511">Set#add</a> [2750940 calls, 2750940 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.74% (37.37%) Hash#[]= [2750940 calls, 3751941 total]</span>
+<span>1.71% (35.79%) Hash#[]= [2750940 calls, 3251940 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.68% (2.81%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#17">Object#parse_user</a> [500000 calls, 500000 total]</span>
+<span>2.87% (2.96%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#18">Object#parse_user</a> [500000 calls, 500000 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.81% (30.28%) String#split [500000 calls, 6501881 total]</span>
+<span>0.89% (31.04%) String#split [500000 calls, 6501880 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.54% (20.18%) Array#[] [2000000 calls, 21756580 total]</span>
+<span>0.54% (18.79%) Array#[] [2000000 calls, 21756580 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle plus" ></a>
+<span>2.35% (2.42%) Array#any? [500000 calls, 500000 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.10% (47.01%) String#=~ [1431949 calls, 2075737 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.16% (2.27%) String#== [6001880 calls, 6001880 total]</span>
+<span>2.18% (2.24%) String#== [6001880 calls, 6001880 total]</span>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.13% (2.24%) Array#any? [500000 calls, 500000 total]</span>
+<span>1.67% (1.72%) Array#[] [6001880 calls, 21756580 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.58% (1.62%) User#sessions [4750940 calls, 4750940 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.28% (1.32%) Array#push [3250940 calls, 3250940 total]</span>
+</li>
+<li class="color01" style="display:block">
+<a href="#" class="toggle empty" ></a>
+<span>1.17% (1.21%) Array#all? [500000 calls, 500000 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.98% (45.95%) String#=~ [1431949 calls, 2075737 total]</span>
+<span>0.56% (47.61%) String#=~ [643788 calls, 2075737 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>2.03% (2.13%) Hash#[]= [1000000 calls, 3751941 total]</span>
+<span>1.09% (1.12%) Class#new [500000 calls, 500002 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.41% (20.14%) Hash#hash [500009 calls, 3250949 total]</span>
+<span>0.44% (40.60%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#12">User#initialize</a> [500000 calls, 500000 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.73% (1.82%) Array#[] [6001880 calls, 21756580 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.13% (1.18%) Array#push [2750940 calls, 3250940 total]</span>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.07% (1.13%) Array#all? [500000 calls, 500000 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.50% (46.47%) String#=~ [643788 calls, 2075737 total]</span>
-</li>
-</ul>
+<span>1.03% (1.06%) Hash#[]= [500000 calls, 3251940 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.92% (0.97%) Integer#+ [2750940 calls, 2750940 total]</span>
+<span>0.98% (1.01%) Integer#+ [2750940 calls, 2750940 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.69% (0.72%) User#sessions [2000000 calls, 2000000 total]</span>
+<span>0.67% (0.69%) Array#join [500000 calls, 500001 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.60% (0.63%) Array#join [500000 calls, 500001 total]</span>
+<span>0.59% (0.61%) Integer#to_s [1000000 calls, 1000000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.54% (0.57%) Integer#to_s [1000000 calls, 1000000 total]</span>
+<span>0.37% (0.38%) User#attributes [1000000 calls, 1000000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.33% (0.34%) User#attributes [1000000 calls, 1000000 total]</span>
+<span>0.24% (0.24%) Array#reverse [500000 calls, 500000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.23% (0.25%) Array#reverse [500000 calls, 500000 total]</span>
+<span>0.23% (0.23%) Array#sum [500000 calls, 500000 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.22% (0.23%) Array#sum [500000 calls, 500000 total]</span>
+<span>0.18% (0.19%) Array#count [500000 calls, 500001 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.19% (0.20%) Array#max [500000 calls, 500000 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.17% (0.17%) Array#count [500000 calls, 500000 total]</span>
+<span>0.18% (0.18%) Array#max [500000 calls, 500000 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:block">
 <a href="#" class="toggle empty" ></a>
-<span>1.98% (1.98%) Hash#each [1 calls, 2 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.95% (47.81%) Class#new [500000 calls, 500002 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.38% (40.34%) <a href="file:///home/anna/apps/rails-optimization-task1/task-1.rb#11">User#initialize</a> [500000 calls, 500000 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.16% (8.08%) Array#push [500000 calls, 3250940 total]</span>
-</li>
-</ul>
-</li>
-<li class="color01" style="display:block">
-<a href="#" class="toggle empty" ></a>
-<span>1.02% (1.02%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
+<span>1.07% (1.07%) JSON::Ext::Generator::GeneratorMethods::Hash#to_json [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
@@ -938,39 +912,11 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.79% (0.79%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
+<span>0.90% (0.90%) &lt;Class::IO&gt;#readlines [1 calls, 1 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.60% (0.60%) String#split [1 calls, 6501881 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.12% (0.12%) &lt;Class::IO&gt;#read [1 calls, 1 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.07% (0.07%) Enumerable#count [2 calls, 2 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.07% (99.91%) Hash#each [1 calls, 2 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (0.05%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#499">Set#each</a> [1 calls, 2 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (36.45%) Hash#each_key [1 calls, 2 total]</span>
-</li>
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (12.85%) Kernel#block_given? [1 calls, 2 total]</span>
-</li>
-</ul>
-</li>
-</ul>
+<span>0.84% (0.84%) &lt;Class::IO&gt;#write [1 calls, 1 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
@@ -978,21 +924,21 @@
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (96.35%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#499">Set#each</a> [1 calls, 2 total]</span>
+<span>0.00% (96.00%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#499">Set#each</a> [1 calls, 2 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (98.14%) Hash#each_key [1 calls, 2 total]</span>
+<span>0.00% (96.45%) Hash#each_key [1 calls, 2 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (39.78%) String#upcase [200 calls, 2751140 total]</span>
+<span>0.00% (42.05%) String#upcase [200 calls, 2751140 total]</span>
 </li>
 </ul>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.48%) Kernel#block_given? [1 calls, 2 total]</span>
+<span>0.00% (0.32%) Kernel#block_given? [1 calls, 2 total]</span>
 </li>
 </ul>
 </li>
@@ -1004,25 +950,19 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Class#new [1 calls, 500002 total]</span>
+<span>0.00% (0.00%) Enumerable#count [1 calls, 1 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (62.15%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#243">Set#initialize</a> [1 calls, 1 total]</span>
+<span>0.00% (76.30%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#499">Set#each</a> [1 calls, 2 total]</span>
 <ul style="display:none">
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (25.52%) Class#new [1 calls, 500002 total]</span>
-<ul style="display:none">
-<li class="color01" style="display:none">
-<a href="#" class="toggle empty" ></a>
-<span>0.00% (56.03%) Hash#initialize [1 calls, 1 total]</span>
-</li>
-</ul>
+<span>0.00% (45.99%) Hash#each_key [1 calls, 2 total]</span>
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (10.13%) NilClass#nil? [1 calls, 1 total]</span>
+<span>0.00% (11.63%) Kernel#block_given? [1 calls, 2 total]</span>
 </li>
 </ul>
 </li>
@@ -1034,7 +974,33 @@
 </li>
 <li class="color01" style="display:none">
 <a href="#" class="toggle empty" ></a>
-<span>0.00% (0.00%) Hash#[]= [1 calls, 3751941 total]</span>
+<span>0.00% (0.00%) Class#new [1 calls, 500002 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (78.24%) <a href="file:///home/anna/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/set-1.1.0/lib/set.rb#243">Set#initialize</a> [1 calls, 1 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (41.74%) Class#new [1 calls, 500002 total]</span>
+<ul style="display:none">
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (30.71%) Hash#initialize [1 calls, 1 total]</span>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (9.05%) NilClass#nil? [1 calls, 1 total]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="color01" style="display:none">
+<a href="#" class="toggle empty" ></a>
+<span>0.00% (0.00%) Array#count [1 calls, 500001 total]</span>
 </li>
 </ul>
 </li>

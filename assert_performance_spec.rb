@@ -25,5 +25,11 @@ describe 'Performance' do
         work('data_small.txt')
       }.to perform_at_least(1).within(measurement_time_seconds).warmup(warmup_seconds).ips
     end
+
+    # it 'data_large works under 30sec' do
+    #   expect {
+    #     work('data_large.txt')
+    #   }.to perform_under(30).sec.warmup(2).times.sample(10).times
+    # end
   end
 end

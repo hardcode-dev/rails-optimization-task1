@@ -2,7 +2,6 @@
 
 require 'json'
 require 'pry'
-require 'date'
 require 'minitest/autorun'
 
 class User
@@ -19,7 +18,7 @@ def parse_user(fields)
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
-    'age' => fields[4],
+    'age' => fields[4]
   }
 end
 
@@ -29,7 +28,7 @@ def parse_session(fields)
     'session_id' => fields[2],
     'browser' => fields[3],
     'time' => fields[4],
-    'date' => fields[5],
+    'date' => fields[5]
   }
 end
 
@@ -42,6 +41,7 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work(data_file)
+  GC.disable
   file_lines = File.read(data_file).split("\n")
 
   users = []
@@ -95,8 +95,7 @@ def work(data_file)
   users.each do |user|
     attributes = user
     user_sessions = sessions_hash[user['id']]
-    user_object = User.new(attributes: attributes, sessions: user_sessions)
-    users_objects = users_objects << user_object
+    users_objects << User.new(attributes: attributes, sessions: user_sessions)
   end
 
   report['usersStats'] = {}

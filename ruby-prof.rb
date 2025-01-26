@@ -5,7 +5,7 @@ require 'ruby-prof'
 require_relative 'task-1_with_argument.rb'
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
-`head -n #{8000} data_large.txt > data_small.txt`
+`head -n #{128000} data_large.txt > data_small.txt`
 
 result = RubyProf.profile do
   work("data_small.txt")

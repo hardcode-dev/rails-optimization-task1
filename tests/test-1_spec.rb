@@ -6,21 +6,15 @@ RSpec.configure do |config|
 end
 
 describe 'Performance' do
-  it '20_000 works under 0.4 ms' do
-    expect do
-      work('data/data20000.txt')
-    end.to perform_under(400).ms.warmup(2).times.sample(5).times
-  end
-
-  it '80_000 works under 0.6s' do
+  it '80_000 works under 0.2s' do
     expect do
       work('data/data80000.txt')
-    end.to perform_under(600).ms.warmup(2).times.sample(5).times
+    end.to perform_under(200).ms.warmup(2).times.sample(5).times
   end
 
-  it '640_000 works under 2.5s' do
-    expect do
-      work('data/data640000.txt')
-    end.to perform_under(2.5).sec.warmup(2).times.sample(5).times
+  it 'has linear performance' do
+    expect do |n, _i|
+      work("data/data#{n}000.txt")
+    end.to perform_linear.in_range([20, 80, 160, 320])
   end
 end

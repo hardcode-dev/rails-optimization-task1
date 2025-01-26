@@ -13,24 +13,22 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
-    'age' => fields[4],
+    'age' => fields[4]
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
-    'browser' => fields[3],
-    'time' => fields[4],
-    'date' => fields[5],
+    'browser' => fields[3].upcase,
+    'time' => fields[4].to_i,
+    'date' => fields[5]
   }
 end
 
@@ -49,8 +47,8 @@ def work(filename)
 
   file_lines.each do |line|
     cols = line.split(',')
-    users.append(parse_user(line)) if cols[0] == 'user'
-    sessions.append(parse_session(line)) if cols[0] == 'session'
+    users.append(parse_user(cols)) if cols[0] == 'user'
+    sessions.append(parse_session(cols)) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -70,22 +68,16 @@ def work(filename)
 
   report = {}
 
-  report[:totalUsers] = users.count
+  report[:totalUsers] = users.length
 
   # Подсчёт количества уникальных браузеров
   uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
 
-  report['uniqueBrowsersCount'] = uniqueBrowsers.count
+  report['uniqueBrowsersCount'] = uniqueBrowsers.length
 
-  report['totalSessions'] = sessions.count
+  report['totalSessions'] = sessions.length
 
-  report['allBrowsers'] =
-    sessions
-      .map { |s| s['browser'] }
-      .map(&:upcase)
-      .sort
-      .uniq
-      .join(',')
+  report['allBrowsers'] = uniqueBrowsers.sort.join(',')
 
   # Статистика по пользователям
   user_sessions = sessions.group_by { |session| session['user_id'] }
@@ -96,12 +88,12 @@ def work(filename)
   report['usersStats'] = {}
 
   collect_stats_from_users(report, users_objects) do |user|
-    user_session_time = user.sessions.map { |s| s['time'].to_i }
-    user_session_browser = user.sessions.map { |s| s['browser'].upcase }.sort
+    user_session_time = user.sessions.map { |s| s['time'] }
+    user_session_browser = user.sessions.map { |s| s['browser'] }
 
     {
       # Собираем количество сессий по пользователям
-      'sessionsCount' => user.sessions.count,
+      'sessionsCount' => user.sessions.length,
 
       # Собираем количество времени по пользователям
       'totalTime' => "#{user_session_time.sum} min.",
@@ -110,7 +102,7 @@ def work(filename)
       'longestSession' => "#{user_session_time.max} min.",
 
       # Браузеры пользователя через запятую
-      'browsers' => user_session_browser.join(', '),
+      'browsers' => user_session_browser.sort.join(', '),
 
       # Хоть раз использовал IE?
       'usedIE' => user_session_browser.any? { |b| b =~ /INTERNET EXPLORER/ },

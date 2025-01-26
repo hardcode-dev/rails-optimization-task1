@@ -90,10 +90,10 @@ def work(file_name:)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = []
+  uniqueBrowsers = Set.new
   sessions.each do |session|
     browser = session['browser']
-    uniqueBrowsers += [browser] if uniqueBrowsers.all? { |b| b != browser }
+    uniqueBrowsers.add(browser)
   end
   progressbar.increment
 

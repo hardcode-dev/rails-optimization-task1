@@ -37,3 +37,8 @@ end
 # initial
 
 # work      0.236 (± 1.4%) i/s
+
+time = Benchmark.realtime do
+  work('data_large.txt')
+end
+puts "Finish in #{time.round(2)}"

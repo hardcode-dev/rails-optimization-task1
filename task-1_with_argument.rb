@@ -41,7 +41,6 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work(data_file)
-  GC.disable
   file_lines = File.read(data_file).split("\n")
 
   users = []
@@ -75,7 +74,9 @@ def work(data_file)
   report[:totalUsers] = users.count
 
   # Подсчёт количества уникальных браузеров
-  uniqueBrowsers = sessions.map { |session| session['browser'] }.uniq
+
+  uniqueBrowsers = Set.new
+  sessions.each { |session| uniqueBrowsers.add(session['browser']) }
 
   report['uniqueBrowsersCount'] = uniqueBrowsers.count
 
@@ -83,8 +84,7 @@ def work(data_file)
 
   report['allBrowsers'] =
     sessions
-      .map { |s| s['browser'] }
-      .map { |b| b.upcase }
+      .map { |s| s['browser'].upcase }
       .sort
       .uniq
       .join(',')
@@ -103,13 +103,12 @@ def work(data_file)
   collect_stats_from_users(report, users_objects) do |user|
     user_sessions = user.sessions
   # Собираем количество времени по пользователям
-    totalTime = user_sessions.map {|s| s['time']}.map {|t| t.to_i}.sum.to_s + ' min.'
+    totalTime = user_sessions.map {|s| s['time'].to_i}.sum.to_s + ' min.'
 
   # Выбираем самую длинную сессию пользователя
-    longestSession = user_sessions.map {|s| s['time']}.map {|t| t.to_i}.max.to_s + ' min.'
-
+    longestSession = user.sessions.map { |s| s['time'].to_i }.max.to_s + ' min.'
   # Браузеры пользователя через запятую
-    browsers = user_sessions.map {|s| s['browser']}.map {|b| b.upcase}.sort
+    browsers = user_sessions.map {|s| s['browser'].upcase}.sort
 
   # Хоть раз использовал IE?
     usedIE = browsers.any? { |b| b =~ /INTERNET EXPLORER/ }

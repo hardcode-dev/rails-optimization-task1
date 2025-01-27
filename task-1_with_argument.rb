@@ -41,15 +41,17 @@ def collect_stats_from_users(report, users_objects, &block)
 end
 
 def work(data_file)
-  file_lines = File.read(data_file).split("\n")
-
   users = []
   sessions = []
 
-  file_lines.each do |line|
+  File.read(data_file).split("\n").each do |line|
     cols = line.split(',')
-    users = users << parse_user(cols) if cols[0] == 'user'
-    sessions = sessions << parse_session(cols) if cols[0] == 'session'
+    case cols[0]
+    when 'user'
+      users << parse_user(cols)
+    when 'session'
+      sessions << parse_session(cols)
+    end
   end
 
   sessions_hash = sessions.group_by { |session| session['user_id'] }
@@ -92,10 +94,8 @@ def work(data_file)
   # Статистика по пользователям
   users_objects = []
 
-  users.each do |user|
-    attributes = user
-    user_sessions = sessions_hash[user['id']]
-    users_objects << User.new(attributes: attributes, sessions: user_sessions)
+  users_objects = users.map do |user|
+    User.new(attributes: user, sessions: sessions_hash[user['id']] || [])
   end
 
   report['usersStats'] = {}

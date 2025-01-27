@@ -1,10 +1,8 @@
 # Deoptimized version of homework task
 
 require 'json'
-require 'pry'
 require 'date'
 require 'minitest/autorun'
-require 'csv'
 require 'stackprof'
 
 class User
@@ -168,4 +166,3 @@ session,2,3,Chrome 20,84,2016-11-25
     assert_equal expected_result, File.read('result.json')
   end
 end
-

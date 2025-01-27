@@ -2,7 +2,7 @@
 
 require 'rspec'
 require 'rspec-benchmark'
-require './task-1'
+require_relative '../work'
 
 RSpec.configure do |config|
   config.include RSpec::Benchmark::Matchers

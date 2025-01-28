@@ -1,0 +1,13 @@
+.idea
+.idea/
+.vscode/
+
+# ignore file data
+data_large.txt
+data.json
+data_small.txt
+result.json
+
+# ignore directory
+ruby_prof_reports
+stackprof_reports

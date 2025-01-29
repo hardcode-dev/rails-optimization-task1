@@ -2,4 +2,4 @@
 
 require_relative "../lib/task-1"
 
-work('fixtures/data.txt')
+work('fixtures/data1000.txt')

@@ -1,5 +1,4 @@
 require 'json'
-require 'ruby-progressbar'
 
 class User
   attr_reader :attributes, :sessions
@@ -37,13 +36,9 @@ def collect_stats_from_users(report, users_objects, &block)
   end
 end
 
-def work
-  progressbar = ProgressBar.create(
-    total: `wc -l data.txt`.to_i,
-    format: '%a, %J, %E %B'
-  )
-
-  file_lines = File.read('data.txt').split("\n")
+def work(filename = '', disable_gc: false)
+  puts 'Start work'
+  GC.disable if disable_gc
 
   users = []
   sessions = []
@@ -56,8 +51,6 @@ def work
     when 'session'
       sessions << parse_session(cols)
     end
-
-    progressbar.increment
   end
 
   report = {}
@@ -120,4 +113,5 @@ def work
   end
 
   File.write('result.json', "#{report.to_json}\n")
+  puts 'Finish work'
 end

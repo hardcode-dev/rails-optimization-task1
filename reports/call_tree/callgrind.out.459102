@@ -1,0 +1,62 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 1
+
+fl=
+fn=Exception::exception
+0 1
+
+fl=
+fn=Exception::initialize
+0 2
+
+fl=
+fn=SystemCallError::initialize
+0 15
+cfl=
+cfn=Exception::initialize
+calls=1 0
+0 2
+
+fl=
+fn=IO::read^
+0 358
+cfl=
+cfn=SystemCallError::initialize
+calls=1 0
+0 17
+cfl=
+cfn=Exception::exception
+calls=1 0
+0 1
+cfl=
+cfn=Exception::backtrace
+calls=1 0
+0 1
+
+fl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+fn=GC::disable^
+69 3
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+55 8
+cfl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+cfn=GC::disable^
+calls=1 56
+56 3
+cfl=
+cfn=IO::read^
+calls=1 58
+58 377
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 27
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 388
+

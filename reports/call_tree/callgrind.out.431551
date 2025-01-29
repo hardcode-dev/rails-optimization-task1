@@ -1,0 +1,330 @@
+events: wall_time
+
+fl=
+fn=String::inspect
+0 5
+
+fl=
+fn=Kernel::p
+0 49
+cfl=
+cfn=String::inspect
+calls=1 0
+0 5
+
+fl=
+fn=IO::write^
+0 202914
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 4
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 386924
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 4
+
+fl=
+fn=Array::reverse
+0 46811
+
+fl=
+fn=Array::all?
+0 108109
+cfl=
+cfn=String::=~
+calls=198387 93
+93 119953
+
+fl=
+fn=String::=~
+0 392226
+
+fl=
+fn=Array::any?
+0 205083
+cfl=
+cfn=String::=~
+calls=441002 92
+92 272273
+
+fl=
+fn=Array::max
+0 40681
+
+fl=
+fn=Array::sum
+0 39832
+
+fl=
+fn=String::to_i
+0 205250
+
+fl=
+fn=User::attributes
+0 64702
+
+fl=
+fn=Kernel::nil?
+0 31678
+
+fl=
+fn=User::sessions
+0 117515
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=User::initialize
+11 81462
+
+fl=
+fn=Class::new
+0 134672
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=User::initialize
+calls=153770 0
+0 81462
+
+fl=
+fn=Hash::[]
+0 83138
+
+fl=
+fn=Array::join
+0 126203
+
+fl=
+fn=Array::sort
+0 291104
+
+fl=
+fn=String::upcase
+0 233687
+
+fl=
+fn=Array::uniq
+0 84545
+
+fl=
+fn=Hash::[]=
+0 174342
+
+fl=
+fn=Array::count
+0 34105
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_session
+26 1451653
+cfl=
+cfn=Array::[]
+calls=4231150 28
+28 755605
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_user
+17 232797
+cfl=
+cfn=Array::[]
+calls=615080 19
+19 125687
+
+fl=
+fn=Array::[]
+0 1157920
+
+fl=
+fn=Array::each
+0 2120151
+cfl=
+cfn=Array::[]
+calls=1000000 45
+45 276628
+cfl=
+cfn=Hash::[]
+calls=153770 82
+82 83138
+cfl=
+cfn=Class::new
+calls=153770 82
+82 216134
+cfl=
+cfn=User::sessions
+calls=615080 83
+83 117515
+cfl=
+cfn=Kernel::nil?
+calls=153770 83
+83 31678
+cfl=
+cfn=User::attributes
+calls=307540 84
+84 64702
+cfl=
+cfn=Array::map
+calls=461310 85
+85 1599090
+cfl=
+cfn=Array::count
+calls=153770 88
+88 34097
+cfl=
+cfn=Array::sum
+calls=153770 88
+88 39832
+cfl=
+cfn=Array::max
+calls=153770 88
+88 40681
+cfl=
+cfn=Array::sort
+calls=307540 88
+88 291069
+cfl=
+cfn=Array::join
+calls=153770 88
+88 126183
+cfl=
+cfn=Array::any?
+calls=153770 88
+88 477357
+cfl=
+cfn=Array::all?
+calls=153770 88
+88 228062
+cfl=
+cfn=Array::reverse
+calls=153770 88
+88 46811
+cfl=
+cfn=Hash::[]=
+calls=153770 96
+96 174337
+
+fl=
+fn=Enumerable::group_by
+0 27
+cfl=
+cfn=Array::each
+calls=2 0
+0 1352221
+
+fl=
+fn=Array::map
+0 2425847
+cfl=
+cfn=String::split
+calls=1000000 37
+37 1532778
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_user
+calls=153770 47
+47 358485
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_session
+calls=846230 48
+48 2207257
+cfl=
+cfn=String::upcase
+calls=846430 0
+0 233687
+cfl=
+cfn=String::to_i
+calls=846230 85
+85 205250
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::split_lines
+36 14
+cfl=
+cfn=Array::map
+calls=1 37
+37 2188199
+
+fl=
+fn=String::split
+0 1674466
+
+fl=
+fn=IO::read^
+0 207140
+
+fl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+fn=GC::disable^
+69 6
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+40 21247
+cfl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+cfn=GC::disable^
+calls=1 41
+41 6
+cfl=
+cfn=IO::read^
+calls=1 43
+43 207140
+cfl=
+cfn=String::split
+calls=1 43
+43 141688
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::split_lines
+calls=1 43
+43 2188213
+cfl=
+cfn=Enumerable::group_by
+calls=2 45
+45 1352248
+cfl=
+cfn=Array::map
+calls=4 47
+47 3176016
+cfl=
+cfn=Array::count
+calls=3 67
+67 8
+cfl=
+cfn=Hash::[]=
+calls=1 67
+67 5
+cfl=
+cfn=Array::uniq
+calls=1 70
+70 84545
+cfl=
+cfn=Array::sort
+calls=1 76
+76 34
+cfl=
+cfn=Array::join
+calls=1 76
+76 20
+cfl=
+cfn=Array::each
+calls=1 81
+81 4615244
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 107
+107 386927
+cfl=
+cfn=IO::write^
+calls=1 107
+107 202914
+cfl=
+cfn=Kernel::p
+calls=1 108
+108 54
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 92
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 12376308
+

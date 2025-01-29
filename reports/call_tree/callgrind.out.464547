@@ -1,0 +1,138 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 2
+
+fl=
+fn=Exception::exception
+0 2
+
+fl=
+fn=BasicObject::method_missing
+0 17
+
+fl=
+fn=Array::<<
+0 30361
+
+fl=
+fn=String::<<
+0 65880
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_user
+17 252225
+cfl=
+cfn=Array::[]
+calls=615080 19
+19 111181
+cfl=
+cfn=String::<<
+calls=307540 19
+19 65880
+
+fl=
+fn=Array::[]
+0 308983
+
+fl=
+fn=Array::each
+0 503850
+cfl=
+cfn=Array::[]
+calls=1000000 60
+60 197801
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_user
+calls=153770 63
+63 429286
+cfl=
+cfn=Array::<<
+calls=153770 63
+63 30361
+cfl=
+cfn=BasicObject::method_missing
+calls=1 65
+65 17
+cfl=
+cfn=Exception::exception
+calls=1 65
+65 2
+cfl=
+cfn=Exception::backtrace
+calls=1 65
+65 2
+
+fl=
+fn=Enumerable::group_by
+0 18
+cfl=
+cfn=Array::each
+calls=1 0
+0 623407
+
+fl=
+fn=Array::map
+0 407381
+cfl=
+cfn=String::split
+calls=1000000 36
+36 946012
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::split_lines
+35 13
+cfl=
+cfn=Array::map
+calls=1 36
+36 1353393
+
+fl=
+fn=String::split
+0 1053118
+
+fl=
+fn=IO::read^
+0 138147
+
+fl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+fn=GC::disable^
+69 6
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+55 79
+cfl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+cfn=GC::disable^
+calls=1 56
+56 6
+cfl=
+cfn=IO::read^
+calls=1 58
+58 138147
+cfl=
+cfn=String::split
+calls=1 58
+58 107106
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::split_lines
+calls=1 58
+58 1353406
+cfl=
+cfn=Enumerable::group_by
+calls=1 60
+60 623425
+cfl=
+cfn=Array::each
+calls=2 63
+63 537912
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 55
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 2760082
+

@@ -1,0 +1,434 @@
+events: wall_time
+
+fl=
+fn=Float::inspect
+0 8
+
+fl=
+fn=Kernel::p
+0 63
+cfl=
+cfn=Float::inspect
+calls=1 0
+0 8
+
+fl=
+fn=Integer::fdiv
+0 6
+
+fl=
+fn=Time::-
+0 2100
+cfl=
+cfn=Integer::fdiv
+calls=1 0
+0 6
+
+fl=
+fn=IO::write^
+0 474013
+
+fl=
+fn=JSON/Ext/Generator/State::initialize
+0 2
+
+fl=
+fn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+0 1008715
+cfl=
+cfn=JSON/Ext/Generator/State::initialize
+calls=1 0
+0 2
+
+fl=
+fn=Hash::merge
+0 214513
+
+fl=
+fn=Array::reverse
+0 77819
+
+fl=
+fn=Date::iso8601
+0 926577
+
+fl=
+fn=Integer::div
+0 287954
+
+fl=
+fn=Date::strptime^
+0 2272528
+cfl=
+cfn=Integer::div
+calls=1692482 0
+0 287954
+
+fl=
+fn=Array::all?
+0 264670
+cfl=
+cfn=String::upcase
+calls=395875 113
+113 90691
+cfl=
+cfn=String::=~
+calls=395875 113
+113 197694
+
+fl=
+fn=String::=~
+0 599708
+
+fl=
+fn=Array::any?
+0 505178
+cfl=
+cfn=String::upcase
+calls=880985 112
+112 235069
+cfl=
+cfn=String::=~
+calls=880985 112
+112 402014
+
+fl=
+fn=String::to_s
+0 55756
+
+fl=
+fn=Enumerable::max_by
+0 181068
+cfl=
+cfn=Array::each
+calls=307518 0
+0 941102
+
+fl=
+fn=String::+
+0 175316
+
+fl=
+fn=Integer::to_s
+0 86774
+
+fl=
+fn=String::to_i
+0 631605
+
+fl=
+fn=Array::sum
+0 864386
+cfl=
+cfn=String::to_i
+calls=1692482 109
+109 351452
+
+fl=
+fn=User::sessions
+0 322636
+
+fl=
+fn=User::attributes
+0 61186
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::collect_stats_from_users
+35 8
+cfl=
+cfn=Array::each
+calls=1 36
+36 15506694
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=User::initialize
+11 116648
+
+fl=
+fn=Class::new
+0 875642
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=User::initialize
+calls=307518 0
+0 116648
+
+fl=
+fn=Hash::[]
+0 394329
+
+fl=
+fn=Array::join
+0 1610553
+
+fl=
+fn=Array::sort
+0 445492
+
+fl=
+fn=String::upcase
+0 729642
+
+fl=
+fn=Array::uniq
+0 239192
+
+fl=
+fn=Array::map
+0 2317651
+cfl=
+cfn=String::upcase
+calls=1692682 0
+0 403883
+cfl=
+cfn=Date::strptime^
+calls=1692482 114
+114 2560482
+cfl=
+cfn=Date::iso8601
+calls=1692482 114
+114 926577
+
+fl=
+fn=Hash::[]=
+0 577166
+
+fl=
+fn=Array::count
+0 54100
+
+fl=
+fn=Enumerable::group_by
+0 14
+cfl=
+cfn=Array::each
+calls=1 0
+0 1201104
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_session
+25 5113763
+cfl=
+cfn=Array::[]
+calls=8462410 27
+27 1236828
+
+fl=
+fn=Array::<<
+0 480331
+
+fl=
+fn=String::<<
+0 146948
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_user
+17 1034502
+cfl=
+cfn=Array::[]
+calls=1230072 19
+19 185307
+cfl=
+cfn=String::<<
+calls=615036 19
+19 146948
+
+fl=
+fn=String::==
+0 742766
+
+fl=
+fn=Array::[]
+0 2075137
+
+fl=
+fn=Array::each
+0 7893906
+cfl=
+cfn=String::split
+calls=2000000 53
+53 3151570
+cfl=
+cfn=Array::[]
+calls=4000000 55
+55 653002
+cfl=
+cfn=String::==
+calls=4000000 55
+55 742766
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_user
+calls=307518 55
+55 1366757
+cfl=
+cfn=Array::<<
+calls=2307518 55
+55 480331
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_session
+calls=1692482 56
+56 6350592
+cfl=
+cfn=Hash::[]
+calls=922554 92
+92 394329
+cfl=
+cfn=Class::new
+calls=307518 92
+92 992290
+cfl=
+cfn=User::attributes
+calls=307518 37
+37 61186
+cfl=
+cfn=Hash::[]=
+calls=612151 38
+38 577162
+cfl=
+cfn=User::sessions
+calls=2152626 108
+108 322636
+cfl=
+cfn=Array::count
+calls=307518 108
+108 54092
+cfl=
+cfn=Array::sum
+calls=307518 108
+108 1215839
+cfl=
+cfn=Integer::to_s
+calls=307518 108
+108 86774
+cfl=
+cfn=String::+
+calls=615036 108
+108 175316
+cfl=
+cfn=Enumerable::max_by
+calls=307518 108
+108 1122170
+cfl=
+cfn=String::to_s
+calls=307518 108
+108 55756
+cfl=
+cfn=Array::map
+calls=615036 108
+108 5670270
+cfl=
+cfn=Array::sort
+calls=615036 108
+108 445459
+cfl=
+cfn=Array::join
+calls=307518 108
+108 1610537
+cfl=
+cfn=Array::any?
+calls=307518 108
+108 1142261
+cfl=
+cfn=Array::all?
+calls=307518 108
+108 553055
+cfl=
+cfn=Array::reverse
+calls=307518 108
+108 77819
+cfl=
+cfn=Hash::merge
+calls=307518 108
+108 214513
+cfl=
+cfn=String::to_i
+calls=1692482 110
+110 280153
+
+fl=
+fn=String::split
+0 3545972
+
+fl=
+fn=IO::read^
+0 435123
+
+fl=/mnt/c/Users/Home/study/task-1/<internal:timev>
+fn=Time::now^
+225 9621
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+43 167346
+cfl=/mnt/c/Users/Home/study/task-1/<internal:timev>
+cfn=Time::now^
+calls=2 44
+44 9621
+cfl=
+cfn=IO::read^
+calls=1 47
+47 435123
+cfl=
+cfn=String::split
+calls=1 47
+47 394403
+cfl=
+cfn=Array::each
+calls=2 52
+52 18041640
+cfl=
+cfn=Enumerable::group_by
+calls=1 59
+59 1201118
+cfl=
+cfn=Array::count
+calls=3 77
+77 8
+cfl=
+cfn=Hash::[]=
+calls=1 77
+77 4
+cfl=
+cfn=Array::map
+calls=2 80
+80 538323
+cfl=
+cfn=Array::uniq
+calls=1 80
+80 239192
+cfl=
+cfn=Array::sort
+calls=1 86
+86 33
+cfl=
+cfn=Array::join
+calls=1 86
+86 16
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 106
+106 15506702
+cfl=
+cfn=JSON/Ext/Generator/GeneratorMethods/Hash::to_json
+calls=1 117
+117 1008718
+cfl=
+cfn=IO::write^
+calls=1 117
+117 474013
+cfl=
+cfn=Time::-
+calls=1 118
+118 2106
+cfl=
+cfn=Kernel::p
+calls=1 118
+118 71
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 36
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 38018438
+

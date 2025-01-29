@@ -1,0 +1,290 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 2
+
+fl=
+fn=Exception::exception
+0 3
+
+fl=
+fn=BasicObject::method_missing
+0 17
+
+fl=
+fn=User::sessions
+0 3
+
+fl=
+fn=NilClass::inspect
+0 2
+
+fl=
+fn=String::inspect
+0 5
+
+fl=
+fn=Hash::inspect
+0 8
+cfl=
+cfn=String::inspect
+calls=6 0
+0 5
+
+fl=
+fn=Kernel::inspect
+0 21
+cfl=
+cfn=Hash::inspect
+calls=1 0
+0 13
+cfl=
+cfn=NilClass::inspect
+calls=1 0
+0 2
+
+fl=
+fn=Kernel::p
+0 47
+cfl=
+cfn=Kernel::inspect
+calls=1 0
+0 36
+
+fl=
+fn=User::attributes
+0 2
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::collect_stats_from_users
+35 9
+cfl=
+cfn=Array::each
+calls=1 36
+36 156
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=User::initialize
+11 56356
+
+fl=
+fn=Class::new
+0 464650
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=User::initialize
+calls=153770 0
+0 56356
+
+fl=
+fn=Hash::[]
+0 44013
+
+fl=
+fn=Array::join
+0 7
+
+fl=
+fn=Array::sort
+0 3
+
+fl=
+fn=String::upcase
+0 41
+
+fl=
+fn=Array::uniq
+0 255001
+
+fl=
+fn=Array::map
+0 166116
+cfl=
+cfn=String::upcase
+calls=1 0
+0 41
+
+fl=
+fn=Hash::[]=
+0 9
+
+fl=
+fn=Array::count
+0 10
+
+fl=
+fn=Enumerable::group_by
+0 13
+cfl=
+cfn=Array::each
+calls=1 0
+0 312594
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_session
+25 2222260
+cfl=
+cfn=String::[]
+calls=4231150 27
+27 919363
+
+fl=
+fn=Array::<<
+0 207603
+
+fl=
+fn=String::<<
+0 58461
+
+fl=
+fn=String::[]
+0 1075472
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_user
+17 293722
+cfl=
+cfn=String::[]
+calls=615080 19
+19 156109
+cfl=
+cfn=String::<<
+calls=307540 19
+19 58461
+
+fl=
+fn=String::==
+0 332791
+
+fl=
+fn=Array::[]
+0 309877
+
+fl=
+fn=Array::each
+0 2421486
+cfl=
+cfn=String::split
+calls=1000000 52
+52 1318551
+cfl=
+cfn=Array::[]
+calls=2000000 54
+54 309877
+cfl=
+cfn=String::==
+calls=2000000 54
+54 332791
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_user
+calls=153770 54
+54 508292
+cfl=
+cfn=Array::<<
+calls=1153770 54
+54 207603
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_session
+calls=846230 55
+55 3141623
+cfl=
+cfn=Hash::[]
+calls=153772 99
+99 44013
+cfl=
+cfn=Class::new
+calls=153770 99
+99 521006
+cfl=
+cfn=User::attributes
+calls=1 37
+37 2
+cfl=
+cfn=Hash::[]=
+calls=1 38
+38 6
+cfl=
+cfn=Kernel::p
+calls=1 114
+114 83
+cfl=
+cfn=User::sessions
+calls=1 116
+116 3
+cfl=
+cfn=BasicObject::method_missing
+calls=1 116
+116 17
+cfl=
+cfn=Exception::exception
+calls=1 116
+116 3
+cfl=
+cfn=Exception::backtrace
+calls=1 116
+116 2
+
+fl=
+fn=String::split
+0 1516996
+
+fl=
+fn=IO::read^
+0 138744
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+43 89
+cfl=
+cfn=IO::read^
+calls=1 46
+46 138744
+cfl=
+cfn=String::split
+calls=1 46
+46 198445
+cfl=
+cfn=Array::each
+calls=2 51
+51 8492607
+cfl=
+cfn=Enumerable::group_by
+calls=1 66
+66 312607
+cfl=
+cfn=Array::count
+calls=3 84
+84 10
+cfl=
+cfn=Hash::[]=
+calls=1 84
+84 3
+cfl=
+cfn=Array::map
+calls=2 87
+87 166157
+cfl=
+cfn=Array::uniq
+calls=1 87
+87 255001
+cfl=
+cfn=Array::sort
+calls=1 93
+93 3
+cfl=
+cfn=Array::join
+calls=1 93
+93 7
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::collect_stats_from_users
+calls=1 113
+113 165
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 33
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 9563837
+

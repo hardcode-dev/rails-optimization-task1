@@ -1,0 +1,54 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 2
+
+fl=
+fn=Exception::exception
+0 2
+
+fl=
+fn=Exception::initialize
+0 5
+
+fl=
+fn=SystemCallError::initialize
+0 24
+cfl=
+cfn=Exception::initialize
+calls=1 0
+0 5
+
+fl=
+fn=IO::read^
+0 368
+cfl=
+cfn=SystemCallError::initialize
+calls=1 0
+0 28
+cfl=
+cfn=Exception::exception
+calls=1 0
+0 2
+cfl=
+cfn=Exception::backtrace
+calls=1 0
+0 2
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+43 14
+cfl=
+cfn=IO::read^
+calls=1 46
+46 400
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 62
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 415
+

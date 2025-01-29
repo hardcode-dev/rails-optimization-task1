@@ -1,0 +1,234 @@
+events: wall_time
+
+fl=
+fn=NilClass::nil?
+0 1
+
+fl=
+fn=User::sessions
+0 1
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=User::initialize
+11 3
+
+fl=
+fn=Class::new
+0 9
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=User::initialize
+calls=1 0
+0 3
+
+fl=
+fn=Hash::[]
+0 1
+
+fl=
+fn=Array::join
+0 14
+
+fl=
+fn=Array::sort
+0 37
+
+fl=
+fn=String::upcase
+0 59
+
+fl=
+fn=Array::uniq
+0 111
+
+fl=
+fn=Hash::[]=
+0 2
+
+fl=
+fn=Array::count
+0 6
+
+fl=
+fn=Hash::hash
+0 2443
+
+fl=
+fn=String::inspect
+0 5395
+
+fl=
+fn=Hash::inspect
+0 6326
+cfl=
+cfn=String::inspect
+calls=8460 0
+0 5395
+
+fl=
+fn=Kernel::p
+0 21325
+cfl=
+cfn=Hash::inspect
+calls=846 0
+0 11721
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_session
+26 1028
+cfl=
+cfn=Array::[]
+calls=4230 28
+28 598
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_user
+17 151
+cfl=
+cfn=Array::[]
+calls=616 19
+19 80
+
+fl=
+fn=Array::[]
+0 922
+
+fl=
+fn=Array::each
+0 6249
+cfl=
+cfn=Array::[]
+calls=1000 45
+45 244
+cfl=
+cfn=Kernel::p
+calls=846 49
+49 33046
+cfl=
+cfn=Hash::hash
+calls=1700 49
+49 2443
+cfl=
+cfn=Hash::[]
+calls=1 82
+82 1
+cfl=
+cfn=Class::new
+calls=1 82
+82 12
+cfl=
+cfn=User::sessions
+calls=1 83
+83 1
+cfl=
+cfn=NilClass::nil?
+calls=1 83
+83 1
+
+fl=
+fn=Enumerable::group_by
+0 11
+cfl=
+cfn=Array::each
+calls=2 0
+0 41968
+
+fl=
+fn=Array::map
+0 1105
+cfl=
+cfn=String::split
+calls=1000 37
+37 1116
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_user
+calls=154 47
+47 231
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_session
+calls=846 48
+48 1626
+cfl=
+cfn=String::upcase
+calls=197 0
+0 59
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::split_lines
+36 4
+cfl=
+cfn=Array::map
+calls=1 37
+37 1577
+
+fl=
+fn=String::split
+0 1209
+
+fl=
+fn=IO::read^
+0 2770
+
+fl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+fn=GC::disable^
+69 3
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+40 66
+cfl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+cfn=GC::disable^
+calls=1 41
+41 3
+cfl=
+cfn=IO::read^
+calls=1 43
+43 2770
+cfl=
+cfn=String::split
+calls=1 43
+43 94
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::split_lines
+calls=1 43
+43 1581
+cfl=
+cfn=Enumerable::group_by
+calls=2 45
+45 41979
+cfl=
+cfn=Array::map
+calls=4 47
+47 2560
+cfl=
+cfn=Array::count
+calls=3 67
+67 6
+cfl=
+cfn=Hash::[]=
+calls=1 67
+67 2
+cfl=
+cfn=Array::uniq
+calls=1 70
+70 111
+cfl=
+cfn=Array::sort
+calls=1 76
+76 37
+cfl=
+cfn=Array::join
+calls=1 76
+76 14
+cfl=
+cfn=Array::each
+calls=1 81
+81 29
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 33
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 49252
+

@@ -1,0 +1,226 @@
+events: wall_time
+
+fl=
+fn=Exception::backtrace
+0 3
+
+fl=
+fn=Exception::exception
+0 3
+
+fl=
+fn=BasicObject::method_missing
+0 2237
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=User::initialize
+11 28
+
+fl=
+fn=Class::new
+0 553
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=User::initialize
+calls=1 0
+0 28
+
+fl=
+fn=Hash::[]
+0 6
+
+fl=
+fn=Array::join
+0 1136
+
+fl=
+fn=Array::sort
+0 6
+
+fl=
+fn=String::upcase
+0 499
+
+fl=
+fn=Array::uniq
+0 234302
+
+fl=
+fn=Array::map
+0 484930
+cfl=
+cfn=String::upcase
+calls=1 0
+0 499
+
+fl=
+fn=Hash::[]=
+0 4
+
+fl=
+fn=Array::count
+0 12
+
+fl=
+fn=Enumerable::group_by
+0 17
+cfl=
+cfn=Array::each
+calls=1 0
+0 851687
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_session
+25 3028905
+cfl=
+cfn=String::[]
+calls=12693460 27
+27 2760467
+
+fl=
+fn=Array::<<
+0 539388
+
+fl=
+fn=String::<<
+0 179043
+
+fl=
+fn=String::[]
+0 3157313
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::parse_user
+17 674673
+cfl=
+cfn=String::[]
+calls=1845232 19
+19 396846
+cfl=
+cfn=String::<<
+calls=922616 19
+19 179043
+
+fl=
+fn=String::==
+0 1099610
+
+fl=
+fn=Array::[]
+0 951882
+
+fl=
+fn=Array::each
+0 5951102
+cfl=
+cfn=String::split
+calls=3000000 52
+52 2957359
+cfl=
+cfn=Array::[]
+calls=6000000 54
+54 951882
+cfl=
+cfn=String::==
+calls=6000000 54
+54 1099610
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_user
+calls=461308 54
+54 1250562
+cfl=
+cfn=Array::<<
+calls=3000000 54
+54 539388
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::parse_session
+calls=2538692 55
+55 5789371
+cfl=
+cfn=Hash::[]
+calls=1 98
+98 6
+cfl=
+cfn=Class::new
+calls=1 98
+98 581
+cfl=
+cfn=BasicObject::method_missing
+calls=1 99
+99 2237
+cfl=
+cfn=Exception::exception
+calls=1 99
+99 3
+cfl=
+cfn=Exception::backtrace
+calls=1 99
+99 3
+
+fl=
+fn=String::split
+0 3223308
+
+fl=
+fn=IO::read^
+0 346023
+
+fl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+fn=GC::disable^
+69 2
+
+fl=/mnt/c/Users/Home/study/task-1/task-1.rb
+fn=Object::work
+43 1602
+cfl=/mnt/c/Users/Home/study/task-1/<internal:gc>
+cfn=GC::disable^
+calls=1 44
+44 2
+cfl=
+cfn=IO::read^
+calls=1 46
+46 346023
+cfl=
+cfn=String::split
+calls=1 46
+46 265949
+cfl=
+cfn=Array::each
+calls=2 51
+51 17690417
+cfl=
+cfn=Enumerable::group_by
+calls=1 66
+66 851704
+cfl=
+cfn=Array::count
+calls=3 84
+84 12
+cfl=
+cfn=Hash::[]=
+calls=1 84
+84 4
+cfl=
+cfn=Array::map
+calls=2 87
+87 485429
+cfl=
+cfn=Array::uniq
+calls=1 87
+87 234302
+cfl=
+cfn=Array::sort
+calls=1 93
+93 6
+cfl=
+cfn=Array::join
+calls=1 93
+93 1136
+
+fl=/mnt/c/Users/Home/study/task-1/test.rb
+fn=[global]::
+9 6070
+cfl=/mnt/c/Users/Home/study/task-1/task-1.rb
+cfn=Object::work
+calls=1 9
+9 19876585
+

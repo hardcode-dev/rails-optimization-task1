@@ -1,0 +1,5 @@
+reports/*
+.tool-versions
+data_*
+Gemfile.lock
+result.json

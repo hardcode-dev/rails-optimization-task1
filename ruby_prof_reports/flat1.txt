@@ -1,0 +1,73 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 0.579237
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 24.70      0.360     0.143     0.000     0.217    13004   Array#all?                     
+ 24.46      0.217     0.142     0.000     0.075  1096789   BasicObject#!=                 
+ 13.29      0.077     0.077     0.000     0.000  1122797   String#==                      
+  9.88      0.057     0.057     0.000     0.000    26208   Array#+                        
+  7.58      0.570     0.044     0.000     0.526       10   Array#each                     
+  3.37      0.054     0.020     0.000     0.034    21936   Array#map                      
+  2.42      0.029     0.014     0.000     0.015    11010   <Class::Date>#parse            
+  1.86      0.011     0.011     0.000     0.000    26010   String#split                   
+  1.55      0.009     0.009     0.000     0.000    84960   Hash#[]                        
+  1.49      0.016     0.009     0.000     0.008    11010   Object#parse_session           /Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb:26
+  0.95      0.005     0.005     0.000     0.000    89037   Array#[]                       
+  0.81      0.005     0.005     0.000     0.000    22020   Regexp#match                   
+  0.77      0.004     0.004     0.000     0.000    11010   String#gsub!                   
+  0.68      0.004     0.004     0.000     0.000    28957   Hash#[]=                       
+  0.63      0.005     0.004     0.000     0.002     3989   Array#sort                     
+  0.57      0.003     0.003     0.000     0.000    31904   String#+                       
+  0.50      0.003     0.003     0.000     0.000    11010   MatchData#begin                
+  0.43      0.003     0.003     0.000     0.000    13958   Hash#merge                     
+  0.43      0.003     0.003     0.000     0.000    30421   String#upcase                  
+  0.42      0.002     0.002     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  0.39      0.002     0.002     0.000     0.000    11010   Date#iso8601                   
+  0.33      0.002     0.002     0.000     0.000    27916   User#attributes                
+  0.29      0.002     0.002     0.000     0.000    22414   Date#<=>                       
+  0.26      0.002     0.002     0.000     0.000    22020   String#to_i                    
+  0.23      0.003     0.001     0.000     0.001     1994   Array#any?                     
+  0.23      0.001     0.001     0.000     0.000     8401   String#=~                      
+  0.22      0.001     0.001     0.000     0.000    11010   String#[]=                     
+  0.21      0.002     0.001     0.000     0.001     1994   Object#parse_user              /Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb:16
+  0.20      0.001     0.001     0.000     0.000    13958   User#sessions                  
+  0.14      0.001     0.001     0.000     0.000    11010   MatchData#end                  
+  0.12      0.001     0.001     0.000     0.000    11010   Integer#div                    
+  0.10      0.001     0.001     0.000     0.000     1995   Array#join                     
+  0.09      0.001     0.001     0.000     0.000     1994   Class#new                      
+  0.06      0.000     0.000     0.000     0.000        1   Array#uniq                     
+  0.06      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
+  0.06      0.000     0.000     0.000     0.000     1994   User#initialize                /Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb:10
+  0.06      0.000     0.000     0.000     0.000     3988   Integer#to_s                   
+  0.04      0.000     0.000     0.000     0.000     1994   Array#max                      
+  0.03      0.000     0.000     0.000     0.000     1994   Array#reverse                  
+  0.03      0.000     0.000     0.000     0.000     1994   Array#sum                      
+  0.03      0.000     0.000     0.000     0.000     1997   Array#count                    
+  0.02      0.000     0.000     0.000     0.000        1   <Class::IO>#read               
+  0.02      0.579     0.000     0.000     0.579        1   Object#work                    /Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb:46
+  0.00      0.094     0.000     0.000     0.094        7   Object#collect_stats_from_users /Users/diana/projects/asdf-managed-projects/rails-optimization-task1/task-1.rb:38
+  0.00      0.579     0.000     0.000     0.579        1   [global]#                      work-with-ruby-prof-flat.rb:10
+  0.00      0.000     0.000     0.000     0.000        1   String#start_with?             
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

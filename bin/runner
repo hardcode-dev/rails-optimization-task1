@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/task-1"
+
+work('fixtures/data1000.txt')

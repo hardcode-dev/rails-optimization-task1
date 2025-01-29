@@ -10,6 +10,7 @@ prepare_data:
 	head -n 4000 fixtures/data_large.txt > fixtures/data4000.txt
 	head -n 8000 fixtures/data_large.txt > fixtures/data8000.txt
 	head -n 100000 fixtures/data_large.txt > fixtures/data100000.txt
+	head -n 200000 fixtures/data_large.txt > fixtures/data200000.txt
 
 test:
 	ENVIRONMENT=test ruby tests/task-1_test.rb

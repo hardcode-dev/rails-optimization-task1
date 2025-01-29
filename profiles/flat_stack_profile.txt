@@ -1,0 +1,64 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 0.248136
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 17.09      0.086     0.042     0.000     0.043     7697  *Array#each                     
+ 15.14      0.116     0.038     0.000     0.078        1   IO#each_line                   
+ 11.03      0.034     0.027     0.000     0.007     7699   Array#map                      
+  9.50      0.036     0.024     0.000     0.012    42305   Object#parse_session           /Users/mkveisg1/projects/mine/rails-optimization-task1/task-1.rb:25
+  8.14      0.020     0.020     0.000     0.000   334610   Array#[]                       
+  7.72      0.019     0.019     0.000     0.000    50000   String#split                   
+  3.88      0.010     0.010     0.000     0.000   134610   Array#<<                       
+  3.62      0.009     0.009     0.000     0.000    15391   Array#sort                     
+  3.17      0.008     0.008     0.000     0.000    84610   String#upcase                  
+  2.95      0.007     0.007     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  2.14      0.005     0.005     0.000     0.000        2   Array#uniq                     
+  2.07      0.005     0.005     0.000     0.000    31793   String#=~                      
+  1.88      0.005     0.005     0.000     0.000    50000   String#chomp                   
+  1.49      0.005     0.004     0.000     0.002     7695   Object#parse_user              /Users/mkveisg1/projects/mine/rails-optimization-task1/task-1.rb:16
+  1.38      0.003     0.003     0.000     0.000    42305   String#to_i                    
+  1.37      0.007     0.003     0.000     0.003     7695   Array#any?                     
+  1.34      0.003     0.003     0.000     0.000    42305   String#==                      
+  0.78      0.002     0.002     0.000     0.000     7696   Array#join                     
+  0.76      0.002     0.002     0.000     0.000     7696   Hash#[]=                       
+  0.73      0.004     0.002     0.000     0.002     7695   Array#all?                     
+  0.62      0.002     0.002     0.000     0.000    23085   User#sessions                  
+  0.62      0.003     0.002     0.000     0.001     7695   Class#new                      
+  0.48      0.001     0.001     0.000     0.000     7695   User#initialize                /Users/mkveisg1/projects/mine/rails-optimization-task1/task-1.rb:10
+  0.43      0.001     0.001     0.000     0.000    15390   User#attributes                
+  0.29      0.001     0.001     0.000     0.000     7695   Array#sum                      
+  0.28      0.001     0.001     0.000     0.000     7695   Hash#[]                        
+  0.26      0.001     0.001     0.000     0.000     7695   Array#max                      
+  0.24      0.001     0.001     0.000     0.000     7695   Array#reverse                  
+  0.24      0.001     0.001     0.000     0.000     7698   Array#count                    
+  0.20      0.001     0.001     0.000     0.000        1   <Class::IO>#write              
+  0.13      0.248     0.000     0.000     0.248        1   Object#work                    /Users/mkveisg1/projects/mine/rails-optimization-task1/task-1.rb:42
+  0.01      0.000     0.000     0.000     0.000        1   File#initialize                
+  0.00      0.248     0.000     0.000     0.248        1   [global]#                      profiler.rb:6
+  0.00      0.008     0.000     0.000     0.008        1   Enumerable#group_by            
+  0.00      0.078     0.000     0.000     0.078        1   Object#collect_stats_from_users /Users/mkveisg1/projects/mine/rails-optimization-task1/task-1.rb:35
+  0.00      0.000     0.000     0.000     0.000        1   <Class::IO>#open               
+  0.00      0.000     0.000     0.000     0.000        1   <Module::GC>#disable           <internal:gc>:63
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

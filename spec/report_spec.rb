@@ -2,9 +2,14 @@ require 'rspec'
 require 'rspec-benchmark'
 require_relative '../work'
 require 'byebug'
+require 'benchmark'
+
+
+RSpec.configure do |config|
+  config.include RSpec::Benchmark::Matchers
+end
 
 RSpec.describe do
-  let(:report) { work(data_file_path, result_file_path) }
   let(:data_file_path)  { 'data.txt' }
   let(:result_file_path)  { 'result.json' }
 
@@ -16,18 +21,18 @@ RSpec.describe do
     end
 
     it {
-      report
+      work(data_file_path, result_file_path)
       is_expected.to eq(expected_result) 
     }
   end
 
   describe '#performance' do
-    let(:file_size) { 10_000 }
+    let(:file_size) { 1_000_000 }
     let(:data_file_path)  { "data/data#{file_size}.txt" }
     let(:result_file_path)  { 'result.json' }
 
-    it 'performs well enough' do
-      expect { report }.to perform_under(30).sec
+    it 'performs success' do
+      expect { work(data_file_path, result_file_path) }.to perform_under(10).sec
     end
   end
 
@@ -35,8 +40,8 @@ RSpec.describe do
     let(:data_file_path)  { "data_large.txt" }
     let(:result_file_path)  { 'result.json' }
 
-    it 'performs well enough' do
-      expect { report }.to perform_under(30).sec
+    it 'performs success' do
+      expect { work(data_file_path, result_file_path) }.to perform_under(30).sec
     end
   end
 end

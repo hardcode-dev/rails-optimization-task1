@@ -4,6 +4,7 @@ require 'json'
 require 'pry'
 require 'date'
 require 'minitest/autorun'
+require 'set'
 
 class User
   attr_reader :attributes, :sessions
@@ -15,7 +16,7 @@ class User
 end
 
 def parse_user(fields)
-  parsed_result = {
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -24,7 +25,7 @@ def parse_user(fields)
 end
 
 def parse_session(fields)
-  parsed_result = {
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -34,15 +35,13 @@ def parse_session(fields)
 end
 
 def work(data_file_path, result_file_path = 'result.json')
-  file_lines = File.read(data_file_path).split("\n")
-
   users_objects = []
   sessions = []
   uniqueBrowsers = Set.new
   totalSessions = 0
   last_user_object = nil
 
-  file_lines.each do |line|
+  File.readlines(data_file_path, chomp: true).each do |line|
     cols = line.split(',')
     case cols[0]
     when 'user'

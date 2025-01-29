@@ -1,0 +1,60 @@
+Measure Mode: wall_time
+Thread ID: 80
+Fiber ID: 60
+Total: 0.000401
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 33.28      0.000     0.000     0.000     0.000        1   <Class::IO>#write              
+ 17.88      0.000     0.000     0.000     0.000        1   <Class::IO>#readlines          
+  7.83      0.000     0.000     0.000     0.000        3   Array#each                     
+  4.97      0.000     0.000     0.000     0.000        1   <Module::Oj>#dump              
+  4.55      0.000     0.000     0.000     0.000        3   Object#collect_all_stats       /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1.rb:40
+  4.40      0.000     0.000     0.000     0.000        1   [global]#                      ruby-prof-flat.rb:7
+  4.18      0.000     0.000     0.000     0.000       18   String#split                   
+  3.16      0.000     0.000     0.000     0.000       15   Object#parse_session           /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1.rb:29
+  3.03      0.000     0.000     0.000     0.000        1   Object#work                    /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1.rb:60
+  2.84      0.000     0.000     0.000     0.000       15   Set#add                        /home/razrush1tel/.rvm/rubies/ruby-2.7.5/lib/ruby/2.7.0/set.rb:338
+  1.96      0.000     0.000     0.000     0.000       36   String#[]                      
+  1.60      0.000     0.000     0.000     0.000        5  *Class#new                      
+  1.07      0.000     0.000     0.000     0.000       15   String#upcase                  
+  0.95      0.000     0.000     0.000     0.000        3   Object#parse_user              /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1.rb:19
+  0.90      0.000     0.000     0.000     0.000        1   Enumerable#sort                
+  0.78      0.000     0.000     0.000     0.000        3   Hash#merge                     
+  0.78      0.000     0.000     0.000     0.000       21   Array#map                      
+  0.74      0.000     0.000     0.000     0.000        4   Array#join                     
+  0.56      0.000     0.000     0.000     0.000        1   Set#initialize                 /home/razrush1tel/.rvm/rubies/ruby-2.7.5/lib/ruby/2.7.0/set.rb:93
+  0.54      0.000     0.000     0.000     0.000        3   User#initialize                /home/razrush1tel/Programming/ruby/optimization/rails-optimization-task1/task-1.rb:13
+  0.52      0.000     0.000     0.000     0.000        1   Set#each                       /home/razrush1tel/.rvm/rubies/ruby-2.7.5/lib/ruby/2.7.0/set.rb:326
+  0.42      0.000     0.000     0.000     0.000        5   Array#count                    
+  0.39      0.000     0.000     0.000     0.000        6   Array#sort                     
+  0.39      0.000     0.000     0.000     0.000        1   Hash#each_key                  
+  0.29      0.000     0.000     0.000     0.000        3   Array#select                   
+  0.28      0.000     0.000     0.000     0.000        3   Integer#to_s                   
+  0.26      0.000     0.000     0.000     0.000        3   Array#sum                      
+  0.25      0.000     0.000     0.000     0.000        3   Array#max                      
+  0.24      0.000     0.000     0.000     0.000        3   Array#any?                     
+  0.21      0.000     0.000     0.000     0.000        1   Set#size                       /home/razrush1tel/.rvm/rubies/ruby-2.7.5/lib/ruby/2.7.0/set.rb:151
+  0.21      0.000     0.000     0.000     0.000        3   Array#reverse                  
+  0.19      0.000     0.000     0.000     0.000        3   Array#all?                     
+  0.19      0.000     0.000     0.000     0.000        3   NilClass#to_s                  
+  0.17      0.000     0.000     0.000     0.000        1   Hash#initialize                
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.
+

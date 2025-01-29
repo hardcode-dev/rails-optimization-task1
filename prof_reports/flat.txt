@@ -1,0 +1,46 @@
+Measure Mode: wall_time
+Thread ID: 70270320864800
+Fiber ID: 70270355927520
+Total: 20.991627
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name                           location
+ 35.44     11.360     7.440     0.000     3.920        1   Array#each                     
+ 17.09      3.587     3.587     0.000     0.000  3250941   String#split                   
+  8.59      2.369     1.804     0.000     0.566  1000001   Array#sort                     
+  6.92      1.453     1.453     0.000     0.000  1000001   Array#uniq                     
+  5.86      6.254     1.231     0.000     5.023        1   Hash#each                      
+  5.50      2.429     1.155     0.000     1.274   500002   Array#map                      
+  4.78      1.003     1.003     0.000     0.000        1   JSON::Ext::Generator::GeneratorMethods::Hash#to_json 
+  2.96      0.622     0.622     0.000     0.000  3250940   String#include?                
+  2.75      0.576     0.576     0.000     0.000  2751140   String#upcase                  
+  2.69      0.566     0.566     0.000     0.000  5541762   String#<=>                     
+  1.80      0.377     0.377     0.000     0.000  2750940   String#to_i                    
+  1.69      0.354     0.354     0.000     0.000   500001   Array#join                     
+  1.52      0.319     0.319     0.000     0.000        1   Array#flatten                  
+  0.97      0.204     0.204     0.000     0.000  1000000   Integer#to_s                   
+  0.63      0.133     0.133     0.000     0.000        1   <Class::IO>#write              
+  0.43     20.992     0.090     0.000    20.901        1   Object#work                    /Users/georgegavrilchik/development/rails-optimization-course/rails-optimization-task1/task-1.rb:8
+  0.36      0.076     0.076     0.000     0.000        1   <Class::IO>#read               
+  0.00      0.001     0.001     0.000     0.000        1   Hash#values                    
+  0.00     20.992     0.000     0.000    20.992        1   [global]#                      profilers/ruby-prof-flat.rb:11
+  0.00      0.000     0.000     0.000     0.000        1   Array#count                    
+  0.00      0.000     0.000     0.000     0.000        1   JSON::Ext::Generator::State#initialize 
+
+* recursively called methods
+
+Columns are:
+
+  %self     - The percentage of time spent in this method, derived from self_time/total_time.
+  total     - The time spent in this method and its children.
+  self      - The time spent in this method.
+  wait      - The amount of time this method waited for other threads.
+  child     - The time spent in this method's children.
+  calls     - The number of times this method was called.
+  name      - The name of the method.
+  location  - The location of the method.
+
+The interpretation of method names is:
+
+  * MyObject#test - An instance method "test" of the class "MyObject"
+  * <Object:MyObject>#test - The <> characters indicate a method on a singleton class.

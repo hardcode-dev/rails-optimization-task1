@@ -76,6 +76,7 @@ def work(path = 'fixtures/data.txt', gb_disable = false)
         user.update_total_time(time)
         user.use_ie = !(session_data[:browser] =~ /Internet Explorer/).nil? unless user.use_ie
         user.update_longest_session(time)
+        user.add_dates(session_data[:date])
       end
       total_session += 1
     end
@@ -143,7 +144,7 @@ def work(path = 'fixtures/data.txt', gb_disable = false)
 
   # Даты сессий через запятую в обратном порядке в формате iso8601
   collect_stats_from_users(report, users_objects) do |user|
-    { 'dates' => user.sessions.map{|s| s[:date]}.map {|d| Date.parse(d)}.sort.reverse.map { |d| d.iso8601 } }
+    { 'dates' => user.dates.sort.reverse }
   end
 
   File.write('result.json', "#{report.to_json}\n")

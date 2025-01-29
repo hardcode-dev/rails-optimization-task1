@@ -1,7 +1,7 @@
 class User
   attr_accessor :id, :first_name, :last_name, 
                 :full_name, :age, :sessions, 
-                :sessions_count, :total_time, :use_ie, :longest_session
+                :sessions_count, :total_time, :use_ie, :longest_session, :dates
 
   def initialize(id:, first_name:, last_name:, full_name:, age:, sessions:[])
     @id = id
@@ -31,5 +31,9 @@ class User
 
   def update_longest_session(time)
     self.longest_session = self.longest_session > time ? self.longest_session : time
+  end
+
+  def add_dates(date)
+    self.dates << date
   end
 end

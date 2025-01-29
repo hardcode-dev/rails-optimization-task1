@@ -1,0 +1,11 @@
+data/
+
+ruby_prof_reports/
+stackprof_reports/
+
+ruby_prof_call_stack.rb
+ruby_prof_flat.rb
+ruby_prof_graph.rb
+ruby_prof_grind.rb
+stackprof.rb
+stackprof_speedscope.rb

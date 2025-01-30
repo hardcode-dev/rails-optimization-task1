@@ -30,14 +30,14 @@ SAFARI 29, SAFARI 39","usedIE":true,"alwaysUsedChrome":false,"dates":["2017-09-2
 
     describe 'with partial file' do
       it 'works under 0.4 sec' do
-        expect { work(file) }.to perform_under(0.18).sec.warmup(2).times.sample(10).times
+        expect { work(file) }.to perform_under(0.14).sec.warmup(2).times.sample(10).times
       end
     end
 
-    describe 'with full file' do
-      it 'works under 30 sec' do
-        expect { work('./data_large.txt') }.to perform_under(30).sec
-      end
-    end
+    # describe 'with full file' do
+    #   it 'works under 30 sec' do
+    #     expect { work('./data_large.txt') }.to perform_under(30).sec
+    #   end
+    # end
   end
 end

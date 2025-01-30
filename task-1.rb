@@ -15,9 +15,8 @@ class User
   end
 end
 
-def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
+def parse_user(fields)
+  {
     'id' => fields[1],
     'first_name' => fields[2],
     'last_name' => fields[3],
@@ -25,9 +24,8 @@ def parse_user(user)
   }
 end
 
-def parse_session(session)
-  fields = session.split(',')
-  parsed_result = {
+def parse_session(fields)
+  {
     'user_id' => fields[1],
     'session_id' => fields[2],
     'browser' => fields[3],
@@ -52,8 +50,8 @@ def work(file_path, result_path = 'spec/fixtures/files/result.json')
 
   file_lines.each do |line|
     cols = line.split(',')
-    users = users << parse_user(line) if cols[0] == 'user'
-    sessions = sessions << parse_session(line) if cols[0] == 'session'
+    users = users << parse_user(cols) if cols[0] == 'user'
+    sessions = sessions << parse_session(cols) if cols[0] == 'session'
   end
 
   # Отчёт в json
@@ -108,7 +106,6 @@ def work(file_path, result_path = 'spec/fixtures/files/result.json')
     sessions = user.sessions
     times = sessions.map { |s| s['time'].to_i }
     browsers = sessions.map { |s| s['browser'].upcase }
-    dates = sessions.map { |s| Date.parse(s['date']) }
 
     report['usersStats'][user_key] = {
       # Количество сессий
@@ -124,7 +121,7 @@ def work(file_path, result_path = 'spec/fixtures/files/result.json')
       # Всегда использовал только Chrome?
       'alwaysUsedChrome' => browsers.all? { |b| b.include?('CHROME') },
       # Даты сессий через запятую в обратном порядке в формате iso8601
-      'dates' => dates.sort.reverse.map(&:iso8601)
+      'dates' => user.sessions.map { |s| s['date'] }.sort.reverse
     }
   end
 
